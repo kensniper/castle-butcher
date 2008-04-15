@@ -1,0 +1,10 @@
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\FormsTesting\bin\Debug\FormsTesting.exe
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\FormsTesting\bin\Debug\FormsTesting.pdb
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\FormsTesting\bin\Debug\SoundSystem.dll
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\FormsTesting\bin\Debug\SoundSystem.pdb
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\FormsTesting\obj\Debug\ResolveAssemblyReference.cache
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\FormsTesting\obj\Debug\FormsTesting.Form1.resources
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\FormsTesting\obj\Debug\FormsTesting.Properties.Resources.resources
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\FormsTesting\obj\Debug\FormsTesting.csproj.GenerateResource.Cache
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\FormsTesting\obj\Debug\FormsTesting.exe
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\FormsTesting\obj\Debug\FormsTesting.pdb
