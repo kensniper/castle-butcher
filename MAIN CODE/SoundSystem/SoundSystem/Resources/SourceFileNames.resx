@@ -117,14 +117,185 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="round1Music" xml:space="preserve">
+  <data name="arrowOff1" xml:space="preserve">
+    <value>ArrowOff1.wav</value>
+  </data>
+  <data name="arrowOff2" xml:space="preserve">
+    <value>ArrowOff2.wav</value>
+  </data>
+  <data name="crossbowOff" xml:space="preserve">
+    <value>CrossbowOff.wav</value>
+  </data>
+  <data name="daggerFight1" xml:space="preserve">
+    <value>DaggerFight1.wav</value>
+  </data>
+  <data name="daggerFight2" xml:space="preserve">
+    <value>DaggerFight2.wav</value>
+  </data>
+  <data name="daggerFight3" xml:space="preserve">
+    <value>DaggerFight3.wav</value>
+  </data>
+  <data name="daggerFight4" xml:space="preserve">
+    <value>DaggerFight4.wav</value>
+  </data>
+  <data name="daggerFight5" xml:space="preserve">
+    <value>DaggerFight5.wav</value>
+  </data>
+  <data name="endingMusic" xml:space="preserve">
+    <value>CastleButcher.mp3</value>
+  </data>
+  <data name="fanfare1" xml:space="preserve">
+    <value>Fanfare1.wav</value>
+  </data>
+  <data name="fanfare2" xml:space="preserve">
+    <value>Fanfare2..wav</value>
+  </data>
+  <data name="fanfare3" xml:space="preserve">
+    <value>Fanfare3.wav</value>
+  </data>
+  <data name="fanfare4" xml:space="preserve">
+    <value>Fanfare4.wav</value>
+  </data>
+  <data name="mansAaa" xml:space="preserve">
+    <value>MansAaa.wav</value>
+  </data>
+  <data name="manSaysHello" xml:space="preserve">
+    <value>ManSaysHello.wav</value>
+  </data>
+  <data name="manSaysKidding" xml:space="preserve">
+    <value>ManSaysKidding.wav</value>
+  </data>
+  <data name="manSaysKillem" xml:space="preserve">
+    <value>ManSaysKillem.wav</value>
+  </data>
+  <data name="manSaysWassup" xml:space="preserve">
+    <value>ManSaysWassup.wav</value>
+  </data>
+  <data name="mansCought" xml:space="preserve">
+    <value>MansAaa.wav</value>
+  </data>
+  <data name="manShotByArrow" xml:space="preserve">
+    <value>ManShotByArrow.wav</value>
+  </data>
+  <data name="manShotByCrossbow" xml:space="preserve">
+    <value>ManShotByCrossbow.wav</value>
+  </data>
+  <data name="mansHou" xml:space="preserve">
+    <value>MansAaa.wav</value>
+  </data>
+  <data name="mansHouu" xml:space="preserve">
+    <value>MansHouu.wav</value>
+  </data>
+  <data name="mansHruuhb" xml:space="preserve">
+    <value>MansHruuhb.wav</value>
+  </data>
+  <data name="mansJah" xml:space="preserve">
+    <value>MansJah.wav</value>
+  </data>
+  <data name="mansJhuee" xml:space="preserve">
+    <value>MansJhuee.wav</value>
+  </data>
+  <data name="mansJooaah" xml:space="preserve">
+    <value>MansJooaah.wav</value>
+  </data>
+  <data name="mansLongDeath1" xml:space="preserve">
+    <value>MansLongDeath1.wav</value>
+  </data>
+  <data name="mansLongDeath2" xml:space="preserve">
+    <value>MansLongDeath2.wav</value>
+  </data>
+  <data name="mansNey" xml:space="preserve">
+    <value>MansNey.wav</value>
+  </data>
+  <data name="mansOhm" xml:space="preserve">
+    <value>MansOhm.wav</value>
+  </data>
+  <data name="mansScream1" xml:space="preserve">
+    <value>MansScream1.wav</value>
+  </data>
+  <data name="mansScream2" xml:space="preserve">
+    <value>MansScream2.wav</value>
+  </data>
+  <data name="mansScream3" xml:space="preserve">
+    <value>MansScream3.wav</value>
+  </data>
+  <data name="mansScream4" xml:space="preserve">
+    <value>MansScream4.wav</value>
+  </data>
+  <data name="mansShortDeath1" xml:space="preserve">
+    <value>MansShortDeath1.wav</value>
+  </data>
+  <data name="mansShortDeath2" xml:space="preserve">
+    <value>MansShortDeath2.wav</value>
+  </data>
+  <data name="mansUhraa" xml:space="preserve">
+    <value>MansUhraa.wav</value>
+  </data>
+  <data name="mansUueh" xml:space="preserve">
+    <value>MansUueh.wav</value>
+  </data>
+  <data name="mansYeam" xml:space="preserve">
+    <value>MansYeam.wav</value>
+  </data>
+  <data name="menuMusic" xml:space="preserve">
     <value>NextCastle.mp3</value>
   </data>
-  <data name="swordFight1" xml:space="preserve">
-    <value>shot1.wav</value>
+  <data name="roundMusic1" xml:space="preserve">
+    <value>NextCastle.mp3</value>
   </data>
-  <data name="swordPure" xml:space="preserve">
-    <value>shot.wav</value>
+  <data name="roundMusic2" xml:space="preserve">
+    <value>NextCastle.mp3</value>
+  </data>
+  <data name="shotByArrow" xml:space="preserve">
+    <value>ShotByArrow.wav</value>
+  </data>
+  <data name="shotByCrossbow" xml:space="preserve">
+    <value>ShotByCrossbow.wav</value>
+  </data>
+  <data name="stepsGrass1" xml:space="preserve">
+    <value>StepsGrass1.wav</value>
+  </data>
+  <data name="stepsGrass2" xml:space="preserve">
+    <value>StepsGrass2.wav</value>
+  </data>
+  <data name="stepsInside1" xml:space="preserve">
+    <value>StepsInside1.wav</value>
+  </data>
+  <data name="stepsInside2" xml:space="preserve">
+    <value>StepsInside2.wav</value>
+  </data>
+  <data name="stepsInside3" xml:space="preserve">
+    <value>StepsInside3.wav</value>
+  </data>
+  <data name="stepsPath1" xml:space="preserve">
+    <value>StepsPath1.wav</value>
+  </data>
+  <data name="stepsPath2" xml:space="preserve">
+    <value>StepsPath2.wav</value>
+  </data>
+  <data name="stepsSlower" xml:space="preserve">
+    <value>StepsSlower.wav</value>
+  </data>
+  <data name="stepsStairs" xml:space="preserve">
+    <value>StepsStairs.wav</value>
+  </data>
+  <data name="stepsStone" xml:space="preserve">
+    <value>StepsStone.wav</value>
+  </data>
+  <data name="swordFight1" xml:space="preserve">
+    <value>SwordFight1.wav</value>
+  </data>
+  <data name="swordFight2" xml:space="preserve">
+    <value>SwordFight2.wav</value>
+  </data>
+  <data name="swordFight3" xml:space="preserve">
+    <value>SwordFight3.wav</value>
+  </data>
+  <data name="swordFight4" xml:space="preserve">
+    <value>SwordFight4.wav</value>
+  </data>
+  <data name="swordFight5" xml:space="preserve">
+    <value>SwordFight5.wav</value>
   </data>
   <data name="welcomeMusic" xml:space="preserve">
     <value>CastleButcher.mp3</value>

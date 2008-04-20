@@ -5,6 +5,9 @@ using System.Text;
 
 namespace SoundSystem.Enums
 {
+    /// <summary>
+    /// Typ wyliczeniowy zawierajacy typy muzyki do tla gry (mp3).
+    /// </summary>
     public enum MusicTypes
     {
         welcomeMusic,

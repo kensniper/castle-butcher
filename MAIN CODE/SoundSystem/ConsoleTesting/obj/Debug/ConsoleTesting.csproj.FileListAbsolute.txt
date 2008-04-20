@@ -1,7 +1,7 @@
-D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\ConsoleTesting\obj\Debug\ResolveAssemblyReference.cache
 D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\ConsoleTesting\bin\Debug\ConsoleTesting.exe
 D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\ConsoleTesting\bin\Debug\ConsoleTesting.pdb
 D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\ConsoleTesting\bin\Debug\SoundSystem.dll
 D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\ConsoleTesting\bin\Debug\SoundSystem.pdb
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\ConsoleTesting\obj\Debug\ResolveAssemblyReference.cache
 D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\ConsoleTesting\obj\Debug\ConsoleTesting.exe
 D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\ConsoleTesting\obj\Debug\ConsoleTesting.pdb

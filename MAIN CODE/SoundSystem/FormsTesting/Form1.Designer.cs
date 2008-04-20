@@ -41,11 +41,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.xTxtBx = new System.Windows.Forms.TextBox();
             this.musicGrpBx = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.musicLstBx = new System.Windows.Forms.ListBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
+            this.soundSourceTxtBx = new System.Windows.Forms.TextBox();
+            this.musicSourceTxtBx = new System.Windows.Forms.TextBox();
             this.soundsGrpBx.SuspendLayout();
             this.selectGrpBx.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -55,19 +57,20 @@
             // 
             // soundsGrpBx
             // 
+            this.soundsGrpBx.Controls.Add(this.soundSourceTxtBx);
             this.soundsGrpBx.Controls.Add(this.button1);
             this.soundsGrpBx.Controls.Add(this.selectGrpBx);
             this.soundsGrpBx.Controls.Add(this.groupBox1);
             this.soundsGrpBx.Location = new System.Drawing.Point(12, 12);
             this.soundsGrpBx.Name = "soundsGrpBx";
-            this.soundsGrpBx.Size = new System.Drawing.Size(467, 132);
+            this.soundsGrpBx.Size = new System.Drawing.Size(467, 200);
             this.soundsGrpBx.TabIndex = 0;
             this.soundsGrpBx.TabStop = false;
             this.soundsGrpBx.Text = "Sound testing";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(384, 101);
+            this.button1.Location = new System.Drawing.Point(384, 171);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 6;
@@ -81,7 +84,7 @@
             this.selectGrpBx.Controls.Add(this.label1);
             this.selectGrpBx.Location = new System.Drawing.Point(6, 19);
             this.selectGrpBx.Name = "selectGrpBx";
-            this.selectGrpBx.Size = new System.Drawing.Size(269, 105);
+            this.selectGrpBx.Size = new System.Drawing.Size(269, 175);
             this.selectGrpBx.TabIndex = 1;
             this.selectGrpBx.TabStop = false;
             this.selectGrpBx.Text = "select sound";
@@ -90,11 +93,65 @@
             // 
             this.soundsListBx.FormattingEnabled = true;
             this.soundsListBx.Items.AddRange(new object[] {
-            "swordPure",
-            "swordFight1"});
+            "swordFight1",
+            "swordFight2",
+            "swordFight3",
+            "swordFight4",
+            "swordFight5",
+            "stepsInside1",
+            "stepsInside2",
+            "stepsInside3",
+            "stepsSlower",
+            "stepsStone",
+            "stepsStairs",
+            "stepsGrass1",
+            "stepsGrass2",
+            "stepsPath1",
+            "stepsPath2",
+            "daggerFight1",
+            "daggerFigth2",
+            "daggerFight3",
+            "daggerFigth4",
+            "daggerFight5",
+            "arrowOff1",
+            "arrowOff2",
+            "manShotByArrow",
+            "shotByArrow, //!",
+            "crossbowOff",
+            "manShotByCrossbow",
+            "shotByCrossbow, //!",
+            "mansShortDeath1",
+            "mansShortDeath2",
+            "mansLongDeath1",
+            "mansLongDeath2",
+            "mansAaa",
+            "mansCought",
+            "mansHou",
+            "mansHouu",
+            "mansHruuhb",
+            "mansJah",
+            "mansJhuee",
+            "mansJooaah",
+            "mansNey",
+            "mansOhm",
+            "mansScream1",
+            "mansScream2",
+            "mansScream3",
+            "mansScream4",
+            "mansUhraa",
+            "mansUueh",
+            "mansYeam",
+            "manSaysHello, //!",
+            "manSaysWassup, //!",
+            "manSaysKidding, //!",
+            "manSaysKillem, //!",
+            "fanfare1",
+            "fanfare2",
+            "fanfare3",
+            "fanfare4"});
             this.soundsListBx.Location = new System.Drawing.Point(86, 18);
             this.soundsListBx.Name = "soundsListBx";
-            this.soundsListBx.Size = new System.Drawing.Size(177, 69);
+            this.soundsListBx.Size = new System.Drawing.Size(177, 147);
             this.soundsListBx.TabIndex = 7;
             // 
             // label1
@@ -116,7 +173,7 @@
             this.groupBox1.Controls.Add(this.xTxtBx);
             this.groupBox1.Location = new System.Drawing.Point(281, 19);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(97, 105);
+            this.groupBox1.Size = new System.Drawing.Size(97, 98);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "position";
@@ -174,15 +231,26 @@
             // 
             // musicGrpBx
             // 
+            this.musicGrpBx.Controls.Add(this.musicSourceTxtBx);
             this.musicGrpBx.Controls.Add(this.button3);
             this.musicGrpBx.Controls.Add(this.button2);
             this.musicGrpBx.Controls.Add(this.groupBox2);
-            this.musicGrpBx.Location = new System.Drawing.Point(12, 151);
+            this.musicGrpBx.Location = new System.Drawing.Point(12, 218);
             this.musicGrpBx.Name = "musicGrpBx";
             this.musicGrpBx.Size = new System.Drawing.Size(469, 129);
             this.musicGrpBx.TabIndex = 1;
             this.musicGrpBx.TabStop = false;
             this.musicGrpBx.Text = "Music testing";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(384, 100);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "Stop";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -227,15 +295,19 @@
             this.label5.TabIndex = 6;
             this.label5.Text = "type of music:";
             // 
-            // button3
+            // soundSourceTxtBx
             // 
-            this.button3.Location = new System.Drawing.Point(384, 100);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 9;
-            this.button3.Text = "Stop";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.soundSourceTxtBx.Location = new System.Drawing.Point(281, 145);
+            this.soundSourceTxtBx.Name = "soundSourceTxtBx";
+            this.soundSourceTxtBx.Size = new System.Drawing.Size(177, 20);
+            this.soundSourceTxtBx.TabIndex = 7;
+            // 
+            // musicSourceTxtBx
+            // 
+            this.musicSourceTxtBx.Location = new System.Drawing.Point(286, 74);
+            this.musicSourceTxtBx.Name = "musicSourceTxtBx";
+            this.musicSourceTxtBx.Size = new System.Drawing.Size(177, 20);
+            this.musicSourceTxtBx.TabIndex = 10;
             // 
             // Form1
             // 
@@ -248,11 +320,13 @@
             this.Text = "Testing SoundSystem";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.soundsGrpBx.ResumeLayout(false);
+            this.soundsGrpBx.PerformLayout();
             this.selectGrpBx.ResumeLayout(false);
             this.selectGrpBx.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.musicGrpBx.ResumeLayout(false);
+            this.musicGrpBx.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -279,6 +353,8 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ListBox musicLstBx;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox soundSourceTxtBx;
+        private System.Windows.Forms.TextBox musicSourceTxtBx;
     }
 }
 

@@ -1,7 +1,7 @@
 D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\SoundSystem\bin\Debug\SoundSystem.dll
 D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\SoundSystem\bin\Debug\SoundSystem.pdb
 D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\SoundSystem\obj\Debug\ResolveAssemblyReference.cache
-D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\SoundSystem\obj\Debug\SoundSystem.dll
-D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\SoundSystem\obj\Debug\SoundSystem.pdb
 D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\SoundSystem\obj\Debug\SoundSystem.Resources.SourceFileNames.resources
 D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\SoundSystem\obj\Debug\SoundSystem.csproj.GenerateResource.Cache
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\SoundSystem\obj\Debug\SoundSystem.dll
+D:\Wojtek\8semestr\Projekt programistyczny\SoundSystem\SoundSystem\obj\Debug\SoundSystem.pdb
