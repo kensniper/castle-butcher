@@ -61,16 +61,502 @@ namespace SoundSystem.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NextCastle.mp3.
+        ///   Looks up a localized string similar to ArrowOff1.wav.
         /// </summary>
-        internal static string round1Music {
+        internal static string arrowOff1 {
             get {
-                return ResourceManager.GetString("round1Music", resourceCulture);
+                return ResourceManager.GetString("arrowOff1", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to shot1.wav.
+        ///   Looks up a localized string similar to ArrowOff2.wav.
+        /// </summary>
+        internal static string arrowOff2 {
+            get {
+                return ResourceManager.GetString("arrowOff2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CrossbowOff.wav.
+        /// </summary>
+        internal static string crossbowOff {
+            get {
+                return ResourceManager.GetString("crossbowOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DaggerFight1.wav.
+        /// </summary>
+        internal static string daggerFight1 {
+            get {
+                return ResourceManager.GetString("daggerFight1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DaggerFight2.wav.
+        /// </summary>
+        internal static string daggerFight2 {
+            get {
+                return ResourceManager.GetString("daggerFight2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DaggerFight3.wav.
+        /// </summary>
+        internal static string daggerFight3 {
+            get {
+                return ResourceManager.GetString("daggerFight3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DaggerFight4.wav.
+        /// </summary>
+        internal static string daggerFight4 {
+            get {
+                return ResourceManager.GetString("daggerFight4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DaggerFight5.wav.
+        /// </summary>
+        internal static string daggerFight5 {
+            get {
+                return ResourceManager.GetString("daggerFight5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CastleButcher.mp3.
+        /// </summary>
+        internal static string endingMusic {
+            get {
+                return ResourceManager.GetString("endingMusic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fanfare1.wav.
+        /// </summary>
+        internal static string fanfare1 {
+            get {
+                return ResourceManager.GetString("fanfare1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fanfare2..wav.
+        /// </summary>
+        internal static string fanfare2 {
+            get {
+                return ResourceManager.GetString("fanfare2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fanfare3.wav.
+        /// </summary>
+        internal static string fanfare3 {
+            get {
+                return ResourceManager.GetString("fanfare3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fanfare4.wav.
+        /// </summary>
+        internal static string fanfare4 {
+            get {
+                return ResourceManager.GetString("fanfare4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansAaa.wav.
+        /// </summary>
+        internal static string mansAaa {
+            get {
+                return ResourceManager.GetString("mansAaa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ManSaysHello.wav.
+        /// </summary>
+        internal static string manSaysHello {
+            get {
+                return ResourceManager.GetString("manSaysHello", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ManSaysKidding.wav.
+        /// </summary>
+        internal static string manSaysKidding {
+            get {
+                return ResourceManager.GetString("manSaysKidding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ManSaysKillem.wav.
+        /// </summary>
+        internal static string manSaysKillem {
+            get {
+                return ResourceManager.GetString("manSaysKillem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ManSaysWassup.wav.
+        /// </summary>
+        internal static string manSaysWassup {
+            get {
+                return ResourceManager.GetString("manSaysWassup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansAaa.wav.
+        /// </summary>
+        internal static string mansCought {
+            get {
+                return ResourceManager.GetString("mansCought", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ManShotByArrow.wav.
+        /// </summary>
+        internal static string manShotByArrow {
+            get {
+                return ResourceManager.GetString("manShotByArrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ManShotByCrossbow.wav.
+        /// </summary>
+        internal static string manShotByCrossbow {
+            get {
+                return ResourceManager.GetString("manShotByCrossbow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansAaa.wav.
+        /// </summary>
+        internal static string mansHou {
+            get {
+                return ResourceManager.GetString("mansHou", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansHouu.wav.
+        /// </summary>
+        internal static string mansHouu {
+            get {
+                return ResourceManager.GetString("mansHouu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansHruuhb.wav.
+        /// </summary>
+        internal static string mansHruuhb {
+            get {
+                return ResourceManager.GetString("mansHruuhb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansJah.wav.
+        /// </summary>
+        internal static string mansJah {
+            get {
+                return ResourceManager.GetString("mansJah", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansJhuee.wav.
+        /// </summary>
+        internal static string mansJhuee {
+            get {
+                return ResourceManager.GetString("mansJhuee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansJooaah.wav.
+        /// </summary>
+        internal static string mansJooaah {
+            get {
+                return ResourceManager.GetString("mansJooaah", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansLongDeath1.wav.
+        /// </summary>
+        internal static string mansLongDeath1 {
+            get {
+                return ResourceManager.GetString("mansLongDeath1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansLongDeath2.wav.
+        /// </summary>
+        internal static string mansLongDeath2 {
+            get {
+                return ResourceManager.GetString("mansLongDeath2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansNey.wav.
+        /// </summary>
+        internal static string mansNey {
+            get {
+                return ResourceManager.GetString("mansNey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansOhm.wav.
+        /// </summary>
+        internal static string mansOhm {
+            get {
+                return ResourceManager.GetString("mansOhm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansScream1.wav.
+        /// </summary>
+        internal static string mansScream1 {
+            get {
+                return ResourceManager.GetString("mansScream1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansScream2.wav.
+        /// </summary>
+        internal static string mansScream2 {
+            get {
+                return ResourceManager.GetString("mansScream2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansScream3.wav.
+        /// </summary>
+        internal static string mansScream3 {
+            get {
+                return ResourceManager.GetString("mansScream3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansScream4.wav.
+        /// </summary>
+        internal static string mansScream4 {
+            get {
+                return ResourceManager.GetString("mansScream4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansShortDeath1.wav.
+        /// </summary>
+        internal static string mansShortDeath1 {
+            get {
+                return ResourceManager.GetString("mansShortDeath1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansShortDeath2.wav.
+        /// </summary>
+        internal static string mansShortDeath2 {
+            get {
+                return ResourceManager.GetString("mansShortDeath2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansUhraa.wav.
+        /// </summary>
+        internal static string mansUhraa {
+            get {
+                return ResourceManager.GetString("mansUhraa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansUueh.wav.
+        /// </summary>
+        internal static string mansUueh {
+            get {
+                return ResourceManager.GetString("mansUueh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MansYeam.wav.
+        /// </summary>
+        internal static string mansYeam {
+            get {
+                return ResourceManager.GetString("mansYeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NextCastle.mp3.
+        /// </summary>
+        internal static string menuMusic {
+            get {
+                return ResourceManager.GetString("menuMusic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NextCastle.mp3.
+        /// </summary>
+        internal static string roundMusic1 {
+            get {
+                return ResourceManager.GetString("roundMusic1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NextCastle.mp3.
+        /// </summary>
+        internal static string roundMusic2 {
+            get {
+                return ResourceManager.GetString("roundMusic2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ShotByArrow.wav.
+        /// </summary>
+        internal static string shotByArrow {
+            get {
+                return ResourceManager.GetString("shotByArrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ShotByCrossbow.wav.
+        /// </summary>
+        internal static string shotByCrossbow {
+            get {
+                return ResourceManager.GetString("shotByCrossbow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StepsGrass1.wav.
+        /// </summary>
+        internal static string stepsGrass1 {
+            get {
+                return ResourceManager.GetString("stepsGrass1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StepsGrass2.wav.
+        /// </summary>
+        internal static string stepsGrass2 {
+            get {
+                return ResourceManager.GetString("stepsGrass2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StepsInside1.wav.
+        /// </summary>
+        internal static string stepsInside1 {
+            get {
+                return ResourceManager.GetString("stepsInside1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StepsInside2.wav.
+        /// </summary>
+        internal static string stepsInside2 {
+            get {
+                return ResourceManager.GetString("stepsInside2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StepsInside3.wav.
+        /// </summary>
+        internal static string stepsInside3 {
+            get {
+                return ResourceManager.GetString("stepsInside3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StepsPath1.wav.
+        /// </summary>
+        internal static string stepsPath1 {
+            get {
+                return ResourceManager.GetString("stepsPath1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StepsPath2.wav.
+        /// </summary>
+        internal static string stepsPath2 {
+            get {
+                return ResourceManager.GetString("stepsPath2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StepsSlower.wav.
+        /// </summary>
+        internal static string stepsSlower {
+            get {
+                return ResourceManager.GetString("stepsSlower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StepsStairs.wav.
+        /// </summary>
+        internal static string stepsStairs {
+            get {
+                return ResourceManager.GetString("stepsStairs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StepsStone.wav.
+        /// </summary>
+        internal static string stepsStone {
+            get {
+                return ResourceManager.GetString("stepsStone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SwordFight1.wav.
         /// </summary>
         internal static string swordFight1 {
             get {
@@ -79,11 +565,38 @@ namespace SoundSystem.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to shot.wav.
+        ///   Looks up a localized string similar to SwordFight2.wav.
         /// </summary>
-        internal static string swordPure {
+        internal static string swordFight2 {
             get {
-                return ResourceManager.GetString("swordPure", resourceCulture);
+                return ResourceManager.GetString("swordFight2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SwordFight3.wav.
+        /// </summary>
+        internal static string swordFight3 {
+            get {
+                return ResourceManager.GetString("swordFight3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SwordFight4.wav.
+        /// </summary>
+        internal static string swordFight4 {
+            get {
+                return ResourceManager.GetString("swordFight4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SwordFight5.wav.
+        /// </summary>
+        internal static string swordFight5 {
+            get {
+                return ResourceManager.GetString("swordFight5", resourceCulture);
             }
         }
         
