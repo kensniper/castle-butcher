@@ -148,7 +148,7 @@
     <value>Fanfare1.wav</value>
   </data>
   <data name="fanfare2" xml:space="preserve">
-    <value>Fanfare2..wav</value>
+    <value>Fanfare2.wav</value>
   </data>
   <data name="fanfare3" xml:space="preserve">
     <value>Fanfare3.wav</value>
@@ -172,7 +172,7 @@
     <value>ManSaysWassup.wav</value>
   </data>
   <data name="mansCought" xml:space="preserve">
-    <value>MansAaa.wav</value>
+    <value>MansCought.wav</value>
   </data>
   <data name="manShotByArrow" xml:space="preserve">
     <value>ManShotByArrow.wav</value>
@@ -181,7 +181,7 @@
     <value>ManShotByCrossbow.wav</value>
   </data>
   <data name="mansHou" xml:space="preserve">
-    <value>MansAaa.wav</value>
+    <value>MansHou.wav</value>
   </data>
   <data name="mansHouu" xml:space="preserve">
     <value>MansHouu.wav</value>
@@ -240,11 +240,11 @@
   <data name="menuMusic" xml:space="preserve">
     <value>NextCastle.mp3</value>
   </data>
-  <data name="roundMusic1" xml:space="preserve">
-    <value>NextCastle.mp3</value>
+  <data name="round1Music" xml:space="preserve">
+    <value>round1Music.mp3</value>
   </data>
-  <data name="roundMusic2" xml:space="preserve">
-    <value>NextCastle.mp3</value>
+  <data name="round2Music" xml:space="preserve">
+    <value>round2Music.mp3</value>
   </data>
   <data name="shotByArrow" xml:space="preserve">
     <value>ShotByArrow.wav</value>

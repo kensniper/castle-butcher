@@ -151,7 +151,7 @@ namespace SoundSystem.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fanfare2..wav.
+        ///   Looks up a localized string similar to Fanfare2.wav.
         /// </summary>
         internal static string fanfare2 {
             get {
@@ -223,7 +223,7 @@ namespace SoundSystem.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MansAaa.wav.
+        ///   Looks up a localized string similar to MansCought.wav.
         /// </summary>
         internal static string mansCought {
             get {
@@ -250,7 +250,7 @@ namespace SoundSystem.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MansAaa.wav.
+        ///   Looks up a localized string similar to MansHou.wav.
         /// </summary>
         internal static string mansHou {
             get {
@@ -430,20 +430,20 @@ namespace SoundSystem.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NextCastle.mp3.
+        ///   Looks up a localized string similar to round1Music.mp3.
         /// </summary>
-        internal static string roundMusic1 {
+        internal static string round1Music {
             get {
-                return ResourceManager.GetString("roundMusic1", resourceCulture);
+                return ResourceManager.GetString("round1Music", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NextCastle.mp3.
+        ///   Looks up a localized string similar to round2Music.mp3.
         /// </summary>
-        internal static string roundMusic2 {
+        internal static string round2Music {
             get {
-                return ResourceManager.GetString("roundMusic2", resourceCulture);
+                return ResourceManager.GetString("round2Music", resourceCulture);
             }
         }
         
