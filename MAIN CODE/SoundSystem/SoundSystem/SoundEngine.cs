@@ -149,6 +149,12 @@ namespace SoundSystem
             //SourceNameFinder
             nameFinder = new SourceNameFinder();
 
+            //
+            //PlaySound(SoundTypes.swordFight1,new Vector3());
+           // SoundDescriptor d = new SoundDescriptor(soundCard, "SwordFigth1.wav",
+           //     new Vector3(1,2,3), false);
+            //d.Play();
+
 
         }
 
@@ -191,6 +197,19 @@ namespace SoundSystem
         }
 
         /// <summary>
+        /// Funkcja sprawdza, czy muzyka w tle dobiegla konca i jesli tak
+        /// to odgrywa ja raz jeszcze
+        /// </summary>
+        public static void UpdateBackgroundMusic()
+        {
+            if (backgroundMusic.CurrentPosition == BGMusicLastPosition)
+            {
+                backgroundMusic.SeekCurrentPosition(0, SeekPositionFlags.AbsolutePositioning);
+            }
+            BGMusicLastPosition = backgroundMusic.CurrentPosition;
+        }
+
+        /// <summary>
         /// Funkcja grajaca zadana muzyke w tle gry
         /// </summary>
         /// <param name="music">Typ wyliczeniowy z typem muzyki do zagrania</param>
@@ -215,6 +234,7 @@ namespace SoundSystem
             SoundDescriptor soundDesc =
                 new SoundDescriptor(soundCard, soundName, position, false);
             soundDesc.Play();
+            soundList.Add(soundDesc);
         }
 
         /// <summary>
@@ -244,9 +264,14 @@ namespace SoundSystem
         /// do manualnej modyfikacji przez klienta
         /// </summary>
         /// <returns>Obiekt z dzwiekiem krokow</returns>
-        public static SoundDescriptor StartSteps()
+        public static SoundDescriptor StartSteps(SoundTypes sound, Vector3 position)
         {
-            return new SoundDescriptor(soundCard, "f", listenerUpVector, true);
+            String soundName = nameFinder.FindSound(sound); //znalezienie sciezki
+            SoundDescriptor soundDesc =
+                new SoundDescriptor(soundCard, soundName, position, true);
+            soundDesc.Play();
+            soundList.Add(soundDesc);
+            return soundDesc;
         }
 
         /// <summary>

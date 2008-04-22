@@ -61,20 +61,9 @@ namespace SoundSystem
             description3D.ControlEffects = false;
             description3D.Control3D = true;
 
-            try
-            {
-                sound = new SecondaryBuffer(fileName, description3D, device);
+            sound = new SecondaryBuffer(fileName, description3D, device);
             sound3D = new Buffer3D(sound);
             sound3D.Position = position;
-            }
-            catch (Exception e)
-            {
-                String jaja = e.ToString() 
-                    + " " + e.Data.ToString();
-                MessageBox.Show(jaja);
-                MessageBox.Show(jaja);
-                throw;
-            } 
         }
       
     }
