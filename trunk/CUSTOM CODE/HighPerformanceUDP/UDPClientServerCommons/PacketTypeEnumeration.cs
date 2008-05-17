@@ -10,6 +10,10 @@ namespace UDPClientServerCommons
         /// Standard server comunication type, With player positions and stuff
         /// </summary>
         Standard,
-        Other //(?)
+        Other, //(?)
+        Join,
+        Quit,
+        GameInfo,
+        ACK
     }
 }

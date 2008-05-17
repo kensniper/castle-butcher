@@ -31,9 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AckPacket.cs" />
     <Compile Include="BasePlayerInfo.cs" />
     <Compile Include="ClientPacket.cs" />
     <Compile Include="IPacket.cs" />
+    <Compile Include="JoinPacket.cs" />
+    <Compile Include="Last10.cs" />
+    <Compile Include="PacketTypeChecker.cs" />
     <Compile Include="PacketTypeEnumeration.cs" />
     <Compile Include="PlayerInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

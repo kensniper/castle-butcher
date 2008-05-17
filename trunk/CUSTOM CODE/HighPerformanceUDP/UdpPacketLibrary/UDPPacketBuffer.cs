@@ -10,7 +10,7 @@ namespace Clutch.Net.UDP
     public class UDPPacketBuffer
     {
         // size of the buffer
-        public const int BUFFER_SIZE = 4096;
+        public const int BUFFER_SIZE = 1400; //was 4096
 
         // the buffer itself
         public byte[] Data;

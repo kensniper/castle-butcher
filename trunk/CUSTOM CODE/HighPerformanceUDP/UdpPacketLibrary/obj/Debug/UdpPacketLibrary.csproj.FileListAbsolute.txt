@@ -3,3 +3,8 @@ F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UdpPacketLibrary\bin\Debug\U
 F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UdpPacketLibrary\obj\Debug\ResolveAssemblyReference.cache
 F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UdpPacketLibrary\obj\Debug\UdpPacketLibrary.dll
 F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UdpPacketLibrary\obj\Debug\UdpPacketLibrary.pdb
+F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\UdpPacketLibrary\bin\Debug\UdpPacketLibrary.dll
+F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\UdpPacketLibrary\bin\Debug\UdpPacketLibrary.pdb
+F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\UdpPacketLibrary\obj\Debug\ResolveAssemblyReference.cache
+F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\UdpPacketLibrary\obj\Debug\UdpPacketLibrary.dll
+F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\UdpPacketLibrary\obj\Debug\UdpPacketLibrary.pdb

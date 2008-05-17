@@ -32,6 +32,7 @@ namespace Client
             this.txtSend = new System.Windows.Forms.TextBox();
             this.txtReceive = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnStart
@@ -42,6 +43,7 @@ namespace Client
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Visible = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // txtSend
@@ -50,6 +52,7 @@ namespace Client
             this.txtSend.Name = "txtSend";
             this.txtSend.Size = new System.Drawing.Size(277, 20);
             this.txtSend.TabIndex = 1;
+            this.txtSend.Visible = false;
             // 
             // txtReceive
             // 
@@ -59,6 +62,7 @@ namespace Client
             this.txtReceive.ReadOnly = true;
             this.txtReceive.Size = new System.Drawing.Size(277, 157);
             this.txtReceive.TabIndex = 2;
+            this.txtReceive.Visible = false;
             // 
             // btnSend
             // 
@@ -68,20 +72,34 @@ namespace Client
             this.btnSend.TabIndex = 3;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Visible = false;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(13, 232);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(292, 266);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnSend);
-            this.Controls.Add(this.txtReceive);
             this.Controls.Add(this.txtSend);
             this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.txtReceive);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,6 +111,7 @@ namespace Client
         private System.Windows.Forms.TextBox txtSend;
         private System.Windows.Forms.TextBox txtReceive;
         private System.Windows.Forms.Button btnSend;
+        private System.Windows.Forms.Button button1;
     }
 }
 
