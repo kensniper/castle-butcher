@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Client
 {
@@ -14,7 +15,9 @@ namespace Client
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+           Application.Run(new Form1(4443));
+           // Application.Run(new Form1());
         }
     }
 }

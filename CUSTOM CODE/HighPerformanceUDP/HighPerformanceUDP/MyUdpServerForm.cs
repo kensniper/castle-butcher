@@ -43,11 +43,6 @@ namespace HighPerformanceUDP
 
         }
 
-        private void MyUdpServerForm_Load(object sender, EventArgs e)
-        {
-           
-        }
-
         private void MyUdpServerForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             myUdpServer.close();
