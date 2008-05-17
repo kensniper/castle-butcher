@@ -1,0 +1,10 @@
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\HighPerformanceUDP\obj\Debug\ResolveAssemblyReference.cache
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\HighPerformanceUDP\obj\Debug\HighPerformanceUDP.Properties.Resources.resources
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\HighPerformanceUDP\obj\Debug\HighPerformanceUDP.csproj.GenerateResource.Cache
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\HighPerformanceUDP\bin\Debug\HighPerformanceUDP.exe
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\HighPerformanceUDP\bin\Debug\HighPerformanceUDP.pdb
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\HighPerformanceUDP\obj\Debug\HighPerformanceUDP.exe
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\HighPerformanceUDP\obj\Debug\HighPerformanceUDP.pdb
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\HighPerformanceUDP\obj\Debug\HighPerformanceUDP.MyUdpServerForm.resources
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\HighPerformanceUDP\bin\Debug\UdpPacketLibrary.dll
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\HighPerformanceUDP\bin\Debug\UdpPacketLibrary.pdb

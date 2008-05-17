@@ -1,0 +1,7 @@
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPServerPacket\bin\Debug\UDPServerPacket.dll
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPServerPacket\bin\Debug\UDPServerPacket.pdb
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPServerPacket\obj\Debug\ResolveAssemblyReference.cache
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPServerPacket\obj\Debug\UDPServerPacket.dll
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPServerPacket\obj\Debug\UDPServerPacket.pdb
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPServerPacket\bin\Debug\UDPClientServerCommons.dll
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPServerPacket\bin\Debug\UDPClientServerCommons.pdb

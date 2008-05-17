@@ -1,0 +1,5 @@
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UdpPacketLibrary\bin\Debug\UdpPacketLibrary.dll
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UdpPacketLibrary\bin\Debug\UdpPacketLibrary.pdb
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UdpPacketLibrary\obj\Debug\ResolveAssemblyReference.cache
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UdpPacketLibrary\obj\Debug\UdpPacketLibrary.dll
+E:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UdpPacketLibrary\obj\Debug\UdpPacketLibrary.pdb
