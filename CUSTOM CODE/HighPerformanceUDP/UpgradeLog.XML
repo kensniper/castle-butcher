@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="HighPerformanceUDP">
+</Property><Property Name="Solution File" Value="F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\HighPerformanceUDP.sln">
+</Property><Property Name="User Options File" Value="F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\HighPerformanceUDP.suo">
+</Property><Property Name="Date" Value="12 maja 2008">
+</Property><Property Name="Time" Value="10:40">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="HighPerformanceUDP.sln" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP.sln">
+</Event><Event ErrorLevel="0" Project="" Source="HighPerformanceUDP.suo" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP.suo">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\HighPerformanceUDP.csproj" Description="Project file successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP\HighPerformanceUDP.csproj">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\Clutch.Net\UdpServer.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP\Clutch.Net\UdpServer.cs">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\MyUdpServer.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP\MyUdpServer.cs">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\MyUdpServerForm.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP\MyUdpServerForm.cs">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\MyUdpServerForm.Designer.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP\MyUdpServerForm.Designer.cs">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\Program.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP\Program.cs">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\Properties\AssemblyInfo.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\Properties\Resources.Designer.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP\Properties\Resources.Designer.cs">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\Properties\Settings.Designer.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP\Properties\Settings.Designer.cs">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\Properties\Settings.settings" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP\Properties\Settings.settings">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\MyUdpServerForm.resx" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP\MyUdpServerForm.resx">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\Properties\Resources.resx" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\HighPerformanceUDP\Properties\Resources.resx">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\HighPerformanceUDP.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="HighPerformanceUDP" Source="HighPerformanceUDP\HighPerformanceUDP.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Client.csproj" Description="Project file successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\Client\Client.csproj">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Constants.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\Client\Constants.cs">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Form1.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\Client\Form1.cs">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Form1.Designer.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\Client\Form1.Designer.cs">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Program.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\Client\Program.cs">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Properties\AssemblyInfo.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\Client\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Properties\Resources.Designer.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\Client\Properties\Resources.Designer.cs">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Properties\Settings.Designer.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\Client\Properties\Settings.Designer.cs">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Properties\Settings.settings" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\Client\Properties\Settings.settings">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Form1.resx" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\Client\Form1.resx">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Properties\Resources.resx" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\Client\Properties\Resources.resx">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Client.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Client" Source="Client\Client.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="UdpPacketLibrary" Source="UdpPacketLibrary\UdpPacketLibrary.csproj" Description="Project file successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\UdpPacketLibrary\UdpPacketLibrary.csproj">
+</Event><Event ErrorLevel="0" Project="UdpPacketLibrary" Source="UdpPacketLibrary\Properties\AssemblyInfo.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\UdpPacketLibrary\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="UdpPacketLibrary" Source="UdpPacketLibrary\UDPPacketBuffer.cs" Description="File successfully backed up as F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\Backup\UdpPacketLibrary\UDPPacketBuffer.cs">
+</Event><Event ErrorLevel="0" Project="UdpPacketLibrary" Source="UdpPacketLibrary\UdpPacketLibrary.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="UdpPacketLibrary" Source="UdpPacketLibrary\UdpPacketLibrary.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="HighPerformanceUDP.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="HighPerformanceUDP.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="HighPerformanceUDP" Source="HighPerformanceUDP\HighPerformanceUDP.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Client" Source="Client\Client.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="UdpPacketLibrary" Source="UdpPacketLibrary\UdpPacketLibrary.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

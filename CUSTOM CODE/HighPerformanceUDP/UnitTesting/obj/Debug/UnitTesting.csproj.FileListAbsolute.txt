@@ -1,0 +1,7 @@
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UnitTesting\obj\Debug\ResolveAssemblyReference.cache
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UnitTesting\bin\Debug\UnitTesting.exe
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UnitTesting\bin\Debug\UnitTesting.pdb
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UnitTesting\bin\Debug\UDPClientServerCommons.dll
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UnitTesting\bin\Debug\UDPClientServerCommons.pdb
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UnitTesting\obj\Debug\UnitTesting.exe
+F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UnitTesting\obj\Debug\UnitTesting.pdb
