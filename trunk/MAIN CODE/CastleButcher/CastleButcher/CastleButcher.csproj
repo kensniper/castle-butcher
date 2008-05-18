@@ -149,6 +149,8 @@
     <Compile Include="GameEngine\Graphics\SkyBox.cs" />
     <Compile Include="GameEngine\MapData.cs" />
     <Compile Include="GameEngine\MapDescriptor.cs" />
+    <Compile Include="GameEngine\Network\MessageQueue.cs" />
+    <Compile Include="GameEngine\Network\NetworkClient.cs" />
     <Compile Include="GameEngine\Objects\StaticMesh.cs" />
     <Compile Include="GameEngine\Objects\Character.cs" />
     <Compile Include="GameEngine\Objects\CharacterClass.cs" />
