@@ -64,7 +64,7 @@ namespace CastleButcher.GameEngine
             //this.weaponEnergy = this.ShipClass.ArmorParameters.WeaponEnergy;
         }
 
-        public ICollisionData WalkingCollisionData
+        public virtual ICollisionData WalkingCollisionData
         {
             get
             {
@@ -250,6 +250,14 @@ namespace CastleButcher.GameEngine
             get
             {
                 return SpectatorMovementParameters;
+            }
+        }
+
+        public override ICollisionData WalkingCollisionData
+        {
+            get
+            {
+                return walkingCollisionData;
             }
         }
 
