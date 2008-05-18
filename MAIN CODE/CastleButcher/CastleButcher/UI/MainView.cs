@@ -78,7 +78,7 @@ namespace CastleButcher.UI
             World.Instance.AddPlayer(player);
             World.Instance.AddObject(player.CurrentCharacter);
             World.Instance.PhysicsSimulator.WalkingEnabled[1] = true;
-            World.Instance.PhysicsSimulator.WalkData[player.CurrentCharacter] = player.CurrentCharacter.CollisionData;
+            World.Instance.PhysicsSimulator.WalkData[player.CurrentCharacter] = player.CurrentCharacter.WalkingCollisionData;
             
             //World.Instance.AddPlayer(new AIPlayer("wróg", pilot.ShipClass));
             //World.Instance.OnPlayerKilled += this.OnObjectDestroyed;

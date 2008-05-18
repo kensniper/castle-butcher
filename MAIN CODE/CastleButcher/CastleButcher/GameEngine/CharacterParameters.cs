@@ -10,11 +10,11 @@ namespace CastleButcher.GameEngine
     public struct CharacterParameters
     {
         /// <summary>
-        /// [J]Wytrzyma³oœæ tarczy
+        /// Punkty tarczy
         /// </summary>
         public int ShieldAmount;
         /// <summary>
-        /// [J]Wytrzyma³oœæ kad³uba
+        /// Punkty ¿ycia
         /// </summary>
         public int HitPoints;
     }

@@ -14,10 +14,8 @@ namespace CastleButcher.GameEngine
     {
         protected Player player;
         protected CharacterClass characterClass;
-        //CollisionMesh spectatingCollisionData;
-        protected CollisionMesh walkingCollisionData;
-        //RenderingData spectatingRenderingData;
         protected bool hasGroundContact = false;
+
 
         public bool HasGroundContact
         {
@@ -74,17 +72,30 @@ namespace CastleButcher.GameEngine
 
         public override float BoundingSphereRadius
         {
-            get { return 0; }
+            get 
+            { 
+                return CollisionData.BoundingSphereRadius;
+            }
         }
-
+        public virtual ICollisionData WalkingCollisionData
+        {
+            get
+            {
+                if (player.IsAlive)
+                {
+                    return characterClass.WalkingCollisionData;
+                }
+                throw new Exception();
+            }
+        }
         public override CollisionDataType CollisionDataType
         {
             get
             {
-                //spectating
-                if (!player.IsAlive)
+                //
+                if (player.IsAlive)
                 {
-                    //return CollisionDataType.CollisionMesh;
+                    return characterClass.CollisionDataType;
                 }
                 throw new Exception();
             }
@@ -94,10 +105,10 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                //spectating
-                if (!player.IsAlive)
+                //
+                if (player.IsAlive)
                 {
-                    //return spectatingCollisionData;
+                    return characterClass.CollisionData;
                 }
                 throw new Exception();
             }
@@ -144,9 +155,9 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                if (!player.IsAlive)
+                if (player.IsAlive)
                 {
-                    //return spectatingRenderingData;
+                    return characterClass.RenderingData;
                 }
                 //else
                 return null;
@@ -205,10 +216,11 @@ namespace CastleButcher.GameEngine
         {
             spectatingCollisionData = Resources.ResourceCache.Instance.GetCollisionMesh("walkingMesh.cm");
             spectatingRenderingData = ResourceCache.Instance.GetRenderingData("walkingMesh.x");
+            walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("walkingPoint.cm");
 
             //this.Cha
         }
-
+        //over
         public override CollisionDataType CollisionDataType
         {
             get
@@ -236,6 +248,14 @@ namespace CastleButcher.GameEngine
             get
             {
                 return SpectatorMovementParameters;
+            }
+        }
+
+        public override ICollisionData WalkingCollisionData
+        {
+            get
+            {
+                return walkingCollisionData;
             }
         }
 
