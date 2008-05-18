@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MaterialData>
+	<DiffuseMap file="marble1.jpg"/>
+	<NormalMap file="marble1_bump.dds"/>
+	<SpecularMap file="marble1_spec.jpg"/>
+</MaterialData>

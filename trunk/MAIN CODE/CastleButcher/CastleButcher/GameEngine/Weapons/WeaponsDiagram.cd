@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="CastleButcher.GameEngine.Weapons.Rocket">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GameEngine\Weapons\Rocket.cs</FileName>
+      <HashCode>AAAAAAAABgAAAAQgAAAAAAQAAAAAQIBAAAAAhAAAgAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CastleButcher.GameEngine.Weapons.RocketLauncher">
+    <Position X="5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GameEngine\Weapons\RocketLauncher.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <InheritanceLine Type="CastleButcher.GameEngine.Weapons.InstalledWeapon" FixedFromPoint="true">
+      <Path>
+        <Point X="6" Y="2.409" />
+        <Point X="6" Y="2.7" />
+        <Point X="5.75" Y="2.7" />
+        <Point X="5.75" Y="3" />
+      </Path>
+    </InheritanceLine>
+  </Class>
+  <Class Name="CastleButcher.GameEngine.Weapons.PlasmaThrower">
+    <Position X="6.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GameEngine\Weapons\PlasmaThrower.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <InheritanceLine Type="CastleButcher.GameEngine.Weapons.InstalledWeapon" FixedFromPoint="true">
+      <Path>
+        <Point X="7" Y="2.409" />
+        <Point X="7" Y="2.558" />
+        <Point X="7.5" Y="2.558" />
+        <Point X="7.5" Y="2.75" />
+      </Path>
+    </InheritanceLine>
+  </Class>
+  <Class Name="CastleButcher.GameEngine.Weapons.InstalledWeapon">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GameEngine\Weapons\InstalledWeapon.cs</FileName>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CastleButcher.GameEngine.Weapons.Weapon">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GameEngine\Weapons\Weapon.cs</FileName>
+      <HashCode>gAAAAAAAAAAEAEAAAEAAAAAAAAAMAAAEAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CastleButcher.FloatingWeapon">
+    <Position X="3.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GameEngine\Weapons\FloatingWeapon.cs</FileName>
+      <HashCode>AAAAAAAAAgAAAAQgAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Struct Name="CastleButcher.GameEngine.Weapons.WeaponInfo">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GameEngine\Weapons\WeaponInfo.cs</FileName>
+      <HashCode>AAAQIQAAAAAAAAACQAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="CastleButcher.GameEngine.IMissile" Collapsed="true">
+    <Position X="0.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GameEngine\Definitions.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CastleButcher.GameEngine.GameObject">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GameEngine\Definitions.cs</FileName>
+      <HashCode>AAAAAAAAAgAAAAQgAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Framework.Physics.IPhysicalObject" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Framework\Physics\Definitions.cs</FileName>
+      <HashCode>AAAAACAIAQAAAAAggAACAAAAAEAAAAAAQQAAiASEASA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+</ClassDiagram>

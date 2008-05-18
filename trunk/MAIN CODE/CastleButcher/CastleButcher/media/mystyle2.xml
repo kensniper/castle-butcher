@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GUI StyleName="mystyle" ImageFile="mystyle.tga" FntFile="arial_35.fnt;arial_24.fnt;arial_22.fnt;arial_18.fnt;gothic_20.fnt;arial_50.fnt">
+	<DefaultValues TextSize="18" Color="0xFFFFFF">
+    <Control Name="Window">
+        <Image Name="TopBorder"         X="20" Y="12" Width="9" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="RightBorder"       X="29" Y="20" Width="8" Height="9" Color="0xFFFFFFFF" />
+        <Image Name="BottomBorder"      X="20" Y="29" Width="9" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="LeftBorder"        X="12" Y="20" Width="8" Height="9" Color="0xFFFFFFFF" />
+        <Image Name="TopLeftCorner"     X="12" Y="12" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="TopRightCorner"    X="29" Y="12" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="BottomLeftCorner"  X="12" Y="29" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="BottomRightCorner" X="29" Y="29" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="Background"        X="20" Y="20" Width="9" Height="9" Color="0xFFFFFFFF" />
+		<Image Name="TitleBackground"   X="115" Y="126" Width="15" Height="8" Color="0xFFFFFFFF" />
+    </Control>
+    <Control Name="Button">
+        <Image Name="NormalTopBorder"           X="20" Y="40" Width="9" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="NormalRightBorder"         X="29" Y="48" Width="8" Height="9" Color="0xFFFFFFFF" />
+        <Image Name="NormalBottomBorder"        X="20" Y="57" Width="9" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="NormalLeftBorder"          X="12" Y="48" Width="8" Height="9" Color="0xFFFFFFFF" />
+        <Image Name="NormalTopLeftCorner"       X="12" Y="40" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="NormalTopRightCorner"      X="29" Y="40" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="NormalBottomLeftCorner"    X="12" Y="57" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="NormalBottomRightCorner"   X="29" Y="57" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="NormalBackground"          X="20" Y="48" Width="9" Height="9" Color="0xFFFFFFFF" />
+
+        <Image Name="OverTopBorder"         X="47" Y="40" Width="9" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="OverRightBorder"       X="56" Y="48" Width="8" Height="9" Color="0xFFFFFFFF" />
+        <Image Name="OverBottomBorder"      X="47" Y="57" Width="9" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="OverLeftBorder"        X="39" Y="48" Width="8" Height="9" Color="0xFFFFFFFF" />
+        <Image Name="OverTopLeftCorner"     X="39" Y="40" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="OverTopRightCorner"    X="56" Y="40" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="OverBottomLeftCorner"  X="39" Y="57" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="OverBottomRightCorner" X="56" Y="57" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="OverBackground"        X="47" Y="48" Width="9" Height="9" Color="0xFFFFFFFF" />
+
+        <Image Name="DownTopBorder"         X="20" Y="67" Width="9" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="DownRightBorder"       X="29" Y="75" Width="8" Height="9" Color="0xFFFFFFFF" />
+        <Image Name="DownBottomBorder"      X="20" Y="84" Width="9" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="DownLeftBorder"        X="12" Y="75" Width="8" Height="9" Color="0xFFFFFFFF" />
+        <Image Name="DownTopLeftCorner"     X="12" Y="67" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="DownTopRightCorner"    X="29" Y="67" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="DownBottomLeftCorner"  X="12" Y="84" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="DownBottomRightCorner" X="29" Y="84" Width="8" Height="8" Color="0xFFFFFFFF" />
+        <Image Name="DownBackground"        X="20" Y="75" Width="9" Height="9" Color="0xFFFFFFFF" />
+
+        <Image Name="DisabledTopBorder"         X="20" Y="40" Width="9" Height="8" Color="0xFF88888888" />
+        <Image Name="DisabledRightBorder"       X="29" Y="48" Width="8" Height="9" Color="0xFF88888888" />
+        <Image Name="DisabledBottomBorder"      X="20" Y="57" Width="9" Height="8" Color="0xFF88888888" />
+        <Image Name="DisabledLeftBorder"        X="12" Y="48" Width="8" Height="9" Color="0xFF88888888" />
+        <Image Name="DisabledTopLeftCorner"     X="12" Y="40" Width="8" Height="8" Color="0xFF88888888" />
+        <Image Name="DisabledTopRightCorner"    X="29" Y="40" Width="8" Height="8" Color="0xFF88888888" />
+        <Image Name="DisabledBottomLeftCorner"  X="12" Y="57" Width="8" Height="8" Color="0xFF88888888" />
+        <Image Name="DisabledBottomRightCorner" X="29" Y="57" Width="8" Height="8" Color="0xFF88888888" />
+        <Image Name="DisabledBackground"        X="20" Y="48" Width="9" Height="9" Color="0xFF88888888" />
+    </Control>
+    <Control Name="CheckBox">
+        <Image Name="Normal"    X="39" Y="12" Width="25" Height="25" Color="0xFFFFFFFF" />
+        <Image Name="Over"      X="39" Y="67" Width="25" Height="25" Color="0xFFFFFFFF" />
+        <Image Name="Down"      X="66" Y="40" Width="25" Height="25" Color="0xFFFFFFFF" />
+        <Image Name="Disabled"  X="39" Y="12" Width="25" Height="25" Color="0xFF88888888" />
+        <Image Name="CheckMark" X="66" Y="12" Width="25" Height="25" Color="0xFFFFFFFF" />
+    </Control>
+    <Control Name="RadioButton">
+        <Image Name="Normal"    X="66" Y="67" Width="25" Height="25" Color="0xFFFFFFFF" />
+        <Image Name="Over"      X="12" Y="94" Width="25" Height="25" Color="0xFFFFFFFF" />
+        <Image Name="Down"      X="39" Y="94" Width="25" Height="25" Color="0xFFFFFFFF" />
+        <Image Name="Disabled"  X="66" Y="67" Width="25" Height="25" Color="0xFF88888888" />
+        <Image Name="RadioMark" X="66" Y="94" Width="25" Height="25" Color="0xFFFFFFFF" />
+    </Control>
+    <Control Name="Slider">
+        <Image Name="NormalLeftCap"     X="93" Y="12" Width="2" Height="6" Color="0xFFFFFFFF" />
+        <Image Name="NormalMiddle"      X="95" Y="12" Width="20" Height="6" Color="0xFFFFFFFF" />
+        <Image Name="NormalRightCap"    X="115" Y="12" Width="2" Height="6" Color="0xFFFFFFFF" />
+        <Image Name="NormalMarker"      X="93" Y="36" Width="7" Height="17" Color="0xFFFFFFFF" />
+        
+        <Image Name="OverLeftCap"       X="93" Y="20" Width="2" Height="6" Color="0xFFFFFFFF" />
+        <Image Name="OverMiddle"        X="95" Y="20" Width="20" Height="6" Color="0xFFFFFFFF" />
+        <Image Name="OverRightCap"      X="115" Y="20" Width="2" Height="6" Color="0xFFFFFFFF" />
+        <Image Name="OverMarker"        X="102" Y="36" Width="7" Height="17" Color="0xFFFFFFFF" />
+        
+        <Image Name="DownLeftCap"       X="93" Y="28" Width="2" Height="6" Color="0xFFFFFFFF" />
+        <Image Name="DownMiddle"        X="95" Y="28" Width="20" Height="6" Color="0xFFFFFFFF" />
+        <Image Name="DownRightCap"      X="115" Y="28" Width="2" Height="6" Color="0xFFFFFFFF" />
+        <Image Name="DownMarker"        X="111" Y="36" Width="7" Height="17" Color="0xFFFFFFFF" />
+        
+        <Image Name="DisabledLeftCap"   X="93" Y="12" Width="2" Height="6" Color="0xFF88888888" />
+        <Image Name="DisabledMiddle"    X="95" Y="12" Width="20" Height="6" Color="0xFF88888888" />
+        <Image Name="DisabledRightCap"  X="115" Y="12" Width="2" Height="6" Color="0xFF88888888" />
+        <Image Name="DisabledMarker"    X="93" Y="36" Width="7" Height="17" Color="0xFF88888888" />
+    </Control>
+    <Control Name="ListBox">
+        <Image Name="NormalTopLeftCorner"     X="93" Y="57" Width="2" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalTopBorder"         X="95" Y="57" Width="20" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalTopRightCorner"    X="115" Y="57" Width="0" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalLeftBorder"        X="93" Y="59" Width="2" Height="20" Color="0xFFFFFFFF" />
+        <Image Name="NormalBackground"        X="98" Y="65" Width="10" Height="10" Color="0xFFFFFFFF" />
+        <Image Name="NormalRightBorder"       X="115" Y="59" Width="0" Height="20" Color="0xFFFFFFFF" />
+        <Image Name="NormalBottomLeftCorner"  X="93" Y="79" Width="2" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalBottomBorder"      X="95" Y="79" Width="20" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalBottomRightCorner" X="115" Y="79" Width="0" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalScrollBody"        X="94" Y="108" Width="18" Height="5" Color="0xFFFFFFFF" />
+        <Image Name="NormalHighlight"         X="115" Y="125" Width="15" Height="10" Color="0xFFFFFFFF" />
+        
+        <Image Name="NormalScrollUp"          X="94" Y="84" Width="18" Height="18" Color="0xFFFFFFFF" />
+        <Image Name="NormalScrollDown"        X="94" Y="119" Width="18" Height="18" Color="0xFFFFFFFF" />
+        <Image Name="NormalScrollMarker"      X="121" Y="24" Width="18" Height="58" Color="0xFFFFFFFF" />
+
+        <Image Name="OverScrollUp"            X="134" Y="84" Width="18" Height="18" Color="0xFFFFFFFF" />
+        <Image Name="OverScrollDown"          X="134" Y="105" Width="18" Height="18" Color="0xFFFFFFFF" />
+        <Image Name="OverScrollMarker"        X="161" Y="24" Width="18" Height="58" Color="0xFFFFFFFF" />
+        
+        <Image Name="DownScrollUp"            X="114" Y="84" Width="18" Height="18" Color="0xFFFFFFFF" />
+        <Image Name="DownScrollDown"          X="114" Y="105" Width="18" Height="18" Color="0xFFFFFFFF" />
+        <Image Name="DownScrollMarker"        X="141" Y="24" Width="18" Height="58" Color="0xFFFFFFFF" />
+
+        <Image Name="DisabledScrollUp"          X="94" Y="84" Width="18" Height="18" Color="0xFF88888888" />
+        <Image Name="DisabledScrollDown"        X="94" Y="119" Width="18" Height="18" Color="0xFF88888888" />
+        <Image Name="DisabledScrollMarker"      X="121" Y="24" Width="18" Height="58" Color="0xFF88888888" />
+
+        <Image Name="DisabledTopLeftCorner"     X="93" Y="57" Width="2" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledTopBorder"         X="95" Y="57" Width="20" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledTopRightCorner"    X="115" Y="57" Width="0" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledLeftBorder"        X="93" Y="59" Width="2" Height="20" Color="0xFF88888888" />
+        <Image Name="DisabledBackground"        X="98" Y="65" Width="10" Height="10" Color="0xFF88888888" />
+        <Image Name="DisabledRightBorder"       X="115" Y="59" Width="0" Height="20" Color="0xFF88888888" />
+        <Image Name="DisabledBottomLeftCorner"  X="93" Y="79" Width="2" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledBottomBorder"      X="95" Y="79" Width="20" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledBottomRightCorner" X="115" Y="79" Width="0" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledScrollBody"        X="94" Y="108" Width="18" Height="5" Color="0xFF88888888" />
+        <Image Name="DisabledHighlight"         X="115" Y="125" Width="15" Height="10" Color="0xFF88888888" />
+    </Control>
+    <Control Name="ComboBox">
+        <Image Name="NormalTopLeftCorner"     X="93" Y="57" Width="2" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalTopBorder"         X="95" Y="57" Width="20" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalTopRightCorner"    X="115" Y="57" Width="0" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalLeftBorder"        X="93" Y="59" Width="2" Height="20" Color="0xFFFFFFFF" />
+        <Image Name="NormalBackground"        X="98" Y="65" Width="10" Height="10" Color="0xFFFFFFFF" />
+        <Image Name="NormalRightBorder"       X="115" Y="59" Width="0" Height="20" Color="0xFFFFFFFF" />
+        <Image Name="NormalBottomLeftCorner"  X="93" Y="79" Width="2" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalBottomBorder"      X="95" Y="79" Width="20" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalBottomRightCorner" X="115" Y="79" Width="0" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalOpenArrow"         X="94" Y="119" Width="18" Height="18" Color="0xFFFFFFFF" />
+
+        <Image Name="OverTopLeftCorner"     X="12" Y="120" Width="2" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="OverTopBorder"         X="14" Y="120" Width="20" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="OverTopRightCorner"    X="34" Y="120" Width="0" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="OverLeftBorder"        X="12" Y="122" Width="2" Height="20" Color="0xFFFFFFFF" />
+        <Image Name="OverBackground"        X="16" Y="123" Width="10" Height="10" Color="0xFFFFFFFF" />
+        <Image Name="OverRightBorder"       X="34" Y="122" Width="0" Height="20" Color="0xFFFFFFFF" />
+        <Image Name="OverBottomLeftCorner"  X="12" Y="142" Width="2" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="OverBottomBorder"      X="14" Y="142" Width="20" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="OverBottomRightCorner" X="34" Y="142" Width="0" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="OverOpenArrow"         X="134" Y="105" Width="18" Height="18" Color="0xFFFFFFFF" />
+
+        <Image Name="DisabledTopLeftCorner"     X="93" Y="57" Width="2" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledTopBorder"         X="95" Y="57" Width="20" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledTopRightCorner"    X="115" Y="57" Width="0" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledLeftBorder"        X="93" Y="59" Width="2" Height="20" Color="0xFF88888888" />
+        <Image Name="DisabledBackground"        X="98" Y="65" Width="10" Height="10" Color="0xFF88888888" />
+        <Image Name="DisabledRightBorder"       X="115" Y="59" Width="0" Height="20" Color="0xFF88888888" />
+        <Image Name="DisabledBottomLeftCorner"  X="93" Y="79" Width="2" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledBottomBorder"      X="95" Y="78" Width="20" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledBottomRightCorner" X="115" Y="79" Width="0" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledOpenArrow"         X="94" Y="119" Width="18" Height="18" Color="0xFF88888888" />
+        
+        <Image Name="ListTopLeftCorner"     X="93" Y="57" Width="2" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="ListTopBorder"         X="95" Y="57" Width="20" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="ListTopRightCorner"    X="115" Y="57" Width="0" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="ListLeftBorder"        X="93" Y="59" Width="2" Height="20" Color="0xFFFFFFFF" />
+        <Image Name="ListBackground"        X="98" Y="65" Width="10" Height="10" Color="0xFFFFFFFF" />
+        <Image Name="ListRightBorder"       X="115" Y="59" Width="0" Height="20" Color="0xFFFFFFFF" />
+        <Image Name="ListBottomLeftCorner"  X="93" Y="79" Width="2" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="ListBottomBorder"      X="95" Y="79" Width="20" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="ListBottomRightCorner" X="115" Y="79" Width="0" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="ListScrollBody"        X="94" Y="108" Width="18" Height="5" Color="0xFFFFFFFF" />
+        <Image Name="ListHighlight"         X="115" Y="125" Width="15" Height="10" Color="0xFFFFFFFF" />
+
+        <Image Name="NormalScrollUp"          X="94" Y="84" Width="18" Height="18" Color="0xFFFFFFFF" />
+        <Image Name="NormalScrollDown"        X="94" Y="119" Width="18" Height="18" Color="0xFFFFFFFF" />
+        <Image Name="NormalScrollMarker"      X="121" Y="24" Width="18" Height="58" Color="0xFFFFFFFF" />
+
+        <Image Name="OverScrollUp"            X="134" Y="84" Width="18" Height="18" Color="0xFFFFFFFF" />
+        <Image Name="OverScrollDown"          X="134" Y="105" Width="18" Height="18" Color="0xFFFFFFFF" />
+        <Image Name="OverScrollMarker"        X="161" Y="24" Width="18" Height="58" Color="0xFFFFFFFF" />
+
+        <Image Name="DownScrollUp"            X="114" Y="84" Width="18" Height="18" Color="0xFFFFFFFF" />
+        <Image Name="DownScrollDown"          X="114" Y="105" Width="18" Height="18" Color="0xFFFFFFFF" />
+        <Image Name="DownScrollMarker"        X="141" Y="24" Width="18" Height="58" Color="0xFFFFFFFF" />
+    </Control>
+    <Control Name="EditBox">
+        <Image Name="NormalTopLeftCorner"     X="93" Y="57" Width="2" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalTopBorder"         X="95" Y="57" Width="20" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalTopRightCorner"    X="115" Y="57" Width="0" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalLeftBorder"        X="93" Y="59" Width="2" Height="20" Color="0xFFFFFFFF" />
+        <Image Name="NormalBackground"        X="98" Y="65" Width="10" Height="10" Color="0xFFFFFFFF" />
+        <Image Name="NormalRightBorder"       X="115" Y="59" Width="2" Height="20" Color="0xFFFFFFFF" />
+        <Image Name="NormalBottomLeftCorner"  X="93" Y="79" Width="2" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalBottomBorder"      X="95" Y="79" Width="20" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalBottomRightCorner" X="115" Y="79" Width="0" Height="2" Color="0xFFFFFFFF" />
+        <Image Name="NormalCursor"            X="78" Y="108" Width="2" Height="3" Color="0xFFFFFFFF" />
+
+        <Image Name="DisabledTopLeftCorner"     X="93" Y="57" Width="2" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledTopBorder"         X="95" Y="57" Width="20" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledTopRightCorner"    X="115" Y="57" Width="0" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledLeftBorder"        X="93" Y="59" Width="2" Height="20" Color="0xFF88888888" />
+        <Image Name="DisabledBackground"        X="98" Y="65" Width="10" Height="10" Color="0xFF88888888" />
+        <Image Name="DisabledRightBorder"       X="115" Y="59" Width="0" Height="20" Color="0xFF88888888" />
+        <Image Name="DisabledBottomLeftCorner"  X="93" Y="79" Width="2" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledBottomBorder"      X="95" Y="79" Width="20" Height="2" Color="0xFF88888888" />
+        <Image Name="DisabledBottomRightCorner" X="115" Y="79" Width="0" Height="2" Color="0xFF88888888" />
+    </Control>
+</GUI>

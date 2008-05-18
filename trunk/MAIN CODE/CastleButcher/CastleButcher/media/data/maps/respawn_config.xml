@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Map name="Zamek" maxplayers="4">
+	<Object type="mesh" position="[0,0,0]" rotation="[0,0,0]">
+		<RenderingData file="castle2.x" />
+		<CollisionData type="Tree" file="castle.cm" />
+	</Object>
+	<RespawnPointList>
+	  <Assassins>
+		<Object type="respawn" position="[-135.8680,9.2149,-217.4415]" rotation="[0,0,0]" />
+		<Object type="respawn" position="[132.3099,9.2149,-217.4415]" rotation="[0,0,0]" />			
+	   </Assassins>		
+	   <Knights>
+		<Object type="respawn" position="[101.76979,60.8958,36.8707]" rotation="[0,0,0]" />
+		<Object type="respawn" position="[101.76979,60.8958,158.5469]" rotation="[0,0,0]" />
+	   </Knights>
+	</RespawnPointList>
+ </Map>

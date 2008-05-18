@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3345B62D-6674-41D2-B494-81009F732324}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CastleButcher</RootNamespace>
+    <AssemblyName>CastleButcher</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.DirectX.Direct3D, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.DirectX.Direct3DX, Version=1.0.2911.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="SoundSystem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\SoundSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppControl.cs" />
+    <Compile Include="Content\AssassinClass.cs" />
+    <Compile Include="Content\KnightClass.cs" />
+    <Compile Include="Framework\Camera.cs" />
+    <Compile Include="Framework\DefaultValues.cs" />
+    <Compile Include="Framework\Fonts\BitmapFont.cs" />
+    <Compile Include="Framework\Fonts\FontFamily.cs" />
+    <Compile Include="Framework\Fonts\FontManager.cs" />
+    <Compile Include="Framework\Fonts\SimpleD3DFont.cs" />
+    <Compile Include="Framework\FPSTimer.cs" />
+    <Compile Include="Framework\GameLayer.cs" />
+    <Compile Include="Framework\GenericTimer.cs" />
+    <Compile Include="Framework\GlobalManager.cs" />
+    <Compile Include="Framework\GraphicsParameters.cs" />
+    <Compile Include="Framework\GUI\ControlContainer.cs" />
+    <Compile Include="Framework\GUI\GuiButton.cs" />
+    <Compile Include="Framework\GUI\GuiCheckBox.cs" />
+    <Compile Include="Framework\GUI\GuiComboBox.cs" />
+    <Compile Include="Framework\GUI\GuiControl.cs" />
+    <Compile Include="Framework\GUI\GuiEditBox.cs" />
+    <Compile Include="Framework\GUI\GuiListBox.cs" />
+    <Compile Include="Framework\GUI\GuiNumberBox.cs" />
+    <Compile Include="Framework\GUI\GuiRadioButton.cs" />
+    <Compile Include="Framework\GUI\GuiSlider.cs" />
+    <Compile Include="Framework\GUI\GuiStyle.cs" />
+    <Compile Include="Framework\GUI\GuiStyleManager.cs" />
+    <Compile Include="Framework\GUI\GuiTextLabel.cs" />
+    <Compile Include="Framework\GUI\GuiWindow.cs" />
+    <Compile Include="Framework\Log.cs" />
+    <Compile Include="Framework\MyMath\MyMatrix.cs" />
+    <Compile Include="Framework\MyMath\MyQuaternion.cs" />
+    <Compile Include="Framework\MyMath\MyVector.cs" />
+    <Compile Include="Framework\MyMath\MyVector2D.cs" />
+    <Compile Include="Framework\NativeMethods.cs" />
+    <Compile Include="Framework\Physics\CollidableBox.cs" />
+    <Compile Include="Framework\Physics\CollidableBoxPM.cs" />
+    <Compile Include="Framework\Physics\CollidablePlane.cs" />
+    <Compile Include="Framework\Physics\CollidableSphere.cs" />
+    <Compile Include="Framework\Physics\CollisionDetector.cs" />
+    <Compile Include="Framework\Physics\CollisionMesh.cs" />
+    <Compile Include="Framework\Physics\CollisionOctree.cs" />
+    <Compile Include="Framework\Physics\CollisionSphere.cs" />
+    <Compile Include="Framework\Physics\Definitions.cs" />
+    <Compile Include="Framework\Physics\ICollisionDetector.cs" />
+    <Compile Include="Framework\Physics\IntersectionQueue.cs" />
+    <Compile Include="Framework\Physics\PointMass.cs" />
+    <Compile Include="Framework\Physics\RigidBody.cs" />
+    <Compile Include="Framework\Physics\RigidBodySimulator.cs" />
+    <Compile Include="Framework\Physics\StaticBody.cs" />
+    <Compile Include="Framework\Quad.cs" />
+    <Compile Include="Framework\Singleton.cs" />
+    <Compile Include="Framework\TriangleStripQuad.cs" />
+    <Compile Include="Framework\Vertex.cs" />
+    <Compile Include="Framework\Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Framework\Window.designer.cs">
+      <DependentUpon>Window.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Framework\Window.Input.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GameEngine\AI\AIPlayer.cs" />
+    <Compile Include="GameEngine\AppConfig.cs" />
+    <Compile Include="GameEngine\GameSession.cs" />
+    <Compile Include="GameEngine\Graphics\BillboardObject.cs" />
+    <Compile Include="GameEngine\Graphics\ConstantsMap.cs" />
+    <Compile Include="GameEngine\Graphics\Environment.cs" />
+    <Compile Include="GameEngine\Graphics\Explosion.cs" />
+    <Compile Include="GameEngine\Graphics\Particles\EngineFireParticle.cs" />
+    <Compile Include="GameEngine\Graphics\Particles\Particle.cs" />
+    <Compile Include="GameEngine\Graphics\Particles\ParticleClass.cs" />
+    <Compile Include="GameEngine\Graphics\Particles\ParticleEmitter.cs" />
+    <Compile Include="GameEngine\Graphics\Particles\ParticleSystem.cs" />
+    <Compile Include="GameEngine\Graphics\Renderer.cs" />
+    <Compile Include="GameEngine\Graphics\SkyBox.cs" />
+    <Compile Include="GameEngine\MapData.cs" />
+    <Compile Include="GameEngine\MapDescriptor.cs" />
+    <Compile Include="GameEngine\Network\MessageQueue.cs" />
+    <Compile Include="GameEngine\Network\NetworkClient.cs" />
+    <Compile Include="GameEngine\Objects\StaticMesh.cs" />
+    <Compile Include="GameEngine\Objects\Character.cs" />
+    <Compile Include="GameEngine\Objects\CharacterClass.cs" />
+    <Compile Include="GameEngine\Objects\Definitions.cs" />
+    <Compile Include="GameEngine\Objects\DestroyableObj.cs" />
+    <Compile Include="GameEngine\Objects\PlayerMovementParameters.cs" />
+    <Compile Include="GameEngine\Objects\ObjectCache.cs" />
+    <Compile Include="GameEngine\Objects\Powerup.cs" />
+    <Compile Include="GameEngine\Objects\RespawnPoint.cs" />
+    <Compile Include="GameEngine\Objects\TemporaryObject.cs" />
+    <Compile Include="GameEngine\Player.cs" />
+    <Compile Include="GameEngine\ProgressReporter.cs" />
+    <Compile Include="GameEngine\Resources\AnimatedMapData.cs" />
+    <Compile Include="GameEngine\Resources\AnimationInstance.cs" />
+    <Compile Include="GameEngine\Resources\EffectData.cs" />
+    <Compile Include="GameEngine\Resources\MapData.cs" />
+    <Compile Include="GameEngine\Resources\MaterialData.cs" />
+    <Compile Include="GameEngine\Resources\MyMaterial.cs" />
+    <Compile Include="GameEngine\Resources\RenderingData.cs" />
+    <Compile Include="GameEngine\Resources\ResourceCache.cs" />
+    <Compile Include="GameEngine\CharacterParameters.cs" />
+    <Compile Include="GameEngine\SteeringDevice.cs" />
+    <Compile Include="GameEngine\SteeringDevice2.cs" />
+    <Compile Include="GameEngine\SteeringLayer.cs" />
+    <Compile Include="GameEngine\Weapons\WeaponPickup.cs" />
+    <Compile Include="GameEngine\Weapons\PlasmaParticle.cs" />
+    <Compile Include="GameEngine\Weapons\Rocket.cs" />
+    <Compile Include="GameEngine\Weapons\WeaponClass.cs" />
+    <Compile Include="GameEngine\Weapons\WeaponCollection.cs" />
+    <Compile Include="GameEngine\Weapons\WeaponInfo.cs" />
+    <Compile Include="GameEngine\Weapons\WeaponState.cs" />
+    <Compile Include="GameEngine\World.cs" />
+    <Compile Include="GameEngine\XmlNodeReader.cs" />
+    <Compile Include="KeyMapping.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>KeyMapping.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Framework\Framework.cd" />
+    <None Include="Framework\MyMath\MyMath.cd" />
+    <None Include="GameEngine\Weapons\WeaponsDiagram.cd" />
+    <None Include="KeyMapping.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>KeyMapping.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="GameSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>GameSettings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="GameSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>GameSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="UI\BeginGameLayer.cs" />
+    <Compile Include="UI\HUD\AdjustableQuad.cs" />
+    <Compile Include="UI\HUD\CrosshairControl.cs" />
+    <Compile Include="UI\HUD\RadarControl.cs" />
+    <Compile Include="UI\HUD\SpeedometerControl.cs" />
+    <Compile Include="UI\MainMenu.cs" />
+    <Compile Include="UI\MainView.cs" />
+    <Compile Include="UI\NewGameDialog.cs" />
+    <Compile Include="UI\PlayerControl.cs" />
+    <Compile Include="UI\PlayerList.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

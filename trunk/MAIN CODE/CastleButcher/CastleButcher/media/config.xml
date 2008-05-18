@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Config>
+	<Paths>
+		<MeshPath>data\meshes\</MeshPath>
+		<EffectPath>data\shaders\</EffectPath>
+		<TexturePath>data\textures\</TexturePath>
+		<MapPath>data\maps\</MapPath>
+		<ObjectPath>data\objects\</ObjectPath>
+	</Paths>
+	<Graphics>
+		<Resolution width="1024" height="768"/>
+	</Graphics>
+</Config>
