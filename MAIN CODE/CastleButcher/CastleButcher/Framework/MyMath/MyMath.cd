@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Przestrzeń nazw Framework.MyMath zawiera 3 podstawowe klasy slużące do manipulowania geometrią 3D:&#xD;&#xA;- MyMatrix, reprezentująca macież 3x3, która może reprezentować dowolny obrót obiektu&#xD;&#xA;- MyQuaternion, reprezentująca kwaternion, także uzywany do reprezentowania obrotów&#xD;&#xA;- MyVector, reprezentująca wektor 3 wymiarowy">
+    <Position X="6.812" Y="0.5" Height="1.51" Width="3.169" />
+  </Comment>
+  <Class Name="Framework.MyMath.MyMatrix">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="m" Hidden="true" />
+      <Method Name="MyMatrix" Hidden="true" />
+      <Method Name="operator -" Hidden="true" />
+      <Method Name="operator *" Hidden="true" />
+      <Method Name="operator /" Hidden="true" />
+      <Method Name="operator +" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAJAAAAAAAAAAACAcAcCACAAAAAAABAAAkAAAAgAABA=</HashCode>
+      <FileName>Framework\MyMath\MyMatrix.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Struct Name="Framework.MyMath.MyQuaternion">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="explicit operator Quaternion" Hidden="true" />
+      <Field Name="n" Hidden="true" />
+      <Method Name="operator -" Hidden="true" />
+      <Method Name="operator *" Hidden="true" />
+      <Method Name="operator /" Hidden="true" />
+      <Method Name="operator ~" Hidden="true" />
+      <Method Name="operator +" Hidden="true" />
+      <Field Name="v" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAQAQAQAAcAUBAABAEAgAAAACEFAQAAAEAAA=</HashCode>
+      <FileName>Framework\MyMath\MyQuaternion.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Framework.MyMath.MyVector">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="explicit operator MyVector" Hidden="true" />
+      <Method Name="explicit operator Vector3" Hidden="true" />
+      <Method Name="MyVector" Hidden="true" />
+      <Field Name="nfi" Hidden="true" />
+      <Method Name="operator -" Hidden="true" />
+      <Method Name="operator *" Hidden="true" />
+      <Method Name="operator /" Hidden="true" />
+      <Method Name="operator ^" Hidden="true" />
+      <Method Name="operator +" Hidden="true" />
+      <Field Name="x" Hidden="true" />
+      <Field Name="y" Hidden="true" />
+      <Field Name="z" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAQBAJAAEcAUDAABAGAIAAAAAAADgAQAAYAE=</HashCode>
+      <FileName>Framework\MyMath\MyVector.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

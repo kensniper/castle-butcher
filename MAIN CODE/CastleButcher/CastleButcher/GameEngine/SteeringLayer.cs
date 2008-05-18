@@ -1,0 +1,110 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Framework;
+
+namespace CastleButcher.GameEngine
+{
+    public class SteeringLayer : GameLayer
+    {
+        float maxX = 20, maxY = 20;
+
+        AverageQueueFloat xDeltaAvg, yDeltaAvg;
+
+        SteeringDevice sdev;
+
+        public SteeringLayer(SteeringDevice sdev)
+        {
+            this.sdev = sdev;
+
+            xDeltaAvg = new AverageQueueFloat(3);
+            yDeltaAvg = new AverageQueueFloat(3);
+
+            RecievesEmptyMouse = true;
+        }
+
+        public override void OnMouse(System.Drawing.Point position, int xDelta, int yDelta, int zDelta, bool[] pressedButtons, bool[] releasedButtons, float elapsedTime)
+        {
+            //this.xDelta = (float)Math.Min(xDelta, maxX) * kWX;
+            //this.yDelta = (float)Math.Min(yDelta, maxY) * kWY;
+
+            if (elapsedTime > 0.00001)
+            {
+                xDeltaAvg.Add((float)xDelta);
+                yDeltaAvg.Add((float)yDelta);
+            }
+
+
+            sdev.TurnX = 1 * xDeltaAvg.Value / maxX;
+            sdev.TurnY = 1 * yDeltaAvg.Value / maxY;
+
+
+        }
+        public override void OnKeyboard(List<System.Windows.Forms.Keys> pressedKeys, List<System.Windows.Forms.Keys> releasedKeys, char pressedChar, int pressedKey, float elapsedTime)
+        {
+            if (pressedKeys.Contains(KeyMapping.Default.Forward))
+            {
+                sdev.Velocity = 1;
+            }
+            else if (pressedKeys.Contains(KeyMapping.Default.Backward))
+            {
+                sdev.Velocity = -1;
+            }
+
+
+            if (pressedKeys.Contains(KeyMapping.Default.StrafeLeft))
+            {
+                if (sdev.StrafeX <= 0)
+                    sdev.StrafeX = -1;
+            }
+            if (pressedKeys.Contains(KeyMapping.Default.StrafeRight))
+            {
+                if (sdev.StrafeX >= 0)
+                    sdev.StrafeX = 1;
+            }
+            if (pressedKeys.Contains(KeyMapping.Default.Jump))
+            {
+                //ground contact
+                sdev.Jump();
+            }
+
+
+            //podnoszenie kalwiszy
+            if (releasedKeys.Contains(KeyMapping.Default.Forward))
+            {
+                if (sdev.Velocity > 0)
+                    sdev.Velocity = 0;
+                if (pressedKeys.Contains(KeyMapping.Default.Backward))
+                {
+                    sdev.Velocity = -1;
+                }
+            }
+            if (releasedKeys.Contains(KeyMapping.Default.Backward))
+            {
+                if (sdev.Velocity < 0)
+                    sdev.Velocity = 0;
+                if (pressedKeys.Contains(KeyMapping.Default.Forward))
+                {
+                    sdev.Velocity = 1;
+                }
+            }
+
+            if (releasedKeys.Contains(KeyMapping.Default.StrafeLeft))
+            {
+                if (sdev.StrafeX < 0)
+                    sdev.StrafeX = 0;
+                if (pressedKeys.Contains(KeyMapping.Default.StrafeRight))
+                    sdev.StrafeX = 1;
+
+            }
+            if (releasedKeys.Contains(KeyMapping.Default.StrafeRight))
+            {
+                if (sdev.StrafeX > 0)
+                    sdev.StrafeX = 0;
+                if (pressedKeys.Contains(KeyMapping.Default.StrafeLeft))
+                    sdev.StrafeX = -1;
+            }
+
+        }
+    }
+}

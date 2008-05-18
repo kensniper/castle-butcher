@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<GUI StyleName="PlayerInfo" ImageFile="gui_hud.tga" FntFile="arial_22.fnt;arial_18.fnt">
+	<DefaultValues TextSize="18" Color="0xFFFFFFFF"/>
+    <Control Name="TextLabel">
+        <DefaultValues TextSize="18" Color="0xFFFFFFFF"/>
+    </Control>
+	<Control Name="Crosshair">
+        <Image Name="Normal"         X="22" Y="1" Width="45" Height="54" Color="0xFFFFFFFF" />        
+    </Control>
+	<Control Name="Speedometer">
+        <Image Name="Outline"         X="69" Y="10" Width="100" Height="11" Color="0xFFFFFFFF" />        
+		<Image Name="Bar"         X="69" Y="2" Width="93" Height="6" Color="0xFFFFFFFF" />
+		<Image Name="Marker"         X="169" Y="2" Width="9" Height="8" Color="0xFFFFFFFF" />
+    </Control>
+	<Control Name="Radar">
+        <Image Name="Normal"         X="0" Y="55" Width="256" Height="256" Color="0xFFFFFFFF" />        
+    </Control>
+</GUI>

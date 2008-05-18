@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MaterialData>
+	<DiffuseMap file="Finishes.Masonry Flooring.Slate.jpg"/>
+	<NormalMap file="Finishes.Masonry Flooring.Slate.1.bump.dds"/>
+	<SpecularMap file="Finishes.Masonry Flooring.Slate.1.spec.jpg"/>
+</MaterialData>
