@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Framework.Physics;
+using CastleButcher.GameEngine.Resources;
 
 namespace CastleButcher.GameEngine
 {
@@ -12,5 +14,25 @@ namespace CastleButcher.GameEngine
         {
             get;
         }
+
+        public abstract ICollisionData CollisionData
+        {
+            get;
+        }
+        public abstract CollisionDataType CollisionDataType
+        {
+            get;
+        }
+
+        public abstract ICollisionData WalkingCollisionData
+        {
+            get;
+        }
+
+        public abstract RenderingData RenderingData
+        {
+            get;
+        }
+
     }
 }
