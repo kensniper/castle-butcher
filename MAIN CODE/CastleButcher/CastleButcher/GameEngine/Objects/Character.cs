@@ -14,9 +14,6 @@ namespace CastleButcher.GameEngine
     {
         protected Player player;
         protected CharacterClass characterClass;
-        //CollisionMesh spectatingCollisionData;
-        protected CollisionMesh walkingCollisionData;
-        //RenderingData spectatingRenderingData;
         protected bool hasGroundContact = false;
 
         public bool HasGroundContact
@@ -67,6 +64,17 @@ namespace CastleButcher.GameEngine
             //this.weaponEnergy = this.ShipClass.ArmorParameters.WeaponEnergy;
         }
 
+        public ICollisionData WalkingCollisionData
+        {
+            get
+            {
+                if (player.IsAlive)
+                {
+                    return characterClass.WalkingCollisionData;
+                }
+                throw new Exception();
+            }
+        }
         public MyVector LookDirection
         {
             get { return (new MyVector(0, 0, -1).Rotate(this.Orientation)); }
@@ -74,7 +82,7 @@ namespace CastleButcher.GameEngine
 
         public override float BoundingSphereRadius
         {
-            get { return 0; }
+            get { return CollisionData.BoundingSphereRadius; }
         }
 
         public override CollisionDataType CollisionDataType
@@ -82,9 +90,9 @@ namespace CastleButcher.GameEngine
             get
             {
                 //spectating
-                if (!player.IsAlive)
+                if (player.IsAlive)
                 {
-                    //return CollisionDataType.CollisionMesh;
+                    return characterClass.CollisionDataType;
                 }
                 throw new Exception();
             }
@@ -95,9 +103,9 @@ namespace CastleButcher.GameEngine
             get
             {
                 //spectating
-                if (!player.IsAlive)
+                if (player.IsAlive)
                 {
-                    //return spectatingCollisionData;
+                    return characterClass.CollisionData;
                 }
                 throw new Exception();
             }
@@ -144,9 +152,9 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                if (!player.IsAlive)
+                if (player.IsAlive)
                 {
-                    //return spectatingRenderingData;
+                    return characterClass.RenderingData;
                 }
                 //else
                 return null;
@@ -181,7 +189,12 @@ namespace CastleButcher.GameEngine
 
         public virtual PlayerMovementParameters MovementParameters
         {
-            get { return characterClass.MovementParameters; }
+            get 
+            { 
+                if(player.IsAlive)
+                    return characterClass.MovementParameters;
+                throw new Exception();
+            }
         }
 
         //public SteeringDevice2 SteeringDevice
@@ -205,6 +218,7 @@ namespace CastleButcher.GameEngine
         {
             spectatingCollisionData = Resources.ResourceCache.Instance.GetCollisionMesh("walkingMesh.cm");
             spectatingRenderingData = ResourceCache.Instance.GetRenderingData("walkingMesh.x");
+            walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("walkingPoint.cm");
 
             //this.Cha
         }
