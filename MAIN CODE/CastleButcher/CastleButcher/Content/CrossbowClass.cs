@@ -21,9 +21,9 @@ namespace CastleButcher.Content
             this.missileRD = ResourceCache.Instance.GetRenderingData("arrow.x");
             this.weaponType = WeaponType.Ranged;
             this.weaponParams = new WeaponInfo(100, 0.5f, 10);
-            this.flyingObjectParameters = new CastleButcher.GameEngine.PlayerMovementParameters(0, 100);
+            this.flyingObjectParameters = new CastleButcher.GameEngine.PlayerMovementParameters(0, 300);
             this.collisionDataType = Framework.Physics.CollisionDataType.CollisionSphere;
-            this.collisionData = new CollisionSphere(2);
+            this.collisionData = new CollisionSphere(4);
             this.ammoInBox = 5;
             this.pickupReuseTime=2;
 
@@ -32,6 +32,7 @@ namespace CastleButcher.Content
         public override CastleButcher.GameEngine.IMissile GetMissile(object owner, Framework.MyMath.MyVector position, Framework.MyMath.MyQuaternion orientation)
         {
             IMissile missile = new Arrow(owner, this, position, orientation, (new MyVector(0, 0, -1)).Rotate(orientation) * this.flyingObjectParameters.MaxVelocity);
+            
             return missile;
         }
     }

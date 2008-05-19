@@ -7,7 +7,7 @@ using Framework;
 
 namespace CastleButcher.GameEngine
 {
-   
+
     public class CharacterController
     {
 
@@ -269,6 +269,7 @@ namespace CastleButcher.GameEngine
             lookVector.Rotate(qY);
             rightVector.Rotate(qY);
             lookVector.Normalize();
+            character.LookOrientation = initialOrientation * (qY*qX);
 
             //MyVector zVelocity = lookVector * (ship.Velocity.Dot(lookVector));
             ////MyVector xVelocity = rightVector * (ship.Velocity.Dot(rightVector));
@@ -308,7 +309,7 @@ namespace CastleButcher.GameEngine
                     SetVelocity * (rightVector ^ upVector);
             }
 
-          
+
         }
 
 
