@@ -17,11 +17,30 @@ namespace CastleButcher.GameEngine.Weapons
         public int Ammo;
     }
 
-    public class WeaponCollection:IUpdateable
+    public class WeaponCollection : IUpdateable
     {
         List<WeaponState> melee = new List<WeaponState>();
         List<WeaponState> ranged = new List<WeaponState>();
+        WeaponType currentType = WeaponType.Melee;
 
+        public WeaponType CurrentWeaponType
+        {
+            get { return currentType; }
+            set { currentType = value; }
+        }
+
+        public WeaponState CurrentWeapon
+        {
+            get
+            {
+                if (currentType == WeaponType.Melee)
+                {
+                    return CurrentMelee;
+                }
+                else
+                    return CurrentRanged;
+            }
+        }
         bool autoChangeWeapons = true;
 
         public bool AutoChangeWeapons
@@ -30,7 +49,7 @@ namespace CastleButcher.GameEngine.Weapons
             set { autoChangeWeapons = value; }
         }
 
-        int currentMelee=-1;
+        int currentMelee = -1;
 
         public WeaponState CurrentMelee
         {
@@ -42,11 +61,11 @@ namespace CastleButcher.GameEngine.Weapons
                     return null;
             }
         }
-        int currentRanged=-1;
+        int currentRanged = -1;
 
         public WeaponState CurrentRanged
         {
-            get 
+            get
             {
                 if (currentRanged >= 0 && currentRanged < ranged.Count)
                     return ranged[currentRanged];
@@ -58,7 +77,11 @@ namespace CastleButcher.GameEngine.Weapons
 
         public void SelectNextMelee()
         {
-            if (melee.Count == 0) return;
+            currentType = WeaponType.Melee;
+            if (melee.Count == 0)
+            {
+                SelectNextRanged();
+            }
             currentMelee++;
             if (currentMelee >= melee.Count)
             {
@@ -67,17 +90,25 @@ namespace CastleButcher.GameEngine.Weapons
         }
         public void SelectPreviousMelee()
         {
-            if (melee.Count == 0) return;
-            currentMelee--;
-            if (currentMelee <=0)
+            currentType = WeaponType.Melee;
+            if (melee.Count == 0)
             {
-                currentMelee = melee.Count-1;
+                SelectNextRanged();
+            }
+            currentMelee--;
+            if (currentMelee <= 0)
+            {
+                currentMelee = melee.Count - 1;
             }
         }
 
         public void SelectNextRanged()
         {
-            if (ranged.Count == 0) return;
+            currentType = WeaponType.Ranged;
+            if (ranged.Count == 0)
+            {
+                SelectNextMelee();
+            }
             currentRanged++;
             if (currentRanged >= ranged.Count)
             {
@@ -86,7 +117,11 @@ namespace CastleButcher.GameEngine.Weapons
         }
         public void SelectPreviousRanged()
         {
-            if (ranged.Count == 0) return;
+            currentType = WeaponType.Ranged;
+            if (ranged.Count == 0)
+            {
+                SelectPreviousMelee();
+            }
             currentRanged--;
             if (currentRanged <= 0)
             {
@@ -103,35 +138,60 @@ namespace CastleButcher.GameEngine.Weapons
         {
             if (weaponClass.WeaponType == WeaponType.Melee)
             {
-                
+
                 for (int i = 0; i < melee.Count; i++)
                 {
                     if (melee[i].WeaponClass == weaponClass)
                         return;
                 }
                 melee.Add(new WeaponState(weaponClass));
-                if (autoChangeWeapons || currentMelee == -1)
+                if (currentType == WeaponType.Melee)
                 {
-                    currentMelee = melee.Count - 1;
+                    if (autoChangeWeapons || currentMelee == -1)
+                    {
+                        currentMelee = melee.Count - 1;
+                    }
+                }
+                else
+                {
+                    if (autoChangeWeapons || currentRanged == -1)
+                    {
+                        currentMelee = melee.Count - 1;
+                    }
+                    currentType = WeaponType.Melee;
+
                 }
 
             }
             else if (weaponClass.WeaponType == WeaponType.Ranged)
             {
-                int index=-1;
-                for(int i=0;i<ranged.Count;i++)
+                int index = -1;
+                for (int i = 0; i < ranged.Count; i++)
                 {
-                    if(ranged[i].WeaponClass==weaponClass)
+                    if (ranged[i].WeaponClass == weaponClass)
                     {
-                        index=i;
+                        index = i;
                         break;
                     }
                 }
                 if (index == -1)
                 {
                     ranged.Add(new WeaponState(weaponClass));
-                    if (autoChangeWeapons || currentMelee == -1)
-                        currentRanged = ranged.Count - 1;
+
+                    if (currentType == WeaponType.Ranged)
+                    {
+                        if (autoChangeWeapons || currentMelee == -1)
+                            currentRanged = ranged.Count - 1;
+                    }
+                    else
+                    {
+                        if (autoChangeWeapons || currentMelee == -1)
+                        {
+                            currentRanged = ranged.Count - 1;
+                        }
+                        currentType = WeaponType.Ranged;
+
+                    }
                 }
                 else
                 {
@@ -148,7 +208,7 @@ namespace CastleButcher.GameEngine.Weapons
                 {
                     if (melee[i].WeaponClass == weaponClass)
                     {
-                        
+
                         if (CurrentMelee.WeaponClass == weaponClass)
                         {
                             SelectPreviousMelee();
@@ -156,7 +216,7 @@ namespace CastleButcher.GameEngine.Weapons
                         melee.RemoveAt(i);
                     }
                 }
-               
+
             }
             else if (weaponClass.WeaponType == WeaponType.Ranged)
             {
@@ -164,7 +224,7 @@ namespace CastleButcher.GameEngine.Weapons
                 {
                     if (ranged[i].WeaponClass == weaponClass)
                     {
-                        
+
                         if (CurrentRanged.WeaponClass == weaponClass)
                         {
                             SelectPreviousRanged();

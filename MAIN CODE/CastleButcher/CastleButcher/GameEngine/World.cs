@@ -90,7 +90,7 @@ namespace CastleButcher.GameEngine
             physicsSimulator = new RigidBodySimulator();
             collisionDetector = physicsSimulator.CollisionDetector;
             collisionDetector.OnCollision += new CollisionHandler(this.OnCollision);
-            
+
             physicsSimulator.Paused = true;
 
             physicsSimulator.DoAngularDrag = false;
@@ -289,7 +289,7 @@ namespace CastleButcher.GameEngine
                 OnRemovePlayer(pilot);
             }
         }
-        public void ChangeTeam(Player player,GameTeam newTeam)
+        public void ChangeTeam(Player player, GameTeam newTeam)
         {
             if (player.CharacterClass != null)
             {
@@ -360,19 +360,19 @@ namespace CastleButcher.GameEngine
             {
                 foreach (RespawnPoint rpoint in respawnPoints)
                 {
-                    if (rpoint.Ready && rpoint.Team==p.CharacterClass.GameTeam)
+                    if (rpoint.Ready && rpoint.Team == p.CharacterClass.GameTeam)
                     {
                         //
                         p.IsAlive = true;
-                        if (p.CurrentCharacter == null || p.CurrentCharacter is SpectatingCharacter || p.CurrentCharacter.CharacterClass==null||
-                            p.CurrentCharacter.CharacterClass!=p.CharacterClass)
+                        if (p.CurrentCharacter == null || p.CurrentCharacter is SpectatingCharacter || p.CurrentCharacter.CharacterClass == null ||
+                            p.CurrentCharacter.CharacterClass != p.CharacterClass)
                         {
 
-                            Character character = new Character(p,p.CharacterClass, rpoint.Position, rpoint.Orientation);
+                            Character character = new Character(p, p.CharacterClass, rpoint.Position, rpoint.Orientation);
 
                             p.CurrentCharacter = character;
                             this.AddObject(p.CurrentCharacter);
-                           
+
                             //GM.AppWindow.AddUpdateableItem(p.CurrentShip);
                         }
                         else
@@ -382,8 +382,8 @@ namespace CastleButcher.GameEngine
                         physicsSimulator.EnableWalking(p.CurrentCharacter);
                         physicsSimulator.WalkData[p.CurrentCharacter] = p.CurrentCharacter.WalkingCollisionData;
                         rpoint.Reset();
-                        
-                        
+
+
                         p.OnRespawned();
                         PlayerRespawned(p);
                         return;
@@ -461,7 +461,7 @@ namespace CastleButcher.GameEngine
                 //}
             }
             world.environment = Graphics.Environment.FromFile(fileName);
-            
+
 
             reporter.Data = world;
             reporter.Complete = true;
@@ -476,7 +476,7 @@ namespace CastleButcher.GameEngine
                 Resources.ResourceCache.Instance.GetRenderingData("castle2.x"), new MyVector(0, 0, 0));
             world.AddObject(worldMesh);
 
-            
+
         }
         //private int ComputeDamage(CollisionParameters parameters)
         //{
@@ -550,7 +550,8 @@ namespace CastleButcher.GameEngine
         {
             if (obj1 is Character && obj2 is WeaponPickup)
             {
-                if ((obj2 as WeaponPickup).Ready)
+                if ((obj2 as WeaponPickup).Ready && (obj1 as Character).CharacterClass.GameTeam ==
+                    (obj2 as WeaponPickup).WeaponClass.GameTeam)
                 {
                     //zbieranie broni
                     (obj1 as Character).Weapons.AddWeapon((obj2 as WeaponPickup).WeaponClass);
