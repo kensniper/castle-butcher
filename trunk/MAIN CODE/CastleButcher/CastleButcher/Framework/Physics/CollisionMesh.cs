@@ -278,7 +278,7 @@ namespace Framework.Physics
 
                 if (speed < 0)
                 {
-                    if (translate * (-m_faces[i].n)<0)
+                    if (translate * (m_faces[i].n)<0)
                     {
                         if (speed < -0.04)
                             continue;
@@ -366,9 +366,9 @@ namespace Framework.Physics
 
                 if (speed < 0)
                 {
-                    if (translate * (-m_faces[i].n)<0)
+                    if (translate * (m_faces[i].n)<0)
                     {
-                        if (speed < -0.04)
+                        if (dist < -0.5f)
                             continue;
                     }
                     else
@@ -690,7 +690,7 @@ namespace Framework.Physics
                     {
                         if (translate * (m_faces[i].n)<0)
                         {
-                            if (dist < -1)
+                            if (dist < -0.5f)
                                 continue;
                         }
                         else

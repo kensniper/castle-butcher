@@ -894,7 +894,7 @@ namespace Framework.Physics
 
                     simulator.ResolveCollision(c.Params);
 
-                    resolvedCollisions.Add(new CollisionPair(a, b));
+                    //resolvedCollisions.Add(new CollisionPair(a, b));
                 }
                 IPhysicalObject temp = null;
                 if (a.Type == ObjectType.Static)

@@ -214,10 +214,10 @@ namespace CastleButcher.UI
 
             if (player.IsAlive == false)
             {
-                if (pressedButtons[0] == true)
-                {
-                    World.Instance.RespawnPlayer(player);
-                }
+                //if (pressedButtons[0] == true)
+                //{
+                //    World.Instance.RespawnPlayer(player);
+                //}
             }
             else
             {
