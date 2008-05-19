@@ -17,5 +17,26 @@
     <Setting Name="KnightSpeed" Type="System.Single" Scope="User">
       <Value Profile="(Default)">35</Value>
     </Setting>
+    <Setting Name="MeshPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\..\media\data\meshes\</Value>
+    </Setting>
+    <Setting Name="MapPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\..\media\data\maps\</Value>
+    </Setting>
+    <Setting Name="TexturePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\..\media\data\textures\</Value>
+    </Setting>
+    <Setting Name="EffectPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\..\media\data\shaders\</Value>
+    </Setting>
+    <Setting Name="ObjectPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\..\media\data\objects\</Value>
+    </Setting>
+    <Setting Name="SoundPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\..\media\data\sounds\</Value>
+    </Setting>
+    <Setting Name="MusicPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\..\media\data\music\</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

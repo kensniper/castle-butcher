@@ -82,5 +82,89 @@ namespace CastleButcher {
                 this["KnightSpeed"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\media\\data\\meshes\\")]
+        public string MeshPath {
+            get {
+                return ((string)(this["MeshPath"]));
+            }
+            set {
+                this["MeshPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\media\\data\\maps\\")]
+        public string MapPath {
+            get {
+                return ((string)(this["MapPath"]));
+            }
+            set {
+                this["MapPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\media\\data\\textures\\")]
+        public string TexturePath {
+            get {
+                return ((string)(this["TexturePath"]));
+            }
+            set {
+                this["TexturePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\media\\data\\shaders\\")]
+        public string EffectPath {
+            get {
+                return ((string)(this["EffectPath"]));
+            }
+            set {
+                this["EffectPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\media\\data\\objects\\")]
+        public string ObjectPath {
+            get {
+                return ((string)(this["ObjectPath"]));
+            }
+            set {
+                this["ObjectPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\media\\data\\sounds\\")]
+        public string SoundPath {
+            get {
+                return ((string)(this["SoundPath"]));
+            }
+            set {
+                this["SoundPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\media\\data\\music\\")]
+        public string MusicPath {
+            get {
+                return ((string)(this["MusicPath"]));
+            }
+            set {
+                this["MusicPath"] = value;
+            }
+        }
     }
 }

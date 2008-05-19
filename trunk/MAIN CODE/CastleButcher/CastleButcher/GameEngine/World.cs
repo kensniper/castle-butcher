@@ -6,6 +6,7 @@ using System.Xml;
 using Framework.Physics;
 using Framework.MyMath;
 using CastleButcher.GameEngine.Weapons;
+using Microsoft.DirectX;
 
 namespace CastleButcher.GameEngine
 {
@@ -399,7 +400,7 @@ namespace CastleButcher.GameEngine
 
                         p.IsAlive = true;
                         p.OnRespawned();
-                        p.OnRespawned();
+                        PlayerRespawned(p);
                         return;
                     }
                 }
@@ -409,6 +410,7 @@ namespace CastleButcher.GameEngine
 
         private void PlayerRespawned(Player p)
         {
+            SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.fanfare1, (Vector3)p.CurrentCharacter.Position);
             if (OnPlayerRespawned != null)
                 OnPlayerRespawned(p);
         }
