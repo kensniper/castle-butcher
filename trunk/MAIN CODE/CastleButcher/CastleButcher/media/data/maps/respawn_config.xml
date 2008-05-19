@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Map name="Zamek" maxplayers="4">
 	<Object type="mesh" position="[0,0,0]" rotation="[0,0,0]">
-		<RenderingData file="castle2.x" />
+		<RenderingData file="castle.x" />
 		<CollisionData type="Tree" file="castle.cm" />
 	</Object>
 	<RespawnPointList>

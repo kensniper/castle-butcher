@@ -186,11 +186,13 @@ namespace CastleButcher.UI
                 //speedometer.SetSpeed = sdev.SetVelocity;
                 //speedometer.CurrentSpeed = player.CurrentShip.Velocity.Length;
 
-                if (player.CurrentCharacter.Weapons.CurrentWeapon != null && player.CurrentCharacter.Weapons.CurrentWeaponType == 
+                if (player.CurrentCharacter.Weapons.CurrentWeapon != null && player.CurrentCharacter.Weapons.CurrentWeaponType ==
                     CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
                 {
                     weaponAmmo.Text = player.CurrentCharacter.Weapons.CurrentRanged.Ammo.ToString();
                 }
+                else
+                    weaponAmmo.Text = "";
             }
             //else
             //{

@@ -73,7 +73,7 @@ namespace CastleButcher.UI
             this.renderer = new Renderer(device);
             renderer.LoadData();
 
-            SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.round1Music);
+            
 
             //ParticleEmitter em = new EngineEmitter(renderer.ParticleSystem);
             //em.Position = new MyVector(0, 0, 100);

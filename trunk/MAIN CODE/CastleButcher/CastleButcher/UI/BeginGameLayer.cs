@@ -70,6 +70,7 @@ namespace CastleButcher.UI
                 World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetAssassinClass()));
             }
             World.Instance.Start();
+            SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.round1Music);
         }
 
         void joinAssassins_OnClick()

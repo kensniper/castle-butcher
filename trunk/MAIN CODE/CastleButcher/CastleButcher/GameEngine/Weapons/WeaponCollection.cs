@@ -114,6 +114,13 @@ namespace CastleButcher.GameEngine.Weapons
             {
                 currentRanged = 0;
             }
+            if (CurrentRanged.Ammo <= 0)
+            {
+                currentRanged = -1;
+                ranged.RemoveAt(0);
+                CurrentWeaponType = WeaponType.Melee;
+            }
+
         }
         public void SelectPreviousRanged()
         {
@@ -126,6 +133,12 @@ namespace CastleButcher.GameEngine.Weapons
             if (currentRanged <= 0)
             {
                 currentRanged = ranged.Count - 1;
+            }
+            if (CurrentRanged.Ammo <= 0)
+            {
+                currentRanged = -1;
+                ranged.RemoveAt(0);
+                CurrentWeaponType = WeaponType.Melee;
             }
         }
 
