@@ -8,6 +8,6 @@
 		<ObjectPath>data\objects\</ObjectPath>
 	</Paths>
 	<Graphics>
-		<Resolution width="1024" height="768"/>
+		<Resolution width="1280" height="800"/>
 	</Graphics>
 </Config>

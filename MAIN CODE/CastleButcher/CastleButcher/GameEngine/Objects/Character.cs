@@ -112,8 +112,16 @@ namespace CastleButcher.GameEngine
 
             IMissile missile = Weapons.CurrentWeapon.WeaponClass.GetMissile(this, this.Position, this.LookOrientation);
             Weapons.CurrentWeapon.Ammo--;
+            
             World.Instance.AddObject(missile as IGameObject);
             Weapons.CurrentWeapon.Use();
+
+            if(Weapons.CurrentWeaponType== CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
+                if (Weapons.CurrentWeapon.Ammo <= 0)
+                {
+                    Weapons.SelectNextRanged();
+                }
+
 
             return true;
 
