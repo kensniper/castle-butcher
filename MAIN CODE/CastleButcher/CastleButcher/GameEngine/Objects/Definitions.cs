@@ -39,7 +39,7 @@ namespace CastleButcher.GameEngine
         Respawn,
         Powerup
     }
-    public enum GameTeam { Assassins, Knights };
+    public enum GameTeam { Assassins, Knights, Both };
 
 
     public interface IGameObject

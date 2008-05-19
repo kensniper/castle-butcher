@@ -94,6 +94,21 @@ namespace CastleButcher.GameEngine
 
                                 }
                             }
+                            else if (reader.Name == "WeaponPickupList")
+                            {
+
+                                Weapons.WeaponPickup wp;
+                                ObjectType type;
+                                while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == "WeaponPickupList"))
+                                {
+                                    reader.Read();
+
+                                    wp = (Weapons.WeaponPickup)XmlNodeReader.GetObjectNode(reader, out type);
+                                    data.GameObjects.Add(wp);
+
+
+                                }
+                            }
                         }
                     }
                 }
@@ -181,6 +196,23 @@ namespace CastleButcher.GameEngine
 
                                         }
                                     }
+
+                                }
+                            }
+                            else if (reader.Name == "WeaponPickupList")
+                            {
+
+                                Weapons.WeaponPickup wp;
+                                ObjectType type;
+                                reader.Read();
+                                while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == "WeaponPickupList"))
+                                {
+
+                                    wp = (Weapons.WeaponPickup)XmlNodeReader.GetObjectNode(reader, out type);
+                                    data.GameObjects.Add(wp);
+                                    reporter.Info = "Wczytano obiekt: " + wp.Name;
+                                    reader.Read();
+
 
                                 }
                             }

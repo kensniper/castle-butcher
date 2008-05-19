@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="MouseSensitivity" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">40</Value>
+      <Value Profile="(Default)">30</Value>
     </Setting>
     <Setting Name="SpectatorSpeed" Type="System.Single" Scope="User">
       <Value Profile="(Default)">50</Value>
