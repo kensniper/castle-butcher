@@ -29,7 +29,7 @@ namespace CastleButcher.GameEngine.AI
             base.OnRespawned();
 
             this.CurrentCharacter.CharacterController.Reset(this.CurrentCharacter);
-            this.CurrentCharacter.CharacterController.Velocity = 0f;
+            this.CurrentCharacter.CharacterController.Velocity = 1f;
             this.CurrentCharacter.CharacterController.TurnX = 0f;
 
 
@@ -47,6 +47,8 @@ namespace CastleButcher.GameEngine.AI
         public override void OnStaticCollision(IGameObject staticObject, Framework.Physics.CollisionParameters parameters)
         {
             base.OnStaticCollision(staticObject, parameters);
+            if(parameters.CollisionNormal.Y<0.1f)
+                this.CharacterController.Velocity *= -1;
         }
 
         public override void OnWeaponPickup(CastleButcher.GameEngine.Weapons.WeaponPickup weapon)

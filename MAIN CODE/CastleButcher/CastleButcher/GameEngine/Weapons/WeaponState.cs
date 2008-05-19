@@ -36,7 +36,7 @@ namespace CastleButcher.GameEngine.Weapons
         {
             get
             {
-                if (weaponClass.WeaponType == WeaponType.Rocket)
+                if (weaponClass.WeaponType == WeaponType.Ranged)
                 {
                     return ready && Ammo > 0;
                 }

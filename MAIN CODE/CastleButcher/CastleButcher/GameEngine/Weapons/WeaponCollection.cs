@@ -6,21 +6,21 @@ using Framework;
 namespace CastleButcher.GameEngine.Weapons
 {
 
-    //public class WeaponWithAmmo
-    //{
-    //    public WeaponWithAmmo(WeaponClass weaponClass, int ammo)
-    //    {
-    //        WeaponClass = weaponClass;
-    //        Ammo = ammo;
-    //    }
-    //    public WeaponClass WeaponClass;
-    //    public int Ammo;
-    //}
+    public class WeaponWithAmmo
+    {
+        public WeaponWithAmmo(WeaponClass weaponClass, int ammo)
+        {
+            WeaponClass = weaponClass;
+            Ammo = ammo;
+        }
+        public WeaponClass WeaponClass;
+        public int Ammo;
+    }
 
     public class WeaponCollection:IUpdateable
     {
-        List<WeaponState> lasers = new List<WeaponState>();
-        List<WeaponState> rockets = new List<WeaponState>();
+        List<WeaponState> melee = new List<WeaponState>();
+        List<WeaponState> ranged = new List<WeaponState>();
 
         bool autoChangeWeapons = true;
 
@@ -30,67 +30,67 @@ namespace CastleButcher.GameEngine.Weapons
             set { autoChangeWeapons = value; }
         }
 
-        int currentLaser=-1;
+        int currentMelee=-1;
 
-        public WeaponState CurrentLaser
+        public WeaponState CurrentMelee
         {
             get
             {
-                if (currentLaser >= 0 && currentLaser < lasers.Count)
-                    return lasers[currentLaser];
+                if (currentMelee >= 0 && currentMelee < melee.Count)
+                    return melee[currentMelee];
                 else
                     return null;
             }
         }
-        int currentRocket=-1;
+        int currentRanged=-1;
 
-        public WeaponState CurrentRocket
+        public WeaponState CurrentRanged
         {
             get 
             {
-                if (currentRocket >= 0 && currentRocket < rockets.Count)
-                    return rockets[currentRocket];
+                if (currentRanged >= 0 && currentRanged < ranged.Count)
+                    return ranged[currentRanged];
                 else
                     return null;
             }
         }
 
 
-        public void SelectNextLaser()
+        public void SelectNextMelee()
         {
-            if (lasers.Count == 0) return;
-            currentLaser++;
-            if (currentLaser >= lasers.Count)
+            if (melee.Count == 0) return;
+            currentMelee++;
+            if (currentMelee >= melee.Count)
             {
-                currentLaser = 0;
+                currentMelee = 0;
             }
         }
-        public void SelectPreviousLaser()
+        public void SelectPreviousMelee()
         {
-            if (lasers.Count == 0) return;
-            currentLaser--;
-            if (currentLaser <=0)
+            if (melee.Count == 0) return;
+            currentMelee--;
+            if (currentMelee <=0)
             {
-                currentLaser = lasers.Count-1;
+                currentMelee = melee.Count-1;
             }
         }
 
-        public void SelectNextRocket()
+        public void SelectNextRanged()
         {
-            if (rockets.Count == 0) return;
-            currentRocket++;
-            if (currentRocket >= rockets.Count)
+            if (ranged.Count == 0) return;
+            currentRanged++;
+            if (currentRanged >= ranged.Count)
             {
-                currentRocket = 0;
+                currentRanged = 0;
             }
         }
-        public void SelectPreviousRocket()
+        public void SelectPreviousRanged()
         {
-            if (rockets.Count == 0) return;
-            currentRocket--;
-            if (currentRocket <= 0)
+            if (ranged.Count == 0) return;
+            currentRanged--;
+            if (currentRanged <= 0)
             {
-                currentRocket = rockets.Count - 1;
+                currentRanged = ranged.Count - 1;
             }
         }
 
@@ -101,27 +101,27 @@ namespace CastleButcher.GameEngine.Weapons
 
         public void AddWeapon(WeaponClass weaponClass)
         {
-            if (weaponClass.WeaponType == WeaponType.Laser)
+            if (weaponClass.WeaponType == WeaponType.Melee)
             {
                 
-                for (int i = 0; i < lasers.Count; i++)
+                for (int i = 0; i < melee.Count; i++)
                 {
-                    if (lasers[i].WeaponClass == weaponClass)
+                    if (melee[i].WeaponClass == weaponClass)
                         return;
                 }
-                lasers.Add(new WeaponState(weaponClass));
-                if (autoChangeWeapons || currentLaser == -1)
+                melee.Add(new WeaponState(weaponClass));
+                if (autoChangeWeapons || currentMelee == -1)
                 {
-                    currentLaser = lasers.Count - 1;
+                    currentMelee = melee.Count - 1;
                 }
 
             }
-            else if (weaponClass.WeaponType == WeaponType.Rocket)
+            else if (weaponClass.WeaponType == WeaponType.Ranged)
             {
                 int index=-1;
-                for(int i=0;i<rockets.Count;i++)
+                for(int i=0;i<ranged.Count;i++)
                 {
-                    if(rockets[i].WeaponClass==weaponClass)
+                    if(ranged[i].WeaponClass==weaponClass)
                     {
                         index=i;
                         break;
@@ -129,47 +129,47 @@ namespace CastleButcher.GameEngine.Weapons
                 }
                 if (index == -1)
                 {
-                    rockets.Add(new WeaponState(weaponClass));
-                    if (autoChangeWeapons || currentLaser == -1)
-                        currentRocket = rockets.Count - 1;
+                    ranged.Add(new WeaponState(weaponClass));
+                    if (autoChangeWeapons || currentMelee == -1)
+                        currentRanged = ranged.Count - 1;
                 }
                 else
                 {
-                    rockets[index].Ammo += rockets[index].WeaponClass.AmmoInBox;
+                    ranged[index].Ammo += ranged[index].WeaponClass.AmmoInBox;
                 }
             }
         }
 
         public void RemoveWeapon(WeaponClass weaponClass)
         {
-            if (weaponClass.WeaponType == WeaponType.Laser)
+            if (weaponClass.WeaponType == WeaponType.Melee)
             {
-                for (int i = 0; i < lasers.Count; i++)
+                for (int i = 0; i < melee.Count; i++)
                 {
-                    if (lasers[i].WeaponClass == weaponClass)
+                    if (melee[i].WeaponClass == weaponClass)
                     {
                         
-                        if (CurrentLaser.WeaponClass == weaponClass)
+                        if (CurrentMelee.WeaponClass == weaponClass)
                         {
-                            SelectPreviousLaser();
+                            SelectPreviousMelee();
                         }
-                        lasers.RemoveAt(i);
+                        melee.RemoveAt(i);
                     }
                 }
                
             }
-            else if (weaponClass.WeaponType == WeaponType.Rocket)
+            else if (weaponClass.WeaponType == WeaponType.Ranged)
             {
-                for (int i = 0; i < rockets.Count; i++)
+                for (int i = 0; i < ranged.Count; i++)
                 {
-                    if (rockets[i].WeaponClass == weaponClass)
+                    if (ranged[i].WeaponClass == weaponClass)
                     {
                         
-                        if (CurrentRocket.WeaponClass == weaponClass)
+                        if (CurrentRanged.WeaponClass == weaponClass)
                         {
-                            SelectPreviousRocket();
+                            SelectPreviousRanged();
                         }
-                        rockets.RemoveAt(i);
+                        ranged.RemoveAt(i);
                         break;
                     }
                 }
@@ -178,23 +178,23 @@ namespace CastleButcher.GameEngine.Weapons
 
         public void Reset()
         {
-            lasers.Clear();
-            rockets.Clear();
-            currentLaser = -1;
-            currentRocket = -1;
+            melee.Clear();
+            ranged.Clear();
+            currentMelee = -1;
+            currentRanged = -1;
         }
 
         #region IUpdateable Members
 
         public bool Update(float timeElapsed)
         {
-            if (CurrentLaser != null)
+            if (CurrentMelee != null)
             {
-                CurrentLaser.Update(timeElapsed);
+                CurrentMelee.Update(timeElapsed);
             }
-            if (CurrentRocket != null)
+            if (CurrentRanged != null)
             {
-                CurrentRocket.Update(timeElapsed);
+                CurrentRanged.Update(timeElapsed);
             }
             return true;
         }

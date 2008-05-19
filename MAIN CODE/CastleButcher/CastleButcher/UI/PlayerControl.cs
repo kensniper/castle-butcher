@@ -76,8 +76,9 @@ namespace CastleButcher.UI
             //AddControl(numFrags);
             //AddControl(numDeaths);
 
-            //crosshair = new CastleButcher.UI.HUD.CrosshairControl(new PointF(size.Width / 2, size.Height / 2));
+            crosshair = new CastleButcher.UI.HUD.CrosshairControl(new PointF(size.Width / 2, size.Height / 2));
             //AddControl(crosshair);
+            RenderCrosshair = false;
 
             //radar = new CastleButcher.UI.HUD.RadarControl(new PointF(size.Width - 256, size.Height - 256));
             ////AddControl(radar);
@@ -122,6 +123,21 @@ namespace CastleButcher.UI
             this.player = player;
         }
 
+        public bool RenderCrosshair
+        {
+            get
+            {
+                return !crosshair.IsDisabled;
+            }
+            set
+            {
+                crosshair.IsDisabled = !value;
+                if (crosshair.IsDisabled)
+                    RemoveControl(crosshair);
+                else
+                    AddControl(crosshair);
+            }
+        }
         public override void OnResetDevice(Device device)
         {
             base.OnResetDevice(device);

@@ -6,6 +6,7 @@ using Framework;
 using Microsoft.DirectX.Direct3D;
 using CastleButcher.GameEngine.Weapons;
 using System.IO;
+using CastleButcher.Content;
 
 namespace CastleButcher.GameEngine
 {
@@ -60,7 +61,10 @@ namespace CastleButcher.GameEngine
                 throw new Exception("DeviceNotInitialized!!");
             WeaponEntry entry = new WeaponEntry();
             entry.FileName = fileName;
-            entry.Weapon = WeaponClass.FromFile(AppConfig.ObjectPath + fileName);
+            if (fileName == "Crossbow")
+            {
+                entry.Weapon = new CrossbowClass();
+            }
             return entry;
         }
         private PowerupEntry LoadPowerup(string fileName)

@@ -9,16 +9,16 @@ using Framework.MyMath;
 namespace CastleButcher.GameEngine.Weapons
 {
 
-    public enum WeaponType { Laser, Rocket };
+    public enum WeaponType { Melee, Ranged };
     /// <summary>
-    /// Klasa broni jako takiej, z niej powstaj¹:InstalledWeapon oraz FloatingWeapon
+    /// 
     /// </summary>
     public class WeaponClass
     {
-        WeaponInfo weaponParams=new WeaponInfo();
-        RenderingData pickupRD;
+        protected WeaponInfo weaponParams=new WeaponInfo();
+        protected RenderingData pickupRD;
 
-        public RenderingData FloatingRenderingData
+        public RenderingData PickupRenderingData
         {
             get { return pickupRD; }
         }
@@ -29,24 +29,24 @@ namespace CastleButcher.GameEngine.Weapons
         //    get { return installedRD; }
         //}
 
-        RenderingData missileRD;
+        protected RenderingData missileRD;
         public RenderingData MissileRenderingData
         {
             get { return missileRD; }
         }
-        ICollisionData collisionData;
+        protected ICollisionData collisionData;
 
         public ICollisionData CollisionData
         {
             get { return collisionData; }
         }
-        CollisionDataType collisionDataType;
+        protected CollisionDataType collisionDataType;
 
         public CollisionDataType CollisionDataType
         {
             get { return collisionDataType; }
         }
-        string name;
+        protected string name;
 
         public string Name
         {
@@ -59,22 +59,22 @@ namespace CastleButcher.GameEngine.Weapons
             //set { params = value; }
         }
 
-        int ammoInBox;
+        protected int ammoInBox;
 
         public int AmmoInBox
         {
             get { return ammoInBox; }
         }
 
-        PlayerMovementParameters flyingObjectParameters;
+        protected PlayerMovementParameters flyingObjectParameters;
 
-        public PlayerMovementParameters FlyingObjectParameters
+        public PlayerMovementParameters MovementParameters
         {
             get { return flyingObjectParameters; }
         }
 
 
-        WeaponType weaponType;
+        protected WeaponType weaponType;
 
         public WeaponType WeaponType
         {
