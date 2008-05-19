@@ -192,14 +192,11 @@ namespace CastleButcher.GameEngine
                 OnHit(this, damage);
             }
 
-            if (armorState.Hp < 0)
+            if (armorState.Hp <= 0)
             {
 
                 armorState.Hp = 0;
-                if (OnDestroyed != null)
-                {
-                    OnDestroyed(this);
-                }
+                World.Instance.PlayerKilled(this.Player);
             }
 
 

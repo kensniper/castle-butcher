@@ -25,6 +25,7 @@ namespace CastleButcher.UI
         GuiTextLabel numObjects;
         GuiTextLabel numDeaths;
         GuiTextLabel numFrags;
+        GuiTextLabel statusInfo;
 
         //GuiTextLabel 
 
@@ -37,15 +38,17 @@ namespace CastleButcher.UI
         PlayerList playerList;
         bool playerListAdded = false;
         SteeringLayer slay;
+        GameController gameController;
 
 
-
-        public PlayerControlLayer(Player player)
+        public PlayerControlLayer(Player player,GameController controller)
             : base()
         {
             this.isTransparent = true;
             this.RecievesEmptyMouse = true;
             RecievesEmptyMouse = true;
+
+            gameController = controller;
             slay = new SteeringLayer(player);
             SizeF size = GM.AppWindow.GraphicsParameters.WindowSize;
             GM.GUIStyleManager.SetCurrentStyle("PlayerInfo");
@@ -66,6 +69,8 @@ namespace CastleButcher.UI
 
             numFrags = new GuiTextLabel("0", new RectangleF(10, bottom - 40, 150, 18), 18);
             numDeaths = new GuiTextLabel("0", new RectangleF(10, bottom - 20, 150, 18), 18);
+            statusInfo = new GuiTextLabel("", new RectangleF(0, size.Height / 2 - 20, size.Width, size.Height / 2 + 20), 40, "Ghotic",
+                Align.Center, Color.Brown);
 
 
             AddControl(velocity);
@@ -95,8 +100,8 @@ namespace CastleButcher.UI
 
             playerList = new PlayerList(new RectangleF(100, 100, size.Width - 200, size.Height - 200));
 
-            World.Instance.OnAddPlayer += new PlayerEventHandler(playerList.AddPlayer);
-            World.Instance.OnRemovePlayer += new PlayerEventHandler(playerList.RemovePlayer);
+            World.Instance.OnPlayerAdded += new PlayerEventHandler(playerList.AddPlayer);
+            World.Instance.OnPlayerRemoved += new PlayerEventHandler(playerList.RemovePlayer);
 
             World.Instance.OnPlayerKilled += new PlayerEventHandler(delegate(Player pl)
             {
@@ -169,6 +174,20 @@ namespace CastleButcher.UI
         {
             base.OnUpdateFrame(device, elapsedTime);
 
+            if (gameController.GameStatus == GameStatus.WaitingForStart && statusInfo.IsDisabled == true)
+            {
+                statusInfo.Enable();
+                statusInfo.Text = "Oczekiwanie na innych graczy";
+                AddControl(statusInfo);
+            }
+            else
+            {
+                statusInfo.Disable();
+                RemoveControl(statusInfo);
+            }
+
+
+
 
             if (player.CurrentCharacter != null)
             {
@@ -200,11 +219,6 @@ namespace CastleButcher.UI
                 else
                     weaponAmmo.Text = "";
             }
-            //else
-            //{
-            //    currentRocket.Text = "Rocket: " + player.CurrentShip.Weapons.CurrentRocket.WeaponClass.Name;
-            //    rocketAmmo.Text = player.CurrentShip.Weapons.CurrentRocket.Ammo.ToString();
-            //}
 
 
 

@@ -8,7 +8,7 @@ namespace Framework.Physics
     public class RigidBodySimulator
     {
         private List<IPhysicalObject> objects = new List<IPhysicalObject>();
-        private List<bool> walkingEnabled = new List<bool>();
+        private Dictionary<IPhysicalObject, bool> walkingEnabled = new Dictionary<IPhysicalObject, bool>();
         Dictionary<IPhysicalObject, float> walkAmount = new Dictionary<IPhysicalObject, float>();
         Dictionary<IPhysicalObject, ICollisionData> walkData = new Dictionary<IPhysicalObject, ICollisionData>();
 
@@ -26,7 +26,7 @@ namespace Framework.Physics
         }
         float timeToProcess = 0;
 
-        public List<bool> WalkingEnabled
+        public Dictionary<IPhysicalObject, bool> WalkingEnabled
         {
             get { return walkingEnabled; }
             set { walkingEnabled = value; }
@@ -78,7 +78,7 @@ namespace Framework.Physics
             for (int i = 0; i < walkingEnabled.Count; i++)
             {
                 if (objects[i] == obj)
-                    walkingEnabled[i] = true;
+                    walkingEnabled[objects[i]] = true;
             }
         }
         public void DisableWalking(IPhysicalObject obj)
@@ -86,23 +86,32 @@ namespace Framework.Physics
             for (int i = 0; i < walkingEnabled.Count; i++)
             {
                 if (objects[i] == obj)
-                    walkingEnabled[i] = false;
+                {
+                    walkingEnabled[objects[i]] = false;
+                    //walkData.Remove(objects[i]);
+                }
             }
         }
         public void AddObject(IPhysicalObject obj)
         {
             objects.Add(obj);
-            walkingEnabled.Add(false);
+            walkingEnabled[obj] = false;
             if (obj.CollisionDataType != CollisionDataType.None)
                 CollisionDetector.AddObject(obj);
         }
         public void RemoveObject(IPhysicalObject obj)
         {
             int i = objects.IndexOf(obj);
-            objects.RemoveAt(i);
-            walkingEnabled.RemoveAt(i);
+            if (i >= 0)
+            {
+                
+                walkingEnabled.Remove(objects[i]);
+                walkData.Remove(objects[i]);
+                objects.RemoveAt(i);
+            }
             if (obj.CollisionDataType != CollisionDataType.None)
                 CollisionDetector.RemoveObject(obj);
+
         }
         private void CalculatePointMassForces(PointMass o)
         {
@@ -316,9 +325,9 @@ namespace Framework.Physics
                         obj.Advance(dt);
                     }
                 }
-                for (int i = 1; i < walkingEnabled.Count; i++)
+                for (int i = 1; i < objects.Count; i++)
                 {
-                    if (walkingEnabled[i])
+                    if (walkingEnabled[objects[i]])
                     {
                         walkAmount[objects[i]] = collisionDetector.RiseObject(objects[i], walkData[objects[i]], objects[0], MaxStepHeight);
                     }
@@ -327,9 +336,9 @@ namespace Framework.Physics
 
                 CollisionDetector.ProcessFrame(dt);
 
-                for (int i = 1; i < walkingEnabled.Count; i++)
+                for (int i = 1; i < objects.Count; i++)
                 {
-                    if (walkingEnabled[i])
+                    if (walkingEnabled[objects[i]])
                     {
                         collisionDetector.LowerObject(objects[i], walkData[objects[i]], objects[0], walkAmount[objects[i]]);
                     }
@@ -349,7 +358,7 @@ namespace Framework.Physics
             float j, Vrt;
 
             PointMassData b2 = B.PointMassData;
-            bool tempMass=false;
+            bool tempMass = false;
             if (b2.Mass == 0)
             {
                 b2.Mass = 1;

@@ -72,7 +72,7 @@ namespace CastleButcher.GameEngine.AI
             eventTimer.Update();
             if (IsAlive == false && eventTimer.RunningTime > 1)
             {
-                World.Instance.RespawnPlayer(this);
+                //World.Instance.RespawnPlayer(this);
                 eventTimer.Stop();
             }
 

@@ -75,7 +75,7 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                return IsAlive;
+                return currentChar is SpectatingCharacter;
             }
             set
             {
@@ -84,6 +84,7 @@ namespace CastleButcher.GameEngine
                     this.currentChar = new SpectatingCharacter(this,this.CharacterClass, this.CurrentCharacter.Position,
                         this.CurrentCharacter.Orientation);
                     this.CharacterController.Flying = true;
+                    World.Instance.AddObject(currentChar);
 
                 }
                 else
@@ -127,7 +128,7 @@ namespace CastleButcher.GameEngine
         //events
         public virtual void OnDestroyed(DestroyableObj destroyedObj)
         {
-            Spectating = true;
+            //Spectating = true;
             IsAlive = false;
             deaths++;
             //World.Instance.RespawnPilot(this);
@@ -135,7 +136,6 @@ namespace CastleButcher.GameEngine
         public virtual void OnRespawned()
         {
             isAlive = true;
-            Spectating = false;
         }
         public virtual void OnStaticCollision(IGameObject staticObject, CollisionParameters parameters)
         {

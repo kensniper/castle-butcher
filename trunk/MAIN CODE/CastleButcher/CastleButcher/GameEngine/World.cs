@@ -12,7 +12,7 @@ namespace CastleButcher.GameEngine
 {
 
     public delegate void PlayerEventHandler(Player player);
-    //public delegate void ShipEventHandler(Ship ship);
+    public delegate void CharacterEventHandler(Character character);
     public delegate void ObjectEventHandler(IGameObject obj);
     /// <summary>
     /// Klasa "œwiata" czyli pojemnika na obiekty. Ta klasa realizuje wszelkiego rodzaniu oddzia³ywania miêdzy obiektami
@@ -31,8 +31,26 @@ namespace CastleButcher.GameEngine
         List<ITemporaryObject> temporaryObjects;
         //List<Ship> ships;
         List<Player> players;
+
+        public List<Player> Players
+        {
+            get { return players; }
+            set { players = value; }
+        }
         List<Player> assassinPlayers;
+
+        public List<Player> AssassinPlayers
+        {
+            get { return assassinPlayers; }
+            set { assassinPlayers = value; }
+        }
         List<Player> knightPlayers;
+
+        public List<Player> KnightPlayers
+        {
+            get { return knightPlayers; }
+            set { knightPlayers = value; }
+        }
         List<RespawnPoint> respawnPoints;
 
         RigidBodySimulator physicsSimulator;
@@ -66,13 +84,13 @@ namespace CastleButcher.GameEngine
             get { return gameObjects; }
         }
 
-        public event PlayerEventHandler OnAddPlayer;
-        public event PlayerEventHandler OnRemovePlayer;
+        public event PlayerEventHandler OnPlayerAdded;
+        public event PlayerEventHandler OnPlayerRemoved;
         public event PlayerEventHandler OnPlayerKilled;
         public event PlayerEventHandler OnPlayerRespawned;
 
-        //public event ShipEventHandler OnShipAdded;
-        //public event ShipEventHandler OnShipRemoved;
+        public event CharacterEventHandler OnCharacterAdded;
+        public event CharacterEventHandler OnCharacterRemoved;
 
         public event ObjectEventHandler OnObjectAdded;
         public event ObjectEventHandler OnObjectRemoved;
@@ -169,7 +187,6 @@ namespace CastleButcher.GameEngine
             else if (obj is IPhysicalObject && (obj as IPhysicalObject).CollisionDataType != CollisionDataType.None)
             {
                 collisionDetector.AddObject(obj as IPhysicalObject);
-
             }
             DestroyableObj dobj = obj as DestroyableObj;
             if (dobj != null)
@@ -196,11 +213,11 @@ namespace CastleButcher.GameEngine
             {
                 OnObjectAdded(obj);
             }
-            //if (obj is Ship)
-            //{
-            //    if (OnShipAdded != null)
-            //        OnShipAdded(obj as Ship);
-            //}
+            if (obj is Character)
+            {
+                if (OnCharacterAdded != null)
+                    OnCharacterAdded(obj as Character);
+            }
 
         }
         public void RemoveObject(IGameObject obj)
@@ -243,11 +260,11 @@ namespace CastleButcher.GameEngine
             {
                 OnObjectRemoved(obj);
             }
-            //if (obj is Ship)
-            //{
-            //    if (OnShipRemoved != null)
-            //        OnShipRemoved(obj as Ship);
-            //}
+            if (obj is Character)
+            {
+                if (OnCharacterRemoved != null)
+                    OnCharacterRemoved(obj as Character);
+            }
         }
 
         public void AddPlayer(Player pilot)
@@ -265,8 +282,8 @@ namespace CastleButcher.GameEngine
                 }
             }
             //RespawnPilot(pilot);
-            if (OnAddPlayer != null)
-                OnAddPlayer(pilot);
+            if (OnPlayerAdded != null)
+                OnPlayerAdded(pilot);
 
             if (Started)
                 RespawnPlayer(pilot);
@@ -280,13 +297,20 @@ namespace CastleButcher.GameEngine
         public void RemovePlayer(Player pilot)
         {
             players.Remove(pilot);
+            if (pilot.CharacterClass != null)
+            {
+                if (pilot.CharacterClass.GameTeam == GameTeam.Assassins)
+                    assassinPlayers.Remove(pilot);
+                else
+                    assassinPlayers.Remove(pilot);
+            }
             if (pilot.CurrentCharacter != null)
             {
                 RemoveObject(pilot.CurrentCharacter);
             }
-            if (OnRemovePlayer != null)
+            if (OnPlayerRemoved != null)
             {
-                OnRemovePlayer(pilot);
+                OnPlayerRemoved(pilot);
             }
         }
         public void ChangeTeam(Player player, GameTeam newTeam)
@@ -339,6 +363,7 @@ namespace CastleButcher.GameEngine
             {
                 this.RespawnPlayer(p);
             }
+            //SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.round1Music);
 
         }
 
@@ -367,6 +392,8 @@ namespace CastleButcher.GameEngine
                         if (p.CurrentCharacter == null || p.CurrentCharacter is SpectatingCharacter || p.CurrentCharacter.CharacterClass == null ||
                             p.CurrentCharacter.CharacterClass != p.CharacterClass)
                         {
+                            if (p.CurrentCharacter != null)
+                                RemoveObject(p.CurrentCharacter);
 
                             Character character = new Character(p, p.CharacterClass, rpoint.Position, rpoint.Orientation);
 
@@ -378,13 +405,13 @@ namespace CastleButcher.GameEngine
                         else
                         {
                             p.CurrentCharacter.Reset(rpoint.Position, rpoint.Orientation);
+                            this.AddObject(p.CurrentCharacter);
                         }
                         physicsSimulator.EnableWalking(p.CurrentCharacter);
                         physicsSimulator.WalkData[p.CurrentCharacter] = p.CurrentCharacter.WalkingCollisionData;
                         rpoint.Reset();
 
 
-                        p.OnRespawned();
                         PlayerRespawned(p);
                         return;
                     }
@@ -394,12 +421,15 @@ namespace CastleButcher.GameEngine
             {
                 foreach (RespawnPoint rpoint in respawnPoints)
                 {
-                    if (rpoint.Ready)
+                    if (rpoint.Ready && rpoint.Team == p.CharacterClass.GameTeam)
                     {
                         p.CurrentCharacter.Reset(rpoint.Position, MyQuaternion.FromEulerAngles(0, 0, 0));
 
                         p.IsAlive = true;
-                        p.OnRespawned();
+                        physicsSimulator.EnableWalking(p.CurrentCharacter);
+                        physicsSimulator.WalkData[p.CurrentCharacter] = p.CurrentCharacter.WalkingCollisionData;
+                        
+                        rpoint.Reset();
                         PlayerRespawned(p);
                         return;
                     }
@@ -410,6 +440,7 @@ namespace CastleButcher.GameEngine
 
         private void PlayerRespawned(Player p)
         {
+            p.OnRespawned();
             SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.fanfare1, (Vector3)p.CurrentCharacter.Position);
             if (OnPlayerRespawned != null)
                 OnPlayerRespawned(p);
@@ -444,15 +475,15 @@ namespace CastleButcher.GameEngine
 
             foreach (IGameObject obj in ((MapData)reporter.Data).GameObjects)
             {
-                if (obj is RespawnPoint)
-                {
-                    world.respawnPoints.Add(obj as RespawnPoint);
-                    //((RespawnPoint)obj).
-                }
-                else
-                {
-                    world.AddObject(obj);
-                }
+                //if (obj is RespawnPoint)
+                //{
+                //    world.respawnPoints.Add(obj as RespawnPoint);
+                //    //((RespawnPoint)obj).
+                //}
+                //else
+                //{
+                world.AddObject(obj);
+                //}
 
                 //prawdopodobnie zbêdne
                 //if (obj is IUpdateable)
@@ -523,12 +554,7 @@ namespace CastleButcher.GameEngine
 
                 if (obj.ArmorState.Hp <= 0)
                 {
-                    physicsSimulator.DisableWalking(obj as Character);
                     ((Character)missile.Owner).Player.OnEnemyDestroyed((obj as Character).Player);
-                    (obj as Character).Player.OnDestroyed(obj);
-                    PlayerKilled((obj as Character).Player);
-                    RemoveObject(obj as Character);
-                    AddObject((obj as Character).Player.CurrentCharacter);
                 }
 
             }
@@ -567,9 +593,12 @@ namespace CastleButcher.GameEngine
             }
             else
             {
+                if (parameters.RelativeVelocity.Length > 100)
+                {
+                    int damage = (int)parameters.RelativeVelocity.Length - 100;
+                    obj1.TakeDamage(damage);
 
-                //int damage = (int)Math.Abs(parameters.RelativeVelocity.Dot(parameters.CollisionNormal));
-                //obj1.TakeDamage(damage);
+                }
 
                 if (obj1 is Character)
                 {
@@ -580,8 +609,13 @@ namespace CastleButcher.GameEngine
             return false;
         }
 
-        private void PlayerKilled(Player player)
+        public void PlayerKilled(Player player)
         {
+            physicsSimulator.DisableWalking(player.CurrentCharacter);
+            RemoveObject(player.CurrentCharacter);
+            player.OnDestroyed(player.CurrentCharacter);
+
+
             if (OnPlayerKilled != null)
                 OnPlayerKilled(player);
         }

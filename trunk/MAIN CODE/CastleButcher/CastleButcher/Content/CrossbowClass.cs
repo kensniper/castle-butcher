@@ -21,7 +21,7 @@ namespace CastleButcher.Content
             this.missileRD = ResourceCache.Instance.GetRenderingData("arrow.x");
             this.weaponType = WeaponType.Ranged;
             this.weaponParams = new WeaponInfo(100, 0.3f, 10);
-            this.flyingObjectParameters = new CastleButcher.GameEngine.PlayerMovementParameters(0, 300);
+            this.flyingObjectParameters = new CastleButcher.GameEngine.PlayerMovementParameters(0, 500);
             this.collisionDataType = Framework.Physics.CollisionDataType.CollisionSphere;
             this.collisionData = new CollisionSphere(4);
             this.ammoInBox = 5;
