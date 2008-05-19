@@ -25,7 +25,7 @@ namespace CastleButcher {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
         public float MouseSensitivity {
             get {
                 return ((float)(this["MouseSensitivity"]));

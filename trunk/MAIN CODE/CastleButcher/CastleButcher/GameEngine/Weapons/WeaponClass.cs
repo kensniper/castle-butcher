@@ -81,6 +81,15 @@ namespace CastleButcher.GameEngine.Weapons
             get { return weaponType; }
         }
 
+        protected GameTeam gameTeam;
+        public GameTeam GameTeam
+        {
+            get
+            {
+                return gameTeam;
+            }
+        }
+
         public abstract IMissile GetMissile(object owner, MyVector position, MyQuaternion orientation);
 
         public static WeaponClass FromFile(string fileName)

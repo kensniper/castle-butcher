@@ -44,17 +44,6 @@ namespace CastleButcher.GameEngine.Weapons
             }
         }
 
-        //public new Framework.MyMath.MyVector Position
-        //{
-        //    get
-        //    {
-        //        return this.StaticBodyData.Position;
-        //    }
-        //    set
-        //    {
-        //        throw new Exception("The method or operation is not implemented.");
-        //    }
-        //}
         public Matrix Transform
         {
             get

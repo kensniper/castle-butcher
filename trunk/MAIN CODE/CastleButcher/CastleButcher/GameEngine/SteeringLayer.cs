@@ -58,7 +58,7 @@ namespace CastleButcher.GameEngine
     }
     public class SteeringLayer : GameLayer
     {
-        float maxX = 20, maxY = 20;
+        float maxX = 50, maxY = 50;
 
         AverageQueueFloat xDeltaAvg, yDeltaAvg;
 
