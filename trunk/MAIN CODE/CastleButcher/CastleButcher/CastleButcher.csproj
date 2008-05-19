@@ -231,7 +231,7 @@
     <Compile Include="UI\MainMenu.cs" />
     <Compile Include="UI\MainView.cs" />
     <Compile Include="UI\NewGameDialog.cs" />
-    <Compile Include="UI\PlayerControl.cs" />
+    <Compile Include="UI\PlayerControlLayer.cs" />
     <Compile Include="UI\PlayerList.cs" />
     <Compile Include="UI\UIPlayer.cs" />
   </ItemGroup>

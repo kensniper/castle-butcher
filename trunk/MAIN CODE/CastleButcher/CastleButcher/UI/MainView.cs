@@ -27,7 +27,7 @@ namespace CastleButcher.UI
 
 
         Renderer renderer;
-        PlayerControl playerInfoLayer;
+        PlayerControlLayer playerInfoLayer;
 
 
         bool normalMapping = false;
@@ -61,7 +61,7 @@ namespace CastleButcher.UI
 
             slay = new SteeringLayer(player);
 
-            playerInfoLayer = new PlayerControl(player);
+            playerInfoLayer = new PlayerControlLayer(player);
             playerInfoLayer.RenderCrosshair = false;
             player.PlayerControl = playerInfoLayer;
             GM.AppWindow.PushLayer(playerInfoLayer);

@@ -10,7 +10,7 @@ using System.Drawing;
 
 namespace CastleButcher.UI
 {
-    class PlayerControl : ControlContainer
+    class PlayerControlLayer : ControlContainer
     {
         GuiTextLabel velocity;
         GuiTextLabel shield;
@@ -38,7 +38,7 @@ namespace CastleButcher.UI
         bool playerListAdded = false;
 
 
-        public PlayerControl(Player player)
+        public PlayerControlLayer(Player player)
             : base()
         {
             SizeF size = GM.AppWindow.GraphicsParameters.WindowSize;
@@ -178,12 +178,13 @@ namespace CastleButcher.UI
                 numDeaths.Text = "Deaths: " + player.Deaths.ToString();
 
                 //weaponEnergy.Text = "E:" + player.CurrentShip.WeaponEnergy;
-                currentWeapon.Text = (player.CurrentCharacter.Weapons.CurrentRanged != null) ? "Weapon: " + player.CurrentCharacter.Weapons.CurrentRanged.WeaponClass.Name : "Weapon: None";
+                currentWeapon.Text = (player.CurrentCharacter.Weapons.CurrentWeapon != null) ? "Weapon: " + player.CurrentCharacter.Weapons.CurrentRanged.WeaponClass.Name : "Weapon: None";
 
                 //speedometer.SetSpeed = sdev.SetVelocity;
                 //speedometer.CurrentSpeed = player.CurrentShip.Velocity.Length;
 
-                if (player.CurrentCharacter.Weapons.CurrentRanged != null)
+                if (player.CurrentCharacter.Weapons.CurrentWeapon != null && player.CurrentCharacter.Weapons.CurrentWeaponType == 
+                    CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
                 {
                     weaponAmmo.Text = player.CurrentCharacter.Weapons.CurrentRanged.Ammo.ToString();
                 }
@@ -225,10 +226,10 @@ namespace CastleButcher.UI
                 //    player.CurrentShip.FireMainWeapon();
                 //}
 
-                //if (pressedButtons[1] == true)
-                //{
-                //    player.CurrentShip.FireRocket();
-                //}
+                if (pressedButtons[0] == true)
+                {
+                    //player.CurrentCharacter.Fir;
+                }
             }
         }
 
