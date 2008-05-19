@@ -11,20 +11,24 @@ namespace CastleButcher.GameEngine.Weapons
 {
     class Arrow : PointMass, IMissile, ITemporaryObject, IGameObject
     {
-        Character owner;
+        object owner;
         WeaponClass weaponClass;
 
         float remainingTime;
 
-        public Arrow(Character owner, WeaponClass weaponClass, MyVector position, MyQuaternion orientation, MyVector velocity)
+        public Arrow(object owner, WeaponClass weaponClass, MyVector position, MyQuaternion orientation, MyVector velocity)
             : base(new PhysicalProperties(0, 0, 0))
         {
             this.owner = owner;
             this.weaponClass = weaponClass;
 
-            this.Position = position;
-            this.Orientation = orientation;
-            this.Velocity = velocity;
+            PointMassData data = this.PointMassData;
+
+            data.Position = position;
+            data.Orientation = orientation;
+            data.Velocity = velocity;
+            data.Mass = 1;
+            this.PointMassData = data;
             remainingTime = weaponClass.WeaponParameters.ParticleLifetime;
         }
 

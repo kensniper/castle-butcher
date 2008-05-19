@@ -13,9 +13,9 @@ namespace CastleButcher.GameEngine.Weapons
     /// <summary>
     /// 
     /// </summary>
-    public class WeaponClass
+    public abstract class WeaponClass
     {
-        protected WeaponInfo weaponParams=new WeaponInfo();
+        protected WeaponInfo weaponParams = new WeaponInfo();
         protected RenderingData pickupRD;
 
         public RenderingData PickupRenderingData
@@ -80,6 +80,8 @@ namespace CastleButcher.GameEngine.Weapons
         {
             get { return weaponType; }
         }
+
+        public abstract IMissile GetMissile(object owner, MyVector position, MyQuaternion orientation);
 
         public static WeaponClass FromFile(string fileName)
         {
@@ -173,9 +175,9 @@ namespace CastleButcher.GameEngine.Weapons
             return null;
         }
 
-        public WeaponPickup GetWeaponPickup(MyVector position,MyQuaternion orientation)
+        public WeaponPickup GetWeaponPickup(MyVector position, MyQuaternion orientation)
         {
-            WeaponPickup w = new WeaponPickup(this,position,orientation);
+            WeaponPickup w = new WeaponPickup(this, position, orientation);
             return w;
         }
     }
