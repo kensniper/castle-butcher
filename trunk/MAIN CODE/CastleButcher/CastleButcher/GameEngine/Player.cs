@@ -16,6 +16,11 @@ namespace CastleButcher.GameEngine
         protected CharacterClass characterClass;
         protected bool isAlive;
 
+        public CharacterController CharacterController
+        {
+            get { return CurrentCharacter.CharacterController; }
+        }
+
         private int frags = 0;
 
         public int Frags
@@ -64,6 +69,30 @@ namespace CastleButcher.GameEngine
             }
         }
 
+        public bool Spectating
+        {
+            get
+            {
+                return IsAlive;
+            }
+            set
+            {
+                if (value)
+                {
+                    this.currentChar = new SpectatingCharacter(this,this.CharacterClass, this.CurrentCharacter.Position,
+                        this.CurrentCharacter.Orientation);
+                    this.CharacterController.Flying = true;
+
+                }
+                else
+                {
+                    //this.currentChar = new Character(this,this.CharacterClass, this.CurrentCharacter.Position,
+                    //    this.CurrentCharacter.Orientation);
+                    this.CharacterController.Flying = false;
+                }
+            }
+        }
+
         
         public bool IsAlive
         {
@@ -94,18 +123,22 @@ namespace CastleButcher.GameEngine
         }
 
         //events
-        protected virtual void OnDestroyed(DestroyableObj destroyedObj)
+        public virtual void OnDestroyed(DestroyableObj destroyedObj)
         {
+            Spectating = true;
             IsAlive = false;
             deaths++;
             //World.Instance.RespawnPilot(this);
         }
         public virtual void OnRespawned()
         {
+            isAlive = true;
+            Spectating = false;
         }
         public virtual void OnStaticCollision(IGameObject staticObject, CollisionParameters parameters)
         {
-            CurrentCharacter.HasGroundContact = true;
+            if(parameters.CollisionNormal.Y>0.5)
+                CurrentCharacter.HasGroundContact = true;
         }
 
         public virtual void OnCharacterCollision(Character character, CollisionParameters parameters)

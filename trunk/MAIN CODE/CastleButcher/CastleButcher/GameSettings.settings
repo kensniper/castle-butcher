@@ -11,5 +11,11 @@
     <Setting Name="JumpSpeed" Type="System.Single" Scope="User">
       <Value Profile="(Default)">50</Value>
     </Setting>
+    <Setting Name="AssassinSpeed" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="KnightSpeed" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">35</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -16,11 +16,13 @@ namespace CastleButcher.UI
         GuiButton joinKnights;
         GuiButton joinAssassins;
         GuiButton startGame;
+        Player player;
         CustomVertex.TransformedColored[] verts=new CustomVertex.TransformedColored[4];
         //device.DrawUserPrimitives(PrimitiveType.TriangleList
 
-        public BeginGameLayer()
+        public BeginGameLayer(Player player)
         {
+            this.player = player;
             this.locksMouse = true;
             float x = GM.AppWindow.GraphicsParameters.WindowSize.Width / 2;
             float y = GM.AppWindow.GraphicsParameters.WindowSize.Height - 300;
@@ -53,6 +55,7 @@ namespace CastleButcher.UI
             RemoveControl(startGame);
             hasFinished = true;
             System.Windows.Forms.Cursor.Hide();
+            World.Instance.AddPlayer(player);
             World.Instance.Start();
         }
 
@@ -61,6 +64,7 @@ namespace CastleButcher.UI
             RemoveControl(joinKnights);
             RemoveControl(joinAssassins);
             AddControl(startGame);
+            player.CharacterClass = ObjectCache.Instance.GetAssassinClass();
         }
 
         void joinKnights_OnClick()
@@ -68,6 +72,8 @@ namespace CastleButcher.UI
             RemoveControl(joinKnights);
             RemoveControl(joinAssassins);
             AddControl(startGame);
+
+            player.CharacterClass = ObjectCache.Instance.GetKnightClass();
             
         }
 

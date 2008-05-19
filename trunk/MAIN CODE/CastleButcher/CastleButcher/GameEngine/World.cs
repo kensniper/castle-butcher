@@ -30,6 +30,8 @@ namespace CastleButcher.GameEngine
         List<ITemporaryObject> temporaryObjects;
         //List<Ship> ships;
         List<Player> players;
+        List<Player> assassinPlayers;
+        List<Player> knightPlayers;
         List<RespawnPoint> respawnPoints;
 
         RigidBodySimulator physicsSimulator;
@@ -82,6 +84,8 @@ namespace CastleButcher.GameEngine
             updateableObjects = new List<IUpdateable>();
             temporaryObjects = new List<ITemporaryObject>();
             players = new List<Player>();
+            assassinPlayers = new List<Player>();
+            knightPlayers = new List<Player>();
             physicsSimulator = new RigidBodySimulator();
             collisionDetector = physicsSimulator.CollisionDetector;
             collisionDetector.OnCollision += new CollisionHandler(this.OnCollision);
@@ -248,6 +252,17 @@ namespace CastleButcher.GameEngine
         public void AddPlayer(Player pilot)
         {
             players.Add(pilot);
+            if (pilot.CharacterClass != null)
+            {
+                if (pilot.CharacterClass.GameTeam == GameTeam.Assassins)
+                {
+                    assassinPlayers.Add(pilot);
+                }
+                else if (pilot.CharacterClass.GameTeam == GameTeam.Knights)
+                {
+                    knightPlayers.Add(pilot);
+                }
+            }
             //RespawnPilot(pilot);
             if (OnAddPlayer != null)
                 OnAddPlayer(pilot);
@@ -264,13 +279,44 @@ namespace CastleButcher.GameEngine
         public void RemovePlayer(Player pilot)
         {
             players.Remove(pilot);
-            //if (pilot.CurrentShip != null)
-            //{
-            //    RemoveObject(pilot.CurrentShip);
-            //}
+            if (pilot.CurrentCharacter != null)
+            {
+                RemoveObject(pilot.CurrentCharacter);
+            }
             if (OnRemovePlayer != null)
             {
                 OnRemovePlayer(pilot);
+            }
+        }
+        public void ChangeTeam(Player player,GameTeam newTeam)
+        {
+            if (player.CharacterClass != null)
+            {
+                if (newTeam != player.CharacterClass.GameTeam)
+                {
+                    RemovePlayer(player);
+                    if (newTeam == GameTeam.Assassins)
+                    {
+                        player.CharacterClass = ObjectCache.Instance.GetAssassinClass();
+                    }
+                    else if (newTeam == GameTeam.Knights)
+                    {
+                        player.CharacterClass = ObjectCache.Instance.GetKnightClass();
+                    }
+                    AddPlayer(player);
+                }
+            }
+            else
+            {
+                if (newTeam == GameTeam.Assassins)
+                {
+                    player.CharacterClass = ObjectCache.Instance.GetAssassinClass();
+                }
+                else if (newTeam == GameTeam.Knights)
+                {
+                    player.CharacterClass = ObjectCache.Instance.GetKnightClass();
+                }
+                AddPlayer(player);
             }
         }
 
@@ -288,10 +334,10 @@ namespace CastleButcher.GameEngine
 
 
             started = true;
-            //foreach (Player p in players)
-            //{
-            //    this.RespawnPlayer(p);
-            //}
+            foreach (Player p in players)
+            {
+                this.RespawnPlayer(p);
+            }
 
         }
 
@@ -313,26 +359,30 @@ namespace CastleButcher.GameEngine
             {
                 foreach (RespawnPoint rpoint in respawnPoints)
                 {
-                    if (rpoint.Ready)
+                    if (rpoint.Ready && rpoint.Team==p.CharacterClass.GameTeam)
                     {
                         //
-                        if (p.CurrentCharacter == null)
+                        p.IsAlive = true;
+                        if (p.CurrentCharacter == null || p.CurrentCharacter is SpectatingCharacter || p.CurrentCharacter.CharacterClass==null||
+                            p.CurrentCharacter.CharacterClass!=p.CharacterClass)
                         {
 
-                            Character character = new Character(p.CharacterClass, rpoint.Position, rpoint.Orientation);
+                            Character character = new Character(p,p.CharacterClass, rpoint.Position, rpoint.Orientation);
 
                             p.CurrentCharacter = character;
+                            this.AddObject(p.CurrentCharacter);
+                           
                             //GM.AppWindow.AddUpdateableItem(p.CurrentShip);
                         }
                         else
                         {
                             p.CurrentCharacter.Reset(rpoint.Position, rpoint.Orientation);
                         }
+                        physicsSimulator.EnableWalking(p.CurrentCharacter);
+                        physicsSimulator.WalkData[p.CurrentCharacter] = p.CurrentCharacter.WalkingCollisionData;
                         rpoint.Reset();
-                        this.AddObject(p.CurrentCharacter);
-                        //p.CurrentShip.Weapons.AddWeapon(ObjectCache.Instance.GetWeapon("aHEPT.wd"));
-                        //p.CurrentShip.Weapons.AddWeapon(ObjectCache.Instance.GetWeapon("rocket1.wd"));
-                        p.IsAlive = true;
+                        
+                        
                         p.OnRespawned();
                         PlayerRespawned(p);
                         return;
@@ -348,6 +398,7 @@ namespace CastleButcher.GameEngine
                         p.CurrentCharacter.Reset(rpoint.Position, MyQuaternion.FromEulerAngles(0, 0, 0));
 
                         p.IsAlive = true;
+                        p.OnRespawned();
                         p.OnRespawned();
                         return;
                     }
@@ -424,7 +475,6 @@ namespace CastleButcher.GameEngine
             world.AddObject(worldMesh);
 
             
-
         }
         //private int ComputeDamage(CollisionParameters parameters)
         //{
@@ -458,21 +508,23 @@ namespace CastleButcher.GameEngine
         }
         private bool MissileToDestroyable(IMissile missile, DestroyableObj obj, CollisionParameters parameters)
         {
-            //if (obj is Character && missile.Owner == obj)
-            //    return false;
-            //obj.TakeDamage(missile.ImpactDamage);
-            //RemoveObject((IGameObject)missile);
+            if (obj is Character && missile.Owner == obj)
+                return false;
+            obj.TakeDamage(missile.ImpactDamage);
+            RemoveObject((IGameObject)missile);
 
-            //if (obj is Character)
-            //{
-            //    (obj as Character).Pilot.OnMissileHit(missile, parameters);
+            if (obj is Character)
+            {
+                (obj as Character).Player.OnMissileHit(missile, parameters);
 
-            //    if (obj.ArmorState.Hull <= 0)
-            //    {
-            //        missile.Owner.Pilot.OnEnemyDestroyed((obj as Character).Pilot);
-            //    }
+                if (obj.ArmorState.Hp <= 0)
+                {
+                    physicsSimulator.DisableWalking(obj as Character);
+                    ((Player)missile.Owner).OnEnemyDestroyed((obj as Character).Player);
+                    (obj as Character).Player.OnDestroyed(obj);
+                }
 
-            //}
+            }
             return false;
         }
         private bool DestroyableToDestroyable(DestroyableObj obj1, DestroyableObj obj2, CollisionParameters parameters)
@@ -489,7 +541,7 @@ namespace CastleButcher.GameEngine
             //{
             //    (obj2 as Ship).Pilot.OnShipCollision(obj1 as Ship, parameters);
             //}
-            return true;
+            return false;
         }
 
         private bool DestroyableToStatic(DestroyableObj obj1, IGameObject obj2, CollisionParameters parameters)

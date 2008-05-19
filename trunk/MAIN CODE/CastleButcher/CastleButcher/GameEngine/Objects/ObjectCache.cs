@@ -20,11 +20,11 @@ namespace CastleButcher.GameEngine
         public string FileName;
         public Powerup Powerup;
     }
-    //class ShipEntry
-    //{
-    //    public string FileName;
-    //    public ShipClass ShipClass;
-    //}
+    class CharacterEntry
+    {
+        public string FileName;
+        public CharacterClass CharacterClass;
+    }
     /// <summary>
     /// £aduje i przechowuje obiekty wystepuj¹ce w grze takie jak bronie, asteroidy statki
     /// </summary>
@@ -37,47 +37,57 @@ namespace CastleButcher.GameEngine
                 return Singleton<ObjectCache>.Instance;
             }
         }
-        Dictionary<string,WeaponEntry> weapons;
-        Dictionary<string,PowerupEntry> powerups;
-        //Dictionary<string,ShipEntry> ships;
+        Dictionary<string, WeaponEntry> weapons;
+        Dictionary<string, PowerupEntry> powerups;
+        Dictionary<string, CharacterEntry> characters;
         //Hashtable collisionMeshes;
 
         Device device;
 
         private ObjectCache()
         {
-            weapons = new Dictionary<string,WeaponEntry>();
-            powerups = new Dictionary<string,PowerupEntry>();
-            //ships = new Dictionary<string,ShipEntry>();            
+            weapons = new Dictionary<string, WeaponEntry>();
+            powerups = new Dictionary<string, PowerupEntry>();
+            characters = new Dictionary<string, CharacterEntry>();
+
+            characters["Assassin"] = LoadCharacter("Assassin");
+            characters["Knight"] = LoadCharacter("Knight");
         }
 
         private WeaponEntry LoadWeapon(string fileName)
         {
             if (device == null)
                 throw new Exception("DeviceNotInitialized!!");
-            WeaponEntry entry=new WeaponEntry();
+            WeaponEntry entry = new WeaponEntry();
             entry.FileName = fileName;
             entry.Weapon = WeaponClass.FromFile(AppConfig.ObjectPath + fileName);
-            return entry;            
+            return entry;
         }
         private PowerupEntry LoadPowerup(string fileName)
         {
             if (device == null)
                 throw new Exception("DeviceNotInitialized!!");
-            PowerupEntry entry= new PowerupEntry();
+            PowerupEntry entry = new PowerupEntry();
             entry.FileName = fileName;
             entry.Powerup = Powerup.FromFile(AppConfig.ObjectPath + fileName);
             return entry;
         }
 
-        //private ShipEntry LoadShip(string fileName)
-        //{
-        //    ShipEntry entry = new ShipEntry();
-        //    ShipClass ship = ShipClass.FromFile(AppConfig.ObjectPath + fileName);
-        //    entry.FileName = fileName;
-        //    entry.ShipClass = ship;
-        //    return entry;
-        //}
+        private CharacterEntry LoadCharacter(string fileName)
+        {
+            CharacterEntry entry = new CharacterEntry();
+            if (fileName == "Assassin")
+            {
+                entry.FileName = "Assassin";
+                entry.CharacterClass = new CastleButcher.Content.AssassinClass();
+            }
+            else if (fileName == "Knight")
+            {
+                entry.FileName = "Knight";
+                entry.CharacterClass = new CastleButcher.Content.KnightClass();
+            }
+            return entry;
+        }
 
         public void LoadData()
         {
@@ -88,8 +98,8 @@ namespace CastleButcher.GameEngine
             //    //wczytaj plik
             //    if (fi.Name.EndsWith(".sd"))
             //    {
-            //        ShipEntry entry= LoadShip(fi.Name);
-            //        ships[entry.FileName] = entry;
+            //        CharacterEntry entry= LoadCharacter(fi.Name);
+            //        Characters[entry.FileName] = entry;
             //    }
             //}
 
@@ -103,7 +113,7 @@ namespace CastleButcher.GameEngine
                 result = weapons[fileName];
                 return result.Weapon;
             }
-            catch(KeyNotFoundException)
+            catch (KeyNotFoundException)
             {
                 result = LoadWeapon(fileName);
                 weapons[fileName] = result;
@@ -124,24 +134,18 @@ namespace CastleButcher.GameEngine
                 powerups[fileName] = result;
                 return result.Powerup;
             }
-                
+
         }
 
-        //public ShipClass GetShipClass(string fileName)
-        //{
-        //    ShipEntry result;
-        //    try
-        //    {
-        //        result = ships[fileName];
-        //        return result.ShipClass;
-        //    }
-        //    catch(KeyNotFoundException)
-        //    {
-        //        result = LoadShip(fileName);
-        //        ships[fileName] = result;
-        //        return result.ShipClass;
-        //    }
-        //}
+        public CharacterClass GetAssassinClass()
+        {
+            return characters["Assassin"].CharacterClass;
+        }
+        public CharacterClass GetKnightClass()
+        {
+            return characters["Knight"].CharacterClass;
+        }
+
         //public IEnumerable<KeyValuePair<string,string>> ShipClasses
         //{
         //    get
@@ -175,7 +179,7 @@ namespace CastleButcher.GameEngine
             //}
             //throw new Exception("The method or operation is not implemented.");
             this.LoadData();
-            
+
         }
 
         public void OnResetDevice(Device device)

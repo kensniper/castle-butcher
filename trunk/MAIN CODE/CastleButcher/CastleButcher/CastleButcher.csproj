@@ -170,8 +170,7 @@
     <Compile Include="GameEngine\Resources\RenderingData.cs" />
     <Compile Include="GameEngine\Resources\ResourceCache.cs" />
     <Compile Include="GameEngine\CharacterParameters.cs" />
-    <Compile Include="GameEngine\SteeringDevice.cs" />
-    <Compile Include="GameEngine\SteeringDevice2.cs" />
+    <Compile Include="GameEngine\CharacterController.cs" />
     <Compile Include="GameEngine\SteeringLayer.cs" />
     <Compile Include="GameEngine\Weapons\WeaponPickup.cs" />
     <Compile Include="GameEngine\Weapons\PlasmaParticle.cs" />

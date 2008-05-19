@@ -73,6 +73,22 @@ namespace Framework.Physics
             set { collisionDetector = (CollisionDetector)value; }
         }
 
+        public void EnableWalking(IPhysicalObject obj)
+        {
+            for (int i = 0; i < walkingEnabled.Count; i++)
+            {
+                if (objects[i] == obj)
+                    walkingEnabled[i] = true;
+            }
+        }
+        public void DisableWalking(IPhysicalObject obj)
+        {
+            for (int i = 0; i < walkingEnabled.Count; i++)
+            {
+                if (objects[i] == obj)
+                    walkingEnabled[i] = false;
+            }
+        }
         public void AddObject(IPhysicalObject obj)
         {
             objects.Add(obj);
@@ -154,7 +170,14 @@ namespace Framework.Physics
         {
             PointMassData data = o.PointMassData;
 
-            data.Acceleration = data.Forces / data.Mass;
+            if (data.Mass != 0)
+            {
+                data.Acceleration = data.Forces / data.Mass;
+            }
+            else
+            {
+                data.Acceleration = new MyVector(0, 0, 0);
+            }
 
             data.Velocity.Add(data.Acceleration * dt);
 
@@ -168,9 +191,14 @@ namespace Framework.Physics
         private void UpdateRigidBodyParameters(RigidBody o, float dt)
         {
             RigidBodyData data = o.RigidBodyData;
-
-            data.Acceleration = data.Forces / data.Mass;
-
+            if (data.Mass != 0)
+            {
+                data.Acceleration = data.Forces / data.Mass;
+            }
+            else
+            {
+                data.Acceleration = new MyVector(0, 0, 0);
+            }
             data.Velocity.Add(data.Acceleration * dt);
 
             data.AngularAcceleration = data.InertiaInverse * (data.Moments -
@@ -321,6 +349,12 @@ namespace Framework.Physics
             float j, Vrt;
 
             PointMassData b2 = B.PointMassData;
+            bool tempMass=false;
+            if (b2.Mass == 0)
+            {
+                b2.Mass = 1;
+                tempMass = true;
+            }
 
             j = (-(1f + cr) * (parameters.RelativeVelocity * parameters.CollisionNormal)) /
             (1 / b2.Mass);
@@ -335,6 +369,10 @@ namespace Framework.Physics
             else
             {
                 b2.Velocity -= (j * parameters.CollisionNormal) / b2.Mass;
+            }
+            if (tempMass)
+            {
+                b2.Mass = 0;
             }
             B.PointMassData = b2;
         }
