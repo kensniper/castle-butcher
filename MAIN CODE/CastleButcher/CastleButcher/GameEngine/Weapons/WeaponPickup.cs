@@ -29,9 +29,25 @@ namespace CastleButcher.GameEngine.Weapons
             data.Position = pos;
             data.Orientation = orientation;
             this.StaticBodyData = data;
-            
+            timeSinceLastUse = weaponClass.PickupReuseTime;
+        }
+        float timeSinceLastUse;
 
-            
+        public bool Ready
+        {
+            get
+            {
+                return timeSinceLastUse > weaponClass.PickupReuseTime;
+            }
+        }
+
+        public void Use()
+        {
+            timeSinceLastUse = 0;
+        }
+        public void Reset()
+        {
+            timeSinceLastUse = weaponClass.PickupReuseTime;
         }
 
         #region GameObject Members
@@ -96,6 +112,8 @@ namespace CastleButcher.GameEngine.Weapons
             rotation += timeElapsed * 2;
             if (rotation > 6.2832f)
                 rotation -= 6.2832f;
+
+            timeSinceLastUse += timeElapsed;
             return true;
         }
 

@@ -14,6 +14,13 @@ namespace CastleButcher.GameEngine
     {
         protected Player player;
         protected CharacterClass characterClass;
+        protected Weapons.WeaponCollection weapons;
+
+        public Weapons.WeaponCollection Weapons
+        {
+            get { return weapons; }
+            set { weapons = value; }
+        }
 
         public virtual CharacterClass CharacterClass
         {
@@ -45,7 +52,7 @@ namespace CastleButcher.GameEngine
             this.characterClass = characterClass;
 
             characterController = new CharacterController(this);
-            
+            weapons = new CastleButcher.GameEngine.Weapons.WeaponCollection();
 
             Reset(position, orientation);
 
@@ -74,10 +81,11 @@ namespace CastleButcher.GameEngine
             hp.Hp = 100;
             hp.Shield = 0;
             armorState = hp;
+            if(weapons==null)
+                weapons = new CastleButcher.GameEngine.Weapons.WeaponCollection();
 
-            //this.Weapons.Reset();
+            this.Weapons.Reset();
 
-            //this.weaponEnergy = this.ShipClass.ArmorParameters.WeaponEnergy;
         }
 
         public virtual ICollisionData WalkingCollisionData

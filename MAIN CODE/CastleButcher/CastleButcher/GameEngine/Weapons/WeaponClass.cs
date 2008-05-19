@@ -17,6 +17,14 @@ namespace CastleButcher.GameEngine.Weapons
     {
         protected WeaponInfo weaponParams = new WeaponInfo();
         protected RenderingData pickupRD;
+        protected float pickupReuseTime;
+        public float PickupReuseTime
+        {
+            get
+            {
+                return pickupReuseTime;
+            }
+        }
 
         public RenderingData PickupRenderingData
         {

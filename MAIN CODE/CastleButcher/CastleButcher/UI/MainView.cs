@@ -19,7 +19,7 @@ namespace CastleButcher.UI
     class MainView : GameLayer
     {
         //Ship ship;
-        Player player;
+        UIPlayer player;
 
         SteeringLayer slay;
         ProgressReporter reporter;
@@ -31,7 +31,7 @@ namespace CastleButcher.UI
 
 
         bool normalMapping = false;
-        public MainView(ProgressReporter reporter, Player player)
+        public MainView(ProgressReporter reporter, UIPlayer player)
             : base()
         {
             this.isTransparent = true;
@@ -41,15 +41,9 @@ namespace CastleButcher.UI
             this.reporter = reporter;
             this.player = player;
 
-            if (player == null)
-            {
-                this.player = new Player("Gracz", null);
-                this.player.CurrentCharacter = new SpectatingCharacter(player, null, new MyVector(0, 24, -107), MyQuaternion.FromEulerAngles(0, 0/*(float)Math.PI*/, 0));
-            }
-            else
-            {
-                this.player.CurrentCharacter = new SpectatingCharacter(player, null, new MyVector(0, 24, -107), MyQuaternion.FromEulerAngles(0, 0/*(float)Math.PI*/, 0));
-            }
+
+            this.player.CurrentCharacter = new SpectatingCharacter(player, null, new MyVector(0, 24, -107), MyQuaternion.FromEulerAngles(0, 0/*(float)Math.PI*/, 0));
+
 
         }
 
@@ -69,6 +63,7 @@ namespace CastleButcher.UI
 
             playerInfoLayer = new PlayerControl(player);
             playerInfoLayer.RenderCrosshair = false;
+            player.PlayerControl = playerInfoLayer;
             GM.AppWindow.PushLayer(playerInfoLayer);
             GM.AppWindow.PushLayer(new BeginGameLayer(player));
 
@@ -102,11 +97,11 @@ namespace CastleButcher.UI
             }
             if (worldLoaded == true)
             {
-               
+
                 World.Instance.Update(elapsedTime);
                 renderer.Update(elapsedTime);
 
-                
+
             }
             else
             {
@@ -232,8 +227,8 @@ namespace CastleButcher.UI
             //bobj2.Render(device);
             //bobj3.Render(device);
             device.RenderState.CullMode = Cull.CounterClockwise;
-            StringBlock b = new StringBlock(player.CurrentCharacter.Position.ToString() + " \n" + player.CurrentCharacter.Velocity.ToString() +
-                "\n GroundContact:" + player.CurrentCharacter.HasGroundContact.ToString(), new RectangleF(10, 50, 300, 150), new RectangleF(10, 50, 300, 150), Align.Left, 22, ColorValue.FromColor(Color.White), true);
+            StringBlock b = new StringBlock(player.CurrentCharacter.Position.ToString() +
+                "\n GroundContact:" + player.CurrentCharacter.HasGroundContact.ToString(), new RectangleF(10, 80, 300, 150), new RectangleF(10, 50, 300, 150), Align.Left, 18, ColorValue.FromColor(Color.White), true);
             List<Quad> quads = GM.FontManager.GetDefaultFamily().GetFont(DefaultValues.TextSize).GetProcessedQuads(b);
             GM.FontManager.GetDefaultFamily().GetFont(DefaultValues.TextSize).Render(device, quads);
         }
