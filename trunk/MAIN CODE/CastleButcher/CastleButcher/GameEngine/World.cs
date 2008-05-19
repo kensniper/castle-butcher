@@ -550,9 +550,13 @@ namespace CastleButcher.GameEngine
         {
             if (obj1 is Character && obj2 is WeaponPickup)
             {
-                //zbieranie broni
-                //(obj1 as Character).Weapons.AddWeapon((obj2 as FloatingWeapon).WeaponClass);
-                //(obj1 as Character).Player.OnWeaponPickup((obj2 as FloatingWeapon));
+                if ((obj2 as WeaponPickup).Ready)
+                {
+                    //zbieranie broni
+                    (obj1 as Character).Weapons.AddWeapon((obj2 as WeaponPickup).WeaponClass);
+                    (obj1 as Character).Player.OnWeaponPickup((obj2 as WeaponPickup));
+                    (obj2 as WeaponPickup).Use();
+                }
                 return false;
             }
             else
