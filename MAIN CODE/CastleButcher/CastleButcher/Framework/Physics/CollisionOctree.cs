@@ -201,7 +201,7 @@ namespace Framework.Physics
 
                 if (speed < 0)
                 {
-                    if (translate * (-tree.faces[i].n) < 0)
+                    if (translate * (tree.faces[i].n) < 0)
                     {
                         if (dist < -tree.safeDepth)
                             continue;

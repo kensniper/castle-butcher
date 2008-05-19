@@ -127,7 +127,9 @@ namespace CastleButcher.UI
         {
             CharacterController sdev = player.CurrentCharacter.CharacterController;
             MyVector pos = player.CurrentCharacter.Position;
-            MyVector target = player.CurrentCharacter.Position + sdev.LookVector;
+            //pos.Y += 9;
+            MyVector target = pos + sdev.LookVector;
+            
             MyVector up = sdev.UpVector;
             renderer.SetUp(pos, sdev.LookVector, sdev.UpVector, player.CurrentCharacter.Velocity);
 
@@ -200,7 +202,7 @@ namespace CastleButcher.UI
                     }
                     else
                     {
-                        renderer.RenderRD(obj.RenderingData, /*Matrix.Translation(0, 0, -10) */ obj.Transform);
+                        //renderer.RenderRD(obj.RenderingData, /*Matrix.Translation(0, 0, -10) */ obj.Transform);
                     }
                 }
             }

@@ -5,21 +5,32 @@ using System.Text;
 using CastleButcher.GameEngine;
 using Framework.Physics;
 using CastleButcher.GameEngine.Resources;
+using Framework.MyMath;
 
 namespace CastleButcher.Content
 {
     public class KnightClass:CharacterClass
     {
-        PlayerMovementParameters movementParameters=new PlayerMovementParameters(50,GameSettings.Default.AssassinSpeed);
-        ICollisionData collisionData;
-        ICollisionData walkingCollisionData;
+        PlayerMovementParameters movementParameters=new PlayerMovementParameters(35,GameSettings.Default.KnightSpeed);
+        CollisionMesh collisionData;
+        CollisionMesh walkingCollisionData;
+        //CollisionMesh hitMesh;
         RenderingData renderingData;
 
         public KnightClass()
         {
-            collisionData = ResourceCache.Instance.GetCollisionMesh("walkingMesh.cm");
-            walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("walkingPoint.cm");
-            renderingData = ResourceCache.Instance.GetRenderingData("walkingMesh.x");
+            collisionData = ResourceCache.Instance.GetCollisionMesh("knightHitMesh.cm");
+            List<MyVector> tempPoints=new List<MyVector>();
+            for (int i = 0; i < collisionData.m_hardPoints.Length; i++)
+            {
+                if (collisionData.m_hardPoints[i].Y < 0)
+                    tempPoints.Add(collisionData.m_hardPoints[i]);
+            }
+            collisionData.m_hardPoints = tempPoints.ToArray();
+            walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("knightWalkingPoint.cm");
+            //hitMesh = ResourceCache.Instance.GetCollisionMesh("knightHitMesh.cm");
+            renderingData = ResourceCache.Instance.GetRenderingData("knightWalkingMesh.x");
+
         }
         public override PlayerMovementParameters MovementParameters
         {
