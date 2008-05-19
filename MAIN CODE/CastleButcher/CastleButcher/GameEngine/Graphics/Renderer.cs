@@ -64,17 +64,17 @@ namespace CastleButcher.GameEngine.Graphics
 
         public void LoadData()
         {
-            //environment = World.Instance.Environment;
-            //environment.SkyBox.Create(device);
+            environment = World.Instance.Environment;
+            environment.SkyBox.Create(device);
 
-            //ShaderConstants.LightDirection = new Vector4(environment.Stars[0].LightDirection.X,
-            //    environment.Stars[0].LightDirection.Y,
-            //    environment.Stars[0].LightDirection.Z,
-            //    0);
-            environment = null;
-            Vector4 v=new Vector4(0, -0.5f, -1, 0);
-            v.Normalize();
-            ShaderConstants.LightDirection = v;
+            ShaderConstants.LightDirection = new Vector4(environment.Stars[0].LightDirection.X,
+                environment.Stars[0].LightDirection.Y,
+                environment.Stars[0].LightDirection.Z,
+                0);
+            //environment = null;
+            //Vector4 v=new Vector4(0, -0.5f, -1, 0);
+            //v.Normalize();
+            //ShaderConstants.LightDirection = v;
             ShaderConstants.Projection = device.Transform.Projection;
 
             ShaderConstants.LightColor = new ColorValue(1, 1, 1);
@@ -90,26 +90,24 @@ namespace CastleButcher.GameEngine.Graphics
             //    //}
             //}
 
-            //World.Instance.OnObjectAdded += new ObjectEventHandler(World_OnObjectAdded);
-            //World.Instance.OnObjectRemoved += new ObjectEventHandler(World_OnObjectRemoved);
+            World.Instance.OnObjectAdded += new ObjectEventHandler(World_OnObjectAdded);
+            World.Instance.OnObjectRemoved += new ObjectEventHandler(World_OnObjectRemoved);
 
-            //World.Instance.OnShipAdded += new ShipEventHandler(World_OnShipAdded);
-            //World.Instance.OnShipRemoved += new ShipEventHandler(World_OnShipRemoved);
+            World.Instance.OnCharacterAdded += new CharacterEventHandler(World_OnShipAdded);
+            World.Instance.OnCharacterRemoved += new CharacterEventHandler(World_OnShipRemoved);
         }
 
-        //void World_OnShipRemoved(Ship ship)
-        //{
-        //    EngineEmitter em= shipEngineEmitters[ship];
-        //    particleSystem.RemoveEmitter(em);
-        //    shipEngineEmitters.Remove(ship);
-        //}
+        void World_OnShipRemoved(Character ship)
+        {
+            //EngineEmitter em = shipEngineEmitters[ship];
+            //particleSystem.RemoveEmitter(em);
+            //shipEngineEmitters.Remove(ship);
+        }
 
-        //void World_OnShipAdded(Ship ship)
-        //{
-        //    EngineEmitter em = new EngineEmitter(particleSystem);
-        //    this.particleSystem.AddEmitter(em);
-        //    shipEngineEmitters.Add(ship, em);
-        //}
+        void World_OnShipAdded(Character ship)
+        {
+            
+        }
 
         void World_OnObjectRemoved(IGameObject obj)
         {

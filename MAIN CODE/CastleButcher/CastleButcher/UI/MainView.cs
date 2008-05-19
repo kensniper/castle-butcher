@@ -30,10 +30,11 @@ namespace CastleButcher.UI
         PlayerControlLayer playerInfoLayer;
 
         RenderingData meshWithWeapon;
+        GameController gameController;
 
 
         bool normalMapping = false;
-        public MainView(ProgressReporter reporter, UIPlayer player)
+        public MainView(ProgressReporter reporter, UIPlayer player,GameController controller)
             : base()
         {
             this.isTransparent = true;
@@ -42,7 +43,7 @@ namespace CastleButcher.UI
 
             this.reporter = reporter;
             this.player = player;
-
+            gameController = controller;
 
             this.player.CurrentCharacter = new SpectatingCharacter(player, null, new MyVector(0, 24, -107), MyQuaternion.FromEulerAngles(0, 0/*(float)Math.PI*/, 0));
 
@@ -64,11 +65,12 @@ namespace CastleButcher.UI
             meshWithWeapon = ResourceCache.Instance.GetRenderingData("handWithCrossbow.x");
             //slay = new SteeringLayer(player);
 
-            playerInfoLayer = new PlayerControlLayer(player);
+            gameController.Init();
+            playerInfoLayer = new PlayerControlLayer(player,gameController);
             playerInfoLayer.RenderCrosshair = false;
             player.PlayerControl = playerInfoLayer;
             GM.AppWindow.PushLayer(playerInfoLayer);
-            GM.AppWindow.PushLayer(new BeginGameLayer(player));
+            GM.AppWindow.PushLayer(new BeginGameLayer(player,gameController));
 
             this.renderer = new Renderer(device);
             renderer.LoadData();
@@ -135,11 +137,13 @@ namespace CastleButcher.UI
             
             MyVector up = sdev.UpVector;
             device.RenderState.CullMode = Cull.Clockwise;
-            device.RenderState.ZBufferEnable = true;
-            device.RenderState.ZBufferWriteEnable = true;
+            
             
             renderer.SetUp(pos, sdev.LookVector, sdev.UpVector, player.CurrentCharacter.Velocity);
-
+            ////stars
+            renderer.RenderEnvironment(World.Instance.Environment);
+            device.RenderState.ZBufferEnable = true;
+            device.RenderState.ZBufferWriteEnable = true;
 
             if (player.IsAlive && player.CurrentCharacter.Weapons.CurrentWeapon!=null)
             {
@@ -156,8 +160,7 @@ namespace CastleButcher.UI
 
 
 
-            ////stars
-            //renderer.RenderEnvironment(World.Instance.Environment);
+            
             
 
             renderer.ShaderConstants.SetMatrices(Matrix.Identity, Matrix.LookAtRH((Vector3)pos, (Vector3)target, (Vector3)up),
@@ -227,27 +230,7 @@ namespace CastleButcher.UI
 
 
 
-            //device.RenderState.AlphaBlendEnable = false;
-            //BillboardObject bobj = renderer.MakeBillboardObject(new MyVector(0, 0, 50), 50, 50);
-            //bobj.Color = Color.FromArgb(255,255, 255, 255);
-
-            //BillboardObject bobj2 = bobj.Clone();
-            //bobj2.Position = new Vector3(0, 2, 5);
-            //BillboardObject bobj3 = bobj.Clone();
-            //bobj3.Position = new Vector3(0, 4, 5);
-
-            ////bobj2.Color = Color.FromArgb(255, 255, 0, 0);
-            ////bobj3.Color = Color.FromArgb(255, 0, 0, 255);
-            ////
-            //bobj.Render(device);
-            //bobj2.Render(device);
-            //bobj3.Render(device);
-            device.RenderState.CullMode = Cull.CounterClockwise;
-            //StringBlock b = new StringBlock(player.CurrentCharacter.Position.ToString() +
-            //    "\n GroundContact:" + player.CurrentCharacter.HasGroundContact.ToString(), new RectangleF(10, 80, 300, 150), new RectangleF(10, 50, 300, 150), Align.Left, 18, ColorValue.FromColor(Color.White), true);
-            //List<Quad> quads = GM.FontManager.GetDefaultFamily().GetFont(DefaultValues.TextSize).GetProcessedQuads(b);
-            //GM.FontManager.GetDefaultFamily().GetFont(DefaultValues.TextSize).Render(device, quads);
-        }
+            }
 
         public override void OnRenderFrame(Device device, float elapsedTime)
         {
@@ -286,10 +269,6 @@ namespace CastleButcher.UI
         public override void OnLostDevice(Device device)
         {
             base.OnLostDevice(device);
-            //if (ntbVertexDecl != null)
-            //{
-            //    ntbVertexDecl.Dispose();
-            //}
 
             if (renderer != null)
                 renderer.OnLostDevice(device);
@@ -297,26 +276,6 @@ namespace CastleButcher.UI
         public override void OnCreateDevice(Device device)
         {
             base.OnCreateDevice(device);
-
-            //anim = ResourceCache.Instance.GetAnimatedTexture("explosion1.amd").GetAnimationInstance();
-
-            //PositionNTBTextured[] verts = TriangleStripQuad.BuildPositionNTBTextured(new PointF(20, 20),
-            //    new PointF(-20, -20), 2, 2, new PointF(0, 0), new PointF(1, 1));
-            //int[] indices = TriangleStripQuad.BuildIndices32(2, 2);
-
-
-            //vb = new VertexBuffer(device, verts.Length * 56, Usage.WriteOnly,
-            //    VertexFormats.Position | VertexFormats.Texture0, Pool.Managed);
-            //GraphicsStream gs = vb.Lock(0, 0, LockFlags.None);
-            //gs.Write(verts);
-            //vb.Unlock();
-            //ib = new IndexBuffer(device, sizeof(int) * indices.Length, Usage.WriteOnly, Pool.Managed, false);
-            //ib.SetData(indices, 0, LockFlags.None);
-
-            //diffTex = ResourceCache.Instance.GetDxTexture("NTB\\argon_diff.dds");
-            //bumpTex = ResourceCache.Instance.GetDxTexture("NTB\\argon_bump.dds");
-            //specTex = ResourceCache.Instance.GetDxTexture("NTB\\argon_spec.dds");
-            //emisTex = ResourceCache.Instance.GetDxTexture("NTB\\argon_light.dds");
         }
 
         public override void OnDestroyDevice(Device device)
@@ -324,35 +283,17 @@ namespace CastleButcher.UI
             base.OnDestroyDevice(device);
             if (renderer != null)
                 renderer.OnDestroyDevice(device);
-            //if (vb != null)
-            //{
-            //    vb.Dispose();
-            //}
-            //if (ib != null)
-            //{
-            //    ib.Dispose();
-            //}
         }
 
         public override void OnMouse(System.Drawing.Point position, int xDelta, int yDelta, int zDelta, bool[] pressedButtons, bool[] releasedButtons, float elapsedTime)
         {
             base.OnMouse(position, xDelta, yDelta, zDelta, pressedButtons, releasedButtons, elapsedTime);
-            if (worldLoaded)
-            {
-
-                
-            }
 
 
         }
         public override void OnKeyboard(List<System.Windows.Forms.Keys> pressedKeys, List<System.Windows.Forms.Keys> releasedKeys, char pressedChar, int pressedKey, float elapsedTime)
         {
             base.OnKeyboard(pressedKeys, releasedKeys, pressedChar, pressedKey, elapsedTime);
-            if (worldLoaded)
-            {
-                
-                //sdev.OnKeyboard(pressedKeys, releasedKeys, pressedChar, pressedKey, elapsedTime);
-            }
 
         }
     }

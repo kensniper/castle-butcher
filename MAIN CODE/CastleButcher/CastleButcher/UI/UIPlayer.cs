@@ -34,5 +34,16 @@ namespace CastleButcher.UI
                 playerControl.RenderCrosshair = true;
             }
         }
+        public override void OnDestroyed(DestroyableObj destroyedObj)
+        {
+            base.OnDestroyed(destroyedObj);
+            Spectating = true;
+        }
+        public override void OnRespawned()
+        {
+            base.OnRespawned();
+
+            Spectating = false;
+        }
     }
 }

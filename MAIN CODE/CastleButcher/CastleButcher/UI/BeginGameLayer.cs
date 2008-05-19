@@ -19,10 +19,12 @@ namespace CastleButcher.UI
         GuiButton startGame;
         Player player;
         CustomVertex.TransformedColored[] verts=new CustomVertex.TransformedColored[4];
+        GameController controller;
         //device.DrawUserPrimitives(PrimitiveType.TriangleList
 
-        public BeginGameLayer(Player player)
+        public BeginGameLayer(Player player,GameController controller)
         {
+            this.controller = controller;
             this.player = player;
             this.locksMouse = true;
             float x = GM.AppWindow.GraphicsParameters.WindowSize.Width / 2;
@@ -56,38 +58,55 @@ namespace CastleButcher.UI
             RemoveControl(startGame);
             hasFinished = true;
             System.Windows.Forms.Cursor.Hide();
-            World.Instance.AddPlayer(player);
+            controller.AddPlayer(player);
+            //test
             if (player.CharacterClass.GameTeam == GameTeam.Assassins)
             {
-                World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetKnightClass()));
-                World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetKnightClass()));
-                World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetAssassinClass()));
+                controller.AddPlayer(new AIPlayer("AIPlayer1", ObjectCache.Instance.GetKnightClass()));
+                controller.AddPlayer(new AIPlayer("AIPlayer2", ObjectCache.Instance.GetKnightClass()));
+                controller.AddPlayer(new AIPlayer("AIPlayer3", ObjectCache.Instance.GetAssassinClass()));
             }
             else
             {
-                World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetKnightClass()));
-                World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetAssassinClass()));
-                World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetAssassinClass()));
+                controller.AddPlayer(new AIPlayer("AIPlayer1", ObjectCache.Instance.GetKnightClass()));
+                controller.AddPlayer(new AIPlayer("AIPlayer2", ObjectCache.Instance.GetAssassinClass()));
+                controller.AddPlayer(new AIPlayer("AIPlayer3", ObjectCache.Instance.GetAssassinClass()));
             }
-            World.Instance.Start();
-            //SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.round1Music);
+            controller.BeginRound();            
         }
 
         void joinAssassins_OnClick()
         {
             RemoveControl(joinKnights);
             RemoveControl(joinAssassins);
-            AddControl(startGame);
             player.CharacterClass = ObjectCache.Instance.GetAssassinClass();
+            if (controller.IsLocal == true)
+            {
+                AddControl(startGame);
+            }
+            else
+            {
+                hasFinished = true;
+                System.Windows.Forms.Cursor.Hide();
+            }
         }
 
         void joinKnights_OnClick()
         {
             RemoveControl(joinKnights);
             RemoveControl(joinAssassins);
-            AddControl(startGame);
-
             player.CharacterClass = ObjectCache.Instance.GetKnightClass();
+            if (controller.IsLocal == true)
+            {
+                AddControl(startGame);
+            }
+            else
+            {
+                hasFinished = true;
+                System.Windows.Forms.Cursor.Hide();
+            }
+
+            
             
         }
 

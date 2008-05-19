@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Map name="Zamek" maxplayers="4">
+	<EnvironmentData background="stars3.dds" tiling="2" >
+		<LightSource direction="[0,-0.5,-1]" color="[1,1,1]" image="star1.dds"/>
+	</EnvironmentData>
 	<Object type="mesh" position="[0,0,0]" rotation="[0,0,0]">
 		<RenderingData file="castle2.x" />
 		<CollisionData type="Tree" file="castle.cm" />
