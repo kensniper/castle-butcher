@@ -8,6 +8,7 @@ using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 using System.Drawing;
 using CastleButcher.GameEngine;
+using CastleButcher.GameEngine.AI;
 
 namespace CastleButcher.UI
 {
@@ -56,6 +57,14 @@ namespace CastleButcher.UI
             hasFinished = true;
             System.Windows.Forms.Cursor.Hide();
             World.Instance.AddPlayer(player);
+            if (player.CharacterClass.GameTeam == GameTeam.Assassins)
+            {
+                World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetKnightClass()));
+            }
+            else
+            {
+                World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetAssassinClass()));
+            }
             World.Instance.Start();
         }
 
