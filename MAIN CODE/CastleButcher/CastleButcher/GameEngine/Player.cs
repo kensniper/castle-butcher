@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using CastleButcher.GameEngine.Weapons;
 using Framework.Physics;
+using CastleButcher.Content;
+using Microsoft.DirectX;
 
 namespace CastleButcher.GameEngine
 {
@@ -148,7 +150,11 @@ namespace CastleButcher.GameEngine
 
         public virtual void OnMissileHit(IMissile missile, CollisionParameters parameters)
         {
+            if(missile.WeaponClass is CrossbowClass)
+            {
+                SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.mansScream1, (Vector3)parameters.CollisionPoint);
 
+            }
         }
 
         public virtual void OnWeaponPickup(WeaponPickup weapon)

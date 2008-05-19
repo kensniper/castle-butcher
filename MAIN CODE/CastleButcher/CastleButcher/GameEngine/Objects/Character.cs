@@ -16,6 +16,7 @@ namespace CastleButcher.GameEngine
         protected CharacterClass characterClass;
         protected Weapons.WeaponCollection weapons;
 
+
         public Weapons.WeaponCollection Weapons
         {
             get { return weapons; }
@@ -112,6 +113,7 @@ namespace CastleButcher.GameEngine
 
             IMissile missile = Weapons.CurrentWeapon.WeaponClass.GetMissile(this, this.Position, this.LookOrientation);
             Weapons.CurrentWeapon.Ammo--;
+            SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.crossbowOff, (Vector3)this.Position);
             
             World.Instance.AddObject(missile as IGameObject);
             Weapons.CurrentWeapon.Use();

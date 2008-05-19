@@ -5,6 +5,7 @@ using Framework.Physics;
 using CastleButcher.GameEngine.Resources;
 using Framework;
 using Framework.MyMath;
+using CastleButcher.GameEngine.Weapons;
 
 namespace CastleButcher.GameEngine
 {
@@ -107,6 +108,11 @@ namespace CastleButcher.GameEngine
         /// Iloœæ obra¿eñ jakie wyrz¹dza pocisk przy uderzeniu
         /// </summary>
         int ImpactDamage
+        {
+            get;
+        }
+
+        WeaponClass WeaponClass
         {
             get;
         }

@@ -36,11 +36,17 @@ namespace CastleButcher.UI
 
         PlayerList playerList;
         bool playerListAdded = false;
+        SteeringLayer slay;
+
 
 
         public PlayerControlLayer(Player player)
             : base()
         {
+            this.isTransparent = true;
+            this.RecievesEmptyMouse = true;
+            RecievesEmptyMouse = true;
+            slay = new SteeringLayer(player);
             SizeF size = GM.AppWindow.GraphicsParameters.WindowSize;
             GM.GUIStyleManager.SetCurrentStyle("PlayerInfo");
             this.isTransparent = true;
@@ -217,6 +223,16 @@ namespace CastleButcher.UI
         {
             base.OnMouse(position, xDelta, yDelta, zDelta, pressedButtons, releasedButtons, elapsedTime);
 
+            if (true || player.IsAlive)
+            {
+                slay.OnMouse(position, xDelta, yDelta, zDelta, pressedButtons, releasedButtons, elapsedTime);
+                //sdev.OnMouse(position, xDelta, yDelta, zDelta, pressedButtons, releasedButtons, elapsedTime);
+            }
+            else
+            {
+
+            }
+            
             if (player.IsAlive == false)
             {
                 //if (pressedButtons[0] == true)
@@ -236,11 +252,13 @@ namespace CastleButcher.UI
                     player.CurrentCharacter.FireWeapon();
                 }
             }
+            GM.AppWindow.CenterCursor();
         }
 
         public override void OnKeyboard(List<System.Windows.Forms.Keys> pressedKeys, List<System.Windows.Forms.Keys> releasedKeys, char pressedChar, int pressedKey, float elapsedTime)
         {
             base.OnKeyboard(pressedKeys, releasedKeys, pressedChar, pressedKey, elapsedTime);
+            slay.OnKeyboard(pressedKeys, releasedKeys, pressedChar, pressedKey, elapsedTime);
             if (player.IsAlive)
             {
                 if (pressedKeys.Contains(System.Windows.Forms.Keys.F2) && playerListAdded == false)

@@ -507,6 +507,7 @@ namespace CastleButcher.GameEngine
         {
             //RemoveObject((IGameObject)missile);
             (missile as IGameObject).PhysicalData.Velocity = new MyVector(0, 0, 0);
+            SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.arrowOff1, (Vector3)parameters.CollisionPoint);
             return false;
         }
         private bool MissileToDestroyable(IMissile missile, DestroyableObj obj, CollisionParameters parameters)
