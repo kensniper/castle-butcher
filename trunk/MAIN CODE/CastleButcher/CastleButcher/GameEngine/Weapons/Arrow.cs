@@ -105,5 +105,15 @@ namespace CastleButcher.GameEngine.Weapons
         }
 
         #endregion
+
+        #region IMissile Members
+
+
+        public WeaponClass WeaponClass
+        {
+            get { return weaponClass; }
+        }
+
+        #endregion
     }
 }

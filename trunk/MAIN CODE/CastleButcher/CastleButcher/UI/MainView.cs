@@ -62,7 +62,7 @@ namespace CastleButcher.UI
             worldLoaded = true;
 
             meshWithWeapon = ResourceCache.Instance.GetRenderingData("handWithCrossbow.x");
-            slay = new SteeringLayer(player);
+            //slay = new SteeringLayer(player);
 
             playerInfoLayer = new PlayerControlLayer(player);
             playerInfoLayer.RenderCrosshair = false;
@@ -340,16 +340,7 @@ namespace CastleButcher.UI
             if (worldLoaded)
             {
 
-                if (true || player.IsAlive)
-                {
-                    slay.OnMouse(position, xDelta, yDelta, zDelta, pressedButtons, releasedButtons, elapsedTime);
-                    //sdev.OnMouse(position, xDelta, yDelta, zDelta, pressedButtons, releasedButtons, elapsedTime);
-                }
-                else
-                {
-
-                }
-                GM.AppWindow.CenterCursor();
+                
             }
 
 
@@ -359,7 +350,7 @@ namespace CastleButcher.UI
             base.OnKeyboard(pressedKeys, releasedKeys, pressedChar, pressedKey, elapsedTime);
             if (worldLoaded)
             {
-                slay.OnKeyboard(pressedKeys, releasedKeys, pressedChar, pressedKey, elapsedTime);
+                
                 //sdev.OnKeyboard(pressedKeys, releasedKeys, pressedChar, pressedKey, elapsedTime);
             }
 

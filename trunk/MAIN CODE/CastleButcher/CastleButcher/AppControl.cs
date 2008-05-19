@@ -113,8 +113,7 @@ namespace CastleButcher
             base.OnUpdateFrame(device, elapsedTime);
             if (firstRun)
             {
-                
-                SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.welcomeMusic);
+                //SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.welcomeMusic);
                 firstRun = false;
             }
             //GM.AppWindow.Text = GM.AppWindow.FPS.ToString();
@@ -136,7 +135,7 @@ namespace CastleButcher
                         Cursor.Show();
 
                         SoundSystem.SoundEngine.StopMusic();
-                        SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.welcomeMusic);
+                        //SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.welcomeMusic);
                     }
                     else
                     {
