@@ -29,6 +29,8 @@ namespace CastleButcher.UI
         Renderer renderer;
         PlayerControlLayer playerInfoLayer;
 
+        RenderingData meshWithWeapon;
+
 
         bool normalMapping = false;
         public MainView(ProgressReporter reporter, UIPlayer player)
@@ -59,6 +61,7 @@ namespace CastleButcher.UI
 
             worldLoaded = true;
 
+            meshWithWeapon = ResourceCache.Instance.GetRenderingData("handWithCrossbow.x");
             slay = new SteeringLayer(player);
 
             playerInfoLayer = new PlayerControlLayer(player);
@@ -131,20 +134,31 @@ namespace CastleButcher.UI
             MyVector target = pos + sdev.LookVector;
             
             MyVector up = sdev.UpVector;
+            device.RenderState.CullMode = Cull.Clockwise;
+            device.RenderState.ZBufferEnable = true;
+            device.RenderState.ZBufferWriteEnable = true;
+            
             renderer.SetUp(pos, sdev.LookVector, sdev.UpVector, player.CurrentCharacter.Velocity);
 
+
+            if (player.IsAlive && player.CurrentCharacter.Weapons.CurrentWeapon!=null)
+            {
+                renderer.ShaderConstants.SetCamera(new MyVector(0, 0, 0), new MyVector(0, 1, 0), new MyVector(0, 0, -1));
+                renderer.ShaderConstants.SetMatrices(Matrix.Identity, Matrix.Identity,
+                device.Transform.Projection);
+                renderer.RenderRD(meshWithWeapon, /*Matrix.Translation(0, 0, -10) */ Matrix.Identity);
+            }
             renderer.ShaderConstants.SetCamera(pos, sdev.UpVector, sdev.LookVector);
 
 
 
-            device.RenderState.CullMode = Cull.Clockwise;
-            device.RenderState.ZBufferEnable = false;
-            device.RenderState.ZBufferWriteEnable = false;
+            
 
 
 
             ////stars
             //renderer.RenderEnvironment(World.Instance.Environment);
+            
 
             renderer.ShaderConstants.SetMatrices(Matrix.Identity, Matrix.LookAtRH((Vector3)pos, (Vector3)target, (Vector3)up),
                 device.Transform.Projection);
@@ -202,7 +216,7 @@ namespace CastleButcher.UI
                     }
                     else
                     {
-                        //renderer.RenderRD(obj.RenderingData, /*Matrix.Translation(0, 0, -10) */ obj.Transform);
+                        //renderer.RenderRD(meshWithWeapon, obj.Transform);
                     }
                 }
             }
@@ -229,10 +243,10 @@ namespace CastleButcher.UI
             //bobj2.Render(device);
             //bobj3.Render(device);
             device.RenderState.CullMode = Cull.CounterClockwise;
-            StringBlock b = new StringBlock(player.CurrentCharacter.Position.ToString() +
-                "\n GroundContact:" + player.CurrentCharacter.HasGroundContact.ToString(), new RectangleF(10, 80, 300, 150), new RectangleF(10, 50, 300, 150), Align.Left, 18, ColorValue.FromColor(Color.White), true);
-            List<Quad> quads = GM.FontManager.GetDefaultFamily().GetFont(DefaultValues.TextSize).GetProcessedQuads(b);
-            GM.FontManager.GetDefaultFamily().GetFont(DefaultValues.TextSize).Render(device, quads);
+            //StringBlock b = new StringBlock(player.CurrentCharacter.Position.ToString() +
+            //    "\n GroundContact:" + player.CurrentCharacter.HasGroundContact.ToString(), new RectangleF(10, 80, 300, 150), new RectangleF(10, 50, 300, 150), Align.Left, 18, ColorValue.FromColor(Color.White), true);
+            //List<Quad> quads = GM.FontManager.GetDefaultFamily().GetFont(DefaultValues.TextSize).GetProcessedQuads(b);
+            //GM.FontManager.GetDefaultFamily().GetFont(DefaultValues.TextSize).Render(device, quads);
         }
 
         public override void OnRenderFrame(Device device, float elapsedTime)

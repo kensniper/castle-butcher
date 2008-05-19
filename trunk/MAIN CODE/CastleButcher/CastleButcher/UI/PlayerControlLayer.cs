@@ -66,7 +66,7 @@ namespace CastleButcher.UI
             AddControl(shield);
             AddControl(hp);
             AddControl(slash);
-            //AddControl(numObjects);
+            AddControl(numObjects);
 
             AddControl(currentWeapon);
             //AddControl(currentRocket);
@@ -172,7 +172,7 @@ namespace CastleButcher.UI
                 //velocity.Text = player.CurrentShip.RigidBodyData.AngularVelocity.Length.ToString();
                 shield.Text = "S:" + player.CurrentCharacter.ArmorState.Shield.ToString();
                 hp.Text = "HP:" + player.CurrentCharacter.ArmorState.Hp.ToString();
-                //numObjects.Text = "nObj:" + World.Instance.GameObjects.Count.ToString();
+                numObjects.Text = "GroundContact:" + player.CurrentCharacter.HasGroundContact.ToString();
 
                 numFrags.Text = "Frags: " + player.Frags.ToString();
                 numDeaths.Text = "Deaths: " + player.Deaths.ToString();
