@@ -65,20 +65,10 @@ namespace CastleButcher.UI
 
             worldLoaded = true;
 
-            //mesh = ResourceCache.Instance.GetMesh("castle.x", out materials, out dxMaterials);
-
-            //World.InitializeTest();
-            //World.Instance.AddPlayer(player);
-            //World.Instance.AddObject(player.CurrentCharacter);
-            //World.Instance.PhysicsSimulator.EnableWalking[player.CurrentCharacter
-            //World.Instance.PhysicsSimulator.WalkData[player.CurrentCharacter] = player.CurrentCharacter.WalkingCollisionData;
-
-            //World.Instance.AddPlayer(new AIPlayer("wróg", pilot.ShipClass));
-            //World.Instance.OnPlayerKilled += this.OnObjectDestroyed;
             slay = new SteeringLayer(player);
 
             playerInfoLayer = new PlayerControl(player);
-            //playerInfoLayer.sdev = sdev;
+            playerInfoLayer.RenderCrosshair = false;
             GM.AppWindow.PushLayer(playerInfoLayer);
             GM.AppWindow.PushLayer(new BeginGameLayer(player));
 
@@ -93,8 +83,6 @@ namespace CastleButcher.UI
 
 
             GM.AppWindow.AddKeyLock(System.Windows.Forms.Keys.Space);
-            //GM.AppWindow.AddKeyLock(System.Windows.Forms.Keys.B);
-            //GM.AppWindow.AddKeyLock(System.Windows.Forms.Keys.R);
 
         }
 

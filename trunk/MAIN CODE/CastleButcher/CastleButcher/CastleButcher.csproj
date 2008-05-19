@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="AppControl.cs" />
     <Compile Include="Content\AssassinClass.cs" />
+    <Compile Include="Content\CrossbowClass.cs" />
     <Compile Include="Content\KnightClass.cs" />
     <Compile Include="Framework\Camera.cs" />
     <Compile Include="Framework\DefaultValues.cs" />
@@ -173,8 +174,7 @@
     <Compile Include="GameEngine\CharacterController.cs" />
     <Compile Include="GameEngine\SteeringLayer.cs" />
     <Compile Include="GameEngine\Weapons\WeaponPickup.cs" />
-    <Compile Include="GameEngine\Weapons\PlasmaParticle.cs" />
-    <Compile Include="GameEngine\Weapons\Rocket.cs" />
+    <Compile Include="GameEngine\Weapons\Arrow.cs" />
     <Compile Include="GameEngine\Weapons\WeaponClass.cs" />
     <Compile Include="GameEngine\Weapons\WeaponCollection.cs" />
     <Compile Include="GameEngine\Weapons\WeaponInfo.cs" />

@@ -74,7 +74,7 @@ namespace CastleButcher.GameEngine.Weapons
 
         public RenderingData RenderingData
         {
-            get { return weaponClass.FloatingRenderingData; }
+            get { return weaponClass.PickupRenderingData; }
         }
 
         #endregion
@@ -83,7 +83,7 @@ namespace CastleButcher.GameEngine.Weapons
 
         public override float BoundingSphereRadius
         {
-            get { return weaponClass.FloatingRenderingData.BoundingSphereRadius; }
+            get { return weaponClass.PickupRenderingData.BoundingSphereRadius; }
         }
 
         public override CollisionDataType CollisionDataType

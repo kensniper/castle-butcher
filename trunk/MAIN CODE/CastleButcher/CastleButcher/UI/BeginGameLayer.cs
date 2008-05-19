@@ -60,9 +60,13 @@ namespace CastleButcher.UI
             if (player.CharacterClass.GameTeam == GameTeam.Assassins)
             {
                 World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetKnightClass()));
+                World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetKnightClass()));
+                World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetAssassinClass()));
             }
             else
             {
+                World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetKnightClass()));
+                World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetAssassinClass()));
                 World.Instance.AddPlayer(new AIPlayer("AIPlayer", ObjectCache.Instance.GetAssassinClass()));
             }
             World.Instance.Start();
