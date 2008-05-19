@@ -68,8 +68,8 @@ namespace CastleButcher
             //World.Instance=new
             //ShipClass shipClass=ObjectCache.Instance.GetShipClass(data.PlayerShip);
             frameworkWindow.RemoveLayer(mainView);
-            //mainView=new MainView(reporter,new Player(data.PlayerName,null));
-            mainView = new MainView(reporter, null);
+            mainView=new MainView(reporter,new Player(data.PlayerName,null));
+            //mainView = new MainView(reporter, null);
             //mainView = new MainView(reporter, null);
             frameworkWindow.RemoveLayer(mainMenu);
             frameworkWindow.PushLayer(mainView);

@@ -30,5 +30,10 @@ namespace CastleButcher.GameEngine
         {
             get;
         }
+
+        public abstract GameTeam GameTeam
+        {
+            get;
+        }
     }
 }

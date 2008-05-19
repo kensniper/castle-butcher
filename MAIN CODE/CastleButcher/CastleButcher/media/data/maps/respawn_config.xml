@@ -6,12 +6,12 @@
 	</Object>
 	<RespawnPointList>
 	  <Assassins>
-		<Object type="respawn" position="[-135.8680,9.2149,-217.4415]" rotation="[0,0,0]" />
-		<Object type="respawn" position="[132.3099,9.2149,-217.4415]" rotation="[0,0,0]" />			
+		<Object type="respawn" position="[-135.8680,13.2149,-217.4415]" rotation="[0,0,0]" />
+		<Object type="respawn" position="[132.3099,13.2149,-217.4415]" rotation="[0,0,0]" />			
 	   </Assassins>		
 	   <Knights>
-		<Object type="respawn" position="[101.76979,60.8958,36.8707]" rotation="[0,0,0]" />
-		<Object type="respawn" position="[101.76979,60.8958,158.5469]" rotation="[0,0,0]" />
+		<Object type="respawn" position="[101.76979,63.8958,36.8707]" rotation="[0,0,0]" />
+		<Object type="respawn" position="[101.76979,63.8958,158.5469]" rotation="[0,0,0]" />
 	   </Knights>
 	</RespawnPointList>
  </Map>

@@ -14,6 +14,11 @@ namespace CastleButcher.GameEngine
     {
         protected Player player;
         protected CharacterClass characterClass;
+
+        public virtual CharacterClass CharacterClass
+        {
+            get { return characterClass; }
+        }
         protected bool hasGroundContact = false;
 
         public bool HasGroundContact
@@ -26,15 +31,21 @@ namespace CastleButcher.GameEngine
             get { return player; }
             set { player = value; }
         }
-        public Character(CharacterClass characterClass, MyVector position, MyQuaternion orientation)
+        CharacterController characterController;
+
+        public CharacterController CharacterController
         {
+            get { return characterController; }
+        }
+
+        
+        public Character(Player player, CharacterClass characterClass, MyVector position, MyQuaternion orientation)
+        {
+            this.player = player;
             this.characterClass = characterClass;
-            //spectatingCollisionData = new CollisionSphere(3);
 
-            //this.steeringDevice = new SteeringDevice2(this);
-            //this.autoPilot = new AutoPilot();
-
-
+            characterController = new CharacterController(this);
+            
 
             Reset(position, orientation);
 
@@ -58,6 +69,11 @@ namespace CastleButcher.GameEngine
 
 
             this.PointMassData = data;
+            characterController.Reset(this);
+            DestroyableObjState hp = ArmorState;
+            hp.Hp = 100;
+            hp.Shield = 0;
+            armorState = hp;
 
             //this.Weapons.Reset();
 
@@ -117,14 +133,40 @@ namespace CastleButcher.GameEngine
 
         public event HitDataHandler OnHit;
 
+        DestroyableObjState armorState;
         public DestroyableObjState ArmorState
         {
-            get { throw new NotImplementedException(); }
+            get { return armorState; }
         }
 
         public void TakeDamage(int damage)
         {
-            throw new NotImplementedException();
+
+
+            if (armorState.Shield > 0)
+                armorState.Shield -= damage;
+            if (armorState.Shield < 0)
+            {
+                armorState.Hp += armorState.Shield;
+                armorState.Shield = 0;
+            }
+            if (OnHit != null)
+            {
+                OnHit(this, damage);
+            }
+
+            if (armorState.Hp < 0)
+            {
+
+                armorState.Hp = 0;
+                if (OnDestroyed != null)
+                {
+                    OnDestroyed(this);
+                }
+            }
+
+            
+
         }
 
         #endregion
@@ -141,10 +183,6 @@ namespace CastleButcher.GameEngine
             get
             {
                 return this;
-            }
-            set
-            {
-                throw new Exception("The method or operation is not implemented.");
             }
         }
 
@@ -167,10 +205,6 @@ namespace CastleButcher.GameEngine
             {
                 return Matrix.RotationQuaternion((Quaternion)this.Orientation) * Matrix.Translation(Position.X, Position.Y, Position.Z);
             }
-            set
-            {
-                throw new Exception("The method or operation is not implemented.");
-            }
         }
 
         #endregion
@@ -179,6 +213,7 @@ namespace CastleButcher.GameEngine
 
         public bool Update(float timeElapsed)
         {
+            characterController.Update(timeElapsed);
             return true;
         }
 
@@ -197,10 +232,6 @@ namespace CastleButcher.GameEngine
             }
         }
 
-        //public SteeringDevice2 SteeringDevice
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
 
         #endregion
     }
@@ -213,16 +244,25 @@ namespace CastleButcher.GameEngine
         static PlayerMovementParameters SpectatorMovementParameters = 
             new PlayerMovementParameters(0, GameSettings.Default.SpectatorSpeed);
 
-        public SpectatingCharacter(CharacterClass characterClass, MyVector position, MyQuaternion orientation)
-            : base(characterClass, position, orientation)
+        public SpectatingCharacter(Player player,CharacterClass characterClass, MyVector position, MyQuaternion orientation)
+            : base(player,characterClass, position, orientation)
         {
             spectatingCollisionData = Resources.ResourceCache.Instance.GetCollisionMesh("walkingMesh.cm");
             spectatingRenderingData = ResourceCache.Instance.GetRenderingData("walkingMesh.x");
             walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("walkingPoint.cm");
 
+            PointMassData data = this.PointMassData;
+            data.Mass = 0;
+            this.PointMassData = data;
             //this.Cha
         }
-
+        public override CharacterClass CharacterClass
+        {
+            get
+            {
+                return null;
+            }
+        }
         public override CollisionDataType CollisionDataType
         {
             get

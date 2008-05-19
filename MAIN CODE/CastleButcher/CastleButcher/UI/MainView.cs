@@ -20,26 +20,15 @@ namespace CastleButcher.UI
     {
         //Ship ship;
         Player player;
-        SteeringDevice sdev;
+
         SteeringLayer slay;
         ProgressReporter reporter;
         bool worldLoaded = false;
 
-        //Mesh mesh;
-        //MaterialData[] materials;
-        //Material[] dxMaterials;
 
         Renderer renderer;
         PlayerControl playerInfoLayer;
 
-        //test
-        //VertexBuffer vb;
-        //IndexBuffer ib;
-        //Texture diffTex;
-        //Texture bumpTex;
-        //Texture specTex;
-        //Texture emisTex;
-        //VertexDeclaration ntbVertexDecl;
 
         bool normalMapping = false;
         public MainView(ProgressReporter reporter, Player player)
@@ -55,7 +44,11 @@ namespace CastleButcher.UI
             if (player == null)
             {
                 this.player = new Player("Gracz", null);
-                this.player.CurrentCharacter = new SpectatingCharacter(null, new MyVector(0, 24, -107), MyQuaternion.FromEulerAngles(0, 0/*(float)Math.PI*/, 0));
+                this.player.CurrentCharacter = new SpectatingCharacter(player, null, new MyVector(0, 24, -107), MyQuaternion.FromEulerAngles(0, 0/*(float)Math.PI*/, 0));
+            }
+            else
+            {
+                this.player.CurrentCharacter = new SpectatingCharacter(player, null, new MyVector(0, 24, -107), MyQuaternion.FromEulerAngles(0, 0/*(float)Math.PI*/, 0));
             }
 
         }
@@ -75,21 +68,19 @@ namespace CastleButcher.UI
             //mesh = ResourceCache.Instance.GetMesh("castle.x", out materials, out dxMaterials);
 
             //World.InitializeTest();
-            World.Instance.AddPlayer(player);
-            World.Instance.AddObject(player.CurrentCharacter);
-            World.Instance.PhysicsSimulator.WalkingEnabled[1] = true;
-            World.Instance.PhysicsSimulator.WalkData[player.CurrentCharacter] = player.CurrentCharacter.WalkingCollisionData;
-            
+            //World.Instance.AddPlayer(player);
+            //World.Instance.AddObject(player.CurrentCharacter);
+            //World.Instance.PhysicsSimulator.EnableWalking[player.CurrentCharacter
+            //World.Instance.PhysicsSimulator.WalkData[player.CurrentCharacter] = player.CurrentCharacter.WalkingCollisionData;
+
             //World.Instance.AddPlayer(new AIPlayer("wróg", pilot.ShipClass));
             //World.Instance.OnPlayerKilled += this.OnObjectDestroyed;
-            sdev = new SteeringDevice(player);
-            slay = new SteeringLayer(sdev);
-            sdev.Flying = false;
+            slay = new SteeringLayer(player);
 
             playerInfoLayer = new PlayerControl(player);
             //playerInfoLayer.sdev = sdev;
             GM.AppWindow.PushLayer(playerInfoLayer);
-            GM.AppWindow.PushLayer(new BeginGameLayer());
+            GM.AppWindow.PushLayer(new BeginGameLayer(player));
 
             this.renderer = new Renderer(device);
             renderer.LoadData();
@@ -107,6 +98,11 @@ namespace CastleButcher.UI
 
         }
 
+        private void InitRound()
+        {
+
+        }
+
         public override void OnUpdateFrame(Device device, float elapsedTime)
         {
             base.OnUpdateFrame(device, elapsedTime);
@@ -114,8 +110,7 @@ namespace CastleButcher.UI
 
             if (worldLoaded == true)
             {
-
-                sdev.Update(elapsedTime);
+                //sdev.Update(elapsedTime);
                 World.Instance.Update(elapsedTime);
                 renderer.Update(elapsedTime);
             }
@@ -141,6 +136,7 @@ namespace CastleButcher.UI
         }
         private void RenderWorld(Device device)
         {
+            CharacterController sdev = player.CurrentCharacter.CharacterController;
             MyVector pos = player.CurrentCharacter.Position;
             MyVector target = player.CurrentCharacter.Position + sdev.LookVector;
             MyVector up = sdev.UpVector;
@@ -242,8 +238,8 @@ namespace CastleButcher.UI
             //bobj2.Render(device);
             //bobj3.Render(device);
             device.RenderState.CullMode = Cull.CounterClockwise;
-            StringBlock b = new StringBlock(player.CurrentCharacter.Position.ToString() + " \n" + player.CurrentCharacter.Velocity.ToString()+
-                "\n GroundContact:"+player.CurrentCharacter.HasGroundContact.ToString(), new RectangleF(10, 50, 300, 150), new RectangleF(10, 50, 300, 150), Align.Left, 22, ColorValue.FromColor(Color.White), true);
+            StringBlock b = new StringBlock(player.CurrentCharacter.Position.ToString() + " \n" + player.CurrentCharacter.Velocity.ToString() +
+                "\n GroundContact:" + player.CurrentCharacter.HasGroundContact.ToString(), new RectangleF(10, 50, 300, 150), new RectangleF(10, 50, 300, 150), Align.Left, 22, ColorValue.FromColor(Color.White), true);
             List<Quad> quads = GM.FontManager.GetDefaultFamily().GetFont(DefaultValues.TextSize).GetProcessedQuads(b);
             GM.FontManager.GetDefaultFamily().GetFont(DefaultValues.TextSize).Render(device, quads);
         }

@@ -13,13 +13,13 @@ namespace CastleButcher.GameEngine
     public struct DestroyableObjState
     {
         /// <summary>
-        /// [J]Tarcza danego obiektu, mo¿e siê regenerowaæ, mo¿e jej nie byæ wcale(tylko statki maj¹)
+        /// Punkty tarczy danego obiektu
         /// </summary>
         public int Shield;
         /// <summary>
-        /// [J]Kad³ub statku(lub ogólna wytrzyma³oœæ obiektu), nie regeneruje siê, gdy osi¹gnie 0 to obiekt kaput
+        /// Punty ¿ycia
         /// </summary>
-        public int Hull;
+        public int Hp;
     }
 
     /// <summary>
