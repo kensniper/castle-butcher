@@ -27,7 +27,7 @@ namespace CastleButcher.GameEngine.Weapons
             data.Position = position;
             data.Orientation = orientation;
             data.Velocity = velocity;
-            data.Mass = 1;
+            data.Mass = 0;
             this.PointMassData = data;
             remainingTime = weaponClass.WeaponParameters.ParticleLifetime;
         }
@@ -72,7 +72,7 @@ namespace CastleButcher.GameEngine.Weapons
 
         public IPhysicalObject PhysicalData
         {
-            get { return null; }
+            get { return this; }
         }
 
         public CastleButcher.GameEngine.Resources.RenderingData RenderingData

@@ -15,6 +15,6 @@
 	   </Knights>
 	</RespawnPointList>
 	<WeaponPickupList>
-		<Object type="weapon" name="Crossbow" position="[-100.8680,10.2149,-217.4415]" rotation="[0,0,0]" />
+		<Object type="weapon" name="Crossbow" position="[-100.8680,4.2149,-217.4415]" rotation="[0,0,0]" />
 	</WeaponPickupList>
  </Map>

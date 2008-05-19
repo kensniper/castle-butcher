@@ -405,7 +405,7 @@ namespace CastleButcher.GameEngine
                     }
                 }
             }
-            throw new Exception("za malo respow, nie powinno sie zdazyc");
+
         }
 
         private void PlayerRespawned(Player p)
@@ -505,7 +505,8 @@ namespace CastleButcher.GameEngine
 
         private bool MissileToStatic(IMissile missile, IGameObject obj, CollisionParameters parameters)
         {
-            RemoveObject((IGameObject)missile);
+            //RemoveObject((IGameObject)missile);
+            (missile as IGameObject).PhysicalData.Velocity = new MyVector(0, 0, 0);
             return false;
         }
         private bool MissileToDestroyable(IMissile missile, DestroyableObj obj, CollisionParameters parameters)
@@ -522,8 +523,11 @@ namespace CastleButcher.GameEngine
                 if (obj.ArmorState.Hp <= 0)
                 {
                     physicsSimulator.DisableWalking(obj as Character);
-                    ((Player)missile.Owner).OnEnemyDestroyed((obj as Character).Player);
+                    ((Character)missile.Owner).Player.OnEnemyDestroyed((obj as Character).Player);
                     (obj as Character).Player.OnDestroyed(obj);
+                    PlayerKilled((obj as Character).Player);
+                    RemoveObject(obj as Character);
+                    AddObject((obj as Character).Player.CurrentCharacter);
                 }
 
             }

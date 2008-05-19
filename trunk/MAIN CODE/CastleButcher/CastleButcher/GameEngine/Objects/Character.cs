@@ -44,8 +44,20 @@ namespace CastleButcher.GameEngine
         {
             get { return characterController; }
         }
+        MyQuaternion lookOrientation;
+        public MyQuaternion LookOrientation
+        {
+            get
+            {
+                return lookOrientation;
+            }
+            set
+            {
+                lookOrientation = value;
+            }
+        }
 
-        
+
         public Character(Player player, CharacterClass characterClass, MyVector position, MyQuaternion orientation)
         {
             this.player = player;
@@ -81,10 +93,29 @@ namespace CastleButcher.GameEngine
             hp.Hp = 100;
             hp.Shield = 0;
             armorState = hp;
-            if(weapons==null)
+            if (weapons == null)
                 weapons = new CastleButcher.GameEngine.Weapons.WeaponCollection();
 
             this.Weapons.Reset();
+
+        }
+
+        public bool FireWeapon()
+        {
+            if (Weapons.CurrentWeapon == null || Weapons.CurrentWeapon.Ready == false)
+                return false;
+            if (Weapons.CurrentWeapon.Ammo <= 0)
+            {
+                Weapons.RemoveWeapon(Weapons.CurrentWeapon.WeaponClass);
+                return false;
+            }
+
+            IMissile missile = Weapons.CurrentWeapon.WeaponClass.GetMissile(this, this.Position, this.LookOrientation);
+            Weapons.CurrentWeapon.Ammo--;
+            World.Instance.AddObject(missile as IGameObject);
+            Weapons.CurrentWeapon.Use();
+
+            return true;
 
         }
 
@@ -92,11 +123,7 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                if (player.IsAlive)
-                {
-                    return characterClass.WalkingCollisionData;
-                }
-                throw new Exception();
+                return characterClass.WalkingCollisionData;
             }
         }
         public MyVector LookDirection
@@ -113,12 +140,9 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                //spectating
-                if (player.IsAlive)
-                {
-                    return characterClass.CollisionDataType;
-                }
-                throw new Exception();
+
+                return characterClass.CollisionDataType;
+
             }
         }
 
@@ -126,12 +150,8 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                //spectating
-                if (player.IsAlive)
-                {
-                    return characterClass.CollisionData;
-                }
-                throw new Exception();
+                return characterClass.CollisionData;
+
             }
         }
 
@@ -151,9 +171,8 @@ namespace CastleButcher.GameEngine
         {
 
 
-            if (armorState.Shield > 0)
-                armorState.Shield -= damage;
-            if (armorState.Shield < 0)
+            armorState.Shield -= damage;
+            if (armorState.Shield <= 0)
             {
                 armorState.Hp += armorState.Shield;
                 armorState.Shield = 0;
@@ -173,7 +192,7 @@ namespace CastleButcher.GameEngine
                 }
             }
 
-            
+
 
         }
 
@@ -221,7 +240,9 @@ namespace CastleButcher.GameEngine
 
         public bool Update(float timeElapsed)
         {
+
             characterController.Update(timeElapsed);
+            weapons.Update(timeElapsed);
             return true;
         }
 
@@ -232,9 +253,9 @@ namespace CastleButcher.GameEngine
 
         public virtual PlayerMovementParameters MovementParameters
         {
-            get 
-            { 
-                if(player.IsAlive)
+            get
+            {
+                if (player.IsAlive)
                     return characterClass.MovementParameters;
                 throw new Exception();
             }
@@ -249,15 +270,16 @@ namespace CastleButcher.GameEngine
         CollisionMesh spectatingCollisionData;
         CollisionMesh walkingCollisionData;
         RenderingData spectatingRenderingData;
-        static PlayerMovementParameters SpectatorMovementParameters = 
+        static PlayerMovementParameters SpectatorMovementParameters =
             new PlayerMovementParameters(0, GameSettings.Default.SpectatorSpeed);
 
-        public SpectatingCharacter(Player player,CharacterClass characterClass, MyVector position, MyQuaternion orientation)
-            : base(player,characterClass, position, orientation)
+        public SpectatingCharacter(Player player, CharacterClass characterClass, MyVector position, MyQuaternion orientation)
+            : base(player, characterClass, position, orientation)
         {
-            spectatingCollisionData = Resources.ResourceCache.Instance.GetCollisionMesh("walkingMesh.cm");
-            spectatingRenderingData = ResourceCache.Instance.GetRenderingData("walkingMesh.x");
-            walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("walkingPoint.cm");
+            //spectatingCollisionData = Resources.ResourceCache.Instance.GetCollisionMesh("walkingMesh.cm");
+            //spectatingRenderingData = ResourceCache.Instance.GetRenderingData("walkingMesh.x");
+            //walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("walkingPoint.cm");
+
 
             PointMassData data = this.PointMassData;
             data.Mass = 0;
@@ -275,21 +297,21 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                return CollisionDataType.CollisionMesh;
+                return CollisionDataType.None;
             }
         }
         public override ICollisionData CollisionData
         {
             get
             {
-                return spectatingCollisionData;
+                return null;
             }
         }
         public override RenderingData RenderingData
         {
             get
             {
-                return spectatingRenderingData;
+                return null;
             }
         }
 
@@ -305,7 +327,7 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                return walkingCollisionData;
+                return null;
             }
         }
 

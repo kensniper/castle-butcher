@@ -50,7 +50,7 @@ namespace CastleButcher.UI
             shield = new GuiTextLabel("", new RectangleF(10, 60, 70, 18), 18);
             slash = new GuiTextLabel("", new RectangleF(80, 60, 10, 18), 18);
             hp = new GuiTextLabel("100", new RectangleF(100, 60, 70, 18), 18);
-            numObjects = new GuiTextLabel("", new RectangleF(10, 80, 70, 18), 18);
+            numObjects = new GuiTextLabel("", new RectangleF(10, 80, 200, 18), 18);
 
             int bottom = (int)GM.AppWindow.GraphicsParameters.WindowSize.Height;
             currentWeapon = new GuiTextLabel("", new RectangleF(10, bottom - 100, 250, 18), 18);
@@ -172,7 +172,10 @@ namespace CastleButcher.UI
                 //velocity.Text = player.CurrentShip.RigidBodyData.AngularVelocity.Length.ToString();
                 shield.Text = "S:" + player.CurrentCharacter.ArmorState.Shield.ToString();
                 hp.Text = "HP:" + player.CurrentCharacter.ArmorState.Hp.ToString();
-                numObjects.Text = "GroundContact:" + player.CurrentCharacter.HasGroundContact.ToString();
+                if (player.CurrentCharacter.Weapons.CurrentWeapon != null)
+                    numObjects.Text = "WeaponReady:" + player.CurrentCharacter.Weapons.CurrentWeapon.Ready.ToString();
+                else
+                    numObjects.Text = "";
 
                 numFrags.Text = "Frags: " + player.Frags.ToString();
                 numDeaths.Text = "Deaths: " + player.Deaths.ToString();
@@ -228,7 +231,7 @@ namespace CastleButcher.UI
 
                 if (pressedButtons[0] == true)
                 {
-                    //player.CurrentCharacter.Fir;
+                    player.CurrentCharacter.FireWeapon();
                 }
             }
         }
