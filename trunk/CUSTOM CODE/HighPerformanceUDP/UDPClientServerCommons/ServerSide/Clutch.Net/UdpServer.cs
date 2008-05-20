@@ -74,6 +74,10 @@ namespace Clutch.Net.UDP
                 // we're not shutting down, we're starting up
                 shutdownFlag = false;
 
+                udpSocket.DontFragment = true;
+                udpSocket.EnableBroadcast = true;
+                udpSocket.Ttl = 4;
+
                 // kick off an async receive.  The Start() method will return, the
                 // actual receives will occur asynchronously and will be caught in
                 // AsyncEndRecieve().
