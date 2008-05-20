@@ -80,6 +80,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UDPClientServerCommons\UDPClientServerCommons.csproj">
+      <Project>{EF3837A5-0144-427F-8E75-56B017A008F6}</Project>
+      <Name>UDPClientServerCommons</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UdpPacketLibrary\UdpPacketLibrary.csproj">
       <Project>{C48AEAC0-49C5-4ADD-84C2-5297170A08DB}</Project>
       <Name>UdpPacketLibrary</Name>

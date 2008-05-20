@@ -8,3 +8,5 @@ F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\UDPClientServer
 F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\UDPClientServerCommons\obj\Debug\ResolveAssemblyReference.cache
 F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\UDPClientServerCommons\obj\Debug\UDPClientServerCommons.dll
 F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\UDPClientServerCommons\obj\Debug\UDPClientServerCommons.pdb
+F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\UDPClientServerCommons\bin\Debug\UdpPacketLibrary.dll
+F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\UDPClientServerCommons\bin\Debug\UdpPacketLibrary.pdb

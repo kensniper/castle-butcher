@@ -6,7 +6,7 @@ using System.IO;
 
 namespace UDPClientServerCommons
 {
-    public class Vector : IPacket
+    public class Vector : IPacket,ICloneable
     {
         private float xField;
 
@@ -101,5 +101,16 @@ namespace UDPClientServerCommons
 
             return sb.ToString();
         }
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            Vector copy = new Vector(this.xField, this.yField, this.zField);
+
+            return copy;
+        }
+
+        #endregion
     }
 }

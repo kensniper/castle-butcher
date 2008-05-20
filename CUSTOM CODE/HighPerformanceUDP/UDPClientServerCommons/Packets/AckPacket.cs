@@ -5,9 +5,10 @@ using System.IO;
 
 namespace UDPClientServerCommons
 {
-    public class AckPacket:IPacket
+    public class AckPacket:IPacket,ICloneable
     {
         private const ushort _MTU_PacketSize = 1400;
+        public const int _AckPacketMinimalSize = 6;
 
         private PacketType TypeOfPacketField = PacketType.Join;
 
@@ -49,7 +50,7 @@ namespace UDPClientServerCommons
 
         public byte[] ToMinimalByte()
         {
-            MemoryStream ms = new MemoryStream(6);
+            MemoryStream ms = new MemoryStream(_AckPacketMinimalSize);
             ms.Write(BitConverter.GetBytes((ushort)TypeOfPacketField), 0, 2);
             ms.Write(BitConverter.GetBytes(playerIdField), 0, 2);
             ms.Write(BitConverter.GetBytes(packetIdAckField), 0, 2);
@@ -65,9 +66,21 @@ namespace UDPClientServerCommons
 
         public AckPacket(byte[] binaryAckPacket)
         {
-            this.TypeOfPacketField = (PacketType)Enum.Parse(typeof(PacketType), BitConverter.ToUInt16(binaryAckPacket, 0).ToString());
+            this.TypeOfPacketField = (PacketType) BitConverter.ToUInt16(binaryAckPacket, 0);
             this.playerIdField = BitConverter.ToUInt16(binaryAckPacket, 2);
             this.packetIdAckField = BitConverter.ToUInt16(binaryAckPacket, 4);
+        }
+
+        #endregion
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            AckPacket copy = new AckPacket();
+            copy.playerIdField = this.playerIdField;
+            copy.packetIdAckField = this.packetIdAckField;
+            return copy;
         }
 
         #endregion

@@ -8,7 +8,8 @@ namespace UDPClientServerCommons
     {
         public static PacketType Check(byte[] binaryPacket)
         {
-            return (PacketType)Enum.Parse(typeof(PacketType), BitConverter.ToUInt16(binaryPacket, 0).ToString());
+            ushort tmp = BitConverter.ToUInt16(binaryPacket, 0);
+            return (PacketType)tmp;
         }
     }
 }

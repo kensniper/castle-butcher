@@ -55,7 +55,7 @@ namespace Clutch.Net.UDP
             if (shutdownFlag)
             {
                 // create and bind the socket 
-                IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("172.16.222.86"), udpPort);
+                IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), udpPort);
                 udpSocket = new Socket(
                     AddressFamily.InterNetwork,
                     SocketType.Dgram,
@@ -130,9 +130,9 @@ namespace Clutch.Net.UDP
                 catch (SocketException se)
                 {
                     // something bad happened
-                    System.Diagnostics.EventLog.WriteEntry(ServiceName,
-                        "A SocketException occurred in UDPServer.AsyncBeginReceive():\n\n" + se.Message,
-                        System.Diagnostics.EventLogEntryType.Error);
+                    //System.Diagnostics.EventLog.WriteEntry(ServiceName,
+                    //    "A SocketException occurred in UDPServer.AsyncBeginReceive():\n\n" + se.Message,
+                    //    System.Diagnostics.EventLogEntryType.Error);
 
                     // an error occurred, therefore the operation is void.  Decrement the reference count.
                     Interlocked.Decrement(ref rwOperationCount);
@@ -179,9 +179,10 @@ namespace Clutch.Net.UDP
                 catch (SocketException se)
                 {
                     // something bad happened
-                    System.Diagnostics.EventLog.WriteEntry(ServiceName,
-                        "A SocketException occurred in UDPServer.AsyncEndReceive():\n\n" + se.Message,
-                        System.Diagnostics.EventLogEntryType.Error);
+                    // throw exception
+                    //System.Diagnostics.EventLog.WriteEntry(ServiceName,
+                    //    "A SocketException occurred in UDPServer.AsyncEndReceive():\n\n" + se.Message,
+                    //    System.Diagnostics.EventLogEntryType.Error);
 
                     // an error occurred, therefore the operation is void.  Decrement the reference count.
                     Interlocked.Decrement(ref rwOperationCount);

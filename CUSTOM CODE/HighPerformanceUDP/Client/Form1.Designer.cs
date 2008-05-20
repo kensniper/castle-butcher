@@ -44,7 +44,6 @@ namespace Client
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Visible = false;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // txtSend
             // 
@@ -73,7 +72,6 @@ namespace Client
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Visible = false;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // button1
             // 
@@ -83,7 +81,6 @@ namespace Client
             this.button1.TabIndex = 4;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
@@ -97,6 +94,7 @@ namespace Client
             this.Controls.Add(this.txtReceive);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDoubleClick);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);

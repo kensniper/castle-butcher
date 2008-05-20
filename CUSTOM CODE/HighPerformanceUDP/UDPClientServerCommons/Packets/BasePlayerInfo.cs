@@ -8,6 +8,7 @@
     {
         /// <summary>
         /// Client Packet is formmated this way:
+        /// Packet type 2
         /// PlayerPosition 12
         /// PlayerMovementDirection 12
         /// PlayerLookingDirection 12
@@ -21,13 +22,20 @@
         ///     PlayerDucking} 1
         /// Timestamp 8
         /// 
-        /// Packet length = 47 bytes
+        /// Packet length = 49 bytes
         /// </summary>
-        public class BasePlayerInfo : IPacket
+        public class BasePlayerInfo : IPacket,ICloneable
         {
             public const ushort _MTU_PacketSize = 1400;
 
             private Vector playerPositionField;
+
+            private PacketType typeOfPacketField = PacketType.Standard;
+
+            public PacketType TypeOfPacket
+            {
+                get { return typeOfPacketField; }
+            }
 
             /// <summary>
             /// Stores X,Y,Z floats for player position
@@ -78,6 +86,14 @@
                 get { return playerCarringWeponOneField; }
                 set { playerCarringWeponOneField = value; }
             }
+
+            private bool AckRequiredField = false;
+
+            public bool AckRequired
+            {
+                get { return AckRequiredField; }
+                set { AckRequiredField = value; }
+            }            
 
             private bool playerCarringWeponTwoField;
 
@@ -159,6 +175,7 @@
             {
                 MemoryStream ms = new MemoryStream(size);
 
+                ms.Write(BitConverter.GetBytes((ushort)typeOfPacketField), 0, 2);
                 ms.Write(playerPositionField.ToByte(), 0, 12);
                 ms.Write(playerMovementDirectionField.ToByte(), 0, 12);
                 ms.Write(playerLookingDirectionField.ToByte(), 0, 12);
@@ -172,6 +189,7 @@
                 bitArray[4] = playerWalkingField;
                 bitArray[5] = playerRunningField;
                 bitArray[6] = playerDuckingField;
+                bitArray[7] = AckRequiredField;
 
                 byte[] bits = new byte[1];
                 bitArray.CopyTo(bits, 0);
@@ -194,11 +212,15 @@
 
             public virtual byte[] ToMinimalByte()
             {
-                return ToByteConversion(47);
+                return ToByteConversion(49);
             }
 
             public BasePlayerInfo()
-            { }
+            {
+                playerPositionField = new Vector();
+                playerMovementDirectionField = new Vector();
+                playerLookingDirectionField = new Vector();
+            }
 
             public BasePlayerInfo(BasePlayerInfo oldPacket,
                 Vector newPlayerPosition,
@@ -233,12 +255,12 @@
 
             private void HiddenContructor(byte[] binaryBasePlayerInfo, int index)
             {
-                this.playerPositionField = new Vector(binaryBasePlayerInfo, index);
-                this.playerMovementDirectionField = new Vector(binaryBasePlayerInfo, index + 12);
-                this.playerLookingDirectionField = new Vector(binaryBasePlayerInfo, index + 24);
-                this.playerIdField = (ushort)BitConverter.ToInt16(binaryBasePlayerInfo, index + 36);
+                this.playerPositionField = new Vector(binaryBasePlayerInfo, index+2);
+                this.playerMovementDirectionField = new Vector(binaryBasePlayerInfo, index + 14);
+                this.playerLookingDirectionField = new Vector(binaryBasePlayerInfo, index + 26);
+                this.playerIdField = (ushort)BitConverter.ToInt16(binaryBasePlayerInfo, index + 38);
 
-                byte[] tmp = { binaryBasePlayerInfo[index + 38] };
+                byte[] tmp = { binaryBasePlayerInfo[index + 40] };
                 BitArray bitArray = new BitArray(tmp);
                 playerCarringWeponOneField = bitArray[0];
                 playerCarringWeponTwoField = bitArray[1];
@@ -247,16 +269,14 @@
                 playerWalkingField = bitArray[4];
                 playerRunningField = bitArray[5];
                 playerDuckingField = bitArray[6];
+                AckRequiredField = bitArray[7];
 
-                //this.PacketId = (ushort)BitConverter.ToInt16(binaryBasePlayerInfo, 39);
-                this.Timestamp = DateTime.FromBinary(BitConverter.ToInt64(binaryBasePlayerInfo, index + 39));
+                this.Timestamp = DateTime.FromBinary(BitConverter.ToInt64(binaryBasePlayerInfo, index + 41));
             }
 
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder();
-                //sb.Append(" PacketId = \t");
-                //sb.Append(this.PacketId);
                 sb.Append("\n PlayerCarringWeponOne = \t");
                 sb.Append(playerCarringWeponOneField);
                 sb.Append("\n playerCarringWeponTwo = \t");
@@ -279,10 +299,36 @@
                 sb.Append(this.playerShootingField);
                 sb.Append("\n playerWalkingField = \t");
                 sb.Append(this.playerWalkingField);
+                sb.Append("\n AckRequired = \t");
+                sb.Append(this.AckRequiredField);
                 sb.Append("\n timestampField = \t");
-                sb.Append(this.Timestamp);
+                sb.Append(this.timestampField);
 
                 return sb.ToString();
+            }
+
+            #endregion
+
+            #region ICloneable Members
+
+            public object Clone()
+            {                
+                BasePlayerInfo copy = new BasePlayerInfo();
+                copy.playerCarringWeponOneField = this.PlayerCarringWeponOne;
+                copy.playerCarringWeponTwoField = this.playerCarringWeponTwoField;
+                copy.playerDuckingField = this.playerDuckingField;
+                copy.playerIdField = this.playerIdField;
+                copy.playerJumpingField = this.playerJumpingField;
+                copy.playerLookingDirectionField = (Vector)this.playerLookingDirectionField.Clone();
+                copy.playerMovementDirectionField = (Vector)this.playerMovementDirectionField.Clone();
+                copy.playerPositionField = (Vector)this.playerPositionField.Clone();
+                copy.playerShootingField = this.playerShootingField;
+                copy.timestampField = this.timestampField;
+                copy.typeOfPacketField = this.typeOfPacketField;
+                copy.playerWalkingField = this.playerWalkingField;
+                copy.playerRunningField = this.playerRunningField;
+                copy.AckRequiredField = this.AckRequiredField;
+                return copy;
             }
 
             #endregion

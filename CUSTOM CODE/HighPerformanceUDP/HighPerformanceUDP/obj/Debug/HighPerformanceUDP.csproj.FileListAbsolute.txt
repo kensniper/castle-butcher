@@ -18,3 +18,5 @@ F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\HighPerformance
 F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\HighPerformanceUDP\bin\Debug\UdpPacketLibrary.dll
 F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\HighPerformanceUDP\bin\Debug\UdpPacketLibrary.pdb
 F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\HighPerformanceUDP\obj\Debug\HighPerformanceUDP.pdb
+F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\HighPerformanceUDP\bin\Debug\UDPClientServerCommons.dll
+F:\nauka i praca\nauka\castle\svn\CUSTOM CODE\HighPerformanceUDP\HighPerformanceUDP\bin\Debug\UDPClientServerCommons.pdb
