@@ -44,6 +44,11 @@ namespace CastleButcher.GameEngine
         public CharacterController CharacterController
         {
             get { return characterController; }
+            set
+            {
+                characterController = value;
+                characterController.Reset(this);
+            }
         }
         MyQuaternion lookOrientation;
         public MyQuaternion LookOrientation

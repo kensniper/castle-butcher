@@ -46,9 +46,28 @@ namespace CastleButcher
 
         }
 
-        void JoinServer(object data)
+        void JoinServer(object d)
         {
             waitingForJoin = true;
+            NewGameData data = new NewGameData();
+            ProgressReporter reporter = new ProgressReporter();
+            Thread bkgLoader = new Thread(new ParameterizedThreadStart(delegate(object o)
+            {
+                object[] tab = (object[])o;
+                World.FromFileBkg((string)tab[0], (ProgressReporter)tab[1]);
+            }));
+            bkgLoader.Start(new object[] { AppConfig.MapPath + "respawn_config.xml", reporter });
+            //World.FromFileBkg("respawn_config.xml", reporter);
+            //World.Instance=new
+            //ShipClass shipClass=ObjectCache.Instance.GetShipClass(data.PlayerShip);
+            frameworkWindow.RemoveLayer(mainView);
+            UIPlayer player = new UIPlayer(data.PlayerName, null);
+            mainView = new MainView(reporter, player, new RemoteGameController(player));
+            //mainView = new MainView(reporter, null);
+            //mainView = new MainView(reporter, null);
+            frameworkWindow.RemoveLayer(mainMenu);
+            frameworkWindow.PushLayer(mainView);
+            Cursor.Hide();
         }
 
         private void ResumeGame()
@@ -127,20 +146,7 @@ namespace CastleButcher
 
             if (waitingForJoin)
             {
-                NewGameData data = new NewGameData();
-                ProgressReporter reporter = new ProgressReporter();
-                Thread bkgLoader = new Thread(new ParameterizedThreadStart(delegate(object o)
-                {
-                    object[] tab = (object[])o;
-                    World.FromFileBkg((string)tab[0], (ProgressReporter)tab[1]);
-                }));
-                bkgLoader.Start(new object[] { AppConfig.MapPath + "respawn_config.xml", reporter });
-                frameworkWindow.RemoveLayer(mainView);
-                UIPlayer player=new UIPlayer(data.PlayerName, null); 
-                mainView = new MainView(reporter, player, new RemoteGameController(player));
-                frameworkWindow.RemoveLayer(mainMenu);
-                frameworkWindow.PushLayer(mainView);
-                Cursor.Hide();
+             
             }
             //GM.AppWindow.Text = GM.AppWindow.FPS.ToString();
         }

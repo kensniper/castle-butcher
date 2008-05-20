@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Framework;
+using CastleButcher.GameEngine;
 
-namespace CastleButcher.GameEngine
+namespace CastleButcher.UI
 {
     class AverageQueueFloat
     {
@@ -56,14 +57,19 @@ namespace CastleButcher.GameEngine
             data.Enqueue(f);
         }
     }
-    public class SteeringLayer : GameLayer
+    class SteeringLayer : GameLayer
     {
         float maxX = 50, maxY = 50;
 
         AverageQueueFloat xDeltaAvg, yDeltaAvg;
 
         Player player;
+        Shaker cameraShaker;
 
+        public Shaker CameraShaker
+        {
+            get { return cameraShaker; }
+        }
         public CharacterController CharacterController
         {
             get { return sdev; }
@@ -76,6 +82,7 @@ namespace CastleButcher.GameEngine
             yDeltaAvg = new AverageQueueFloat(3);
 
             RecievesEmptyMouse = true;
+            cameraShaker = new Shaker();
         }
 
         private CharacterController sdev
@@ -114,10 +121,12 @@ namespace CastleButcher.GameEngine
                 if (pressedKeys.Contains(KeyMapping.Default.Forward))
                 {
                     sdev.Velocity = 1;
+                    cameraShaker.StartWalking();
                 }
                 else if (pressedKeys.Contains(KeyMapping.Default.Backward))
                 {
                     sdev.Velocity = -1;
+                    cameraShaker.StopWalking();
                 }
 
 
@@ -142,19 +151,27 @@ namespace CastleButcher.GameEngine
                 if (releasedKeys.Contains(KeyMapping.Default.Forward))
                 {
                     if (sdev.Velocity > 0)
+                    {
                         sdev.Velocity = 0;
+                        cameraShaker.StopWalking();
+                    }
                     if (pressedKeys.Contains(KeyMapping.Default.Backward))
                     {
                         sdev.Velocity = -1;
+                        cameraShaker.StartWalking();
                     }
                 }
                 if (releasedKeys.Contains(KeyMapping.Default.Backward))
                 {
                     if (sdev.Velocity < 0)
+                    {
                         sdev.Velocity = 0;
+                        cameraShaker.StopWalking();
+                    }
                     if (pressedKeys.Contains(KeyMapping.Default.Forward))
                     {
                         sdev.Velocity = 1;
+                        cameraShaker.StartWalking();
                     }
                 }
 
@@ -175,6 +192,14 @@ namespace CastleButcher.GameEngine
                 }
             }
 
+        }
+        public override void OnUpdateFrame(Microsoft.DirectX.Direct3D.Device device, float elapsedTime)
+        {
+            base.OnUpdateFrame(device, elapsedTime);
+            if (player.IsAlive)
+            {
+                cameraShaker.Update(elapsedTime);
+            }
         }
     }
 }

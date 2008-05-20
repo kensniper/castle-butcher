@@ -80,7 +80,7 @@ namespace CastleButcher.UI
             RemoveControl(joinKnights);
             RemoveControl(joinAssassins);
             player.CharacterClass = ObjectCache.Instance.GetAssassinClass();
-            if (controller.IsLocal == true)
+            if (true||controller.IsLocal == true)
             {
                 AddControl(startGame);
             }
@@ -96,7 +96,7 @@ namespace CastleButcher.UI
             RemoveControl(joinKnights);
             RemoveControl(joinAssassins);
             player.CharacterClass = ObjectCache.Instance.GetKnightClass();
-            if (controller.IsLocal == true)
+            if (true ||controller.IsLocal == true)
             {
                 AddControl(startGame);
             }

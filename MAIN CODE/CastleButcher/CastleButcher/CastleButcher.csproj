@@ -47,6 +47,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CustomDlls\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.DirectX.Direct3D, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.DirectX.Direct3DX, Version=1.0.2911.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
@@ -72,6 +76,10 @@
     <Reference Include="UDPClientServerCommons, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CustomDlls\UDPClientServerCommons.dll</HintPath>
+    </Reference>
+    <Reference Include="UdpPacketLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CustomDlls\UdpPacketLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -178,7 +186,7 @@
     <Compile Include="GameEngine\Resources\ResourceCache.cs" />
     <Compile Include="GameEngine\CharacterParameters.cs" />
     <Compile Include="GameEngine\CharacterController.cs" />
-    <Compile Include="GameEngine\SteeringLayer.cs" />
+    <Compile Include="UI\SteeringLayer.cs" />
     <Compile Include="GameEngine\Weapons\WeaponPickup.cs" />
     <Compile Include="GameEngine\Weapons\Arrow.cs" />
     <Compile Include="GameEngine\Weapons\WeaponClass.cs" />
