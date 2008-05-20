@@ -1,0 +1,3 @@
+﻿nie potrzbna flaga biegnie,idzie,stoji, bo wszystko mozna przekazac predkoscia jako wektorem kierunku
+
+poprawic wysylanie ACK, teraz jest bez sensu bo marnuje sie tylko miejsce w pakiecie !!!
