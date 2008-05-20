@@ -149,13 +149,6 @@ namespace SoundSystem
             //SourceNameFinder
             nameFinder = new SourceNameFinder();
 
-            //
-            //PlaySound(SoundTypes.swordFight1,new Vector3());
-           // SoundDescriptor d = new SoundDescriptor(soundCard, "SwordFigth1.wav",
-           //     new Vector3(1,2,3), false);
-            //d.Play();
-
-
         }
 
         /// <summary>
@@ -254,9 +247,16 @@ namespace SoundSystem
         /// Funkcja aktualizujaca pozycje oraz kierunek patrzenia listenera
         /// </summary>
         /// <param name="position">Pozycja listenera</param>
-        /// <param name="direction">Kierunek patrzenia listenera</param>
-        public static void Update(Vector3 position, Vector3 direction)
+        /// <param name="frontOrientation">Przod orientacji glowy listenera</param>
+        /// <param name="topOrientation">Gora orientacji glowy listenera</param>
+        public static void Update(Vector3 position, Vector3 frontOrientation,
+            Vector3 topOrientation)
         {
+            listener.Position = position;
+            Listener3DOrientation orientation = new Listener3DOrientation(frontOrientation,
+                topOrientation);
+            listener.Orientation = orientation;
+            //listener.Orientation.Top = topOrientation;
         }
 
         /// <summary>
