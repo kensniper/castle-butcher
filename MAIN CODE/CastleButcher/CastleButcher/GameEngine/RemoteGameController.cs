@@ -6,6 +6,7 @@ using UDPClientServerCommons.Client;
 using System.Net;
 using CastleButcher.UI;
 using Microsoft.DirectX;
+using Framework.MyMath;
 
 namespace CastleButcher.GameEngine
 {
@@ -44,7 +45,7 @@ namespace CastleButcher.GameEngine
         {
             World.Instance.Start();
             gameStatus = GameStatus.InProgress;
-            clientNetworkLayer.JoinGame(new System.Net.IPEndPoint(IPAddress.Parse("10.0.0.3"), 1234), "kkk", 0);
+            player.NetworkId=clientNetworkLayer.JoinGame(new System.Net.IPEndPoint(IPAddress.Parse("10.0.0.2"), 1234), "kkk", 0);
 
         }
 
@@ -131,15 +132,57 @@ namespace CastleButcher.GameEngine
                     (Vector3)player.CurrentCharacter.LookDirection,
                     (Vector3)player.CurrentCharacter.Velocity);
             }
-            //UDPClientServerCommons.ServerPacket packet=clientNetworkLayer.GetNeewestDataFromServer();
-            //if (packet.PlayerInfoList.Count > World.Instance.Players.Count)
-            //{
+            if (player.IsAlive)
+            {
+                UDPClientServerCommons.ServerPacket packet = ((UDPClientServerCommons.Interfaces.IServerData)clientNetworkLayer).GetNeewestDataFromServer();
+                if (packet != null)
+                {
+                    for (int i = 0; i < packet.PlayerInfoList.Count; i++)
+                    {
+                        UDPClientServerCommons.PlayerInfo pInfo = packet.PlayerInfoList[i];
 
-            //}
-            //for (int i = 0; i < packet.PlayerInfoList.Count; i++)
-            //{
+                        bool newPlayer = false;
+                        foreach (Player pp in World.Instance.Players)
+                        {
+                            if (pInfo.PlayerId == pp.NetworkId)
+                            {
+                                newPlayer = false;
+                                break;
+                            }
+                        }
+                        if (newPlayer)
+                        {
+                            AddPlayer(new Player(pInfo.PlayerId.ToString(), ObjectCache.Instance.GetKnightClass()));
 
-            //}
+                        }
+
+                    }
+                    for (int i = 0; i < packet.PlayerInfoList.Count; i++)
+                    {
+                        UDPClientServerCommons.PlayerInfo pInfo = packet.PlayerInfoList[i];
+
+                        foreach (Player p in World.Instance.Players)
+                        {
+
+                            if (p.NetworkId == pInfo.PlayerId)
+                            {
+                                MyVector v = new MyVector();
+                                v.X = pInfo.PlayerPosition.X;
+                                v.Y = pInfo.PlayerPosition.Y;
+                                v.Z = pInfo.PlayerPosition.Z;
+                                p.CurrentCharacter.Position = v;
+                                v.X = pInfo.PlayerMovementDirection.X;
+                                v.Y = pInfo.PlayerMovementDirection.Y;
+                                v.Z = pInfo.PlayerMovementDirection.Z;
+                                p.CurrentCharacter.Velocity = v;
+
+                            }
+                        }
+
+                    }
+                }
+            }
+
             World.Instance.Update(timeElapsed);
             return true;
         }
