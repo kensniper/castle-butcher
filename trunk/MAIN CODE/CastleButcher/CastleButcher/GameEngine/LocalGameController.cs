@@ -9,7 +9,7 @@ namespace CastleButcher.GameEngine
     {
         public LocalGameController()
         {
-            
+            gameStatus = GameStatus.WaitingForStart;
         }
 
         

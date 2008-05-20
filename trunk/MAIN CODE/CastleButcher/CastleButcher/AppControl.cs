@@ -26,6 +26,7 @@ namespace CastleButcher
         MainView mainView;
 
         bool firstRun = true;
+        bool waitingForJoin = false;
 
         public AppControl(FrameworkWindow window)
         {
@@ -38,10 +39,16 @@ namespace CastleButcher
             mainMenu.OnExitGame += delegate { this.hasFinished = true; window.CloseWindow(); };
             mainMenu.OnNewGame+=new WindowDataHandler(this.StartGame);
             mainMenu.OnResumeGame+=new ButtonEventHandler(this.ResumeGame);
+            mainMenu.OnJoinServer += new WindowDataHandler(JoinServer);
 
             window.PushLayer(mainMenu);
             
 
+        }
+
+        void JoinServer(object data)
+        {
+            //
         }
 
         private void ResumeGame()
@@ -113,8 +120,25 @@ namespace CastleButcher
             base.OnUpdateFrame(device, elapsedTime);
             if (firstRun)
             {
-                //SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.welcomeMusic);
+                SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.welcomeMusic);
                 firstRun = false;
+            }
+
+            if (waitingForJoin)
+            {
+                NewGameData data = new NewGameData();
+                ProgressReporter reporter = new ProgressReporter();
+                Thread bkgLoader = new Thread(new ParameterizedThreadStart(delegate(object o)
+                {
+                    object[] tab = (object[])o;
+                    World.FromFileBkg((string)tab[0], (ProgressReporter)tab[1]);
+                }));
+                bkgLoader.Start(new object[] { AppConfig.MapPath + "respawn_config.xml", reporter });
+                frameworkWindow.RemoveLayer(mainView);
+                mainView = new MainView(reporter, new UIPlayer(data.PlayerName, null), new RemoteGameController());
+                frameworkWindow.RemoveLayer(mainMenu);
+                frameworkWindow.PushLayer(mainView);
+                Cursor.Hide();
             }
             //GM.AppWindow.Text = GM.AppWindow.FPS.ToString();
         }
@@ -135,7 +159,7 @@ namespace CastleButcher
                         Cursor.Show();
 
                         SoundSystem.SoundEngine.StopMusic();
-                        //SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.welcomeMusic);
+                        SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.welcomeMusic);
                     }
                     else
                     {

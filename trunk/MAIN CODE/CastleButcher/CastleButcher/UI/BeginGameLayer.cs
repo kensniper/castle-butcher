@@ -105,9 +105,6 @@ namespace CastleButcher.UI
                 hasFinished = true;
                 System.Windows.Forms.Cursor.Hide();
             }
-
-            
-            
         }
 
 
