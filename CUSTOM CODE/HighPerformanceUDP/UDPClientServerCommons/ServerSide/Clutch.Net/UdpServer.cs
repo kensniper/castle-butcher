@@ -17,6 +17,11 @@ namespace Clutch.Net.UDP
 
         private IPEndPoint ServerIp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1234);
 
+        public IPEndPoint ServerIpAdress
+        {
+            set { ServerIp = value; }
+        }
+
         // the port to listen on
         private int udpPort;
 
@@ -59,7 +64,7 @@ namespace Clutch.Net.UDP
             this.ServerIp = ServerIpAdress;
         }
 
-        protected void Start()
+        protected IPEndPoint Start()
         {
             if (shutdownFlag)
             {
@@ -85,6 +90,7 @@ namespace Clutch.Net.UDP
                 // to "queue up" reads, however I found that it negatively impacted performance.
                 AsyncBeginReceive();
             }
+            return ServerIp;
         }
 
         protected void Stop()

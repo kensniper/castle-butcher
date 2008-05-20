@@ -26,9 +26,6 @@ namespace UDPClientServerCommons.Client
 
         public event PacketReceived PacketWasReceived;
 
-        private readonly object isClosingLock = new object();
-        private bool isClosing = false;
-
         /// <summary>
         ///  the port to listen on
         /// </summary>
@@ -52,6 +49,26 @@ namespace UDPClientServerCommons.Client
         /// timer
         /// </summary>
         private System.Threading.Timer timer;
+
+        // the ReaderWriterLock is used solely for the purposes of shutdown (Stop()).
+        // since there are potentially many "reader" threads in the internal .NET IOCP
+        // thread pool, this is a cheaper synchronization primitive than using
+        // a Mutex object.  This allows many UDP socket "reads" concurrently - when
+        // Stop() is called, it attempts to obtain a writer lock which will then
+        // wait until all outstanding operations are completed before shutting down.
+        // this avoids the problem of closing the socket with outstanding operations
+        // and trying to catch the inevitable ObjectDisposedException.
+        private ReaderWriterLock rwLock = new ReaderWriterLock();
+
+        // number of outstanding operations.  This is a reference count
+        // which we use to ensure that the threads exit cleanly. Note that
+        // we need this because the threads will potentially still need to process
+        // data even after the socket is closed.
+        private int rwOperationCount = 0;
+
+        // the all important shutdownFlag.  This is synchronized through the ReaderWriterLock.
+        private bool shutdownFlag = true;
+
 
         public UDPLayer(int port)
         {
@@ -85,28 +102,40 @@ namespace UDPClientServerCommons.Client
 
         public void StartUdpSocket()
         {
-            IPEndPoint ipep = new IPEndPoint(IPAddress.Any, udpPort);
-            udpSocket = new Socket(
-                AddressFamily.InterNetwork,
-                SocketType.Dgram,
-                ProtocolType.Udp);
-            udpSocket.Bind(ipep);
-            AsyncBeginReceive();
+            if (shutdownFlag)
+            {
+                IPEndPoint ipep = new IPEndPoint(IPAddress.Any, udpPort);
+                udpSocket = new Socket(
+                    AddressFamily.InterNetwork,
+                    SocketType.Dgram,
+                    ProtocolType.Udp);
+                udpSocket.Bind(ipep);
 
-            // start sending data
-            timer.Change(0, TimerTickPeriod);
+                // we're not shutting down, we're starting up
+                shutdownFlag = false;
+
+                AsyncBeginReceive();
+
+
+                // start sending data
+                timer.Change(0, TimerTickPeriod);
+            }
         }
 
         private void AsyncBeginReceive()
         {
             bool tmp = false;
 
-            lock (isClosingLock)
+            // this method actually kicks off the async read on the socket.
+            // we aquire a reader lock here to ensure that no other thread
+            // is trying to set shutdownFlag and close the socket.
+            rwLock.AcquireReaderLock(-1);
+
+            if (!shutdownFlag)
             {
-                tmp = isClosing;
-            }
-                if (!tmp)
-                {
+                // increment the count of pending operations
+                Interlocked.Increment(ref rwOperationCount);
+
                     // allocate a packet buffer
                     UDPPacketBuffer buf = new UDPPacketBuffer();
 
@@ -124,13 +153,19 @@ namespace UDPClientServerCommons.Client
                     }
                     catch (SocketException se)
                     {
-                        Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncBeginReceive", se);                        
+                        Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncBeginReceive", se);                        // an error occurred, therefore the operation is void.  Decrement the reference count.
+                        Interlocked.Decrement(ref rwOperationCount);
+                
                     }
                     catch (Exception ex)
                     {
-                        Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncBeginReceive", ex);                        
+                        Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncBeginReceive", ex);                        // an error occurred, therefore the operation is void.  Decrement the reference count.
+                        Interlocked.Decrement(ref rwOperationCount);
+                
                     }
                 }
+            // we're done with the socket for now, release the reader lock.
+            rwLock.ReleaseReaderLock();
         }
 
         private void AsyncEndReceive(IAsyncResult iar)
@@ -138,14 +173,11 @@ namespace UDPClientServerCommons.Client
             // Asynchronous receive operations will complete here through the call
             // to AsyncBeginReceive
 
-            // start another receive - this keeps the server going!
-            bool tmp = false;
-            lock (isClosingLock)
+            // aquire a reader lock
+            rwLock.AcquireReaderLock(-1);
+
+            if (!shutdownFlag)
             {
-                tmp = isClosing;
-            }
-                if (!tmp)
-                {
                     AsyncBeginReceive();
 
                     // get the buffer that was created in AsyncBeginReceive
@@ -158,33 +190,51 @@ namespace UDPClientServerCommons.Client
                         // buffer
                         buffer.DataLength = udpSocket.EndReceiveFrom(iar, ref buffer.RemoteEndPoint);
 
+                        // this operation is now complete, decrement the reference count
+                        Interlocked.Decrement(ref rwOperationCount);
+
+                        // we're done with the socket, release the reader lock
+                        rwLock.ReleaseReaderLock();
+
                         // call the abstract method PacketReceived(), passing the buffer that
                         // has just been filled from the socket read.
                         PacketWasReceived(buffer);
                     }
                     catch (SocketException se)
                     {
-                        Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncEndReceive", se);                        
+                        Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncEndReceive", se); 
+                        Interlocked.Decrement(ref rwOperationCount);
+
+                        // we're done with the socket for now, release the reader lock.
+                        rwLock.ReleaseReaderLock();
                     }
                     catch (Exception ex)
                     {
-                        Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncEndReceive", ex);                        
+                        Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncEndReceive", ex);
+                        Interlocked.Decrement(ref rwOperationCount);
+
+                        // we're done with the socket for now, release the reader lock.
+                        rwLock.ReleaseReaderLock();
                     }
+                }
+                else
+                {
+                    // nothing bad happened, but we are done with the operation
+                    // decrement the reference count and release the reader lock
+                    Interlocked.Decrement(ref rwOperationCount);
+                    rwLock.ReleaseReaderLock();
                 }
         }
 
         private void AsyncBeginSend(UDPPacketBuffer buf)
         {
-            bool tmp = false;
-            
-            lock (isClosingLock)
+            rwLock.AcquireReaderLock(-1);
+            if (!shutdownFlag)
             {
-                tmp=isClosing;
-            }
-                if (!tmp)
-                {
                     try
                     {
+                        Interlocked.Increment(ref rwOperationCount);
+                    
                         udpSocket.BeginSendTo(
                             buf.Data,
                             0,
@@ -203,18 +253,14 @@ namespace UDPClientServerCommons.Client
                         Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncBeginSend", ex);                        
                     }
                 }
+            rwLock.ReleaseReaderLock();
         }
 
         private void AsyncEndSend(IAsyncResult iar)
         {
-            bool tmp = false;
-
-            lock (isClosingLock)
+            rwLock.AcquireReaderLock(-1);
+            if (!shutdownFlag)
             {
-                tmp = isClosing;
-            }
-                if (!tmp)
-                {
                     UDPPacketBuffer buffer = (UDPPacketBuffer)iar.AsyncState;
 
                     try
@@ -230,6 +276,8 @@ namespace UDPClientServerCommons.Client
                         Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncEndSend", ex);                        
                     }
                 }
+            Interlocked.Decrement(ref rwOperationCount);
+            rwLock.ReleaseReaderLock();
         }
 
         public void SendPacket(UDPPacketBuffer udpPacketBuffer)
@@ -253,12 +301,23 @@ namespace UDPClientServerCommons.Client
         {
             try
             {
-                lock (isClosingLock)
-                {
-                    isClosing = true;
-                    Thread.Sleep(200);
+           if (!shutdownFlag)
+            {
+                // wait indefinitely for a writer lock.  Once this is called, the .NET runtime
+                // will deny any more reader locks, in effect blocking all other send/receive
+                // threads.  Once we have the lock, we set shutdownFlag to inform the other
+                // threads that the socket is closed.
+                rwLock.AcquireWriterLock(-1);
+                shutdownFlag = true;
+
                     if (udpSocket != null)
                         udpSocket.Close();
+                  rwLock.ReleaseWriterLock();
+
+                // wait for any pending operations to complete on other
+                // threads before exiting.
+                while (rwOperationCount > 0)
+                    Thread.Sleep(1);
                 }
             }
             catch (Exception ex)

@@ -18,7 +18,8 @@ namespace HighPerformanceUDP
         public MyUdpServerForm()
         {
             InitializeComponent();
-            serverSide = new ServerSide(new IPEndPoint(IPAddress.Parse("10.0.0.3"),1234));
+            //serverSide = new ServerSide(new IPEndPoint(IPAddress.Parse("10.0.0.3"),1234));
+            serverSide = new ServerSide(1234);
             serverSide.StartServer();
 }        
     }
