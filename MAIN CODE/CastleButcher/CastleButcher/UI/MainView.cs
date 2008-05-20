@@ -106,7 +106,6 @@ namespace CastleButcher.UI
                 World.Instance.Update(elapsedTime);
                 renderer.Update(elapsedTime);
 
-
             }
             else
             {
@@ -205,7 +204,6 @@ namespace CastleButcher.UI
             //}
             //renderer.currentEffect.DxEffect.EndPass();
             //renderer.currentEffect.DxEffect.End();
-
 
             //*******************************************************
             foreach (IGameObject obj in World.Instance.GameObjects)
