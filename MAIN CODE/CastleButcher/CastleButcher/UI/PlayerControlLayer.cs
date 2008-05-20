@@ -41,7 +41,12 @@ namespace CastleButcher.UI
         SteeringLayer slay;
         GameController gameController;
 
-        //Shaker cameraShaker;
+        Shaker cameraShaker;
+
+        public Shaker CameraShaker
+        {
+            get { return cameraShaker; }
+        }
 
         public bool ShowPlayerList
         {
@@ -63,7 +68,7 @@ namespace CastleButcher.UI
             this.isTransparent = true;
             this.RecievesEmptyMouse = true;
             RecievesEmptyMouse = true;
-            //cameraShaker=new Shaker();
+            cameraShaker = new Shaker();
 
             gameController = controller;
             slay = new SteeringLayer(player);
@@ -207,12 +212,13 @@ namespace CastleButcher.UI
 
             if (player.CurrentCharacter != null)
             {
-                //cameraShaker.Update
+                cameraShaker.Update(elapsedTime);
                 SoundSystem.SoundEngine.Update((Vector3)player.CurrentCharacter.Position, (Vector3)player.CurrentCharacter.LookDirection);
 
 
-                velocity.Text = player.CurrentCharacter.CharacterController.SetVelocity.ToString() + ":" +
-                    player.CurrentCharacter.Velocity.ToString();
+                //velocity.Text = player.CurrentCharacter.CharacterController.SetVelocity.ToString() + ":" +
+                //    player.CurrentCharacter.Velocity.ToString();
+                velocity.Text = cameraShaker.Position.ToString();
                 //velocity.Text = player.CurrentShip.RigidBodyData.AngularVelocity.Length.ToString();
                 shield.Text = "S:" + player.CurrentCharacter.ArmorState.Shield.ToString();
                 hp.Text = "HP:" + player.CurrentCharacter.ArmorState.Hp.ToString();

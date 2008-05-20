@@ -18,7 +18,10 @@ namespace CastleButcher.UI
         bool walking;
         float a, b;
         bool destination_chaged;
-
+        public Shaker()
+        {
+            Reset();
+        }
         public float Angle
         {
             get { return angle; }
