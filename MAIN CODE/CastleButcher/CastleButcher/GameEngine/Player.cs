@@ -22,8 +22,8 @@ namespace CastleButcher.GameEngine
 
         public ushort NetworkId
         {
-            get { return id; }
-            set { id = value; }
+            get { return networkId; }
+            set { networkId = value; }
         }
 
         public CharacterController CharacterController

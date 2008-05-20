@@ -8,6 +8,10 @@ namespace CastleButcher.UI
 {
     class UICharacterController:CharacterController
     {
+        public UICharacterController(Character character)
+            : base(character)
+        {
 
+        }
     }
 }
