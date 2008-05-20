@@ -45,7 +45,7 @@ namespace Client
 
         public Form1(int port)
         {
-            IPEndPoint ServerIpep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1234);
+            IPEndPoint ServerIpep = new IPEndPoint(IPAddress.Parse("10.0.0.3"), 1234);
 
             InitializeComponent();
             ClientSideNetworking = new UDPClientServerCommons.Client.ClientSide(port);

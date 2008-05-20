@@ -1,7 +1,0 @@
-F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPClientPacket\obj\Debug\ResolveAssemblyReference.cache
-F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPClientPacket\bin\Debug\UDPClientPacket.dll
-F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPClientPacket\bin\Debug\UDPClientPacket.pdb
-F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPClientPacket\bin\Debug\UDPClientServerCommons.dll
-F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPClientPacket\bin\Debug\UDPClientServerCommons.pdb
-F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPClientPacket\obj\Debug\UDPClientPacket.dll
-F:\nauka i praca\nauka\castle\my\HighPerformanceUDP\UDPClientPacket\obj\Debug\UDPClientPacket.pdb
