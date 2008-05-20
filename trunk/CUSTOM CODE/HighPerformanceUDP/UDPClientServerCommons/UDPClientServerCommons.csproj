@@ -33,8 +33,11 @@
   <ItemGroup>
     <Compile Include="Client\ClientSide.cs" />
     <Compile Include="Client\UDPLayer.cs" />
+    <Compile Include="Constants\WeaponEnumeration.cs" />
     <Compile Include="Diagnostic\NetworkingDiagnostics.cs" />
     <Compile Include="GameWorld\GameWorld.cs" />
+    <Compile Include="Interfaces\ISend.cs" />
+    <Compile Include="Interfaces\IServerData.cs" />
     <Compile Include="Packets\AckPacket.cs" />
     <Compile Include="Packets\BasePlayerInfo.cs" />
     <Compile Include="Packets\ClientPacket.cs" />
@@ -47,7 +50,7 @@
     <Compile Include="Usefull\BadPackageIdException.cs" />
     <Compile Include="Usefull\Last10.cs" />
     <Compile Include="Constants\PacketTypeChecker.cs" />
-    <Compile Include="Packets\PacketTypeEnumeration.cs" />
+    <Compile Include="Constants\PacketTypeEnumeration.cs" />
     <Compile Include="Packets\PlayerInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Packets\ServerPacket.cs" />
@@ -59,7 +62,9 @@
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CustomDlls\log4net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
+    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -68,6 +73,7 @@
     <ProjectReference Include="..\UdpPacketLibrary\UdpPacketLibrary.csproj">
       <Project>{C48AEAC0-49C5-4ADD-84C2-5297170A08DB}</Project>
       <Name>UdpPacketLibrary</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
