@@ -265,9 +265,9 @@ namespace Clutch.Net.UDP
                 }
                 catch (SocketException se)
                 {
-                    System.Diagnostics.EventLog.WriteEntry(ServiceName,
-                        "A SocketException occurred in UDPServer.AsyncEndSend():\n\n" + se.Message,
-                        System.Diagnostics.EventLogEntryType.Error);
+                    //System.Diagnostics.EventLog.WriteEntry(ServiceName,
+                    //    "A SocketException occurred in UDPServer.AsyncEndSend():\n\n" + se.Message,
+                    //    System.Diagnostics.EventLogEntryType.Error);
                 }
             }
 
