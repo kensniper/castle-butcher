@@ -44,6 +44,8 @@ namespace CastleButcher.UI
             base.OnRespawned();
 
             Spectating = false;
+
+            playerControl.ShowPlayerList = false;
         }
     }
 }

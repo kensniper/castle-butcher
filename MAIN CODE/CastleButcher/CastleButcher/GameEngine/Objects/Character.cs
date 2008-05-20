@@ -177,7 +177,7 @@ namespace CastleButcher.GameEngine
             get { return armorState; }
         }
 
-        public void TakeDamage(int damage)
+        public virtual bool TakeDamage(int damage)
         {
 
 
@@ -196,8 +196,10 @@ namespace CastleButcher.GameEngine
             {
 
                 armorState.Hp = 0;
-                World.Instance.PlayerKilled(this.Player);
+                
+                return true;
             }
+            return false;
 
 
 

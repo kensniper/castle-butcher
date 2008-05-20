@@ -338,7 +338,7 @@ namespace Framework.Physics
 
                 for (int i = 1; i < objects.Count; i++)
                 {
-                    if (walkingEnabled[objects[i]])
+                    if (walkingEnabled[objects[i]] && walkAmount.ContainsKey(objects[i]))
                     {
                         collisionDetector.LowerObject(objects[i], walkData[objects[i]], objects[0], walkAmount[objects[i]]);
                     }
