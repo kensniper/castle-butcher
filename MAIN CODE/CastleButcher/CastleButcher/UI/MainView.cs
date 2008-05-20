@@ -155,22 +155,11 @@ namespace CastleButcher.UI
 
 
 
-            
-
-
-
-            
-            
 
             renderer.ShaderConstants.SetMatrices(Matrix.Identity, Matrix.LookAtRH((Vector3)pos, (Vector3)target, (Vector3)up),
                 device.Transform.Projection);
             device.RenderState.ZBufferEnable = true;
             device.RenderState.ZBufferWriteEnable = true;
-
-
-
-
-
 
 
 
