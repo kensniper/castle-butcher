@@ -4,6 +4,7 @@ using System.Text;
 using Framework.Physics;
 using Framework.MyMath;
 using Framework;
+using Microsoft.DirectX;
 
 namespace CastleButcher.GameEngine
 {
@@ -211,6 +212,10 @@ namespace CastleButcher.GameEngine
                 v.Y += GameSettings.Default.JumpSpeed;
                 character.Velocity = v;
                 character.HasGroundContact = false;
+                if (character.CharacterClass.GameTeam == GameTeam.Assassins)
+                    SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.assassinJah, (Vector3)this.character.Position);
+                else if (character.CharacterClass.GameTeam == GameTeam.Knights)
+                    SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.knightHou, (Vector3)this.character.Position);
             }
         }
         public virtual float SetVelocity

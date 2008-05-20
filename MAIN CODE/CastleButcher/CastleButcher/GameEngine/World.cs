@@ -363,7 +363,8 @@ namespace CastleButcher.GameEngine
             {
                 this.RespawnPlayer(p);
             }
-            SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.round1Music);
+            SoundSystem.SoundEngine.StopMusic();
+            //SoundSystem.SoundEngine.PlayMusic(SoundSystem.Enums.MusicTypes.round1Music);
 
         }
 

@@ -215,7 +215,7 @@ namespace CastleButcher.UI
             if (player.CurrentCharacter != null)
             {
                 slay.OnUpdateFrame(device, elapsedTime);
-                SoundSystem.SoundEngine.Update((Vector3)player.CurrentCharacter.Position, (Vector3)player.CurrentCharacter.LookDirection);
+                SoundSystem.SoundEngine.Update((Vector3)player.CurrentCharacter.Position, (Vector3)player.CurrentCharacter.LookDirection, new Vector3(0, 1, 0));
 
 
                 //velocity.Text = player.CurrentCharacter.CharacterController.SetVelocity.ToString() + ":" +

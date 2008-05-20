@@ -52,7 +52,10 @@ namespace CastleButcher
                     SoundSystem.SoundEngine.InitializeEngine(GM.AppWindow);
                     SoundSystem.SoundEngine.NameFinder.MusicDirectoryPath = GameSettings.Default.MusicPath;
                     SoundSystem.SoundEngine.NameFinder.SoundDirectoryPath = GameSettings.Default.SoundPath;
+
                     //SoundSystem.SoundEngine.ListenerUpVector = new Vector3(0, 1, 0);
+                    //SoundSystem.SoundEngine.Update(new Vector3(10, -15, 12), new Vector3(0, 0, -1),new Vector3(0,1,0));
+                    //SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.fanfare1, new Vector3(10, -15, 12));
                     Application.Idle += new EventHandler(form.OnApplicationIdle);
                     Application.Run(form);
                     Properties.Settings.Default.Save();
