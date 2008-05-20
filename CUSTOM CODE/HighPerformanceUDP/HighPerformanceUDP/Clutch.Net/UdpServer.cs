@@ -15,6 +15,8 @@ namespace Clutch.Net.UDP
     {
         private const string ServiceName = "UDP_Server";
 
+        private IPEndPoint ServerIp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1234);
+
         // the port to listen on
         private int udpPort;
 
@@ -48,6 +50,13 @@ namespace Clutch.Net.UDP
         public UDPServer(int port)
         {
             this.udpPort = port;
+            this.ServerIp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
+        }
+
+        public UDPServer(IPEndPoint ServerIpAdress)
+        {
+            this.udpPort = ServerIp.Port;
+            this.ServerIp = ServerIpAdress;
         }
 
         protected void Start()
@@ -55,7 +64,7 @@ namespace Clutch.Net.UDP
             if (shutdownFlag)
             {
                 // create and bind the socket 
-                IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), udpPort);
+                IPEndPoint ipep = ServerIp;
                 udpSocket = new Socket(
                     AddressFamily.InterNetwork,
                     SocketType.Dgram,
@@ -179,7 +188,6 @@ namespace Clutch.Net.UDP
                 catch (SocketException se)
                 {
                     // something bad happened
-                    // throw exception
                     //System.Diagnostics.EventLog.WriteEntry(ServiceName,
                     //    "A SocketException occurred in UDPServer.AsyncEndReceive():\n\n" + se.Message,
                     //    System.Diagnostics.EventLogEntryType.Error);
@@ -222,9 +230,9 @@ namespace Clutch.Net.UDP
                 }
                 catch (SocketException se)
                 {
-                    System.Diagnostics.EventLog.WriteEntry(ServiceName,
-                        "A SocketException occurred in UDPServer.AsyncBeginSend():\n\n" + se.Message,
-                        System.Diagnostics.EventLogEntryType.Error);
+                    //System.Diagnostics.EventLog.WriteEntry(ServiceName,
+                    //    "A SocketException occurred in UDPServer.AsyncBeginSend():\n\n" + se.Message,
+                    //    System.Diagnostics.EventLogEntryType.Error);
                 }
             }
 
