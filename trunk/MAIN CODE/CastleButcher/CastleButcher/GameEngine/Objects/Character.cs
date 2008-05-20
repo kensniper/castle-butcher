@@ -185,6 +185,7 @@ namespace CastleButcher.GameEngine
         public virtual bool TakeDamage(int damage)
         {
 
+         
 
             armorState.Shield -= damage;
             if (armorState.Shield <= 0)
@@ -201,9 +202,19 @@ namespace CastleButcher.GameEngine
             {
 
                 armorState.Hp = 0;
+                if (characterClass.GameTeam == GameTeam.Assassins)
+                    SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.assassinShortDeath, (Vector3)Position);
+                else if (characterClass.GameTeam == GameTeam.Knights)
+                    SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.knightShortDeath, (Vector3)Position);
+
                 
                 return true;
             }
+            if (characterClass.GameTeam == GameTeam.Assassins)
+                SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.assassinJooaah, (Vector3)Position);
+            else if (characterClass.GameTeam == GameTeam.Knights)
+                SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.knightUueh, (Vector3)Position);
+
             return false;
 
 

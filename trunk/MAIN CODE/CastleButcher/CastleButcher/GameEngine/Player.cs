@@ -140,6 +140,8 @@ namespace CastleButcher.GameEngine
             IsAlive = false;
             deaths++;
             //World.Instance.RespawnPilot(this);
+
+            
         }
         public virtual void OnRespawned()
         {
@@ -149,6 +151,8 @@ namespace CastleButcher.GameEngine
         {
             if(parameters.CollisionNormal.Y>0.5)
                 CurrentCharacter.HasGroundContact = true;
+
+            
         }
 
         public virtual void OnCharacterCollision(Character character, CollisionParameters parameters)
@@ -160,7 +164,10 @@ namespace CastleButcher.GameEngine
         {
             if(missile.WeaponClass is CrossbowClass)
             {
-                SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.mansScream1, (Vector3)parameters.CollisionPoint);
+                //if(characterClass.GameTeam== GameTeam.Assassins)
+                //    SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.assassinScream1, (Vector3)parameters.CollisionPoint);
+                //else if (characterClass.GameTeam == GameTeam.Knights)
+                //    SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.knightScream1, (Vector3)parameters.CollisionPoint);
 
             }
         }
