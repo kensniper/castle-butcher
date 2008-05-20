@@ -18,6 +18,14 @@ namespace CastleButcher.GameEngine
         protected CharacterClass characterClass;
         protected bool isAlive;
 
+        protected ushort networkId;
+
+        public ushort NetworkId
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
         public CharacterController CharacterController
         {
             get { return CurrentCharacter.CharacterController; }

@@ -9,6 +9,14 @@ namespace CastleButcher.GameEngine
 {
     public abstract class CharacterClass
     {
+        ushort networkId;
+
+        public ushort NetworkId
+        {
+            get { return networkId; }
+            set { networkId = value; }
+        }
+
 
         public abstract PlayerMovementParameters MovementParameters
         {
