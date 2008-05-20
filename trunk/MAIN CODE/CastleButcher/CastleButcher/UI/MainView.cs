@@ -127,6 +127,8 @@ namespace CastleButcher.UI
         {
             CharacterController sdev = player.CurrentCharacter.CharacterController;
             MyVector pos = player.CurrentCharacter.Position;
+            pos.X += player.PlayerControl.CameraShaker.Position.X;
+            pos.Y += player.PlayerControl.CameraShaker.Position.Y;
             //pos.Y += 9;
             MyVector target = pos + sdev.LookVector;
             
@@ -145,7 +147,9 @@ namespace CastleButcher.UI
                 renderer.ShaderConstants.SetCamera(new MyVector(0, 0, 0), new MyVector(0, 1, 0), new MyVector(0, 0, -1));
                 renderer.ShaderConstants.SetMatrices(Matrix.Identity, Matrix.Identity,
                 device.Transform.Projection);
-                renderer.RenderRD(meshWithWeapon, /*Matrix.Translation(0, 0, -10) */ Matrix.Identity);
+                renderer.RenderRD(meshWithWeapon, Matrix.Translation(player.PlayerControl.CameraShaker.Position.X,
+                                                    player.PlayerControl.CameraShaker.Position.Y, 
+                                                    player.PlayerControl.CameraShaker.Position.Z));
             }
             renderer.ShaderConstants.SetCamera(pos, sdev.UpVector, sdev.LookVector);
 
