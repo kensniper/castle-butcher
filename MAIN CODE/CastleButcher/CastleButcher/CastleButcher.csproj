@@ -71,7 +71,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="UDPClientServerCommons, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\UDPClientServerCommons.dll</HintPath>
+      <HintPath>..\CustomDlls\UDPClientServerCommons.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
