@@ -137,7 +137,6 @@
     <Compile Include="GameEngine\AI\AIPlayer.cs" />
     <Compile Include="GameEngine\AppConfig.cs" />
     <Compile Include="GameEngine\GameController.cs" />
-    <Compile Include="GameEngine\GameSession.cs" />
     <Compile Include="GameEngine\Graphics\BillboardObject.cs" />
     <Compile Include="GameEngine\Graphics\ConstantsMap.cs" />
     <Compile Include="GameEngine\Graphics\Environment.cs" />
@@ -147,6 +146,7 @@
     <Compile Include="GameEngine\Graphics\Particles\ParticleClass.cs" />
     <Compile Include="GameEngine\Graphics\Particles\ParticleEmitter.cs" />
     <Compile Include="GameEngine\Graphics\Particles\ParticleSystem.cs" />
+    <Compile Include="GameEngine\RemoteGameController.cs" />
     <Compile Include="GameEngine\Graphics\Renderer.cs" />
     <Compile Include="GameEngine\Graphics\SkyBox.cs" />
     <Compile Include="GameEngine\LocalGameController.cs" />

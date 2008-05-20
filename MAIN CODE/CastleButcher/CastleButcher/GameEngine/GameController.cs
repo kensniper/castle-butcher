@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CastleButcher.GameEngine
 {
-    public enum GameStatus { WaitingForStart, InProgress };
+    public enum GameStatus { WaitingToConnect, WaitingForStart, InProgress };
     public abstract class GameController
     {
         protected GameStatus gameStatus;

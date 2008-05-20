@@ -83,9 +83,9 @@ namespace CastleButcher.UI
 
             numFrags = new GuiTextLabel("0", new RectangleF(10, bottom - 40, 150, 18), 18);
             numDeaths = new GuiTextLabel("0", new RectangleF(10, bottom - 20, 150, 18), 18);
-            statusInfo = new GuiTextLabel("", new RectangleF(0, size.Height / 2 - 20, size.Width, size.Height / 2 + 20), 40, "Ghotic",
-                Align.Center, Color.Brown);
-
+            statusInfo = new GuiTextLabel("", new RectangleF(0, 100, size.Width, 40), 40, "Ghotic",
+                Align.Center, Color.Black);
+            AddControl(statusInfo);
 
             AddControl(velocity);
             AddControl(shield);
@@ -188,16 +188,15 @@ namespace CastleButcher.UI
         {
             base.OnUpdateFrame(device, elapsedTime);
 
-            if (gameController.GameStatus == GameStatus.WaitingForStart && statusInfo.IsDisabled == true)
+            if (gameController.GameStatus == GameStatus.WaitingForStart)
             {
-                statusInfo.Enable();
-                statusInfo.Text = "Oczekiwanie na innych graczy";
-                AddControl(statusInfo);
+                if (statusInfo.Text != "Oczekiwanie na innych graczy")
+                    statusInfo.Text = "Oczekiwanie na innych graczy";
             }
             else
             {
-                statusInfo.Disable();
-                RemoveControl(statusInfo);
+                if (statusInfo.Text != "")
+                    statusInfo.Text = "";
             }
 
 
@@ -228,7 +227,7 @@ namespace CastleButcher.UI
                 if (player.CurrentCharacter.Weapons.CurrentWeapon != null && player.CurrentCharacter.Weapons.CurrentWeaponType ==
                     CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
                 {
-                    weaponAmmo.Text = player.CurrentCharacter.Weapons.CurrentRanged.Ammo.ToString();
+                    weaponAmmo.Text = "Ammo:"+player.CurrentCharacter.Weapons.CurrentRanged.Ammo.ToString();
                 }
                 else
                     weaponAmmo.Text = "";
