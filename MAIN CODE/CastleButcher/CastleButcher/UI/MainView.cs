@@ -95,11 +95,7 @@ namespace CastleButcher.UI
         {
             base.OnUpdateFrame(device, elapsedTime);
 
-            if (player.CurrentCharacter != null)
-            {
-                SoundSystem.SoundEngine.Update((Vector3)player.CurrentCharacter.Position, (Vector3)player.CurrentCharacter.LookDirection);
-
-            }
+            
             if (worldLoaded == true)
             {
 
