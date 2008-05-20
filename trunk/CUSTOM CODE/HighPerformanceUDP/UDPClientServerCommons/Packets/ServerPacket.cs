@@ -112,7 +112,7 @@ namespace UDPClientServerCommons
         public ServerPacket(byte[] binaryServerPacket)
         {
             this.packetIdField = BitConverter.ToUInt16(binaryServerPacket, 0);
-            this.packetTypeField = (PacketType)Enum.Parse(typeof(PacketType), BitConverter.ToUInt16(binaryServerPacket, 2).ToString());
+            this.packetTypeField = (PacketType)BitConverter.ToUInt16(binaryServerPacket, 2);
             this.numberOfPlayersField = BitConverter.ToUInt16(binaryServerPacket, 4);
             this.timestampField = DateTime.FromBinary(BitConverter.ToInt64(binaryServerPacket, 6));
             this.playerInfoListField = new List<PlayerInfo>();

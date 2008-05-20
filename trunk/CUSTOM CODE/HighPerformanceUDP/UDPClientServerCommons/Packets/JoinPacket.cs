@@ -5,7 +5,7 @@ using System.IO;
 
 namespace UDPClientServerCommons
 {
-    public class JoinPacket : IPacket
+    public class JoinPacket : IPacket,ICloneable
     {
         public const ushort _MTU_PacketSize = 1400;
 
@@ -14,6 +14,14 @@ namespace UDPClientServerCommons
         public PacketType TypeOfPacket
         {
             get { return TypeOfPacketField; }
+        }
+
+        private ushort packetIdField;
+
+        public ushort PacketId
+        {
+            get { return packetIdField; }
+            set { packetIdField = value; }
         }
 
         private ushort playerIdField;
@@ -44,12 +52,15 @@ namespace UDPClientServerCommons
 
         public byte[] ToByte()
         {
+            ushort tmp = (ushort)TypeOfPacketField;
+
             MemoryStream ms = new MemoryStream(_MTU_PacketSize);
             ms.Write(BitConverter.GetBytes((ushort)TypeOfPacketField), 0, 2);
             ms.Write(BitConverter.GetBytes(playerIdField), 0, 2);
             ms.Write(BitConverter.GetBytes(GameIdField), 0, 2);
-            //ms.Write(BitConverter.GetBytes(PlayerNameField, 0, Convert.ToUInt16(Encoding.ASCII.GetByteCount(PlayerNameField)));
+            ms.Write(BitConverter.GetBytes(Convert.ToUInt16(Encoding.ASCII.GetByteCount(PlayerNameField))), 0, 2);
             ms.Write(Encoding.ASCII.GetBytes(PlayerNameField), 0, Encoding.ASCII.GetByteCount(PlayerNameField));
+            ms.Write(BitConverter.GetBytes(playerIdField), 0, 2);
 
             byte[] result = ms.GetBuffer();
             ms.Close();
@@ -59,12 +70,15 @@ namespace UDPClientServerCommons
 
         public byte[] ToMinimalByte()
         {
-            MemoryStream ms = new MemoryStream(6 + Encoding.ASCII.GetByteCount(PlayerNameField));
+            ushort tmp = (ushort)TypeOfPacketField;
+
+            MemoryStream ms = new MemoryStream(8 + Encoding.ASCII.GetByteCount(PlayerNameField));
             ms.Write(BitConverter.GetBytes((ushort)TypeOfPacketField), 0, 2);
             ms.Write(BitConverter.GetBytes(playerIdField), 0, 2);
             ms.Write(BitConverter.GetBytes(GameIdField), 0, 2);
-            //ms.Write(BitConverter.GetBytes(Convert.ToUInt16(Encoding.ASCII.GetByteCount(PlayerNameField), 0, 2));
+            ms.Write(BitConverter.GetBytes(Convert.ToUInt16(Encoding.ASCII.GetByteCount(PlayerNameField))), 0, 2);
             ms.Write(Encoding.ASCII.GetBytes(PlayerNameField), 0, Encoding.ASCII.GetByteCount(PlayerNameField));
+            ms.Write(BitConverter.GetBytes(playerIdField), 0, 2);
 
             byte[] result = ms.GetBuffer();
             ms.Close();
@@ -79,12 +93,28 @@ namespace UDPClientServerCommons
 
         public JoinPacket(byte[] binaryJoinPacket)
         {
-            this.TypeOfPacketField = (PacketType)Enum.Parse(typeof(PacketType), BitConverter.ToUInt16(binaryJoinPacket, 0).ToString());
+            this.TypeOfPacketField = (PacketType)BitConverter.ToUInt16(binaryJoinPacket, 0);
             this.playerIdField = BitConverter.ToUInt16(binaryJoinPacket, 2);
             this.GameIdField = BitConverter.ToUInt16(binaryJoinPacket, 4);
 
             ushort stringLength = BitConverter.ToUInt16(binaryJoinPacket, 6);
             this.PlayerNameField = Encoding.ASCII.GetString(binaryJoinPacket, 8, stringLength);
+            this.packetIdField = BitConverter.ToUInt16(binaryJoinPacket, 8 + stringLength);
         }
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            JoinPacket copy = new JoinPacket();
+            copy.GameIdField = this.GameIdField;
+            copy.playerIdField = this.playerIdField;
+            copy.PlayerNameField = this.PlayerNameField;
+            copy.TypeOfPacketField = this.TypeOfPacketField;
+
+            return copy;
+        }
+
+        #endregion
     }
 }
