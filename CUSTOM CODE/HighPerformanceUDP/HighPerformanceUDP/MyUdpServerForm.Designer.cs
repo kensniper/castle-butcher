@@ -49,8 +49,6 @@ namespace HighPerformanceUDP
             this.Controls.Add(this.txtReceived);
             this.Name = "MyUdpServerForm";
             this.Text = "Server";
-            
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MyUdpServerForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
