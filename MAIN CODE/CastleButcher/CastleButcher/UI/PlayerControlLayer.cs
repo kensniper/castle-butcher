@@ -7,6 +7,7 @@ using Framework.GUI;
 using Microsoft.DirectX.Direct3D;
 using CastleButcher.GameEngine;
 using System.Drawing;
+using Microsoft.DirectX;
 
 namespace CastleButcher.UI
 {
@@ -204,6 +205,8 @@ namespace CastleButcher.UI
 
             if (player.CurrentCharacter != null)
             {
+                SoundSystem.SoundEngine.Update((Vector3)player.CurrentCharacter.Position, (Vector3)player.CurrentCharacter.LookDirection);
+
 
                 velocity.Text = player.CurrentCharacter.CharacterController.SetVelocity.ToString() + ":" +
                     player.CurrentCharacter.Velocity.ToString();
