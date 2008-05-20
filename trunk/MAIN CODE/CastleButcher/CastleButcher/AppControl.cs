@@ -75,7 +75,8 @@ namespace CastleButcher
             //World.Instance=new
             //ShipClass shipClass=ObjectCache.Instance.GetShipClass(data.PlayerShip);
             frameworkWindow.RemoveLayer(mainView);
-            mainView=new MainView(reporter,new UIPlayer(data.PlayerName,null),new LocalGameController());
+            UIPlayer player = new UIPlayer(data.PlayerName, null); 
+            mainView=new MainView(reporter,player,new LocalGameController(player));
             //mainView = new MainView(reporter, null);
             //mainView = new MainView(reporter, null);
             frameworkWindow.RemoveLayer(mainMenu);
@@ -135,7 +136,8 @@ namespace CastleButcher
                 }));
                 bkgLoader.Start(new object[] { AppConfig.MapPath + "respawn_config.xml", reporter });
                 frameworkWindow.RemoveLayer(mainView);
-                mainView = new MainView(reporter, new UIPlayer(data.PlayerName, null), new RemoteGameController());
+                UIPlayer player=new UIPlayer(data.PlayerName, null); 
+                mainView = new MainView(reporter, player, new RemoteGameController(player));
                 frameworkWindow.RemoveLayer(mainMenu);
                 frameworkWindow.PushLayer(mainView);
                 Cursor.Hide();

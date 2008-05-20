@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using UDPClientServerCommons;
+using UDPClientServerCommons.Client;
+using UDPClientServerCommons.Interfaces;
 namespace CastleButcher.GameEngine
 {
     public class LocalGameController : GameController
     {
-        public LocalGameController()
+
+        Player player;
+        public LocalGameController(Player player)
         {
             gameStatus = GameStatus.WaitingForStart;
+            this.player = player;
+
         }
 
         
@@ -34,6 +40,7 @@ namespace CastleButcher.GameEngine
         {
             World.Instance.Start();
             gameStatus = GameStatus.InProgress;
+            
         }
 
         public override void EndRound()
@@ -109,6 +116,12 @@ namespace CastleButcher.GameEngine
         public override bool IsLocal
         {
             get { return true; }
+        }
+
+        public override bool Update(float timeElapsed)
+        {
+            World.Instance.Update(timeElapsed);
+            return true;
         }
     }
 }
