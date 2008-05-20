@@ -29,23 +29,36 @@ namespace CastleButcher.UI
             {
                 return B * (float)Math.Sin(b * t);
             }
+
+            
         }
+
         const float Max_X=2.5f;
         const float Max_Y=2.5f;
         const float Max_Z=2.5f;
-        float t;
+        const float Max_Radius = 0.2f;
+
+        float t; //zmienna parametryczna dla ruchu kuszy
+        float t_jump;
+
         Lissajous CrossBowMove=new Lissajous(0.15f,0.05f,3,4);
         int direction;
+        int jump_direction;
         float angle;
+        int angle_direction;
+
         MyVector position;
         const float stop_speed=0.00035f;
         const float run_speed = 0.0035f;
         const float acc_mullti = 0.000001f;
+        const float shot_speed = 0.01f;
+        const float jump_speed = 0.001f;
         float speed;
         float acceleration;
-        bool walking;
-        bool destination_chaged;
 
+        bool walking;
+        bool shoot;
+        bool jump;
         bool enabled;
 
         public bool Enabled
@@ -62,8 +75,12 @@ namespace CastleButcher.UI
 
         public Shaker()
         {
+            t_jump = 0.1f;//tak musi nie zmieniac
+            jump_direction = -1;
+            jump = false;
             enabled = true;
             direction = 1;
+            angle_direction = 1;
             speed = 0;
             acceleration=acc_mullti;
             t = 0;
@@ -107,27 +124,56 @@ namespace CastleButcher.UI
             t+= speed*direction;
             position.X = CrossBowMove.ComputeX(t);
             position.Y =0.05f*(float)Math.Sin(4 * t);// 2 * p * t + k;
-            
+            if (Math.Abs(position.X) >= Max_X || (Math.Abs(position.Y) >= Max_Y && !jump) || Math.Abs(position.Z) >= Max_Z) direction = -direction;
+
+            if (jump)
+            {
+                t_jump += jump_direction * jump_speed;
+                position.Y += t_jump;
+                if (t_jump < -Max_Y)
+                {
+                    jump_direction = 1;
+                }
+                if (t_jump <= 0.1)
+                {
+                    t_jump = 0.1f;
+                    jump = false;
+                }
+            }
+
+            if (shoot)
+            {
+                angle += shot_speed * angle_direction;
+                if (angle >= Max_Radius)
+                {
+                    angle_direction = (-1);
+                }
+                if (angle <= 0)
+                {
+                    angle = 0;
+                    angle_direction = 1;
+                    shoot = false;
+                }
+            }
         }
 
         public void Update(float dt)
         {
+         
             
-            if (position.X >= Max_X || position.Y >= Max_Y || position.Z >= Max_Z) Reset();
             NextPosition(dt);
             if(!enabled) position=position.Subtract(position);
         }
         public void StartWalking() { walking = true; acceleration = acc_mullti*10; }
-        public void StopWalking() { walking = false; acceleration = acc_mullti * (-10); }
+        public void StopWalking() { walking = false; acceleration = acc_mullti*(-30); }
         public void Jump()
         {
-            speed = 1.4f;
-            destination_chaged = true;
+            jump = true;
         }
         public void FireCrossbow()
         {
-            speed = 2;
-            destination_chaged = true;
+   //         speed = 2;
+            shoot = true;
         }
     }
 }
