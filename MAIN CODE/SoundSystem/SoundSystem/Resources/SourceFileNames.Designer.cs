@@ -79,6 +79,96 @@ namespace SoundSystem.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AssassinCought.wav.
+        /// </summary>
+        internal static string assassinCought {
+            get {
+                return ResourceManager.GetString("assassinCought", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AssassinJah.wav.
+        /// </summary>
+        internal static string assassinJah {
+            get {
+                return ResourceManager.GetString("assassinJah", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AssassinJhuee.wav.
+        /// </summary>
+        internal static string assassinJhuee {
+            get {
+                return ResourceManager.GetString("assassinJhuee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AssassinJooaah.wav.
+        /// </summary>
+        internal static string assassinJooaah {
+            get {
+                return ResourceManager.GetString("assassinJooaah", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AssassinLongDeath.wav.
+        /// </summary>
+        internal static string assassinLongDeath {
+            get {
+                return ResourceManager.GetString("assassinLongDeath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AssassinOhm.wav.
+        /// </summary>
+        internal static string assassinOhm {
+            get {
+                return ResourceManager.GetString("assassinOhm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AssassinScream1.wav.
+        /// </summary>
+        internal static string assassinScream1 {
+            get {
+                return ResourceManager.GetString("assassinScream1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AssassinScream2.wav.
+        /// </summary>
+        internal static string assassinScream2 {
+            get {
+                return ResourceManager.GetString("assassinScream2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AssassinShortDeath.wav.
+        /// </summary>
+        internal static string assassinShortDeath {
+            get {
+                return ResourceManager.GetString("assassinShortDeath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AssassinYeam.wav.
+        /// </summary>
+        internal static string assassinYeam {
+            get {
+                return ResourceManager.GetString("assassinYeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CrossbowOff.wav.
         /// </summary>
         internal static string crossbowOff {
@@ -178,56 +268,101 @@ namespace SoundSystem.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MansAaa.wav.
+        ///   Looks up a localized string similar to KnightAaa.wav.
         /// </summary>
-        internal static string mansAaa {
+        internal static string knightAaa {
             get {
-                return ResourceManager.GetString("mansAaa", resourceCulture);
+                return ResourceManager.GetString("knightAaa", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ManSaysHello.wav.
+        ///   Looks up a localized string similar to KnightHou.wav.
         /// </summary>
-        internal static string manSaysHello {
+        internal static string knightHou {
             get {
-                return ResourceManager.GetString("manSaysHello", resourceCulture);
+                return ResourceManager.GetString("knightHou", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ManSaysKidding.wav.
+        ///   Looks up a localized string similar to KnightHouu.wav.
         /// </summary>
-        internal static string manSaysKidding {
+        internal static string knightHouu {
             get {
-                return ResourceManager.GetString("manSaysKidding", resourceCulture);
+                return ResourceManager.GetString("knightHouu", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ManSaysKillem.wav.
+        ///   Looks up a localized string similar to KnightHruuhb.wav.
         /// </summary>
-        internal static string manSaysKillem {
+        internal static string knightHruuhb {
             get {
-                return ResourceManager.GetString("manSaysKillem", resourceCulture);
+                return ResourceManager.GetString("knightHruuhb", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ManSaysWassup.wav.
+        ///   Looks up a localized string similar to KnightLongDeath.wav.
         /// </summary>
-        internal static string manSaysWassup {
+        internal static string knightLongDeath {
             get {
-                return ResourceManager.GetString("manSaysWassup", resourceCulture);
+                return ResourceManager.GetString("knightLongDeath", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MansCought.wav.
+        ///   Looks up a localized string similar to KnightNey.wav.
         /// </summary>
-        internal static string mansCought {
+        internal static string knightNey {
             get {
-                return ResourceManager.GetString("mansCought", resourceCulture);
+                return ResourceManager.GetString("knightNey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KnightScream1.wav.
+        /// </summary>
+        internal static string knightScream1 {
+            get {
+                return ResourceManager.GetString("knightScream1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KnightScream2.wav.
+        /// </summary>
+        internal static string knightScream2 {
+            get {
+                return ResourceManager.GetString("knightScream2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KnightShortDeath.wav.
+        /// </summary>
+        internal static string knightShortDeath {
+            get {
+                return ResourceManager.GetString("knightShortDeath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KnightUhraa.wav.
+        /// </summary>
+        internal static string knightUhraa {
+            get {
+                return ResourceManager.GetString("knightUhraa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KnightUueh.wav.
+        /// </summary>
+        internal static string knightUueh {
+            get {
+                return ResourceManager.GetString("knightUueh", resourceCulture);
             }
         }
         
@@ -246,177 +381,6 @@ namespace SoundSystem.Resources {
         internal static string manShotByCrossbow {
             get {
                 return ResourceManager.GetString("manShotByCrossbow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansHou.wav.
-        /// </summary>
-        internal static string mansHou {
-            get {
-                return ResourceManager.GetString("mansHou", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansHouu.wav.
-        /// </summary>
-        internal static string mansHouu {
-            get {
-                return ResourceManager.GetString("mansHouu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansHruuhb.wav.
-        /// </summary>
-        internal static string mansHruuhb {
-            get {
-                return ResourceManager.GetString("mansHruuhb", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansJah.wav.
-        /// </summary>
-        internal static string mansJah {
-            get {
-                return ResourceManager.GetString("mansJah", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansJhuee.wav.
-        /// </summary>
-        internal static string mansJhuee {
-            get {
-                return ResourceManager.GetString("mansJhuee", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansJooaah.wav.
-        /// </summary>
-        internal static string mansJooaah {
-            get {
-                return ResourceManager.GetString("mansJooaah", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansLongDeath1.wav.
-        /// </summary>
-        internal static string mansLongDeath1 {
-            get {
-                return ResourceManager.GetString("mansLongDeath1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansLongDeath2.wav.
-        /// </summary>
-        internal static string mansLongDeath2 {
-            get {
-                return ResourceManager.GetString("mansLongDeath2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansNey.wav.
-        /// </summary>
-        internal static string mansNey {
-            get {
-                return ResourceManager.GetString("mansNey", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansOhm.wav.
-        /// </summary>
-        internal static string mansOhm {
-            get {
-                return ResourceManager.GetString("mansOhm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansScream1.wav.
-        /// </summary>
-        internal static string mansScream1 {
-            get {
-                return ResourceManager.GetString("mansScream1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansScream2.wav.
-        /// </summary>
-        internal static string mansScream2 {
-            get {
-                return ResourceManager.GetString("mansScream2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansScream3.wav.
-        /// </summary>
-        internal static string mansScream3 {
-            get {
-                return ResourceManager.GetString("mansScream3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansScream4.wav.
-        /// </summary>
-        internal static string mansScream4 {
-            get {
-                return ResourceManager.GetString("mansScream4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansShortDeath1.wav.
-        /// </summary>
-        internal static string mansShortDeath1 {
-            get {
-                return ResourceManager.GetString("mansShortDeath1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansShortDeath2.wav.
-        /// </summary>
-        internal static string mansShortDeath2 {
-            get {
-                return ResourceManager.GetString("mansShortDeath2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansUhraa.wav.
-        /// </summary>
-        internal static string mansUhraa {
-            get {
-                return ResourceManager.GetString("mansUhraa", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansUueh.wav.
-        /// </summary>
-        internal static string mansUueh {
-            get {
-                return ResourceManager.GetString("mansUueh", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MansYeam.wav.
-        /// </summary>
-        internal static string mansYeam {
-            get {
-                return ResourceManager.GetString("mansYeam", resourceCulture);
             }
         }
         

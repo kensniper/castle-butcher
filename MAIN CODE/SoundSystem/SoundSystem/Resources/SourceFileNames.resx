@@ -156,23 +156,11 @@
   <data name="fanfare4" xml:space="preserve">
     <value>Fanfare4.wav</value>
   </data>
-  <data name="mansAaa" xml:space="preserve">
-    <value>MansAaa.wav</value>
+  <data name="knightAaa" xml:space="preserve">
+    <value>KnightAaa.wav</value>
   </data>
-  <data name="manSaysHello" xml:space="preserve">
-    <value>ManSaysHello.wav</value>
-  </data>
-  <data name="manSaysKidding" xml:space="preserve">
-    <value>ManSaysKidding.wav</value>
-  </data>
-  <data name="manSaysKillem" xml:space="preserve">
-    <value>ManSaysKillem.wav</value>
-  </data>
-  <data name="manSaysWassup" xml:space="preserve">
-    <value>ManSaysWassup.wav</value>
-  </data>
-  <data name="mansCought" xml:space="preserve">
-    <value>MansCought.wav</value>
+  <data name="assassinCought" xml:space="preserve">
+    <value>AssassinCought.wav</value>
   </data>
   <data name="manShotByArrow" xml:space="preserve">
     <value>ManShotByArrow.wav</value>
@@ -180,62 +168,62 @@
   <data name="manShotByCrossbow" xml:space="preserve">
     <value>ManShotByCrossbow.wav</value>
   </data>
-  <data name="mansHou" xml:space="preserve">
-    <value>MansHou.wav</value>
+  <data name="knightHou" xml:space="preserve">
+    <value>KnightHou.wav</value>
   </data>
-  <data name="mansHouu" xml:space="preserve">
-    <value>MansHouu.wav</value>
+  <data name="knightHouu" xml:space="preserve">
+    <value>KnightHouu.wav</value>
   </data>
-  <data name="mansHruuhb" xml:space="preserve">
-    <value>MansHruuhb.wav</value>
+  <data name="knightHruuhb" xml:space="preserve">
+    <value>KnightHruuhb.wav</value>
   </data>
-  <data name="mansJah" xml:space="preserve">
-    <value>MansJah.wav</value>
+  <data name="assassinJah" xml:space="preserve">
+    <value>AssassinJah.wav</value>
   </data>
-  <data name="mansJhuee" xml:space="preserve">
-    <value>MansJhuee.wav</value>
+  <data name="assassinJhuee" xml:space="preserve">
+    <value>AssassinJhuee.wav</value>
   </data>
-  <data name="mansJooaah" xml:space="preserve">
-    <value>MansJooaah.wav</value>
+  <data name="assassinJooaah" xml:space="preserve">
+    <value>AssassinJooaah.wav</value>
   </data>
-  <data name="mansLongDeath1" xml:space="preserve">
-    <value>MansLongDeath1.wav</value>
+  <data name="knightLongDeath" xml:space="preserve">
+    <value>KnightLongDeath.wav</value>
   </data>
-  <data name="mansLongDeath2" xml:space="preserve">
-    <value>MansLongDeath2.wav</value>
+  <data name="assassinLongDeath" xml:space="preserve">
+    <value>AssassinLongDeath.wav</value>
   </data>
-  <data name="mansNey" xml:space="preserve">
-    <value>MansNey.wav</value>
+  <data name="knightNey" xml:space="preserve">
+    <value>KnightNey.wav</value>
   </data>
-  <data name="mansOhm" xml:space="preserve">
-    <value>MansOhm.wav</value>
+  <data name="assassinOhm" xml:space="preserve">
+    <value>AssassinOhm.wav</value>
   </data>
-  <data name="mansScream1" xml:space="preserve">
-    <value>MansScream1.wav</value>
+  <data name="knightScream1" xml:space="preserve">
+    <value>KnightScream1.wav</value>
   </data>
-  <data name="mansScream2" xml:space="preserve">
-    <value>MansScream2.wav</value>
+  <data name="knightScream2" xml:space="preserve">
+    <value>KnightScream2.wav</value>
   </data>
-  <data name="mansScream3" xml:space="preserve">
-    <value>MansScream3.wav</value>
+  <data name="assassinScream1" xml:space="preserve">
+    <value>AssassinScream1.wav</value>
   </data>
-  <data name="mansScream4" xml:space="preserve">
-    <value>MansScream4.wav</value>
+  <data name="assassinScream2" xml:space="preserve">
+    <value>AssassinScream2.wav</value>
   </data>
-  <data name="mansShortDeath1" xml:space="preserve">
-    <value>MansShortDeath1.wav</value>
+  <data name="knightShortDeath" xml:space="preserve">
+    <value>KnightShortDeath.wav</value>
   </data>
-  <data name="mansShortDeath2" xml:space="preserve">
-    <value>MansShortDeath2.wav</value>
+  <data name="assassinShortDeath" xml:space="preserve">
+    <value>AssassinShortDeath.wav</value>
   </data>
-  <data name="mansUhraa" xml:space="preserve">
-    <value>MansUhraa.wav</value>
+  <data name="knightUhraa" xml:space="preserve">
+    <value>KnightUhraa.wav</value>
   </data>
-  <data name="mansUueh" xml:space="preserve">
-    <value>MansUueh.wav</value>
+  <data name="knightUueh" xml:space="preserve">
+    <value>KnightUueh.wav</value>
   </data>
-  <data name="mansYeam" xml:space="preserve">
-    <value>MansYeam.wav</value>
+  <data name="assassinYeam" xml:space="preserve">
+    <value>AssassinYeam.wav</value>
   </data>
   <data name="menuMusic" xml:space="preserve">
     <value>NextCastle.mp3</value>
