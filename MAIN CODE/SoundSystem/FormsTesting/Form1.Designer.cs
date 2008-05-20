@@ -121,16 +121,6 @@
             "swordFight3",
             "swordFight4",
             "swordFight5",
-            "stepsInside1",
-            "stepsInside2",
-            "stepsInside3",
-            "stepsSlower",
-            "stepsStone",
-            "stepsStairs",
-            "stepsGrass1",
-            "stepsGrass2",
-            "stepsPath1",
-            "stepsPath2",
             "daggerFight1",
             "daggerFight2",
             "daggerFight3",
@@ -139,35 +129,31 @@
             "arrowOff1",
             "arrowOff2",
             "manShotByArrow",
-            "shotByArrow, //!",
+            "shotByArrow",
             "crossbowOff",
             "manShotByCrossbow",
-            "shotByCrossbow, //!",
-            "mansShortDeath1",
-            "mansShortDeath2",
-            "mansLongDeath1",
-            "mansLongDeath2",
-            "mansAaa",
-            "mansCought",
-            "mansHou",
-            "mansHouu",
-            "mansHruuhb",
-            "mansJah",
-            "mansJhuee",
-            "mansJooaah",
-            "mansNey",
-            "mansOhm",
-            "mansScream1",
-            "mansScream2",
-            "mansScream3",
-            "mansScream4",
-            "mansUhraa",
-            "mansUueh",
-            "mansYeam",
-            "manSaysHello, //!",
-            "manSaysWassup, //!",
-            "manSaysKidding, //!",
-            "manSaysKillem, //!",
+            "shotByCrossbow",
+            "knightShortDeath",
+            "assassinShortDeath",
+            "knightLongDeath",
+            "assassinLongDeath",
+            "knightAaa",
+            "assassinCought",
+            "knightHou",
+            "knightHouu",
+            "knightHruuhb",
+            "assassinJah",
+            "assassinJhuee",
+            "assassinJooaah",
+            "knightNey",
+            "assassinOhm",
+            "knightScream1",
+            "knightScream2",
+            "assassinScream1",
+            "assassinScream2",
+            "knightUhraa",
+            "knightUueh",
+            "assassinYeam",
             "fanfare1",
             "fanfare2",
             "fanfare3",
@@ -216,7 +202,7 @@
             this.zTxtBx.Name = "zTxtBx";
             this.zTxtBx.Size = new System.Drawing.Size(49, 20);
             this.zTxtBx.TabIndex = 8;
-            this.zTxtBx.Text = "-1";
+            this.zTxtBx.Text = "0";
             // 
             // label3
             // 
@@ -250,7 +236,7 @@
             this.xTxtBx.Name = "xTxtBx";
             this.xTxtBx.Size = new System.Drawing.Size(49, 20);
             this.xTxtBx.TabIndex = 0;
-            this.xTxtBx.Text = "1";
+            this.xTxtBx.Text = "0";
             // 
             // musicGrpBx
             // 

@@ -183,97 +183,105 @@ namespace FormsTesting
                     SoundSystem.SoundEngine.PlaySound(
                         SoundSystem.Enums.SoundTypes.fanfare4, new Vector3(x, y, z));
                     break;
-                case "mansAaa":
+                case "knightAaa":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansAaa, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.knightAaa, new Vector3(x, y, z));
                     break;
-                case "mansCought":
+                case "assassinCought":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansCought, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.assassinCought, new Vector3(x, y, z));
                     break;
                 case "manShotByArrow":
                     SoundSystem.SoundEngine.PlaySound(
                         SoundSystem.Enums.SoundTypes.manShotByArrow, new Vector3(x, y, z));
                     break;
+                case "shotByArrow":
+                    SoundSystem.SoundEngine.PlaySound(
+                        SoundSystem.Enums.SoundTypes.shotByArrow, new Vector3(x, y, z));
+                    break;
                 case "manShotByCrossbow":
                     SoundSystem.SoundEngine.PlaySound(
                         SoundSystem.Enums.SoundTypes.manShotByCrossbow, new Vector3(x, y, z));
                     break;
-                case "mansHou":
+                case "shotByCrossbow":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansHou, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.shotByCrossbow, new Vector3(x, y, z));
                     break;
-                case "mansHouu":
+                case "knightHou":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansHouu, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.knightHou, new Vector3(x, y, z));
                     break;
-                case "mansHruuhb":
+                case "knightHouu":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansHruuhb, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.knightHouu, new Vector3(x, y, z));
                     break;
-                case "mansJah":
+                case "knightHruuhb":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansJah, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.knightHruuhb, new Vector3(x, y, z));
                     break;
-                case "mansJhuee":
+                case "assassinJah":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansJhuee, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.assassinJah, new Vector3(x, y, z));
                     break;
-                case "mansJooaah":
+                case "assassinJhuee":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansJooaah, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.assassinJhuee, new Vector3(x, y, z));
                     break;
-                case "mansLongDeath1":
+                case "assassinJooaah":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansLongDeath1, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.assassinJooaah, new Vector3(x, y, z));
                     break;
-                case "mansLongDeath2":
+                case "knightLongDeath":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansLongDeath2, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.knightLongDeath, new Vector3(x, y, z));
                     break;
-                case "mansNey":
+                case "assassinLongDeath":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansNey, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.assassinLongDeath, new Vector3(x, y, z));
                     break;
-                case "mansOhm":
+                case "knightNey":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansOhm, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.knightNey, new Vector3(x, y, z));
                     break;
-                case "mansScream1":
+                case "assassinOhm":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansScream1, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.assassinOhm, new Vector3(x, y, z));
                     break;
-                case "mansScream2":
+                case "knightScream1":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansScream2, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.knightScream1, new Vector3(x, y, z));
                     break;
-                case "mansScream3":
+                case "knightScream2":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansScream3, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.knightScream2, new Vector3(x, y, z));
                     break;
-                case "mansScream4":
+                case "assassinScream1":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansScream4, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.assassinScream1, new Vector3(x, y, z));
                     break;
-                case "mansShortDeath1":
+                case "assassinScream2":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansShortDeath1, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.assassinScream2, new Vector3(x, y, z));
                     break;
-                case "mansShortDeath2":
+                case "knightShortDeath":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansShortDeath2, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.knightShortDeath, new Vector3(x, y, z));
                     break;
-                case "mansUhraa":
+                case "assassinShortDeath":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansUhraa, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.assassinShortDeath, new Vector3(x, y, z));
                     break;
-                case "mansUueh":
+                case "knightUhraa":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansUueh, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.knightUhraa, new Vector3(x, y, z));
                     break;
-                case "mansYeam":
+                case "knightUueh":
                     SoundSystem.SoundEngine.PlaySound(
-                        SoundSystem.Enums.SoundTypes.mansYeam, new Vector3(x, y, z));
+                        SoundSystem.Enums.SoundTypes.knightUueh, new Vector3(x, y, z));
+                    break;
+                case "assassinYeam":
+                    SoundSystem.SoundEngine.PlaySound(
+                        SoundSystem.Enums.SoundTypes.assassinYeam, new Vector3(x, y, z));
                     break;            
                 default:
                     break;
