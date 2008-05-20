@@ -99,7 +99,7 @@ namespace CastleButcher.UI
             if (worldLoaded == true)
             {
 
-                World.Instance.Update(elapsedTime);
+                gameController.Update(elapsedTime);
                 renderer.Update(elapsedTime);
 
             }

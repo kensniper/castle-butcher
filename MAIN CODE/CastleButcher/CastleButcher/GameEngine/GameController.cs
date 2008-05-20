@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Framework;
 
 namespace CastleButcher.GameEngine
 {
     public enum GameStatus { WaitingToConnect, WaitingForStart, InProgress };
-    public abstract class GameController
+    public abstract class GameController:IUpdateable
     {
         protected GameStatus gameStatus;
         public GameStatus GameStatus
@@ -52,6 +53,8 @@ namespace CastleButcher.GameEngine
         protected abstract void OnObjectRemoved(IGameObject obj);
 
 
+
+        public abstract bool Update(float timeElapsed);
 
     }
 }
