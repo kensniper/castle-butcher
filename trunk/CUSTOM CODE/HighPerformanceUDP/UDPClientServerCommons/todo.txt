@@ -4,4 +4,14 @@ poprawic wysylanie ACK, teraz jest bez sensu bo marnuje sie tylko miejsce w paki
 
 
 zaragowac na dane warstwy graficznej ktora podaje istotne dane,
-tj. jesli warstwa podaje dane wymagajaca ack to sa one wysylane po 20 ms chyba ze nastapi ich wyslanie przez petle glowna 
+tj. jesli warstwa podaje dane wymagajaca ack to sa one wysylane od razu jesli do nastepnego wyslania przez petle glowna zostalo >=50 ms 
+jesli w tym czas nastapi kolejne zadania wyslania danych to zostane wyslane wiecej pakietow w odstepie 10 ms (jeden z nich moze zostac polaczony
+z pakietem glownym jesli do jego wyslania zostalo mniej niz 50 ms)
+
+serwer wysyla dane co 100 ms, jesli ma liste ack do wyslania to wysyla je jesli zostalo >50ms do petli glownej,
+
+do dopracowania pozostaje ponowne wysylanie wiadomosci ktore ciagle czekaja na ACK
+
+rozszerzyc klase JoinPacket
+stworzyc klase GameInfoPacket
+stworzyc klase leaveGamePacket
