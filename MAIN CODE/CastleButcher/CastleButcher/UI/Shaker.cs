@@ -41,7 +41,7 @@ namespace CastleButcher.UI
         float t; //zmienna parametryczna dla ruchu kuszy
         float t_jump;
 
-        Lissajous CrossBowMove=new Lissajous(0.15f,0.05f,3,4);
+        Lissajous CrossBowMove=new Lissajous(0.15f,0.05f,1,2);
         int direction;
         int jump_direction;
         float angle;
@@ -121,9 +121,29 @@ namespace CastleButcher.UI
                 acceleration = 0;
                 speed = run_speed;
             }
-            t+= speed*direction;
-            position.X = CrossBowMove.ComputeX(t);
-            position.Y =0.05f*(float)Math.Sin(4 * t);// 2 * p * t + k;
+            t += speed * direction;
+            if (acceleration == 0 && (position.X != 0 || position.Y != 0) && !walking)
+            {
+                t -= acc_mullti*10000 ;
+                
+                position.X = CrossBowMove.ComputeX(t);
+                position.Y = CrossBowMove.ComputeY(t);// 2 * p * t + k;
+                if (t <= 0)
+                {
+                    position.X = 0;
+                    position.Y = 0;
+                }
+            }
+            else
+            {
+             position.X = CrossBowMove.ComputeX(t);
+             position.Y = CrossBowMove.ComputeY(t);// 2 * p * t + k;
+            }
+            if (Math.Abs(position.X) < 0.005 && Math.Abs(position.Y) < 0.005 && !walking)
+            {
+                position.X = 0;
+                position.Y = 0;
+            }
             if (Math.Abs(position.X) >= Max_X || (Math.Abs(position.Y) >= Max_Y && !jump) || Math.Abs(position.Z) >= Max_Z) direction = -direction;
 
             if (jump)
