@@ -36,6 +36,7 @@
     <Compile Include="Constants\WeaponEnumeration.cs" />
     <Compile Include="Diagnostic\NetworkingDiagnostics.cs" />
     <Compile Include="GameWorld\GameWorld.cs" />
+    <Compile Include="Interfaces\ICastleServer.cs" />
     <Compile Include="Interfaces\ISend.cs" />
     <Compile Include="Interfaces\IServerData.cs" />
     <Compile Include="Packets\AckPacket.cs" />
@@ -62,7 +63,7 @@
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CustomDlls\log4net.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System" />
@@ -73,14 +74,11 @@
     <ProjectReference Include="..\UdpPacketLibrary\UdpPacketLibrary.csproj">
       <Project>{C48AEAC0-49C5-4ADD-84C2-5297170A08DB}</Project>
       <Name>UdpPacketLibrary</Name>
-      <Private>False</Private>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="todo.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

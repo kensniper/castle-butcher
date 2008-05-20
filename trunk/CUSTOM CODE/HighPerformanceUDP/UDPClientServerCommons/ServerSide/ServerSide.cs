@@ -19,14 +19,17 @@ namespace UDPClientServerCommons
 
         private System.Threading.Timer timer;
 
-        public void StartServer()
-        {
-            base.Start();
+        public IPEndPoint StartServer()
+        {            
             timer.Change(0, _TimerTickPeriod);
+            return base.Start();
         }
 
-        public ServerSide(int port):base(port)
+        public ServerSide(int port)
+            : base( port)
         {
+            if (MyIp != null)
+                ServerIpAdress = new IPEndPoint(MyIp,port);
             base.MessageWasReceivedEvent += new EventHandler(myUdpServer_MessageWasReceivedEvent);
             System.Threading.TimerCallback timerCallback = new System.Threading.TimerCallback(timerCallbackMethod);
             timer = new System.Threading.Timer(timerCallback, null, System.Threading.Timeout.Infinite, 100);
@@ -153,6 +156,24 @@ namespace UDPClientServerCommons
             buffer.Data = ackPacket.ToMinimalByte();
             buffer.DataLength = ackPacket.ToMinimalByte().Length;
             base.AsyncBeginSend(buffer);
+        }
+
+        public IPAddress MyIp
+        {
+            get
+            {
+                IPAddress result = null;
+                string myHost = System.Net.Dns.GetHostName();
+                System.Net.IPHostEntry myIPs = System.Net.Dns.GetHostEntry(myHost);
+                for (int i = 0; i < myIPs.AddressList.Length; i++)
+                    //just LAN
+                    if (myIPs.AddressList[i].AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    {
+                        result = myIPs.AddressList[i];
+                        break;
+                    }
+                return result;
+            }
         }
     }
 }

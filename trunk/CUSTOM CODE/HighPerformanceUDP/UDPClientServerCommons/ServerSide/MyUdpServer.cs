@@ -21,10 +21,12 @@ namespace Clutch.Net.UDP
 
         public MyUdpServer(int port):base(port)
         {
+            
         }
 
         public MyUdpServer(IPEndPoint ServerIp):base(ServerIp)
         {
+            
         }
 
         #region IDisposable Members

@@ -1,3 +1,7 @@
 ﻿nie potrzbna flaga biegnie,idzie,stoji, bo wszystko mozna przekazac predkoscia jako wektorem kierunku
 
 poprawic wysylanie ACK, teraz jest bez sensu bo marnuje sie tylko miejsce w pakiecie !!!
+
+
+zaragowac na dane warstwy graficznej ktora podaje istotne dane,
+tj. jesli warstwa podaje dane wymagajaca ack to sa one wysylane po 20 ms chyba ze nastapi ich wyslanie przez petle glowna 

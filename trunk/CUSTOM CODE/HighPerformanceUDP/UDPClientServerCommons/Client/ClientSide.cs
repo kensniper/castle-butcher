@@ -35,6 +35,8 @@ namespace UDPClientServerCommons.Client
         private readonly object ClientPackageLock = new object();
         private readonly object ServerPackagesLock = new object();
 
+        private ushort? PlayerId = null;
+
         public ClientSide()
         {
             udpNetworking = new UDPLayer();
@@ -89,6 +91,7 @@ namespace UDPClientServerCommons.Client
 
             udpNetworking.SendPacket(joinPacket.ToMinimalByte());
 
+            PlayerId = joinPacket.PlayerId;
             return joinPacket.PlayerId;
         }
 
@@ -165,12 +168,25 @@ namespace UDPClientServerCommons.Client
         }
 
         #endregion
-
-        
-
+              
         #region IServerData Members
 
         public ServerPacket GetNeewestDataFromServer()
+        {
+            lock (ServerPackagesLock)
+            {
+                ServerPacket tmp = null;
+                if (LastPackages.Count < 10 && LastPackages.Count > 0)
+                    return LastPackages[LastPackages.Count - 1];
+                else
+                {
+                    LastPackages.TryGetValue(last10.GetPrevoius(1), out tmp);
+                    return tmp;
+                }
+            }
+        }
+
+        public ushort GetPlayerId()
         {
             throw new NotImplementedException();
         }
@@ -191,10 +207,49 @@ namespace UDPClientServerCommons.Client
 
         public void UpdatePlayerData(WeaponEnumeration weaponAttacked, bool playerAttacked, bool playerJumped, bool weaponChanged, WeaponEnumeration weaponNew)
         {
-            throw new NotImplementedException();
+            lock (ClientPackageLock)
+            {
+                clientPacket.PlayerShooting = playerAttacked;
+                clientPacket.PlayerJumping = playerJumped;
+                if (playerAttacked)
+                    if (weaponAttacked == WeaponEnumeration.CrossBow)
+                    {
+                        clientPacket.PlayerCarringWeponOne = false;
+                        clientPacket.PlayerCarringWeponTwo = true;
+                    }
+                    else
+                    {
+                        clientPacket.PlayerCarringWeponTwo = false;
+                        clientPacket.PlayerCarringWeponOne = true;
+                    }
+                else
+                    if (weaponChanged)
+                    {
+                        if (weaponNew == WeaponEnumeration.CrossBow)
+                        {
+                            clientPacket.PlayerCarringWeponOne = false;
+                            clientPacket.PlayerCarringWeponTwo = true;
+                        }
+                        else
+                        {
+                            clientPacket.PlayerCarringWeponTwo = false;
+                            clientPacket.PlayerCarringWeponOne = true;
+                        }
+                    }
+            }
         }
 
         public void UpdatePlayerData(Microsoft.DirectX.Vector3 position, Microsoft.DirectX.Vector3 lookDirection, Microsoft.DirectX.Vector3 moventDirection, WeaponEnumeration weaponAttacked, bool playerAttacked, bool playerJumped, bool weaponChanged, WeaponEnumeration weaponNew)
+        {
+            lock (ClientPackageLock)
+            {
+                clientPacket.PlayerPosition = Translator.TranslateVector3toVector(position);
+                clientPacket.PlayerLookingDirection = Translator.TranslateVector3toVector(lookDirection);
+                clientPacket.PlayerMovementDirection = Translator.TranslateVector3toVector(moventDirection);
+            }
+        }
+
+        public void LeaveGame()
         {
             throw new NotImplementedException();
         }
