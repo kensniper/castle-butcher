@@ -18,7 +18,7 @@ namespace CastleButcher.Content
             name = "Crossbow";
             this.gameTeam = GameTeam.Knights;
             this.pickupRD = ResourceCache.Instance.GetRenderingData("crossbowContainer.x");
-            this.missileRD = ResourceCache.Instance.GetRenderingData("arrow.x");
+            this.missileRD = ResourceCache.Instance.GetRenderingData("arrow2.x");
             this.weaponType = WeaponType.Ranged;
             this.weaponParams = new WeaponInfo(100, 0.3f, 10);
             this.flyingObjectParameters = new CastleButcher.GameEngine.PlayerMovementParameters(0, 500);

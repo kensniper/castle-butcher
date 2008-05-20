@@ -122,6 +122,7 @@ namespace CastleButcher.GameEngine.Resources
                 MaterialData data = null;
                 entry.DxMaterials[i] = materials[i].Material3D;
                 entry.DxMaterials[i].Ambient = entry.DxMaterials[i].Diffuse;
+                
                 string temp = materials[i].TextureFilename;
                 if (temp != null)
                 {
