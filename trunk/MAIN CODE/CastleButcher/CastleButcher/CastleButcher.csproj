@@ -226,6 +226,7 @@
       <DependentUpon>GameSettings.settings</DependentUpon>
     </Compile>
     <Compile Include="UI\BeginGameLayer.cs" />
+    <Compile Include="UI\CastleMap.cs" />
     <Compile Include="UI\HUD\AdjustableQuad.cs" />
     <Compile Include="UI\HUD\CrosshairControl.cs" />
     <Compile Include="UI\HUD\RadarControl.cs" />
