@@ -240,6 +240,7 @@
     <Compile Include="UI\NewGameDialog.cs" />
     <Compile Include="UI\PlayerControlLayer.cs" />
     <Compile Include="UI\PlayerList.cs" />
+    <Compile Include="UI\Shaker.cs" />
     <Compile Include="UI\UIPlayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
