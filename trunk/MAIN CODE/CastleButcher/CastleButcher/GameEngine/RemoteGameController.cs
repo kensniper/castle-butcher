@@ -131,15 +131,15 @@ namespace CastleButcher.GameEngine
                     (Vector3)player.CurrentCharacter.LookDirection,
                     (Vector3)player.CurrentCharacter.Velocity);
             }
-            UDPClientServerCommons.ServerPacket packet=clientNetworkLayer.GetNeewestDataFromServer();
-            if (packet.PlayerInfoList.Count > World.Instance.Players.Count)
-            {
+            //UDPClientServerCommons.ServerPacket packet=clientNetworkLayer.GetNeewestDataFromServer();
+            //if (packet.PlayerInfoList.Count > World.Instance.Players.Count)
+            //{
 
-            }
-            for (int i = 0; i < packet.PlayerInfoList.Count; i++)
-            {
+            //}
+            //for (int i = 0; i < packet.PlayerInfoList.Count; i++)
+            //{
 
-            }
+            //}
             World.Instance.Update(timeElapsed);
             return true;
         }

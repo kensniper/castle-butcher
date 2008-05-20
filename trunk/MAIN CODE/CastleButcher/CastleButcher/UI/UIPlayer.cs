@@ -10,7 +10,7 @@ namespace CastleButcher.UI
     {
         PlayerControlLayer playerControl;
 
-        internal PlayerControlLayer PlayerControl
+        public PlayerControlLayer PlayerControl
         {
             get { return playerControl; }
             set { playerControl = value; }
@@ -23,7 +23,9 @@ namespace CastleButcher.UI
         public UIPlayer(PlayerControlLayer control, string name, CharacterClass characterClass)
             : base(name, characterClass)
         {
-            playerControl = control;
+
+
+
         }
 
         public override void OnWeaponPickup(CastleButcher.GameEngine.Weapons.WeaponPickup weapon)
