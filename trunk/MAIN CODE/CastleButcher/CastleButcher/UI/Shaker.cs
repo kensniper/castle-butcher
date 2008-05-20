@@ -40,13 +40,19 @@ namespace CastleButcher.UI
         MyVector position;
         const float stop_speed=0.00035f;
         const float run_speed = 0.0035f;
-        const float acc_mullti = 0.00001f;
+        const float acc_mullti = 0.000001f;
         float speed;
         float acceleration;
         bool walking;
         bool destination_chaged;
 
         bool enabled;
+
+        public bool Enabled
+        {
+            get { return enabled; }
+            set { enabled = value; }
+        }
 
         public void Power()
         {
@@ -56,9 +62,10 @@ namespace CastleButcher.UI
 
         public Shaker()
         {
+            enabled = true;
             direction = 1;
             speed = 0;
-            acceleration=0;
+            acceleration=acc_mullti;
             t = 0;
         }
         public float Angle
@@ -86,10 +93,19 @@ namespace CastleButcher.UI
 
         private void NextPosition(float dt) //znajduje kolejną pozycję w kierunku destination
         {
-
-            t+= 0.00035f*direction;
-
-            position.X =0.15f*(float)Math.Sin(3*t);// p*t*t+h;
+            speed += acceleration;
+            if (speed <= 0)
+            {
+                speed = 0;
+                acceleration = 0;
+            }
+            if (walking && speed >= run_speed)
+            {
+                acceleration = 0;
+                speed = run_speed;
+            }
+            t+= speed*direction;
+            position.X = CrossBowMove.ComputeX(t);
             position.Y =0.05f*(float)Math.Sin(4 * t);// 2 * p * t + k;
             
         }
