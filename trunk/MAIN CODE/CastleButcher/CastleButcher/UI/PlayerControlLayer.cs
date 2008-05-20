@@ -41,6 +41,7 @@ namespace CastleButcher.UI
         SteeringLayer slay;
         GameController gameController;
 
+        //Shaker cameraShaker;
 
         public bool ShowPlayerList
         {
@@ -62,6 +63,7 @@ namespace CastleButcher.UI
             this.isTransparent = true;
             this.RecievesEmptyMouse = true;
             RecievesEmptyMouse = true;
+            //cameraShaker=new Shaker();
 
             gameController = controller;
             slay = new SteeringLayer(player);
@@ -205,6 +207,7 @@ namespace CastleButcher.UI
 
             if (player.CurrentCharacter != null)
             {
+                //cameraShaker.Update
                 SoundSystem.SoundEngine.Update((Vector3)player.CurrentCharacter.Position, (Vector3)player.CurrentCharacter.LookDirection);
 
 
