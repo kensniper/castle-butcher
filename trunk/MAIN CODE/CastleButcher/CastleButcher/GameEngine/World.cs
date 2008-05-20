@@ -428,7 +428,7 @@ namespace CastleButcher.GameEngine
                         p.IsAlive = true;
                         physicsSimulator.EnableWalking(p.CurrentCharacter);
                         physicsSimulator.WalkData[p.CurrentCharacter] = p.CurrentCharacter.WalkingCollisionData;
-                        
+
                         rpoint.Reset();
                         PlayerRespawned(p);
                         return;
@@ -545,19 +545,27 @@ namespace CastleButcher.GameEngine
         {
             if (obj is Character && missile.Owner == obj)
                 return false;
-            obj.TakeDamage(missile.ImpactDamage);
-            RemoveObject((IGameObject)missile);
-
             if (obj is Character)
             {
                 (obj as Character).Player.OnMissileHit(missile, parameters);
-
-                if (obj.ArmorState.Hp <= 0)
+            }
+            if (obj.TakeDamage(missile.ImpactDamage))
+            {
+                if (obj is Character)
                 {
                     ((Character)missile.Owner).Player.OnEnemyDestroyed((obj as Character).Player);
+                    RemoveObject((IGameObject)missile);
+                    World.Instance.PlayerKilled((obj as Character).Player);
                 }
-
+                else
+                {
+                    RemoveObject((IGameObject)missile);
+                }
             }
+
+
+
+
             return false;
         }
         private bool DestroyableToDestroyable(DestroyableObj obj1, DestroyableObj obj2, CollisionParameters parameters)
@@ -593,16 +601,21 @@ namespace CastleButcher.GameEngine
             }
             else
             {
-                if (parameters.RelativeVelocity.Length > 100)
-                {
-                    int damage = (int)parameters.RelativeVelocity.Length - 100;
-                    obj1.TakeDamage(damage);
-
-                }
-
                 if (obj1 is Character)
                 {
                     (obj1 as Character).Player.OnStaticCollision(obj2, parameters);
+                    if (parameters.RelativeVelocity.Length > 100)
+                    {
+                        int damage = (int)parameters.RelativeVelocity.Length - 100;
+                        if (obj1.TakeDamage(damage))
+                        {
+                            PlayerKilled((obj1 as Character).Player);
+                        }
+
+                    }
+
+
+                    
                 }
                 return true;
             }

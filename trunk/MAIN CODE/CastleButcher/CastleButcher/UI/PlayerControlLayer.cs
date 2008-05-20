@@ -41,6 +41,20 @@ namespace CastleButcher.UI
         GameController gameController;
 
 
+        public bool ShowPlayerList
+        {
+            get
+            {
+                return playerListAdded;
+            }
+            set
+            {
+                playerListAdded = false;
+                RemoveControl(playerList);
+            }
+        }
+
+
         public PlayerControlLayer(Player player,GameController controller)
             : base()
         {

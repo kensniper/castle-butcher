@@ -50,6 +50,6 @@ namespace CastleButcher.GameEngine
         /// Uszkadza obiekt
         /// </summary>
         /// <param name="damage">Iloœæ obra¿eñ zadanych obiektowi</param>
-        void TakeDamage(int damage);
+        bool TakeDamage(int damage);
     }
 }
