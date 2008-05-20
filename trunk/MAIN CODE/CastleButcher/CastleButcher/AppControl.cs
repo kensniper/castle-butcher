@@ -48,7 +48,7 @@ namespace CastleButcher
 
         void JoinServer(object data)
         {
-            //
+            waitingForJoin = true;
         }
 
         private void ResumeGame()
