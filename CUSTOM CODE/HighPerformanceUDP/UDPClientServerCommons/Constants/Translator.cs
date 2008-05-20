@@ -24,5 +24,11 @@ namespace UDPClientServerCommons
 
             return to;
         }
+
+        public static Vector TranslateVector3toVector(Microsoft.DirectX.Vector3 from)
+        {
+            Vector to = new Vector(from.X, from.Y, from.Z);
+            return to;
+        }
     }
 }

@@ -4,10 +4,11 @@ using System.Text;
 using UDPClientServerCommons;
 using System.Net;
 using Clutch.Net.UDP;
+using UDPClientServerCommons.Interfaces;
 
 namespace UDPClientServerCommons.Client
 {
-    public class ClientSide:IDisposable
+    public class ClientSide:IDisposable,ISend,IServerData
     {
         public delegate void packetReceived(ServerPacket serverPacket);
 
@@ -21,7 +22,7 @@ namespace UDPClientServerCommons.Client
         /// </summary>
         private UDPLayer udpNetworking;
         /// <summary>
-        /// Game world methods (physics)
+        /// Game world methods (physics) ?
         /// </summary>
         private GameWorld gameWorld;
 
@@ -161,6 +162,41 @@ namespace UDPClientServerCommons.Client
         public void Dispose()
         {
             udpNetworking.Dispose();
+        }
+
+        #endregion
+
+        
+
+        #region IServerData Members
+
+        public ServerPacket GetNeewestDataFromServer()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region ISend Members
+
+        public void UpdatePlayerData(Microsoft.DirectX.Vector3 position, Microsoft.DirectX.Vector3 lookDirection, Microsoft.DirectX.Vector3 moventDirection)
+        {
+            lock (ClientPackageLock)
+            {
+                clientPacket.PlayerPosition = Translator.TranslateVector3toVector(position);
+                clientPacket.PlayerLookingDirection = Translator.TranslateVector3toVector(lookDirection);
+                clientPacket.PlayerMovementDirection = Translator.TranslateVector3toVector(moventDirection);
+            }
+        }
+
+        public void UpdatePlayerData(WeaponEnumeration weaponAttacked, bool playerAttacked, bool playerJumped, bool weaponChanged, WeaponEnumeration weaponNew)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdatePlayerData(Microsoft.DirectX.Vector3 position, Microsoft.DirectX.Vector3 lookDirection, Microsoft.DirectX.Vector3 moventDirection, WeaponEnumeration weaponAttacked, bool playerAttacked, bool playerJumped, bool weaponChanged, WeaponEnumeration weaponNew)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
