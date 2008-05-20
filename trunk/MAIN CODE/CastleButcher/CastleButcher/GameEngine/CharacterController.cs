@@ -32,13 +32,13 @@ namespace CastleButcher.GameEngine
         Character character;
         int id;
 
-        public bool Flying
+        public virtual bool Flying
         {
             get { return flying; }
             set { flying = value; }
         }
 
-        public float StrafeX
+        public virtual float StrafeX
         {
             get
             {
@@ -55,7 +55,7 @@ namespace CastleButcher.GameEngine
         }
 
 
-        public float TurnX
+        public virtual float TurnX
         {
             get
             {
@@ -71,7 +71,7 @@ namespace CastleButcher.GameEngine
             }
         }
 
-        public float TurnY
+        public virtual float TurnY
         {
             get
             {
@@ -87,7 +87,7 @@ namespace CastleButcher.GameEngine
             }
         }
 
-        public float Velocity
+        public virtual float Velocity
         {
             get
             {
@@ -203,7 +203,7 @@ namespace CastleButcher.GameEngine
             }
         }
 
-        public void Jump()
+        public virtual void Jump()
         {
             if (character.HasGroundContact)
             {
@@ -213,7 +213,7 @@ namespace CastleButcher.GameEngine
                 character.HasGroundContact = false;
             }
         }
-        public float SetVelocity
+        public virtual float SetVelocity
         {
             get
             {
@@ -313,7 +313,7 @@ namespace CastleButcher.GameEngine
         }
 
 
-        public void Update(float dt)
+        public virtual void Update(float dt)
         {
 
 
@@ -347,7 +347,7 @@ namespace CastleButcher.GameEngine
             Update(dt, turnSpeedX, turnSpeedY, strafeSpeedX, 0);
         }
 
-        public void Reset()
+        public virtual void Reset()
         {
             //this.xDeltaAvg
             this.strafeSpeedX = 0;
@@ -369,7 +369,7 @@ namespace CastleButcher.GameEngine
             initialRight = (new MyVector(1, 0, 0)).Rotate(initialOrientation);
         }
 
-        public void Reset(Character character)
+        public virtual void Reset(Character character)
         {
             this.character = character;
             //this.xDeltaAvg
