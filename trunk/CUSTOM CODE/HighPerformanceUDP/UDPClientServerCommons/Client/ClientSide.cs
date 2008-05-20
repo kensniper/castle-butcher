@@ -45,6 +45,9 @@ namespace UDPClientServerCommons.Client
 
             ackOperating = new AckOperating();
             ackOperating.SendPacketEvent += new AckOperating.SendPacket(ackOperating_SendPacketEvent);
+
+            //diagnostics
+            Diagnostic.NetworkingDiagnostics.Configure();
         }
 
         public ClientSide(int port)
@@ -58,6 +61,9 @@ namespace UDPClientServerCommons.Client
 
             ackOperating = new AckOperating();
             ackOperating.SendPacketEvent += new AckOperating.SendPacket(ackOperating_SendPacketEvent);
+
+            //diagnostics
+            Diagnostic.NetworkingDiagnostics.Configure();
         }
 
         void ackOperating_SendPacketEvent(object Packet)
@@ -106,7 +112,7 @@ namespace UDPClientServerCommons.Client
             }
             catch (Exception ex)
             {
-                // do something
+                Diagnostic.NetworkingDiagnostics.Logging.Error("Packet was received", ex);
             }
         }
 

@@ -142,6 +142,7 @@ namespace Clutch.Net.UDP
                 }
                 catch (SocketException se)
                 {
+                    UDPClientServerCommons.Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncBeginReceive", se); 
                     // something bad happened
                     //System.Diagnostics.EventLog.WriteEntry(ServiceName,
                     //    "A SocketException occurred in UDPServer.AsyncBeginReceive():\n\n" + se.Message,
@@ -191,6 +192,7 @@ namespace Clutch.Net.UDP
                 }
                 catch (SocketException se)
                 {
+                    UDPClientServerCommons.Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncEndReceive", se); 
                     // something bad happened
                     //System.Diagnostics.EventLog.WriteEntry(ServiceName,
                     //    "A SocketException occurred in UDPServer.AsyncEndReceive():\n\n" + se.Message,
@@ -234,6 +236,7 @@ namespace Clutch.Net.UDP
                 }
                 catch (SocketException se)
                 {
+                    UDPClientServerCommons.Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncBeginSend", se); 
                     //System.Diagnostics.EventLog.WriteEntry(ServiceName,
                     //    "A SocketException occurred in UDPServer.AsyncBeginSend():\n\n" + se.Message,
                     //    System.Diagnostics.EventLogEntryType.Error);
@@ -265,6 +268,7 @@ namespace Clutch.Net.UDP
                 }
                 catch (SocketException se)
                 {
+                    UDPClientServerCommons.Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncEndSend", se); 
                     //System.Diagnostics.EventLog.WriteEntry(ServiceName,
                     //    "A SocketException occurred in UDPServer.AsyncEndSend():\n\n" + se.Message,
                     //    System.Diagnostics.EventLogEntryType.Error);

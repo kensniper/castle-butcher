@@ -124,11 +124,11 @@ namespace UDPClientServerCommons.Client
                     }
                     catch (SocketException se)
                     {
-                        //do something with exception (log it?)
+                        Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncBeginReceive", se);                        
                     }
                     catch (Exception ex)
                     {
-                        //do something with exception (log it?)
+                        Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncBeginReceive", ex);                        
                     }
                 }
         }
@@ -164,11 +164,11 @@ namespace UDPClientServerCommons.Client
                     }
                     catch (SocketException se)
                     {
-                        //do something with exception (log it?)
+                        Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncEndReceive", se);                        
                     }
                     catch (Exception ex)
                     {
-                        //do something with exception (log it?)
+                        Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncEndReceive", ex);                        
                     }
                 }
         }
@@ -196,11 +196,11 @@ namespace UDPClientServerCommons.Client
                     }
                     catch (SocketException se)
                     {
-                        // do something
+                        Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncBeginSend", se);                        
                     }
                     catch (Exception ex)
                     {
-                        // do something
+                        Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncBeginSend", ex);                        
                     }
                 }
         }
@@ -223,11 +223,11 @@ namespace UDPClientServerCommons.Client
                     }
                     catch (SocketException se)
                     {
-                        // do something
+                        Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncEndSend", se);                        
                     }
                     catch (Exception ex)
                     {
-                        // do something
+                        Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncEndSend", ex);                        
                     }
                 }
         }
@@ -263,7 +263,7 @@ namespace UDPClientServerCommons.Client
             }
             catch (Exception ex)
             {
-                // Do something with exception (log it?)
+                Diagnostic.NetworkingDiagnostics.Logging.Fatal("Dispose", ex);
             }
         }
 
