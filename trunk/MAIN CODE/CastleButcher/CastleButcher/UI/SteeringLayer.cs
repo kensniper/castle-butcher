@@ -126,7 +126,7 @@ namespace CastleButcher.UI
                 else if (pressedKeys.Contains(KeyMapping.Default.Backward))
                 {
                     sdev.Velocity = -1;
-                    cameraShaker.StopWalking();
+                    cameraShaker.StartWalking();
                 }
 
 
@@ -144,6 +144,7 @@ namespace CastleButcher.UI
                 {
                     //ground contact
                     sdev.Jump();
+                    ///SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.
                 }
 
 
