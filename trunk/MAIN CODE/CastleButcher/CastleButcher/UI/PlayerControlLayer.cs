@@ -239,12 +239,23 @@ namespace CastleButcher.UI
                 if (player.CurrentCharacter.Weapons.CurrentWeapon != null && player.CurrentCharacter.Weapons.CurrentWeaponType ==
                     CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
                 {
-                    weaponAmmo.Text = "Ammo:"+player.CurrentCharacter.Weapons.CurrentRanged.Ammo.ToString();
+                    weaponAmmo.Text = "Ammo:" + player.CurrentCharacter.Weapons.CurrentRanged.Ammo.ToString();
                 }
                 else
                     weaponAmmo.Text = "";
+
+
+                
+            }
+            else
+            {
+                
             }
 
+            if (player.IsAlive )
+            {
+                
+            }
 
 
 
