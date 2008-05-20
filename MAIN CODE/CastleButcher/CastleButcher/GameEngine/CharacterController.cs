@@ -33,6 +33,8 @@ namespace CastleButcher.GameEngine
         Character character;
         int id;
 
+        SoundSystem.SoundDescriptor footsoundDescriptor;
+
         public virtual bool Flying
         {
             get { return flying; }
@@ -97,10 +99,23 @@ namespace CastleButcher.GameEngine
             set
             {
                 if (value > 1)
+                {
                     value = 1;
+                    
+                }
                 if (value < -1)
                     value = -1;
                 velocity = value;
+
+                if (velocity != 0 && footsoundDescriptor==null)
+                {
+                    footsoundDescriptor = SoundSystem.SoundEngine.StartSteps(SoundSystem.Enums.SoundTypes.stepsInside1, (Vector3)character.Position);
+
+                }
+                if (velocity == 0 && footsoundDescriptor != null)
+                {
+                    SoundSystem.SoundEngine.StopSteps(footsoundDescriptor);
+                }
                 //ship.AutoPilot.SetVelocity = velocity * ship.EngineParameters.MaxVelocity;
             }
         }
@@ -320,7 +335,9 @@ namespace CastleButcher.GameEngine
 
         public virtual void Update(float dt)
         {
-
+            //footsteps
+            if(footsoundDescriptor!=null)
+                footsoundDescriptor.Position = (Vector3)character.Position;
 
 
             //strafing
