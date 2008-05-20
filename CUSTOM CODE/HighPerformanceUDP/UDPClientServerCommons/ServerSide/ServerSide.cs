@@ -31,6 +31,9 @@ namespace UDPClientServerCommons
             System.Threading.TimerCallback timerCallback = new System.Threading.TimerCallback(timerCallbackMethod);
             timer = new System.Threading.Timer(timerCallback, null, System.Threading.Timeout.Infinite, 100);
             ackOperating = new AckOperating();
+
+            //diagnostics
+            Diagnostic.NetworkingDiagnostics.Configure();
         }
 
         public ServerSide(IPEndPoint ServerIp)
@@ -40,6 +43,9 @@ namespace UDPClientServerCommons
             System.Threading.TimerCallback timerCallback = new System.Threading.TimerCallback(timerCallbackMethod);
             timer = new System.Threading.Timer(timerCallback, null, System.Threading.Timeout.Infinite, 100);
             ackOperating = new AckOperating();
+
+            //diagnostics
+            Diagnostic.NetworkingDiagnostics.Configure();
         }
 
         private void timerCallbackMethod(object target)
@@ -118,7 +124,7 @@ namespace UDPClientServerCommons
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    UDPClientServerCommons.Diagnostic.NetworkingDiagnostics.Logging.Fatal("myUdpServer_MessageWasReceivedEvent", ex); 
                 }
             }
         }

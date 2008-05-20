@@ -33,6 +33,7 @@
   <ItemGroup>
     <Compile Include="Client\ClientSide.cs" />
     <Compile Include="Client\UDPLayer.cs" />
+    <Compile Include="Diagnostic\NetworkingDiagnostics.cs" />
     <Compile Include="GameWorld\GameWorld.cs" />
     <Compile Include="Packets\AckPacket.cs" />
     <Compile Include="Packets\BasePlayerInfo.cs" />
@@ -55,6 +56,10 @@
     <Compile Include="Usefull\ToManyAcksWaitingException.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CustomDlls\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -67,6 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="todo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
