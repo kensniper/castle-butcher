@@ -26,7 +26,7 @@ namespace FormsTesting
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            SoundSystem.SoundEngine.InitializeEngine(this);
+            SoundSystem.SoundEngine.InitializeEngine(this, -900, 100.0f, 1.0f);
             SoundSystem.SoundEngine.NameFinder.SoundDirectoryPath = "SoundSamples/";
             //foreach (Type ee in SoundSystem.Enums.MusicTypes)
             //{
