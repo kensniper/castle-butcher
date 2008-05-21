@@ -127,7 +127,11 @@ namespace SoundSystem
         /// </summary>
         /// <param name="owner">Obiekt (Forms), w ktorym ma byc umieszczony 
         /// silnik dzwiekowy</param>
-        public static void InitializeEngine(Control owner)
+        /// <param name="distanceFactor">Czynnik odleglosci</param>
+        /// <param name="roloffFactor">Czynnik roloff</param>
+        /// <param name="volume">Glosnosc</param>
+        public static void InitializeEngine(Control owner, int volume,
+            float distanceFactor, float roloffFactor)
         {
             //karta dzwiekowa
             soundCard = new DS.Device();
@@ -141,11 +145,16 @@ namespace SoundSystem
             primaryBufferDescription.ControlEffects = false;
             primaryBufferDescription.Control3D = true;
             primaryBufferDescription.PrimaryBuffer = true;
+            primaryBufferDescription.ControlVolume = true;
             primaryBuffer = new DS.Buffer(primaryBufferDescription, soundCard);
+            primaryBuffer.Volume = volume;
+
             listener = new Listener3D(primaryBuffer);
+            listener.DistanceFactor = distanceFactor;
+            listener.RolloffFactor = roloffFactor;
 
             //muzyka w tle
-
+            
             //SourceNameFinder
             nameFinder = new SourceNameFinder();
 
