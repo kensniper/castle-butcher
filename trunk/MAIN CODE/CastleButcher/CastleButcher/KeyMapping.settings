@@ -20,5 +20,17 @@
     <Setting Name="Jump" Type="System.Windows.Forms.Keys" Scope="User">
       <Value Profile="(Default)">Space</Value>
     </Setting>
+    <Setting Name="NextWeapon" Type="System.Windows.Forms.Keys" Scope="User">
+      <Value Profile="(Default)">Oemcomma</Value>
+    </Setting>
+    <Setting Name="PreviousWeapon" Type="System.Windows.Forms.Keys" Scope="User">
+      <Value Profile="(Default)">OemPeriod</Value>
+    </Setting>
+    <Setting Name="SelectMelee" Type="System.Windows.Forms.Keys" Scope="User">
+      <Value Profile="(Default)">Z</Value>
+    </Setting>
+    <Setting Name="SelectRanged" Type="System.Windows.Forms.Keys" Scope="User">
+      <Value Profile="(Default)">X</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

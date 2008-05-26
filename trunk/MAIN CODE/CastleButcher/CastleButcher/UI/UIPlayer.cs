@@ -28,13 +28,25 @@ namespace CastleButcher.UI
 
         }
 
-        public override void OnWeaponPickup(CastleButcher.GameEngine.Weapons.WeaponPickup weapon)
+        public void OnWeaponChanged(CastleButcher.GameEngine.Weapons.WeaponClass newWeapon)
         {
-            base.OnWeaponPickup(weapon);
-            if (weapon.WeaponClass.WeaponType == CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
+            if (newWeapon == null || newWeapon.WeaponType != CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
+            {
+                playerControl.RenderCrosshair = false;
+            }
+            else
             {
                 playerControl.RenderCrosshair = true;
             }
+        }
+
+        public override void OnWeaponPickup(CastleButcher.GameEngine.Weapons.WeaponPickup weapon)
+        {
+            base.OnWeaponPickup(weapon);
+            //if (weapon.WeaponClass.WeaponType == CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
+            //{
+            //    playerControl.RenderCrosshair = true;
+            //}
         }
         public override void OnDestroyed(DestroyableObj destroyedObj)
         {
@@ -48,6 +60,8 @@ namespace CastleButcher.UI
             Spectating = false;
 
             playerControl.ShowPlayerList = false;
+
+            currentChar.Weapons.OnWeaponChanged += new CastleButcher.GameEngine.Weapons.WeaponChangedEvent(OnWeaponChanged);
         }
     }
 }

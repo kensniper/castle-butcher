@@ -48,7 +48,7 @@ namespace CastleButcher.UI
             get { return slay.CameraShaker; }
         }
 
-        
+
 
         public bool ShowPlayerList
         {
@@ -64,13 +64,13 @@ namespace CastleButcher.UI
         }
 
 
-        public PlayerControlLayer(Player player,GameController controller)
+        public PlayerControlLayer(Player player, GameController controller)
             : base()
         {
             this.isTransparent = true;
             this.RecievesEmptyMouse = true;
             RecievesEmptyMouse = true;
-            
+
 
             gameController = controller;
             slay = new SteeringLayer(player);
@@ -88,13 +88,13 @@ namespace CastleButcher.UI
             int bottom = (int)GM.AppWindow.GraphicsParameters.WindowSize.Height;
             currentWeapon = new GuiTextLabel("", new RectangleF(10, bottom - 100, 250, 18), 18);
             currentRocket = new GuiTextLabel("", new RectangleF(10, bottom - 80, 150, 18), 18);
-            weaponAmmo = new GuiTextLabel("", new RectangleF(10, bottom - 60, 30, 18), 18);
+            weaponAmmo = new GuiTextLabel("", new RectangleF(10, bottom - 60, 100, 18), 18);
             weaponEnergy = new GuiTextLabel("", new RectangleF(10, bottom - 60, 150, 18), 18);
 
             numFrags = new GuiTextLabel("0", new RectangleF(10, bottom - 40, 150, 18), 18);
             numDeaths = new GuiTextLabel("0", new RectangleF(10, bottom - 20, 150, 18), 18);
             statusInfo = new GuiTextLabel("", new RectangleF(0, 100, size.Width, 40), 40, "Ghotic",
-                Align.Center, Color.Black);
+                Align.Center, Color.Blue);
             AddControl(statusInfo);
 
             AddControl(velocity);
@@ -197,7 +197,7 @@ namespace CastleButcher.UI
         public override void OnUpdateFrame(Device device, float elapsedTime)
         {
             base.OnUpdateFrame(device, elapsedTime);
-            
+
             if (gameController.GameStatus == GameStatus.WaitingForStart)
             {
                 if (statusInfo.Text != "Oczekiwanie na innych graczy")
@@ -247,11 +247,11 @@ namespace CastleButcher.UI
                     weaponAmmo.Text = "";
 
 
-                
+
             }
             else
             {
-                
+
             }
 
         }
@@ -277,7 +277,7 @@ namespace CastleButcher.UI
             {
 
             }
-            
+
             if (player.IsAlive == false)
             {
                 //if (pressedButtons[0] == true)
@@ -311,6 +311,24 @@ namespace CastleButcher.UI
                     AddControl(playerList);
                     playerListAdded = true;
                 }
+                if (pressedKeys.Contains(KeyMapping.Default.NextWeapon))
+                {
+                    player.CurrentCharacter.Weapons.SelectNextRanged();
+                }
+                if (pressedKeys.Contains(KeyMapping.Default.PreviousWeapon))
+                {
+                    player.CurrentCharacter.Weapons.SelectPreviousRanged();
+                }
+                if (pressedKeys.Contains(KeyMapping.Default.SelectMelee))
+                {
+                    player.CurrentCharacter.Weapons.CurrentWeaponType = CastleButcher.GameEngine.Weapons.WeaponType.Melee;
+                }
+                if (pressedKeys.Contains(KeyMapping.Default.SelectRanged))
+                {
+                    player.CurrentCharacter.Weapons.CurrentWeaponType= CastleButcher.GameEngine.Weapons.WeaponType.Ranged;
+                }
+
+
                 if (releasedKeys.Contains(System.Windows.Forms.Keys.F2) && playerListAdded == true)
                 {
                     RemoveControl(playerList);
