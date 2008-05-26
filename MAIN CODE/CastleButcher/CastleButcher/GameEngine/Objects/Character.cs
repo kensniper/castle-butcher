@@ -118,6 +118,8 @@ namespace CastleButcher.GameEngine
 
             IMissile missile = Weapons.CurrentWeapon.WeaponClass.GetMissile(this, this.Position, this.LookOrientation);
             Weapons.CurrentWeapon.Ammo--;
+            if (Weapons.CurrentWeapon.Ammo < 0 && Weapons.CurrentWeapon.WeaponClass.WeaponType == CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
+                Weapons.SelectPreviousRanged();
             SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.crossbowOff, (Vector3)this.Position);
             
             World.Instance.AddObject(missile as IGameObject);
@@ -203,9 +205,9 @@ namespace CastleButcher.GameEngine
 
                 armorState.Hp = 0;
                 if (characterClass.GameTeam == GameTeam.Assassins)
-                    SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.assassinShortDeath, (Vector3)Position);
+                    SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.knightLongDeath, (Vector3)Position);
                 else if (characterClass.GameTeam == GameTeam.Knights)
-                    SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.knightShortDeath, (Vector3)Position);
+                    SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.knightLongDeath, (Vector3)Position);
 
                 
                 return true;
@@ -213,7 +215,7 @@ namespace CastleButcher.GameEngine
             if (characterClass.GameTeam == GameTeam.Assassins)
                 SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.assassinJooaah, (Vector3)Position);
             else if (characterClass.GameTeam == GameTeam.Knights)
-                SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.knightUueh, (Vector3)Position);
+                SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.knightShortDeath, (Vector3)Position);
 
             return false;
 

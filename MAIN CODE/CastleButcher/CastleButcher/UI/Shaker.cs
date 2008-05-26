@@ -50,7 +50,7 @@ namespace CastleButcher.UI
         MyVector position;
         const float stop_speed=0.00035f;
         const float run_speed = 0.0035f;
-        const float acc_mullti = 0.000001f;
+        const float acc_mullti = 0.00001f;
         const float shot_speed = 0.01f;
         const float jump_speed = 0.001f;
         float speed;
@@ -110,6 +110,7 @@ namespace CastleButcher.UI
 
         private void NextPosition(float dt) //znajduje kolejną pozycję w kierunku destination
         {
+            dt /= 0.003f;
             speed += acceleration;
             if (speed <= 0)
             {
@@ -121,10 +122,10 @@ namespace CastleButcher.UI
                 acceleration = 0;
                 speed = run_speed;
             }
-            t += speed * direction;
+            t += dt*speed * direction;
             if (acceleration == 0 && (position.X != 0 || position.Y != 0) && !walking)
             {
-                t -= acc_mullti*10000 ;
+                t -= dt*acc_mullti*1000 ;
                 
                 position.X = CrossBowMove.ComputeX(t);
                 position.Y = CrossBowMove.ComputeY(t);// 2 * p * t + k;

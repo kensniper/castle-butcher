@@ -82,7 +82,9 @@ namespace CastleButcher.UI
             //renderer.ParticleSystem.AddEmitter(em);
 
 
-            GM.AppWindow.AddKeyLock(System.Windows.Forms.Keys.Space);
+            GM.AppWindow.AddKeyLock(KeyMapping.Default.Jump);
+            GM.AppWindow.AddKeyLock(KeyMapping.Default.NextWeapon);
+            GM.AppWindow.AddKeyLock(KeyMapping.Default.PreviousWeapon);
 
         }
 
