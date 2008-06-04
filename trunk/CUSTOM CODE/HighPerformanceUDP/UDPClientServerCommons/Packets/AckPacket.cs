@@ -10,7 +10,7 @@ namespace UDPClientServerCommons
         private const ushort _MTU_PacketSize = 1400;
         public const int _AckPacketMinimalSize = 6;
 
-        private PacketType TypeOfPacketField = PacketType.Join;
+        private PacketType TypeOfPacketField = PacketType.JoinPacket;
 
         public PacketType TypeOfPacket
         {

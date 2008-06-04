@@ -30,7 +30,7 @@
 
             private Vector playerPositionField;
 
-            private PacketType typeOfPacketField = PacketType.Standard;
+            private PacketType typeOfPacketField = PacketType.StandardPacket;
 
             public PacketType TypeOfPacket
             {

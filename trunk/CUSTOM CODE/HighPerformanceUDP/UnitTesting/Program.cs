@@ -103,7 +103,7 @@ namespace UnitTesting
             server.PlayerInfoList.Add(testClientPacket);
             server.PlayerInfoList.Add(testClientPacket2);
             server.Timestamp = DateTime.Now;
-            server.TypeOfPacket = PacketType.Standard;
+            server.TypeOfPacket = PacketType.StandardPacket;
             whatever = server.ToMinimalByte();
 
             Console.WriteLine(server);

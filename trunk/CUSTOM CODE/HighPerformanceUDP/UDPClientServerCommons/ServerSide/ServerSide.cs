@@ -90,7 +90,7 @@ namespace UDPClientServerCommons
                     UDPClientServerCommons.PacketType packetType = UDPClientServerCommons.PacketTypeChecker.Check(buff.Data);
                     switch (packetType)
                     {
-                        case (UDPClientServerCommons.PacketType.Join):
+                        case (UDPClientServerCommons.PacketType.JoinPacket):
                             UDPClientServerCommons.JoinPacket joinPacket = new UDPClientServerCommons.JoinPacket(buff.Data);
                             cliendAdressList.Add(buff.RemoteEndPoint);
 
@@ -104,7 +104,7 @@ namespace UDPClientServerCommons
                                 serverPacket.NumberOfPlayers = (ushort)cliendAdressList.Count;
                             }
                             break;
-                        case (UDPClientServerCommons.PacketType.Standard):
+                        case (UDPClientServerCommons.PacketType.StandardPacket):
                             lock (serverPacketLock)
                             {
                                 UDPClientServerCommons.ClientPacket clientPacket = new UDPClientServerCommons.ClientPacket(buff.Data);
