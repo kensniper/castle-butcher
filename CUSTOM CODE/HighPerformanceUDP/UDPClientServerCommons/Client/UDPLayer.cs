@@ -124,8 +124,6 @@ namespace UDPClientServerCommons.Client
 
         private void AsyncBeginReceive()
         {
-            bool tmp = false;
-
             // this method actually kicks off the async read on the socket.
             // we aquire a reader lock here to ensure that no other thread
             // is trying to set shutdownFlag and close the socket.

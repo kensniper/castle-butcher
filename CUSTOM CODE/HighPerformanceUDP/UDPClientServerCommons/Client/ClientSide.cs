@@ -21,10 +21,6 @@ namespace UDPClientServerCommons.Client
         /// UDP networking layer
         /// </summary>
         private UDPLayer udpNetworking;
-        /// <summary>
-        /// Game world methods (physics) ?
-        /// </summary>
-        private GameWorld gameWorld;
 
         private AckOperating ackOperating;
 

@@ -33,6 +33,8 @@
   <ItemGroup>
     <Compile Include="Client\ClientSide.cs" />
     <Compile Include="Client\UDPLayer.cs" />
+    <Compile Include="Constants\GameEventTypeEnumeration.cs" />
+    <Compile Include="Constants\GameTypeEnumeration.cs" />
     <Compile Include="Constants\WeaponEnumeration.cs" />
     <Compile Include="Diagnostic\NetworkingDiagnostics.cs" />
     <Compile Include="Interfaces\ICastleServer.cs" />
@@ -42,7 +44,13 @@
     <Compile Include="Packets\BasePlayerInfo.cs" />
     <Compile Include="Packets\ClientPacket.cs" />
     <Compile Include="Interfaces\IPacket.cs" />
+    <Compile Include="Packets\GameEvent.cs" />
+    <Compile Include="Packets\GameEventCollection.cs" />
+    <Compile Include="Packets\GameInfoPacket.cs" />
+    <Compile Include="Packets\PlayerStatus.cs" />
     <Compile Include="Packets\JoinPacket.cs" />
+    <Compile Include="Packets\LeaveGamePacket.cs" />
+    <Compile Include="Packets\TeamScoreStruct.cs" />
     <Compile Include="ServerSide\Clutch.Net\UdpServer.cs" />
     <Compile Include="ServerSide\MyUdpServer.cs" />
     <Compile Include="ServerSide\ServerSide.cs" />
