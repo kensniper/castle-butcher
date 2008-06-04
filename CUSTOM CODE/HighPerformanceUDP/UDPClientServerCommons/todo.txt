@@ -1,7 +1,24 @@
 ﻿nie potrzbna flaga biegnie,idzie,stoji, bo wszystko mozna przekazac predkoscia jako wektorem kierunku
 
-poprawic wysylanie ACK, teraz jest bez sensu bo marnuje sie tylko miejsce w pakiecie !!!
 
+
+rozszerzyc klase JoinPacket
+stworzyc klase GameInfoPacket
+stworzyc klase leaveGamePacket
+
+bez ack
+zrobic interfejs dla gracza-serwera z metoda ktora podaje ilosc zycia kazdego z graczy
+lista zawierajace klase GameEvent (czas,rodzaj) (czas?)
+
+u klienta lista eventow - kazdy z czasem
+grafika je zdjejmuje, sieciowosc wklada
+
+
+
+-------------------------------
+ponizej do przemyslenia
+
+poprawic wysylanie ACK, teraz jest bez sensu bo marnuje sie tylko miejsce w pakiecie !!!
 
 zaragowac na dane warstwy graficznej ktora podaje istotne dane,
 tj. jesli warstwa podaje dane wymagajaca ack to sa one wysylane od razu jesli do nastepnego wyslania przez petle glowna zostalo >=50 ms 
@@ -11,7 +28,3 @@ z pakietem glownym jesli do jego wyslania zostalo mniej niz 50 ms)
 serwer wysyla dane co 100 ms, jesli ma liste ack do wyslania to wysyla je jesli zostalo >50ms do petli glownej,
 
 do dopracowania pozostaje ponowne wysylanie wiadomosci ktore ciagle czekaja na ACK
-
-rozszerzyc klase JoinPacket
-stworzyc klase GameInfoPacket
-stworzyc klase leaveGamePacket
