@@ -15,9 +15,12 @@ namespace UDPClientServerCommons.Packets
             set { GameEventTypeField = value; }
         }
 
-        private Nullable<Int16> GameEventAttributeField;
+        private UInt16 GameEventAttributeField=0;
 
-        public Nullable<Int16> GameEventAttribute
+        /// <summary>
+        /// Zero means NULL !!!!!!
+        /// </summary>
+        public UInt16 GameEventAttribute
         {
             get { return GameEventAttributeField; }
             set { GameEventAttributeField = value; }
@@ -27,18 +30,9 @@ namespace UDPClientServerCommons.Packets
 
         public byte[] ToByte()
         {
-            MemoryStream ms = null;
-            if (! GameEventAttributeField.HasValue)
-            {
-                ms = new MemoryStream(2);
-                ms.Write(BitConverter.GetBytes((ushort) GameEventTypeField), 0, 2);
-            }
-            else
-            {
-                ms = new MemoryStream(4);
-                ms.Write(BitConverter.GetBytes((ushort)GameEventTypeField), 0, 2);
-                ms.Write(BitConverter.GetBytes((ushort)GameEventAttributeField.Value), 2, 2);
-            }
+            MemoryStream ms = new MemoryStream(4);
+            ms.Write(BitConverter.GetBytes((ushort)GameEventTypeField), 0, 2);
+            ms.Write(BitConverter.GetBytes((ushort)GameEventAttributeField), 2, 2);
 
             byte[] result = ms.GetBuffer();
             ms.Close();
@@ -65,5 +59,20 @@ namespace UDPClientServerCommons.Packets
         }
 
         #endregion
+
+        public GameEvent()
+        { }
+
+        public GameEvent(byte[] binaryGameEvent)
+        {
+            this.GameEventTypeField = (Constants.GameEventTypeEnumeration)(ushort)BitConverter.ToInt16(binaryGameEvent, 0);
+            this.GameEventAttributeField = (ushort)BitConverter.ToInt16(binaryGameEvent, 2);
+        }
+
+        public GameEvent(byte[] binaryGameEvent, int index)
+        {
+            this.GameEventTypeField = (Constants.GameEventTypeEnumeration)(ushort)BitConverter.ToInt16(binaryGameEvent, index);
+            this.GameEventAttributeField = (ushort)BitConverter.ToInt16(binaryGameEvent, 2 + index);
+        }
     }
 }

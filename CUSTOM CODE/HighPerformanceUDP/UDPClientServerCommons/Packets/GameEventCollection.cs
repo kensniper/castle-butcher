@@ -33,10 +33,7 @@ namespace UDPClientServerCommons.Packets
                 int count = 0;
                 for (int i = 0; i < GameEventList.Count; i++)
                 {
-                    if (GameEventList[i].GameEventAttribute.HasValue)
                         count += 4;
-                    else
-                        count += 2;
                 }
                 return count;
             }
@@ -144,17 +141,9 @@ namespace UDPClientServerCommons.Packets
                 ms.Write(BitConverter.GetBytes((ushort)GameEventList.Count), 0, 2);
                 int pos = 2;
                 for (int i = 0; i < GameEventList.Count; i++)
-                {
-                    if (GameEventList[i].GameEventAttribute.HasValue)
-                    {
+                {            
                         pos += 4;
                         ms.Write(GameEventList[i].ToByte(), pos, 4);
-                    }
-                    else
-                    {
-                        pos += 2;
-                        ms.Write(GameEventList[i].ToByte(), pos, 2);
-                    }
                 }
             }
             byte[] result = ms.GetBuffer();
@@ -183,5 +172,20 @@ namespace UDPClientServerCommons.Packets
         }
 
         #endregion
+
+        public GameEventCollection(byte[] binaryGameEventCollection)
+        {
+            lock (ListLock)
+            {
+                this.GameEventList = new List<GameEvent>();
+                int count = (int)BitConverter.ToInt16(binaryGameEventCollection, 0);
+
+                for (int i = 0; i < count; i++)
+                {
+                    GameEvent ge = new GameEvent(binaryGameEventCollection, 2 + 4 * i);
+                    this.GameEventList.Add(ge);
+                }
+            }
+        }
     }
 }

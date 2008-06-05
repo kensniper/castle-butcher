@@ -40,7 +40,6 @@
     <Compile Include="Interfaces\ICastleServer.cs" />
     <Compile Include="Interfaces\ISend.cs" />
     <Compile Include="Interfaces\IServerData.cs" />
-    <Compile Include="Packets\AckPacket.cs" />
     <Compile Include="Packets\BasePlayerInfo.cs" />
     <Compile Include="Packets\ClientPacket.cs" />
     <Compile Include="Interfaces\IPacket.cs" />
