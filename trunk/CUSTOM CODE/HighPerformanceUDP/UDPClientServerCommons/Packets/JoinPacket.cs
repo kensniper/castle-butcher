@@ -102,6 +102,17 @@ namespace UDPClientServerCommons
             this.packetIdField = BitConverter.ToUInt16(binaryJoinPacket, 8 + stringLength);
         }
 
+        public JoinPacket(byte[] binaryJoinPacket,int index)
+        {
+            this.TypeOfPacketField = (PacketType)BitConverter.ToUInt16(binaryJoinPacket, index);
+            this.playerIdField = BitConverter.ToUInt16(binaryJoinPacket, 2+index);
+            this.GameIdField = BitConverter.ToUInt16(binaryJoinPacket, 4 + index);
+
+            ushort stringLength = BitConverter.ToUInt16(binaryJoinPacket, 6 + index);
+            this.PlayerNameField = Encoding.ASCII.GetString(binaryJoinPacket, 8 + index, stringLength);
+            this.packetIdField = BitConverter.ToUInt16(binaryJoinPacket, 8 + stringLength + index);
+        }
+
         #region ICloneable Members
 
         public object Clone()
