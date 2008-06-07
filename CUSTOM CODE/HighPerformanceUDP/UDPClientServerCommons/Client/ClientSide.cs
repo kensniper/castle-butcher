@@ -65,7 +65,7 @@ namespace UDPClientServerCommons.Client
             Diagnostic.NetworkingDiagnostics.Configure();
         }
 
-        void ackOperating_SendPacketEvent(object Packet)
+       private void ackOperating_SendPacketEvent(object Packet)
         {
             udpNetworking.SendPacket(((ClientPacket)Packet).ToMinimalByte());
         }
