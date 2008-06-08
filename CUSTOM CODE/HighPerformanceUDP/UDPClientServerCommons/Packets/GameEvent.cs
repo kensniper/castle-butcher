@@ -5,8 +5,10 @@ using System.IO;
 
 namespace UDPClientServerCommons.Packets
 {
-    public class GameEvent:IPacket,ICloneable
+    public class GameEvent:Interfaces.ISerializablePacket,ICloneable
     {
+        #region fields
+
         private Constants.GameEventTypeEnumeration GameEventTypeField;
 
         public Constants.GameEventTypeEnumeration GameEventType
@@ -26,25 +28,6 @@ namespace UDPClientServerCommons.Packets
             set { GameEventAttributeField = value; }
         }
 
-        #region IPacket Members
-
-        public byte[] ToByte()
-        {
-            MemoryStream ms = new MemoryStream(4);
-            ms.Write(BitConverter.GetBytes((ushort)GameEventTypeField), 0, 2);
-            ms.Write(BitConverter.GetBytes((ushort)GameEventAttributeField), 2, 2);
-
-            byte[] result = ms.GetBuffer();
-            ms.Close();
-
-            return result;
-        }
-
-        public byte[] ToMinimalByte()
-        {
-            return this.ToByte();
-        }
-
         #endregion
 
         #region ICloneable Members
@@ -60,6 +43,8 @@ namespace UDPClientServerCommons.Packets
 
         #endregion
 
+        #region Constructor
+
         public GameEvent()
         { }
 
@@ -74,5 +59,45 @@ namespace UDPClientServerCommons.Packets
             this.GameEventTypeField = (Constants.GameEventTypeEnumeration)(ushort)BitConverter.ToInt16(binaryGameEvent, index);
             this.GameEventAttributeField = (ushort)BitConverter.ToInt16(binaryGameEvent, 2 + index);
         }
+        
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("\nGameEventType = ");
+            sb.Append(GameEventTypeField);
+            sb.Append("\nGameEventAttribute = ");
+            sb.Append(GameEventAttributeField);
+
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #region ISerializablePacket Members
+
+        public byte[] ToByte()
+        {
+            MemoryStream ms = new MemoryStream(4);
+            ms.Write(BitConverter.GetBytes((ushort)GameEventTypeField), 0, 2);
+            ms.Write(BitConverter.GetBytes((ushort)GameEventAttributeField), 0, 2);
+
+            byte[] result = ms.GetBuffer();
+            ms.Close();
+
+            return result;
+        }
+
+        public byte[] ToMinimalByte()
+        {
+            return this.ToByte();
+        }
+
+        public int ByteCount
+        {
+            get { return 4; }
+        }
+
+        #endregion
     }
 }

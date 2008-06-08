@@ -5,8 +5,10 @@ using System.IO;
 
 namespace UDPClientServerCommons.Packets
 {
-    class GameEventCollection : ICollection<GameEvent>,IPacket,ICloneable
+    class GameEventCollection : ICollection<GameEvent>,Interfaces.ISerializablePacket,ICloneable
     {
+        #region fields
+
         private readonly object ListLock = new object();
 
         private List<GameEvent> GameEventList = null;
@@ -27,23 +29,7 @@ namespace UDPClientServerCommons.Packets
             set { GameEventTimeField = value; }
         }
 
-        public int GameEventCollectionByteCount
-        {
-            get {
-                int count = 0;
-                for (int i = 0; i < GameEventList.Count; i++)
-                {
-                        count += 4;
-                }
-                return count;
-            }
-        }
-
-        public GameEventCollection()
-            : base()
-        {
-            GameEventList = new List<GameEvent>();
-        }
+        #endregion
 
         #region ICollection<GameEvent> Members
 
@@ -129,36 +115,6 @@ namespace UDPClientServerCommons.Packets
 
         #endregion
 
-        #region IPacket Members
-
-        public byte[] ToByte()
-        {
-            MemoryStream ms = null;
-            lock (ListLock)
-            {
-                ms = new MemoryStream(GameEventCollectionByteCount + 2);
-
-                ms.Write(BitConverter.GetBytes((ushort)GameEventList.Count), 0, 2);
-                int pos = 2;
-                for (int i = 0; i < GameEventList.Count; i++)
-                {            
-                        pos += 4;
-                        ms.Write(GameEventList[i].ToByte(), pos, 4);
-                }
-            }
-            byte[] result = ms.GetBuffer();
-            ms.Close();
-
-            return result;
-        }
-
-        public byte[] ToMinimalByte()
-        {
-            return this.ToByte();
-        }
-
-        #endregion
-
         #region ICloneable Members
 
         public object Clone()
@@ -172,6 +128,14 @@ namespace UDPClientServerCommons.Packets
         }
 
         #endregion
+
+        #region Constructor
+
+        public GameEventCollection()
+            : base()
+        {
+            GameEventList = new List<GameEvent>();
+        }
 
         public GameEventCollection(byte[] binaryGameEventCollection)
         {
@@ -187,5 +151,62 @@ namespace UDPClientServerCommons.Packets
                 }
             }
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("\nGameEventCollection");
+            for (int i = 0; i < this.GameEventList.Count; i++)
+                sb.Append(GameEventList[i]);
+
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #region ISerializablePacket Members
+
+        public int ByteCount
+        {
+            get
+            {
+                // because listCount first
+                int count = 2;
+                for (int i = 0; i < GameEventList.Count; i++)
+                {
+                    count += GameEventList[i].ByteCount;
+                }
+                return count;
+            }
+        }
+
+        public byte[] ToByte()
+        {
+            MemoryStream ms = null;
+            lock (ListLock)
+            {
+                ms = new MemoryStream(ByteCount);
+
+                ms.Write(BitConverter.GetBytes((ushort)GameEventList.Count), 0, 2);
+               // int pos = 2;
+                for (int i = 0; i < GameEventList.Count; i++)
+                {
+                    ms.Write(GameEventList[i].ToByte(), 0, 4);
+                    //pos += GameEventList[i].ByteCount;
+                }
+            }
+            byte[] result = ms.GetBuffer();
+            ms.Close();
+
+            return result;
+        }
+
+        public byte[] ToMinimalByte()
+        {
+            return this.ToByte();
+        }
+
+        #endregion
     }
 }

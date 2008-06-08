@@ -5,12 +5,14 @@ using UDPClientServerCommons;
 using System.Net;
 using Clutch.Net.UDP;
 using UDPClientServerCommons.Interfaces;
+using UDPClientServerCommons.Constants;
+using UDPClientServerCommons.Packets;
 
 namespace UDPClientServerCommons.Client
 {
     public class ClientSide:IDisposable,ISend,IServerData
     {
-        public delegate void packetReceived(ServerPacket serverPacket);
+        public delegate void packetReceived(IPacket serverPacket);
 
         /// <summary>
         /// temporary event, fired after packet is received (game data updated)
@@ -25,13 +27,14 @@ namespace UDPClientServerCommons.Client
         private AckOperating ackOperating;
 
         private ClientPacket clientPacket = new ClientPacket();
-        private Dictionary<int, ServerPacket> LastPackages = new Dictionary<int, ServerPacket>();
+        private Dictionary<int, Interfaces.IPacket> lastPackages = new Dictionary<int, Interfaces.IPacket>();
         private Last10 last10 = new Last10();
 
-        private readonly object ClientPackageLock = new object();
-        private readonly object ServerPackagesLock = new object();
+        private readonly object clientPacketLock = new object();
+        private readonly object serverPacketLock = new object();
 
-        private ushort? PlayerId = null;
+        private ushort? playerId = null;
+        private ushort? gameId = null;
 
         public ClientSide()
         {
@@ -65,9 +68,9 @@ namespace UDPClientServerCommons.Client
             Diagnostic.NetworkingDiagnostics.Configure();
         }
 
-       private void ackOperating_SendPacketEvent(object Packet)
+       private void ackOperating_SendPacketEvent(Interfaces.IPacket Packet)
         {
-            udpNetworking.SendPacket(((ClientPacket)Packet).ToMinimalByte());
+            udpNetworking.SendPacket(((Interfaces.ISerializablePacket)Packet).ToByte());
         }
 
         public ushort JoinGame(IPEndPoint ServerIp, string PlayerName,ushort GameId)
@@ -85,9 +88,9 @@ namespace UDPClientServerCommons.Client
             joinPacket.PlayerName = PlayerName;
             joinPacket.GameId = GameId;
 
-            udpNetworking.SendPacket(joinPacket.ToMinimalByte());
+            udpNetworking.SendPacket(joinPacket.ToByte());
 
-            PlayerId = joinPacket.PlayerId;
+            playerId = joinPacket.PlayerId;
             return joinPacket.PlayerId;
         }
 
@@ -95,20 +98,28 @@ namespace UDPClientServerCommons.Client
         {
             try
             {
-                if (PacketTypeChecker.Check(udpPacketBuffer.Data) == PacketType.ACK)
-                    ackOperating.AckReceived(new AckPacket(udpPacketBuffer.Data).PacketIdAck);
-                else
-                {
-                    lock (ServerPackagesLock)
-                    {
-                        if (LastPackages.ContainsKey(last10.Counter))
-                            LastPackages[last10.Counter] = new UDPClientServerCommons.ServerPacket(udpPacketBuffer.Data);
+                    IPacket packet = PacketTypeChecker.GetPacket(udpPacketBuffer.Data);
+                    lock (serverPacketLock)
+                    {                        
+                        if (lastPackages.ContainsKey(last10.Counter))
+                            lastPackages[last10.Counter] = packet;
                         else
-                            LastPackages.Add(last10.Counter, new UDPClientServerCommons.ServerPacket(udpPacketBuffer.Data));
+                            lastPackages.Add(last10.Counter, packet);
                         last10.Increase();
                     }
-                    PacketReceivedEvent(new UDPClientServerCommons.ServerPacket(udpPacketBuffer.Data));
-                }
+                    PacketReceivedEvent(packet);
+
+                //bool ackNeeded = false;
+                //if (packet.PacketType == PacketTypeEnumeration.GameInfoPacket)
+                //    ackNeeded = true;
+                //if(packet.PacketId==ServerPacket && ! ackNeeded)
+                //    for (int i = 0; i < ((ServerPacket)(packet)).PlayerInfoList.Count; i++)
+                //        if (((ServerPacket)(packet)).PlayerInfoList[i].AckRequired)
+                //        {
+                //            ackNeeded = true;
+                //            break;
+                //        }
+
             }
             catch (Exception ex)
             {
@@ -116,20 +127,20 @@ namespace UDPClientServerCommons.Client
             }
         }
 
-        public void ChangeDataToSend(ClientPacket clientPacket,bool needsAck)
+        public void UpdateDataToSend(ClientPacket clientPacket,bool needsAck)
         {
-            lock (ClientPackageLock)
+            lock (clientPacketLock)
             {
                 this.clientPacket = clientPacket;
                 this.clientPacket.AckRequired = needsAck;
             }
         }
 
-        public void ChangeDataToSend(Vector playerPosition,Vector playerMovementDirection)
+        public void UpdateDataToSend(Vector playerPosition,Vector playerMovementDirection)
         {
-            lock (ClientPackageLock)
+            lock (clientPacketLock)
             {
-                clientPacket.Timestamp = DateTime.Now;
+                clientPacket.TimeStamp = DateTime.Now;
                 clientPacket.PlayerMovementDirection = playerMovementDirection;
                 clientPacket.PlayerPosition = playerPosition;
             }
@@ -141,11 +152,11 @@ namespace UDPClientServerCommons.Client
         /// <returns></returns>
         private ClientPacket udpNetworking_GetData()
         {
-            lock (ClientPackageLock)
+            lock (clientPacketLock)
             {
                 if (clientPacket.AckRequired == true)
                 {
-                    ackOperating.SendPacketNeededAck(clientPacket.Clone());
+                    ackOperating.SendPacketNeededAck(clientPacket);
                     return null;
                 }
                 else
@@ -160,23 +171,35 @@ namespace UDPClientServerCommons.Client
         /// </summary>
         public void Dispose()
         {
-            udpNetworking.Dispose();
+            try
+            {
+                LeaveGame();
+                System.Threading.Thread.Sleep(50);
+            }
+            catch (Exception ex)
+            {
+                Diagnostic.NetworkingDiagnostics.Logging.Error("Error on Dispose", ex);
+            }
+            finally
+            {
+                udpNetworking.Dispose();
+            }
         }
 
         #endregion
               
         #region IServerData Members
 
-        public ServerPacket GetNeewestDataFromServer()
+        public IPacket GetNewestDataFromServer()
         {
-            lock (ServerPackagesLock)
+            lock (serverPacketLock)
             {
-                ServerPacket tmp = null;
-                if (LastPackages.Count < 10 && LastPackages.Count > 0)
-                    return LastPackages[LastPackages.Count - 1];
+                Interfaces.IPacket tmp = null;
+                if (lastPackages.Count < 10 && lastPackages.Count > 0)
+                    return lastPackages[lastPackages.Count - 1];
                 else
                 {
-                    LastPackages.TryGetValue(last10.GetPrevoius(1), out tmp);
+                    lastPackages.TryGetValue(last10.GetPrevoius(1), out tmp);
                     return tmp;
                 }
             }
@@ -184,7 +207,10 @@ namespace UDPClientServerCommons.Client
 
         public ushort GetPlayerId()
         {
-            throw new NotImplementedException();
+            if (playerId.HasValue)
+                return this.playerId.Value;
+            else
+                throw new Usefull.PlayerIdNullException();
         }
 
         #endregion
@@ -193,7 +219,7 @@ namespace UDPClientServerCommons.Client
 
         public void UpdatePlayerData(Microsoft.DirectX.Vector3 position, Microsoft.DirectX.Vector3 lookDirection, Microsoft.DirectX.Vector3 moventDirection)
         {
-            lock (ClientPackageLock)
+            lock (clientPacketLock)
             {
                 clientPacket.PlayerPosition = Translator.TranslateVector3toVector(position);
                 clientPacket.PlayerLookingDirection = Translator.TranslateVector3toVector(lookDirection);
@@ -203,7 +229,7 @@ namespace UDPClientServerCommons.Client
 
         public void UpdatePlayerData(WeaponEnumeration weaponAttacked, bool playerAttacked, bool playerJumped, bool weaponChanged, WeaponEnumeration weaponNew)
         {
-            lock (ClientPackageLock)
+            lock (clientPacketLock)
             {
                 clientPacket.PlayerShooting = playerAttacked;
                 clientPacket.PlayerJumping = playerJumped;
@@ -237,7 +263,7 @@ namespace UDPClientServerCommons.Client
 
         public void UpdatePlayerData(Microsoft.DirectX.Vector3 position, Microsoft.DirectX.Vector3 lookDirection, Microsoft.DirectX.Vector3 moventDirection, WeaponEnumeration weaponAttacked, bool playerAttacked, bool playerJumped, bool weaponChanged, WeaponEnumeration weaponNew)
         {
-            lock (ClientPackageLock)
+            lock (clientPacketLock)
             {
                 clientPacket.PlayerPosition = Translator.TranslateVector3toVector(position);
                 clientPacket.PlayerLookingDirection = Translator.TranslateVector3toVector(lookDirection);
@@ -245,9 +271,21 @@ namespace UDPClientServerCommons.Client
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void LeaveGame()
         {
-            throw new NotImplementedException();
+            if (!playerId.HasValue)
+                throw new Usefull.PlayerIdNullException();
+
+            LeaveGamePacket leaveGamePacket = new LeaveGamePacket();
+            leaveGamePacket.GameId = gameId ?? 0;
+            leaveGamePacket.PlayerId = playerId.Value;
+
+            ackOperating.SendPacketNeededAck(leaveGamePacket);
+
+            udpNetworking.StopSendingByTimer();
         }
 
         #endregion

@@ -4,9 +4,9 @@ using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-namespace UDPClientServerCommons
+namespace UDPClientServerCommons.Packets
 {
-    public class Vector : IPacket,ICloneable
+    public class Vector : Interfaces.ISerializablePacket,ICloneable
     {
         private float xField;
 
@@ -63,31 +63,7 @@ namespace UDPClientServerCommons
         }
 
         public Vector()
-        {
-            //do nothing
-        }
-
-        #region IPacket Members
-
-        public byte[] ToByte()
-        {
-            MemoryStream ms = new MemoryStream(12);
-
-            ms.Write(BitConverter.GetBytes(xField),0,4);
-            ms.Write(BitConverter.GetBytes(yField),0,4);
-            ms.Write(BitConverter.GetBytes(zField),0,4);
-
-            byte[] result = ms.GetBuffer();
-            ms.Close();
-            return result;
-        }
-
-        public byte[] ToMinimalByte()
-        {
-            return ToByte();
-        }
-
-        #endregion
+        {        }
 
         public override string ToString()
         {
@@ -109,6 +85,33 @@ namespace UDPClientServerCommons
             Vector copy = new Vector(this.xField, this.yField, this.zField);
 
             return copy;
+        }
+
+        #endregion
+
+        #region ISerializablePacket Members
+
+        public byte[] ToByte()
+        {
+            MemoryStream ms = new MemoryStream(12);
+
+            ms.Write(BitConverter.GetBytes(xField), 0, 4);
+            ms.Write(BitConverter.GetBytes(yField), 0, 4);
+            ms.Write(BitConverter.GetBytes(zField), 0, 4);
+
+            byte[] result = ms.GetBuffer();
+            ms.Close();
+            return result;
+        }
+
+        public byte[] ToMinimalByte()
+        {
+            return ToByte();
+        }
+
+        public int ByteCount
+        {
+            get { return 12; }
         }
 
         #endregion

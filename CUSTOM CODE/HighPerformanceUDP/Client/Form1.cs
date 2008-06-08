@@ -10,6 +10,7 @@ using System.Net;
 using Clutch.Net.UDP;
 using System.Threading;
 using UDPClientServerCommons;
+using UDPClientServerCommons.Packets;
 
 namespace Client
 {
@@ -67,11 +68,14 @@ namespace Client
         }
         delegate void RefreshEvent();
 
-        void ClientSideNetworking_PacketReceivedEvent(UDPClientServerCommons.ServerPacket serverPacket)
+        void ClientSideNetworking_PacketReceivedEvent(UDPClientServerCommons.Interfaces.IPacket packet)
         {
-            lock (serverPacketLock)
+            if (packet.PacketType == UDPClientServerCommons.Constants.PacketTypeEnumeration.StandardServerPacket)
             {
-                this.serverPacket = serverPacket;
+                lock (serverPacketLock)
+                {
+                    this.serverPacket = (UDPClientServerCommons.Packets.ServerPacket)packet;
+                }
             }
             this.Invoke(new RefreshEvent(RefreshForm), null);
         }
@@ -246,7 +250,7 @@ namespace Client
                 case (Keys.Up):
                   //  lock (PackageLock)
                     {
-                        clientPacket.Timestamp = DateTime.Now;
+                        clientPacket.TimeStamp = DateTime.Now;
 
                         clientPacket.PlayerPosition.Y--;
                         clientPacket.PlayerMovementDirection.X = clientPacket.PlayerPosition.X;
@@ -256,7 +260,7 @@ namespace Client
                 case (Keys.Down):
                     //lock (PackageLock)
                     {
-                        clientPacket.Timestamp = DateTime.Now;
+                        clientPacket.TimeStamp = DateTime.Now;
                         
                         clientPacket.PlayerPosition.Y++;
                         clientPacket.PlayerMovementDirection.X = clientPacket.PlayerPosition.X;
@@ -266,7 +270,7 @@ namespace Client
                 case (Keys.Left):
                     //lock (PackageLock)
                     {
-                        clientPacket.Timestamp = DateTime.Now;
+                        clientPacket.TimeStamp = DateTime.Now;
                         
                         clientPacket.PlayerPosition.X--;
                         clientPacket.PlayerMovementDirection.Y = clientPacket.PlayerPosition.Y;
@@ -276,7 +280,7 @@ namespace Client
                 case (Keys.Right):
                     //lock (PackageLock)
                     {
-                        clientPacket.Timestamp = DateTime.Now;
+                        clientPacket.TimeStamp = DateTime.Now;
                         
                         clientPacket.PlayerPosition.X++;
                         clientPacket.PlayerMovementDirection.Y = clientPacket.PlayerPosition.Y;
@@ -285,7 +289,7 @@ namespace Client
                     break;
 
             }
-            ClientSideNetworking.ChangeDataToSend(clientPacket, false);
+            ClientSideNetworking.UpdateDataToSend(clientPacket, false);
             this.Refresh();
         }
 
@@ -299,7 +303,7 @@ namespace Client
                 {
                     if (serverPacket == null)
                         return;
-                    UDPClientServerCommons.ServerPacket serv = serverPacket;
+                    ServerPacket serv = serverPacket;
                     int number = serv.NumberOfPlayers;
                     for (int i = 0; i < number; i++)
                     {

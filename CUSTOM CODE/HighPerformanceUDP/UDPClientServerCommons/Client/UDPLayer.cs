@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using Clutch.Net.UDP;
 using System.Threading;
+using UDPClientServerCommons.Packets;
 
 namespace UDPClientServerCommons.Client
 {
@@ -94,7 +95,7 @@ namespace UDPClientServerCommons.Client
                 ClientPacket clientPacket = GetData();
                 if (clientPacket != null)
                 {
-                    clientPacket.PacketId = (ushort)((clientPacket.PacketId + 1) % ushort.MaxValue);
+                    clientPacket.PacketId.Next();
                     //udpSocket.SendTo(clientPacket.ToByte(), ServerIpep);
                     SendPacket(clientPacket.ToByte());
                 }
@@ -325,5 +326,10 @@ namespace UDPClientServerCommons.Client
         }
 
         #endregion
+
+        internal void StopSendingByTimer()
+        {
+            timer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
     }
 }

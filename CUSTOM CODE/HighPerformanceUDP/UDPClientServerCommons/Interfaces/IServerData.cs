@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UDPClientServerCommons.Packets;
 
 namespace UDPClientServerCommons.Interfaces
 {
     public interface IServerData
     {
-        ServerPacket GetNeewestDataFromServer();
+        IPacket GetNewestDataFromServer();
         ushort GetPlayerId();
     }
 }

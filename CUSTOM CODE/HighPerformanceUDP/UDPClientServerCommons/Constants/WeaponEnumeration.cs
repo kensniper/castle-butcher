@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UDPClientServerCommons
+namespace UDPClientServerCommons.Constants
 {
     public enum WeaponEnumeration : ushort
     {
