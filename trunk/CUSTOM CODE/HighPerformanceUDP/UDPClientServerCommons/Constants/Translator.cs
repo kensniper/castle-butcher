@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UDPClientServerCommons.Packets;
 
 namespace UDPClientServerCommons
 {
     public static class Translator
     {
-        public static UDPClientServerCommons.PlayerInfo TranslateBetweenClientPacketAndPlayerInfo(UDPClientServerCommons.ClientPacket from)
+        public static PlayerInfo TranslateBetweenClientPacketAndPlayerInfo(ClientPacket from)
         {
-            UDPClientServerCommons.PlayerInfo to = new PlayerInfo();
+            PlayerInfo to = new PlayerInfo();
             to.PlayerCarringWeponOne = from.PlayerCarringWeponOne;
             to.PlayerCarringWeponTwo = from.PlayerCarringWeponTwo;
             to.PlayerDucking = from.PlayerDucking;
@@ -20,7 +21,6 @@ namespace UDPClientServerCommons
             to.PlayerRunning = from.PlayerRunning;
             to.PlayerShooting = from.PlayerShooting;
             to.PlayerWalking = from.PlayerWalking;
-            to.Timestamp = from.Timestamp;
 
             return to;
         }

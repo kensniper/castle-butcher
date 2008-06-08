@@ -27,5 +27,22 @@ namespace UDPClientServerCommons
                 return 10 + k;
         }
 
+        public Last10()
+        { }
+
+        public Last10(int val)
+        {
+            this.counter = val % 10;
+        }
+
+        public static Last10 operator +(Last10 a, int b)
+        {
+            return new Last10((a.counter + b) % 10);
+        }
+
+        public static implicit operator Last10(int val)
+        {
+            return new Last10(val);
+        }
     }
 }

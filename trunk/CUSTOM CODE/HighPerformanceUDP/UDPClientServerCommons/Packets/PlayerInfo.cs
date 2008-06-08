@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace UDPClientServerCommons
+namespace UDPClientServerCommons.Packets
 {
     /// <summary>
     /// Client Packet is formmated this way:
@@ -24,16 +24,9 @@ namespace UDPClientServerCommons
     /// Acks (Number of Acks) * 2
     /// Packet length = 51 + (Number of Acks) * 2 bytes
     /// </summary>
-    public class PlayerInfo:BasePlayerInfo,ICloneable
+    public class PlayerInfo:BasePlayerInfo,ICloneable,Interfaces.ISerializablePacket
     {
         private ushort damageTakenField;
-
-        private int PlayerInfoBinaryLengthField;
-
-        public int PlayerInfoBinaryLength
-        {
-            get { return PlayerInfoBinaryLengthField; }
-        }
 
         /// <summary>
         /// Damage taken by player, if 0 then no damage was taken :)
@@ -42,6 +35,11 @@ namespace UDPClientServerCommons
         {
             get { return damageTakenField; }
             set { damageTakenField = value; }
+        }
+
+        new public int ByteCount
+        {
+            get {return base.ByteCount + 2+2 + ackIdsField.Count*2; }
         }
 
         private List<ushort> ackIdsField;
@@ -57,7 +55,7 @@ namespace UDPClientServerCommons
         public override byte[] ToByte()
         {
             MemoryStream ms = new MemoryStream(_MTU_PacketSize);
-            ms.Write(base.ToByte(), 0, 49);
+            ms.Write(base.ToByte(), 0, base.ByteCount);
             ms.Write(BitConverter.GetBytes(damageTakenField), 0, 2);
             ms.Write(BitConverter.GetBytes(Convert.ToUInt16(ackIdsField.Count)), 0, 2);
             for (int i = 0; i < ackIdsField.Count; i++)
@@ -73,10 +71,8 @@ namespace UDPClientServerCommons
 
         public override byte[] ToMinimalByte()
         {
-            int size = 49 + 4 + ackIdsField.Count * 2;
-
-            MemoryStream ms = new MemoryStream(size);
-            ms.Write(base.ToMinimalByte(), 0, 49);
+            MemoryStream ms = new MemoryStream(this.ByteCount);
+            ms.Write(base.ToMinimalByte(), 0, base.ByteCount);
             ms.Write(BitConverter.GetBytes(damageTakenField), 0, 2);
             ms.Write(BitConverter.GetBytes(Convert.ToUInt16(ackIdsField.Count)), 0, 2);
             for (int i = 0; i < ackIdsField.Count; i++)
@@ -99,29 +95,25 @@ namespace UDPClientServerCommons
         public PlayerInfo(byte[] binaryPlayerInfo)
             : base(binaryPlayerInfo)
         {
-            this.damageTakenField = (ushort)BitConverter.ToInt16(binaryPlayerInfo, 49);
-            ushort ackNumber = (ushort)BitConverter.ToInt16(binaryPlayerInfo, 51);
+            this.damageTakenField = (ushort)BitConverter.ToInt16(binaryPlayerInfo, base.ByteCount);
+            ushort ackNumber = (ushort)BitConverter.ToInt16(binaryPlayerInfo, base.ByteCount+2);
             ackIdsField = new List<ushort>();
             for (ushort i = 0; i < ackNumber; i++)
             {
-                ackIdsField.Add((ushort)BitConverter.ToInt16(binaryPlayerInfo, 53 + i * 2));
+                ackIdsField.Add((ushort)BitConverter.ToInt16(binaryPlayerInfo, base.ByteCount + 2+2 + i * 2));
             }
-
-            PlayerInfoBinaryLengthField = 53 + ackIdsField.Count * 2;
         }
 
         public PlayerInfo(byte[] binaryPlayerInfo,int index)
             : base(binaryPlayerInfo,index)
         {
-            this.damageTakenField = (ushort)BitConverter.ToInt16(binaryPlayerInfo,index+ 49);
-            ushort ackNumber = (ushort)BitConverter.ToInt16(binaryPlayerInfo, index + 51);
+            this.damageTakenField = (ushort)BitConverter.ToInt16(binaryPlayerInfo, index + base.ByteCount);
+            ushort ackNumber = (ushort)BitConverter.ToInt16(binaryPlayerInfo, index + base.ByteCount+2);
             ackIdsField=new List<ushort>();
             for (ushort i = 0; i < ackNumber; i++)
             {
-                ackIdsField.Add((ushort)BitConverter.ToInt16(binaryPlayerInfo, index + 53+i*2));
+                ackIdsField.Add((ushort)BitConverter.ToInt16(binaryPlayerInfo, index + base.ByteCount +2+2+ i * 2));
             }
-
-            PlayerInfoBinaryLengthField = 53 + ackIdsField.Count * 2;
         }
 
         public override string ToString()

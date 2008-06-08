@@ -2,38 +2,24 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using UDPClientServerCommons.Constants;
+using UDPClientServerCommons.Usefull;
 
-namespace UDPClientServerCommons
+namespace UDPClientServerCommons.Packets
 {
-    public class ServerPacket : IPacket
+    public class ServerPacket : Interfaces.ISerializablePacket,Interfaces.IPacket
     {
+        #region fields
+
         private const ushort _MTU_PacketSize = 1400;
-
-        private PacketType packetTypeField;
-
-        public PacketType TypeOfPacket
-        {
-            get { return packetTypeField; }
-            set { packetTypeField = value; }
-        }
-
-        /// <summary>
-        /// litle redundant info since playerInfoListField.Count has the same value
-        /// </summary>
-        private ushort numberOfPlayersField;
-        
-        public ushort NumberOfPlayers
-        {
-            get { return numberOfPlayersField; }
-            set { numberOfPlayersField = value; }
-        }
 
         private DateTime timestampField;
 
-        public DateTime Timestamp
+        private PacketIdCounter packetIdField;
+        
+        public ushort NumberOfPlayers
         {
-            get { return timestampField; }
-            set { timestampField = value; }
+            get { return (ushort)playerInfoListField.Count; }
         }
 
         private List<PlayerInfo> playerInfoListField;
@@ -44,30 +30,47 @@ namespace UDPClientServerCommons
             set { playerInfoListField = value; }
         }        
 
-        private ushort packetIdField;
+        #endregion
 
-        public ushort PacketId
+        #region ISerializablePacket Members
+
+        public int ByteCount
         {
-            get { return packetIdField; }
-            set { packetIdField = value; }
+            get
+            {
+                int pos = 0;
+                pos += 2;
+                pos += 2;
+                pos += 2;
+                pos += 8;
+
+                for (int i = 0; i < playerInfoListField.Count; i++)
+                {
+                    pos += playerInfoListField[i].ByteCount;
+                }
+                return pos;
+            }
         }
-
-
-        #region IPacket Members
 
         public byte[] ToByte()
         {
             MemoryStream ms = new MemoryStream(_MTU_PacketSize);
 
-            ms.Write(BitConverter.GetBytes(packetIdField), 0, 2);
-            ms.Write(BitConverter.GetBytes((ushort)packetTypeField), 0, 2);
-            ms.Write(BitConverter.GetBytes(numberOfPlayersField), 0, 2);
+            //int pos = 0;
+            ms.Write(BitConverter.GetBytes((ushort)PacketType), 0, 2);
+            //pos += 2;
+            ms.Write(BitConverter.GetBytes(packetIdField.Value), 0, 2);
+            //pos += 2;
+            ms.Write(BitConverter.GetBytes(NumberOfPlayers), 0, 2);
+            //pos += 2;
             ms.Write(BitConverter.GetBytes(timestampField.ToBinary()), 0, 8);
+            //pos += 8;
 
             for (int i = 0; i < playerInfoListField.Count; i++)
             {
                 byte[] info = playerInfoListField[i].ToByte();
-                ms.Write(info, 0, info.Length);
+                ms.Write(info, 0, playerInfoListField[i].ByteCount);
+                //pos += playerInfoListField[i].ByteCount;
             }
 
             byte[] result = ms.GetBuffer();
@@ -78,21 +81,23 @@ namespace UDPClientServerCommons
 
         public byte[] ToMinimalByte()
         {
-            int size = 14;
-            for(int i=0;i<playerInfoListField.Count;i++)
-                size += 51 + playerInfoListField[i].AckIds.Count * 2;
 
-            MemoryStream ms = new MemoryStream(size);
-
-            ms.Write(BitConverter.GetBytes(packetIdField), 0, 2);
-            ms.Write(BitConverter.GetBytes((ushort)packetTypeField), 0, 2);
-            ms.Write(BitConverter.GetBytes(numberOfPlayersField), 0, 2);
+            MemoryStream ms = new MemoryStream(this.ByteCount);
+            //int pos = 0;
+             ms.Write(BitConverter.GetBytes((ushort)PacketType), 0, 2);
+            //pos += 2;
+            ms.Write(BitConverter.GetBytes(packetIdField.Value), 0, 2);
+            //pos += 2;
+            ms.Write(BitConverter.GetBytes(NumberOfPlayers), 0, 2);
+            //pos += 2;
             ms.Write(BitConverter.GetBytes(timestampField.ToBinary()), 0, 8);
+            //pos += 8;
 
             for (int i = 0; i < playerInfoListField.Count; i++)
             {
                 byte[] info = playerInfoListField[i].ToMinimalByte();
-                ms.Write(info, 0, info.Length);
+                ms.Write(info, 0, playerInfoListField[i].ByteCount);
+                //pos += playerInfoListField[i].ByteCount;
             }
 
             byte[] result = ms.GetBuffer();
@@ -104,23 +109,25 @@ namespace UDPClientServerCommons
 
         #endregion
 
+        #region Constructor
+
         public ServerPacket()
         {
             playerInfoListField = new List<PlayerInfo>();
+            packetIdField = new PacketIdCounter();
         }
 
         public ServerPacket(byte[] binaryServerPacket)
         {
-            this.packetIdField = BitConverter.ToUInt16(binaryServerPacket, 0);
-            this.packetTypeField = (PacketType)BitConverter.ToUInt16(binaryServerPacket, 2);
-            this.numberOfPlayersField = BitConverter.ToUInt16(binaryServerPacket, 4);
+            this.packetIdField = new PacketIdCounter( BitConverter.ToUInt16(binaryServerPacket, 2));            
+            int playerNumber = BitConverter.ToUInt16(binaryServerPacket, 4);
             this.timestampField = DateTime.FromBinary(BitConverter.ToInt64(binaryServerPacket, 6));
             this.playerInfoListField = new List<PlayerInfo>();
             int positionIn = 14;
-            for (int i = 0; i < numberOfPlayersField; i++)
+            for (int i = 0; i < playerNumber; i++)
             {
                 PlayerInfo info = new PlayerInfo(binaryServerPacket, positionIn);
-                positionIn += info.PlayerInfoBinaryLength;
+                positionIn += info.ByteCount;
                 playerInfoListField.Add(info);
             }
         }
@@ -129,11 +136,11 @@ namespace UDPClientServerCommons
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("\n PacketId = \t");
-            sb.Append(packetIdField);
+            sb.Append(packetIdField.Value);
             sb.Append("\n PacketType = \t");
-            sb.Append(packetTypeField);
+            sb.Append(PacketType);
             sb.Append("\n numberOfPlayers = \t");
-            sb.Append(numberOfPlayersField);
+            sb.Append(NumberOfPlayers);
             sb.Append("\n timestamp = \t");
             sb.Append(timestampField);
 
@@ -144,5 +151,40 @@ namespace UDPClientServerCommons
 
             return sb.ToString();
         }
+
+        #endregion
+
+        #region IPacket Members
+
+        public PacketTypeEnumeration PacketType
+        {
+            get { return PacketTypeEnumeration.StandardServerPacket; }
+        }
+
+        public UDPClientServerCommons.Usefull.PacketIdCounter PacketId
+        {
+            get
+            {
+                return packetIdField;
+            }
+            set
+            {
+                packetIdField = value;
+            }
+        }
+
+        public DateTime TimeStamp
+        {
+            get
+            {
+                return timestampField;
+            }
+            set
+            {
+                timestampField = value;
+            }
+        }
+
+        #endregion
     }
 }

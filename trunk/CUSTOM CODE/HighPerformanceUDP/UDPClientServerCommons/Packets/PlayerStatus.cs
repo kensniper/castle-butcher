@@ -5,16 +5,9 @@ using System.IO;
 
 namespace UDPClientServerCommons.Packets
 {
-    public class PlayerStatus:IPacket
+    public class PlayerStatus:Interfaces.ISerializablePacket
     {
-        public int PlayerStatusByteCount
-        {
-            get {
-                int count = 12;
-               count+= Encoding.UTF8.GetByteCount(PlayerNameField);
-               return count;
-            }
-        }
+        #region fields
 
         private ushort PlayerIdField;
 
@@ -64,19 +57,31 @@ namespace UDPClientServerCommons.Packets
             set { PlayerHealthField = value; }
         }
 
-        #region IPacket Members
+        #endregion
+
+        #region ISerializablePacket Members
+
+        public int ByteCount
+        {
+            get
+            {
+                int count = 12;
+                count += Encoding.UTF8.GetByteCount(PlayerNameField);
+                return count;
+            }
+        }
 
         public byte[] ToByte()
         {
-            MemoryStream ms = new MemoryStream(PlayerStatusByteCount);
+            MemoryStream ms = new MemoryStream(ByteCount);
 
             ms.Write(BitConverter.GetBytes(PlayerIdField), 0, 2);
-            ms.Write(BitConverter.GetBytes(PlayerTeamField), 2, 2);
-            ms.Write(BitConverter.GetBytes(PlayerScoreField), 4, 2);
-            ms.Write(BitConverter.GetBytes(PlayerPingField), 6, 2);
-            ms.Write(BitConverter.GetBytes(PlayerHealthField), 8, 2);
-            ms.Write(BitConverter.GetBytes((ushort)Encoding.UTF8.GetByteCount(PlayerNameField)), 10, 2);
-            ms.Write(Encoding.UTF8.GetBytes(PlayerNameField), 12, Encoding.UTF8.GetByteCount(PlayerNameField));
+            ms.Write(BitConverter.GetBytes(PlayerTeamField), 0, 2);
+            ms.Write(BitConverter.GetBytes(PlayerScoreField), 0, 2);
+            ms.Write(BitConverter.GetBytes(PlayerPingField), 0, 2);
+            ms.Write(BitConverter.GetBytes(PlayerHealthField), 0, 2);
+            ms.Write(BitConverter.GetBytes((ushort)Encoding.UTF8.GetByteCount(PlayerNameField)), 0, 2);
+            ms.Write(Encoding.UTF8.GetBytes(PlayerNameField), 0, Encoding.UTF8.GetByteCount(PlayerNameField));
 
             byte[] result = ms.GetBuffer();
             ms.Close();
@@ -90,6 +95,8 @@ namespace UDPClientServerCommons.Packets
         }
 
         #endregion
+
+        #region Constructor
 
         public PlayerStatus()
         {
@@ -120,5 +127,27 @@ namespace UDPClientServerCommons.Packets
 
             this.PlayerNameField = Encoding.UTF8.GetString(binaryPlayerStatus, 12 + index, length);
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("\nPlayerId = ");
+            sb.Append(PlayerIdField);
+            sb.Append("\nPlayerTeam = ");
+            sb.Append(PlayerTeamField);
+            sb.Append("\nPlayerScore = ");
+            sb.Append(PlayerScoreField);
+            sb.Append("\nPlayerPing = ");
+            sb.Append(PlayerPingField);
+            sb.Append("\nPlayerHealth = ");
+            sb.Append(PlayerHealthField);
+            sb.Append("\nPlayerName = ");
+            sb.Append(PlayerNameField);
+
+            return sb.ToString();
+        }
+
+        #endregion
     }
 }

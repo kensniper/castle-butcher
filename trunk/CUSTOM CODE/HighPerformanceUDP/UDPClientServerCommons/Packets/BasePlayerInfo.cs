@@ -3,11 +3,12 @@
     using System.Text;
     using System.IO;
     using System.Collections;
+using UDPClientServerCommons.Constants;
 
-    namespace UDPClientServerCommons
+    namespace UDPClientServerCommons.Packets
     {
         /// <summary>
-        /// Client Packet is formmated this way:
+        /// Client Packet is formated this way:
         /// Packet type 2
         /// PlayerPosition 12
         /// PlayerMovementDirection 12
@@ -24,18 +25,13 @@
         /// 
         /// Packet length = 49 bytes
         /// </summary>
-        public class BasePlayerInfo : IPacket,ICloneable
+        public class BasePlayerInfo : Interfaces.ISerializablePacket,ICloneable
         {
+            #region Fields
+
             public const ushort _MTU_PacketSize = 1400;
 
             private Vector playerPositionField;
-
-            private PacketType typeOfPacketField = PacketType.StandardPacket;
-
-            public PacketType TypeOfPacket
-            {
-                get { return typeOfPacketField; }
-            }
 
             /// <summary>
             /// Stores X,Y,Z floats for player position
@@ -161,59 +157,9 @@
                 set { playerDuckingField = value; }
             }
 
-            private DateTime timestampField;
+            #endregion
 
-            public DateTime Timestamp
-            {
-                get { return timestampField; }
-                set { timestampField = value; }
-            }
-
-            #region IPacket Members
-
-            private byte[] ToByteConversion(int size)
-            {
-                MemoryStream ms = new MemoryStream(size);
-
-                ms.Write(BitConverter.GetBytes((ushort)typeOfPacketField), 0, 2);
-                ms.Write(playerPositionField.ToByte(), 0, 12);
-                ms.Write(playerMovementDirectionField.ToByte(), 0, 12);
-                ms.Write(playerLookingDirectionField.ToByte(), 0, 12);
-                ms.Write(BitConverter.GetBytes(playerIdField), 0, 2);
-
-                BitArray bitArray = new BitArray(8);
-                bitArray[0] = playerCarringWeponOneField;
-                bitArray[1] = playerCarringWeponTwoField;
-                bitArray[2] = playerJumpingField;
-                bitArray[3] = playerShootingField;
-                bitArray[4] = playerWalkingField;
-                bitArray[5] = playerRunningField;
-                bitArray[6] = playerDuckingField;
-                bitArray[7] = AckRequiredField;
-
-                byte[] bits = new byte[1];
-                bitArray.CopyTo(bits, 0);
-
-                ms.Write(bits, 0, 1);
-
-                //ms.Write(BitConverter.GetBytes(PacketId), 0, 2);
-                ms.Write(BitConverter.GetBytes(Timestamp.ToBinary()), 0, 8);
-
-                byte[] result = ms.GetBuffer();
-                ms.Close();
-
-                return result;
-            }
-
-            public virtual byte[] ToByte()
-            {
-                return ToByteConversion(_MTU_PacketSize);
-            }
-
-            public virtual byte[] ToMinimalByte()
-            {
-                return ToByteConversion(49);
-            }
+            #region Constructor
 
             public BasePlayerInfo()
             {
@@ -240,7 +186,6 @@
                 this.playerRunningField = oldPacket.playerRunningField;
                 this.playerShootingField = oldPacket.playerShootingField;
                 this.playerWalkingField = oldPacket.playerWalkingField;
-                this.Timestamp = DateTime.Now;
             }
 
             public BasePlayerInfo(byte[] binaryBasePlayerInfo)
@@ -248,19 +193,19 @@
                 HiddenContructor(binaryBasePlayerInfo, 0);
             }
 
-            public BasePlayerInfo(byte[] binaryBasePlayerInfo,int index)
+            public BasePlayerInfo(byte[] binaryBasePlayerInfo, int index)
             {
                 HiddenContructor(binaryBasePlayerInfo, index);
             }
 
             private void HiddenContructor(byte[] binaryBasePlayerInfo, int index)
             {
-                this.playerPositionField = new Vector(binaryBasePlayerInfo, index+2);
-                this.playerMovementDirectionField = new Vector(binaryBasePlayerInfo, index + 14);
-                this.playerLookingDirectionField = new Vector(binaryBasePlayerInfo, index + 26);
-                this.playerIdField = (ushort)BitConverter.ToInt16(binaryBasePlayerInfo, index + 38);
+                this.playerPositionField = new Vector(binaryBasePlayerInfo, index + 0);
+                this.playerMovementDirectionField = new Vector(binaryBasePlayerInfo, index + 12);
+                this.playerLookingDirectionField = new Vector(binaryBasePlayerInfo, index + 24);
+                this.playerIdField = (ushort)BitConverter.ToInt16(binaryBasePlayerInfo, index + 36);
 
-                byte[] tmp = { binaryBasePlayerInfo[index + 40] };
+                byte[] tmp = { binaryBasePlayerInfo[index + 38] };
                 BitArray bitArray = new BitArray(tmp);
                 playerCarringWeponOneField = bitArray[0];
                 playerCarringWeponTwoField = bitArray[1];
@@ -270,8 +215,6 @@
                 playerRunningField = bitArray[5];
                 playerDuckingField = bitArray[6];
                 AckRequiredField = bitArray[7];
-
-                this.Timestamp = DateTime.FromBinary(BitConverter.ToInt64(binaryBasePlayerInfo, index + 41));
             }
 
             public override string ToString()
@@ -301,9 +244,7 @@
                 sb.Append(this.playerWalkingField);
                 sb.Append("\n AckRequired = \t");
                 sb.Append(this.AckRequiredField);
-                sb.Append("\n timestampField = \t");
-                sb.Append(this.timestampField);
-
+              
                 return sb.ToString();
             }
 
@@ -312,7 +253,7 @@
             #region ICloneable Members
 
             public object Clone()
-            {                
+            {
                 BasePlayerInfo copy = new BasePlayerInfo();
                 copy.playerCarringWeponOneField = this.PlayerCarringWeponOne;
                 copy.playerCarringWeponTwoField = this.playerCarringWeponTwoField;
@@ -323,12 +264,81 @@
                 copy.playerMovementDirectionField = (Vector)this.playerMovementDirectionField.Clone();
                 copy.playerPositionField = (Vector)this.playerPositionField.Clone();
                 copy.playerShootingField = this.playerShootingField;
-                copy.timestampField = this.timestampField;
-                copy.typeOfPacketField = this.typeOfPacketField;
                 copy.playerWalkingField = this.playerWalkingField;
                 copy.playerRunningField = this.playerRunningField;
                 copy.AckRequiredField = this.AckRequiredField;
                 return copy;
+            }
+
+            #endregion
+
+            #region ISerializablePacket Members
+
+            private byte[] ToByteConversion(int size)
+            {
+                MemoryStream ms = new MemoryStream(size);
+
+              //  int pos = 0;
+
+              //  ms.Write(BitConverter.GetBytes((ushort)PacketType), 0, 2);
+                //pos+=2;
+                ms.Write(playerPositionField.ToByte(),0 , 12);
+                //pos += 12;
+                ms.Write(playerMovementDirectionField.ToByte(), 0, 12);
+                //pos += 12;
+                ms.Write(playerLookingDirectionField.ToByte(), 0, 12);
+                //pos += 12;
+                ms.Write(BitConverter.GetBytes(playerIdField), 0, 2);
+                //pos += 2;
+
+                BitArray bitArray = new BitArray(8);
+                bitArray[0] = playerCarringWeponOneField;
+                bitArray[1] = playerCarringWeponTwoField;
+                bitArray[2] = playerJumpingField;
+                bitArray[3] = playerShootingField;
+                bitArray[4] = playerWalkingField;
+                bitArray[5] = playerRunningField;
+                bitArray[6] = playerDuckingField;
+                bitArray[7] = AckRequiredField;
+
+                byte[] bits = new byte[1];
+                bitArray.CopyTo(bits, 0);
+
+                ms.Write(bits, 0, 1);
+                //pos += 1;
+
+                //ms.Write(BitConverter.GetBytes(PacketId), 0, 2);
+
+                byte[] result = ms.GetBuffer();
+                ms.Close();
+
+                return result;
+            }
+
+            public virtual byte[] ToByte()
+            {
+                return ToByteConversion(_MTU_PacketSize);
+            }
+
+            public virtual byte[] ToMinimalByte()
+            {
+                return ToByteConversion(this.ByteCount);
+            }
+
+            public int ByteCount
+            {
+                get
+                {
+                    int pos = 0;
+                   // pos += 2;
+                    pos += 12;
+                    pos += 12;
+                    pos += 12;
+                    pos += 2;
+                    pos += 1;
+                    //pos += 8;
+                    return pos;
+                }
             }
 
             #endregion

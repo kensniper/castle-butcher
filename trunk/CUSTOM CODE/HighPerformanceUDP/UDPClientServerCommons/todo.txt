@@ -1,17 +1,29 @@
-﻿nie potrzbna flaga biegnie,idzie,stoji, bo wszystko mozna przekazac predkoscia jako wektorem kierunku
+﻿--najnowsze do zrobienia !!!!!!!!
+rozwiązać ostatecznie kwestie ACK (chociażby tymczasowo!!!)
+dopisać osbługę leaveGame i GameInfo
+
+zrobić zakładanieGry, wyświetlanie aktualnych gier
+wreszcie obsługa gracza-serwera
+głupie eventy dla Kowala !!!!!
+
+---------------------------------------------------------------------------------------
+
+
+nie potrzbna flaga biegnie,idzie,stoji, bo wszystko mozna przekazac predkoscia jako wektorem kierunku --ok
 
 
 
-rozszerzyc klase JoinPacket
-stworzyc klase GameInfoPacket
-stworzyc klase leaveGamePacket
+rozszerzyc klase JoinPacket   -- done
+stworzyc klase GameInfoPacket  --done
+stworzyc klase leaveGamePacket --done
 
 bez ack
 zrobic interfejs dla gracza-serwera z metoda ktora podaje ilosc zycia kazdego z graczy
-lista zawierajace klase GameEvent (czas,rodzaj) (czas?)
+lista zawierajace klase GameEvent (czas,rodzaj) (czas?)  --done
 
 u klienta lista eventow - kazdy z czasem
 grafika je zdjejmuje, sieciowosc wklada
+
 
 
 
