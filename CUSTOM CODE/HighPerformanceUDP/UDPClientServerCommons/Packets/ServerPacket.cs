@@ -7,7 +7,7 @@ using UDPClientServerCommons.Usefull;
 
 namespace UDPClientServerCommons.Packets
 {
-    public class ServerPacket : Interfaces.ISerializablePacket,Interfaces.IPacket
+    public class ServerPacket : Interfaces.ISerializablePacket,Interfaces.IPacket,ICloneable
     {
         #region fields
 
@@ -181,6 +181,20 @@ namespace UDPClientServerCommons.Packets
             {
                 timestampField = value;
             }
+        }
+
+        #endregion
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            ServerPacket cpy = new ServerPacket();
+            cpy.packetIdField = new PacketIdCounter(this.packetIdField.Value);
+            cpy.playerInfoListField = new List<PlayerInfo>(this.playerInfoListField);
+            cpy.timestampField = this.timestampField;
+            
+            return cpy;
         }
 
         #endregion

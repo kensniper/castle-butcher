@@ -5,7 +5,7 @@ using System.IO;
 
 namespace UDPClientServerCommons.Packets
 {
-    public class MessagePacket:Interfaces.ISerializablePacket,Interfaces.IPacket
+    public class MessagePacket:Interfaces.ISerializablePacket,Interfaces.IPacket,ICloneable
     {
         #region fields
 
@@ -137,6 +137,20 @@ namespace UDPClientServerCommons.Packets
             sb.Append(messageField);
 
             return sb.ToString();
+        }
+
+        #endregion
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            MessagePacket cpy = new MessagePacket();
+            cpy.messageField = this.messageField;
+            cpy.packetIdCounterField = new UDPClientServerCommons.Usefull.PacketIdCounter(this.packetIdCounterField.Value);
+            cpy.timestampField = this.timestampField;
+
+            return cpy;
         }
 
         #endregion

@@ -10,8 +10,10 @@ using UDPClientServerCommons.Packets;
 
 namespace UDPClientServerCommons.Client
 {
-    public class ClientSide:IDisposable,ISend,IServerData
+    public class ClientSide:IDisposable,IClient
     {
+        #region fields
+
         public delegate void packetReceived(IPacket serverPacket);
 
         /// <summary>
@@ -58,95 +60,11 @@ namespace UDPClientServerCommons.Client
         /// </summary>
         private ClientLanBroadcast lanBroadcast = null;
 
-        public bool IsLanBroadcastReceivingOn
-        {
-            get { return lanBroadcast.IsRunning; }
-        }
-
         private Usefull.PacketIdCounter packetIdCounter = new UDPClientServerCommons.Usefull.PacketIdCounter();
 
-        public List<GameInfoPacket> CurrentLanGames
-        {
-            get{
-                List<GameInfoPacket> list = new List<GameInfoPacket>();
-                lock (gameInfoPacketsLock)
-                {
-                    if(gameInfoPackets.Count>0)
-                    foreach (ushort key in gameInfoPackets.Keys)
-                    {
-                        GameInfoPacket gip = (GameInfoPacket) gameInfoPackets[key].LastPacket;
-                        if(gip!=null)
-                        list.Add(gip);
-                    }
-                }
-                return list;
-            }
-        }
+        #endregion
 
-        public bool PlayerHasSuccesfullyJoinedGame
-        {
-            get {
-                if (playerIdField.HasValue && gameIdField.HasValue && teamIdField.HasValue && gameInfoPackets.ContainsKey(gameIdField.Value))
-                {
-                    GameInfoPacket pck = (GameInfoPacket)((GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket).Clone();
-
-                    if (pck == null)
-                        return false;
-                    else
-                    {
-                        for (int i = 0; i < pck.PlayerStatusList.Count; i++)
-                        {
-                            if (pck.PlayerStatusList[i].PlayerId == playerIdField.Value)
-                                return true;                               
-                        }
-                        return false;
-                    }
-                }
-                else 
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// Says when the game has started, (everyone joined and playing)
-        /// player needs to have Id (from GameInfo)
-        /// and server has to send first serverPacket
-        /// </summary>
-        public bool GameStarted
-        {
-            get
-            {
-                return (playerIdField.HasValue && (last10Packeges.LastPacket!=null));
-            }
-        }
-
-        public void StartLookingForLANGames()
-        {
-            if (lanBroadcast == null)
-            {
-                lanBroadcast = new ClientLanBroadcast();
-                lanBroadcast.PacketWasReceived += new ClientLanBroadcast.PacketReceived(lanBroadCast_PacketWasReceived);
-            }
-            lanBroadcast.StartBroadcastReceiving();
-        }
-
-        void lanBroadCast_PacketWasReceived(UDPPacketBuffer udpPacketBuffer)
-        {
-            IPacket packet = PacketTypeChecker.GetPacket(udpPacketBuffer.Data);
-            if (packet!=null && packet.PacketType == PacketTypeEnumeration.GameInfoPacket)
-            {
-                GameInfoPacket gameInfoPacket = (GameInfoPacket)packet;
-                lock (gameInfoPacket)
-                {
-                    if (gameInfoPackets.ContainsKey(gameInfoPacket.GameId))
-                        gameInfoPackets[gameInfoPacket.GameId].AddPacket(gameInfoPacket);
-                    else
-                        gameInfoPackets.Add(gameInfoPacket.GameId, new UDPClientServerCommons.Usefull.Last10Packages());
-                }
-                if (PacketReceivedEvent != null)
-                    PacketReceivedEvent(gameInfoPacket);
-            }
-        }
+        #region Constructors
 
         public ClientSide()
         {
@@ -180,15 +98,210 @@ namespace UDPClientServerCommons.Client
             Diagnostic.NetworkingDiagnostics.Configure();
         }
 
-       private void ackOperating_SendPacketEvent(Interfaces.IPacket Packet)
+        #endregion
+
+        #region NetworkingEvents
+
+        private void lanBroadCast_PacketWasReceived(UDPPacketBuffer udpPacketBuffer)
+        {
+            IPacket packet = PacketTypeChecker.GetPacket(udpPacketBuffer.Data);
+            if (packet != null && packet.PacketType == PacketTypeEnumeration.GameInfoPacket)
+            {
+                GameInfoPacket gameInfoPacket = (GameInfoPacket)packet;
+                lock (gameInfoPacket)
+                {
+                    if (gameInfoPackets.ContainsKey(gameInfoPacket.GameId))
+                        gameInfoPackets[gameInfoPacket.GameId].AddPacket(gameInfoPacket);
+                    else
+                        gameInfoPackets.Add(gameInfoPacket.GameId, new UDPClientServerCommons.Usefull.Last10Packages());
+                }
+                if (PacketReceivedEvent != null)
+                    PacketReceivedEvent(gameInfoPacket);
+            }
+        }
+
+        private void ackOperating_SendPacketEvent(Interfaces.IPacket Packet)
         {
             udpNetworking.SendPacket(((Interfaces.ISerializablePacket)Packet).ToByte());
         }
 
-        public void JoinGame(IPEndPoint ServerIp, string PlayerName,ushort GameId,ushort TeamId)
+        private void udpNetworking_PacketWasReceived(Clutch.Net.UDP.UDPPacketBuffer udpPacketBuffer)
         {
-            if(lanBroadcast!=null)
-            lanBroadcast.Dispose();
+            try
+            {
+                IPacket packet = PacketTypeChecker.GetPacket(udpPacketBuffer.Data);
+                if (PacketReceivedEvent != null)
+                    PacketReceivedEvent(packet);
+                switch (packet.PacketType)
+                {
+                    case PacketTypeEnumeration.StandardServerPacket:
+                        last10Packeges.AddPacket(packet);
+                        break;
+                    case PacketTypeEnumeration.GameInfoPacket:
+                        GameInfoPacket gameInfoPacket = (GameInfoPacket)packet;
+
+                        lock (gameInfoPacket)
+                        {
+                            if (gameInfoPackets.ContainsKey(gameInfoPacket.GameId))
+                                gameInfoPackets[gameInfoPacket.GameId].AddPacket(gameInfoPacket);
+                            else
+                                gameInfoPackets.Add(gameInfoPacket.GameId, new UDPClientServerCommons.Usefull.Last10Packages());
+                        }
+
+                        if (gameIdField.HasValue && gameInfoPacket.GameId == gameIdField)
+                        {
+                            for (int i = 0; i < gameInfoPacket.PlayerStatusList.Count; i++)
+                            {
+                                if (gameInfoPacket.PlayerStatusList[i].PlayerName == playerNameField)
+                                {
+                                    lock (clientPacketLock)
+                                    {
+                                        playerIdField = gameInfoPacket.PlayerStatusList[i].PlayerId;
+                                        teamIdField = gameInfoPacket.PlayerStatusList[i].PlayerTeam;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Diagnostic.NetworkingDiagnostics.Logging.Error("Packet was received", ex);
+            }
+        }
+
+        /// <summary>
+        /// Method used by UDP network layer to get client network data
+        /// </summary>
+        /// <returns></returns>
+        private ClientPacket udpNetworking_GetData()
+        {
+            lock (clientPacketLock)
+            {
+                if (GameStarted)
+                {
+                    lock (clientPacketLock)
+                    {
+                        clientPacket.PlayerId = playerIdField.Value;
+                        return (ClientPacket)clientPacket.Clone();
+                    }
+                }
+                else
+                    return null;
+            }
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        /// <summary>
+        /// Closes gently this instance of GameServer
+        /// </summary>
+        public void Dispose()
+        {
+            try
+            {
+                LeaveGame();
+                System.Threading.Thread.Sleep(50);
+            }
+            catch (Exception ex)
+            {
+                Diagnostic.NetworkingDiagnostics.Logging.Error("Error on Dispose", ex);
+            }
+            finally
+            {
+                udpNetworking.Dispose();
+                if (lanBroadcast.IsRunning)
+                    lanBroadcast.Dispose();
+            }
+        }
+
+        #endregion
+
+        #region IClient Members
+
+        public List<GameInfoPacket> CurrentLanGames
+        {
+            get
+            {
+                List<GameInfoPacket> list = new List<GameInfoPacket>();
+                lock (gameInfoPacketsLock)
+                {
+                    if (gameInfoPackets.Count > 0)
+                        foreach (ushort key in gameInfoPackets.Keys)
+                        {
+                            GameInfoPacket gip = (GameInfoPacket)gameInfoPackets[key].LastPacket;
+                            if (gip != null)
+                                list.Add(gip);
+                        }
+                }
+                return list;
+            }
+        }
+
+        public bool PlayerHasSuccesfullyJoinedGame
+        {
+            get
+            {
+                if (playerIdField.HasValue && gameIdField.HasValue && teamIdField.HasValue && gameInfoPackets.ContainsKey(gameIdField.Value))
+                {
+                    GameInfoPacket pck = (GameInfoPacket)((GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket).Clone();
+
+                    if (pck == null)
+                        return false;
+                    else
+                    {
+                        for (int i = 0; i < pck.PlayerStatusList.Count; i++)
+                        {
+                            if (pck.PlayerStatusList[i].PlayerId == playerIdField.Value)
+                                return true;
+                        }
+                        return false;
+                    }
+                }
+                else
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Says when the game has started, (everyone joined and playing)
+        /// player needs to have Id (from GameInfo)
+        /// and server has to send first serverPacket
+        /// </summary>
+        public bool GameStarted
+        {
+            get
+            {
+                return (playerIdField.HasValue && (last10Packeges.LastPacket != null));
+            }
+        }
+
+        /// <summary>
+        /// tells if receiving broadcast about lan games is on
+        /// </summary>
+        public bool IsLanBroadcastReceivingOn
+        {
+            get { return lanBroadcast.IsRunning; }
+        }
+
+        public void StartLookingForLANGames()
+        {
+            if (lanBroadcast == null)
+            {
+                lanBroadcast = new ClientLanBroadcast();
+                lanBroadcast.PacketWasReceived += new ClientLanBroadcast.PacketReceived(lanBroadCast_PacketWasReceived);
+            }
+            lanBroadcast.StartBroadcastReceiving();
+        }
+
+        public void JoinGame(IPEndPoint ServerIp, string PlayerName, ushort GameId, ushort TeamId)
+        {
+            if (lanBroadcast != null)
+                lanBroadcast.Dispose();
 
             udpNetworking.ServerIp = ServerIp;
             udpNetworking.StartUdpSocket();
@@ -198,7 +311,7 @@ namespace UDPClientServerCommons.Client
             joinPacket.PlayerId = 0;
             joinPacket.PlayerName = PlayerName;
             joinPacket.GameId = GameId;
-            joinPacket.TeamId=TeamId;
+            joinPacket.TeamId = TeamId;
 
             playerNameField = PlayerName;
             gameIdField = GameId;
@@ -261,137 +374,10 @@ namespace UDPClientServerCommons.Client
             return result;
         }
 
-        private void udpNetworking_PacketWasReceived(Clutch.Net.UDP.UDPPacketBuffer udpPacketBuffer)
-        {
-            try
-            {
-                IPacket packet = PacketTypeChecker.GetPacket(udpPacketBuffer.Data);
-                if (PacketReceivedEvent != null)
-                    PacketReceivedEvent(packet);
-                switch (packet.PacketType)
-                {
-                    case PacketTypeEnumeration.StandardServerPacket:
-                        last10Packeges.AddPacket(packet);
-                        break;
-                    case PacketTypeEnumeration.GameInfoPacket:
-                        GameInfoPacket gameInfoPacket = (GameInfoPacket)packet;
-
-                        lock (gameInfoPacket)
-                        {
-                            if (gameInfoPackets.ContainsKey(gameInfoPacket.GameId))
-                                gameInfoPackets[gameInfoPacket.GameId].AddPacket(gameInfoPacket);
-                            else
-                                gameInfoPackets.Add(gameInfoPacket.GameId, new UDPClientServerCommons.Usefull.Last10Packages());
-                        }
-
-                        if (gameIdField.HasValue && gameInfoPacket.GameId == gameIdField)
-                        {
-                            for (int i = 0; i < gameInfoPacket.PlayerStatusList.Count; i++)
-                            {
-                                if (gameInfoPacket.PlayerStatusList[i].PlayerName == playerNameField)
-                                {
-                                    lock (clientPacketLock)
-                                    {
-                                        playerIdField = gameInfoPacket.PlayerStatusList[i].PlayerId;
-                                        teamIdField = gameInfoPacket.PlayerStatusList[i].PlayerTeam;
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Diagnostic.NetworkingDiagnostics.Logging.Error("Packet was received", ex);
-            }
-        }
-
-        public void UpdateDataToSend(ClientPacket clientPacket,bool needsAck)
-        {
-            lock (clientPacketLock)
-            {
-                this.clientPacket = clientPacket;
-                this.clientPacket.AckRequired = needsAck;
-            }
-        }
-
-        public void UpdateDataToSend(Vector playerPosition,Vector playerMovementDirection)
-        {
-            lock (clientPacketLock)
-            {
-                clientPacket.TimeStamp = DateTime.Now;
-                clientPacket.PlayerMovementDirection = playerMovementDirection;
-                clientPacket.PlayerPosition = playerPosition;
-            }
-        }
-
-        /// <summary>
-        /// Method used by UDP network layer to get client network data
-        /// </summary>
-        /// <returns></returns>
-        private ClientPacket udpNetworking_GetData()
-        {
-            lock (clientPacketLock)
-            {
-                if (GameStarted)
-                {
-                    lock (clientPacketLock)
-                    {
-                        clientPacket.PlayerId = playerIdField.Value;
-                        return (ClientPacket)clientPacket.Clone();
-                    }
-                }
-                else
-                    return null;
-            }
-        }
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Closes gently this instance of GameServer
-        /// </summary>
-        public void Dispose()
-        {
-            try
-            {
-                LeaveGame();
-                System.Threading.Thread.Sleep(50);
-            }
-            catch (Exception ex)
-            {
-                Diagnostic.NetworkingDiagnostics.Logging.Error("Error on Dispose", ex);
-            }
-            finally
-            {
-                udpNetworking.Dispose();
-                if (lanBroadcast.IsRunning)
-                    lanBroadcast.Dispose();
-            }
-        }
-
-        #endregion
-              
-        #region IServerData Members
-
         public IPacket GetNewestDataFromServer()
         {
             return last10Packeges.LastPacket;
         }
-
-        public ushort GetPlayerId()
-        {
-            if (playerIdField.HasValue)
-                return this.playerIdField.Value;
-            else
-                throw new Usefull.PlayerIdNullException();
-        }
-
-        #endregion
-
-        #region ISend Members
 
         public void UpdatePlayerData(Microsoft.DirectX.Vector3 position, Microsoft.DirectX.Vector3 lookDirection, Microsoft.DirectX.Vector3 moventDirection)
         {
@@ -447,9 +433,6 @@ namespace UDPClientServerCommons.Client
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public void LeaveGame()
         {
             if (!playerIdField.HasValue)
@@ -466,19 +449,33 @@ namespace UDPClientServerCommons.Client
             //ackOperating.SendPacketNeededAck(leaveGamePacket);
             udpNetworking.SendPacket(leaveGamePacket.ToByte());
 
-            udpNetworking.StopSendingByTimer(); 
+            udpNetworking.StopSendingByTimer();
             //udpNetworking.Dispose();
 
             playerIdField = null;
             gameIdField = null;
             teamIdField = null;
-            
+
             System.Threading.Thread.Sleep(10);
             udpNetworking.Dispose();
             if (lanBroadcast.IsRunning)
             {
                 lanBroadcast.Dispose();
                 lanBroadcast = null;
+            }
+        }
+
+        public GameInfoPacket CurrentGameInfo
+        {
+            get
+            {
+                lock (gameInfoPacketsLock)
+                {
+                    if (gameIdField.HasValue && gameInfoPackets.ContainsKey(gameIdField.Value))
+                        return (GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket.Clone();
+                    else
+                        return null;
+                }
             }
         }
 

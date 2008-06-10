@@ -4,7 +4,7 @@ using System.Text;
 
 namespace UDPClientServerCommons.Interfaces
 {
-    public interface ICastleServer
+    public interface IServer
     {
 
     }
