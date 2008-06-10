@@ -6,6 +6,9 @@ using UDPClientServerCommons.Usefull;
 
 namespace UDPClientServerCommons.Interfaces
 {
+    /// <summary>
+    /// Interface describing every packet
+    /// </summary>
     public interface IPacket
     {
         PacketTypeEnumeration PacketType
@@ -24,5 +27,7 @@ namespace UDPClientServerCommons.Interfaces
             get;
             set;
         }
+
+        object Clone();
     }
 }

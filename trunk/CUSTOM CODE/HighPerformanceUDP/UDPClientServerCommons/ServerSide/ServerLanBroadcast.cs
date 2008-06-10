@@ -4,7 +4,7 @@ using System.Text;
 using System.Net.Sockets;
 using System.Net;
 
-namespace UDPClientServerCommons
+namespace UDPClientServerCommons.Server
 {
     public class ServerLanBroadcast:IDisposable
     {

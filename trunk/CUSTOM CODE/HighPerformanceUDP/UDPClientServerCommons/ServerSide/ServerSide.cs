@@ -6,7 +6,7 @@ using System.Net;
 using UDPClientServerCommons.Constants;
 using UDPClientServerCommons.Packets;
 
-namespace UDPClientServerCommons
+namespace UDPClientServerCommons.Server
 {
     public class ServerSide:MyUdpServer,IDisposable
     {
