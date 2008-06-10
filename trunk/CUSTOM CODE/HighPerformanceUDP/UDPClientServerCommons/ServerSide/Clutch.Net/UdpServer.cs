@@ -19,6 +19,7 @@ namespace Clutch.Net.UDP
 
         public IPEndPoint ServerIpAdress
         {
+            get { return ServerIp; }
             set { ServerIp = value; }
         }
 

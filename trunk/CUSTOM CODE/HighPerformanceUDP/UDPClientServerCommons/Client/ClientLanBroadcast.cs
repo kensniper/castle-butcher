@@ -1,67 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Net.Sockets;
 using System.Net;
-using System.Windows.Forms;
+using System.Net.Sockets;
+using Clutch.Net.UDP;
 using System.Threading;
 
-namespace Client
+namespace UDPClientServerCommons.Client
 {
-    class Program
+    public class ClientLanBroadcast:IDisposable
     {
-        private static int rwOperationCount =0;
+        public delegate void PacketReceived(UDPPacketBuffer udpPacketBuffer);
+
+        /// <summary>
+        /// Event fired when data is received
+        /// </summary>
+        public event PacketReceived PacketWasReceived;
+
+        private static int rwOperationCount = 0;
         private static System.Threading.ReaderWriterLock rwLock = new System.Threading.ReaderWriterLock();
         private static bool shutdownFlag = false;
         private static Socket udpSocket = null;
-        
-        static void Main(string[] args)
+
+        private bool isRunningField = false;
+
+        public bool IsRunning
         {
+            get { return isRunningField; }
+        }
+
+        public ClientLanBroadcast()
+        {        }
+
+        public bool StartBroadcastReceiving()
+        {
+            bool result = true;
+            if (PacketWasReceived == null)
+                return false;
+
             try
             {
                 int GroupPort = 15000;
                 IPEndPoint groupEP = null;
-                if (MessageBox.Show("Do you want to use .Any address?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                    groupEP = new IPEndPoint(IPAddress.Any, GroupPort);
-                else
-                {
-                    groupEP = new IPEndPoint(MyIp, GroupPort);
-                }
 
-                //udpSocket = new UdpClient(groupEP);
+                groupEP = new IPEndPoint(MyIp, GroupPort);
+
                 udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
                 udpSocket.Bind(groupEP);
                 udpSocket.EnableBroadcast = true;
 
                 AsyncBeginReceive();
-
-                while (!shutdownFlag)
-                {
-                    Console.ReadLine();
-                }
-                //while (true)
-                //{
-                //    byte[] receiveBytes = udp.Receive(ref groupEP);
-
-                //    string returnData = Encoding.ASCII.GetString(receiveBytes);
-
-                //    Console.WriteLine(returnData);
-
-                //    if (returnData.ToLower() == "q")
-                //        break;
-                //}
-                //udpSocket.Close();
+                isRunningField = true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine();
-                Console.WriteLine(ex.ToString());
-                Console.ReadLine();
+                result = false;
+                Diagnostic.NetworkingDiagnostics.Logging.Fatal("Couldnt start broadcast receive", ex);
             }
+            return result;
         }
 
-        private static void Close()
+        private void Close()
         {
             try
             {
@@ -74,24 +74,28 @@ namespace Client
                     rwLock.AcquireWriterLock(-1);
                     shutdownFlag = true;
 
+                    bool tst = udpSocket.Connected;
+                    if (tst)
+                        udpSocket.Disconnect(true);
                     if (udpSocket != null)
                         udpSocket.Close();
+                    
                     rwLock.ReleaseWriterLock();
 
                     // wait for any pending operations to complete on other
                     // threads before exiting.
                     while (rwOperationCount > 0)
                         Thread.Sleep(1);
+                    isRunningField = false;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-                Console.ReadLine();
+                Diagnostic.NetworkingDiagnostics.Logging.Error("Error when closing lan broadcast", ex);
             }
         }
 
-        private static void AsyncBeginReceive()
+        private void AsyncBeginReceive()
         {
             // this method actually kicks off the async read on the socket.
             // we aquire a reader lock here to ensure that no other thread
@@ -120,14 +124,14 @@ namespace Client
                 }
                 catch (SocketException se)
                 {
-                    // Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncBeginReceive", se);
+                     Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncBeginReceive", se);
                     // an error occurred, therefore the operation is void.  Decrement the reference count.
                     Interlocked.Decrement(ref rwOperationCount);
 
                 }
                 catch (Exception ex)
                 {
-                    // Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncBeginReceive", ex);
+                     Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncBeginReceive", ex);
                     // an error occurred, therefore the operation is void.  Decrement the reference count.
                     Interlocked.Decrement(ref rwOperationCount);
 
@@ -137,7 +141,7 @@ namespace Client
             rwLock.ReleaseReaderLock();
         }
 
-        private static void AsyncEndReceive(IAsyncResult iar)
+        private void AsyncEndReceive(IAsyncResult iar)
         {
             // Asynchronous receive operations will complete here through the call
             // to AsyncBeginReceive
@@ -171,7 +175,7 @@ namespace Client
                 }
                 catch (SocketException se)
                 {
-                    //Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncEndReceive", se);
+                    Diagnostic.NetworkingDiagnostics.Logging.Error("AsyncEndReceive", se);
                     Interlocked.Decrement(ref rwOperationCount);
 
                     // we're done with the socket for now, release the reader lock.
@@ -179,7 +183,7 @@ namespace Client
                 }
                 catch (Exception ex)
                 {
-                    // Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncEndReceive", ex);
+                     Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncEndReceive", ex);
                     Interlocked.Decrement(ref rwOperationCount);
 
                     // we're done with the socket for now, release the reader lock.
@@ -195,7 +199,7 @@ namespace Client
             }
         }
 
-        public static IPAddress MyIp
+        private IPAddress MyIp
         {
             get
             {
@@ -213,20 +217,13 @@ namespace Client
             }
         }
 
-        private static void PacketWasReceived(UDPPacketBuffer buffer)
+        #region IDisposable Members
+
+        public void Dispose()
         {
-            string msg = Encoding.UTF8.GetString(buffer.Data, 0, buffer.DataLength);
-            if (msg.ToLower() == "q")
-            {
-                Close();
-                Console.WriteLine("Press [ENTER] to quit");
-            }
-            Write(msg);
+            Close();
         }
 
-        private static void Write(string msg)
-        {
-            Console.WriteLine(msg);
-        }
+        #endregion
     }
 }

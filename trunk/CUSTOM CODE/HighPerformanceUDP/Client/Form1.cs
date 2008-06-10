@@ -15,29 +15,7 @@ using UDPClientServerCommons.Packets;
 namespace Client
 {
     public partial class Form1 : Form
-    {/*
-        private UDPClientServerCommons.ClientPacket clientPacket = new UDPClientServerCommons.ClientPacket();
-        private UDPClientServerCommons.ServerPacket serverPacket = new UDPClientServerCommons.ServerPacket();
-        private Dictionary<int, UDPClientServerCommons.ServerPacket> LastPackages = new Dictionary<int, UDPClientServerCommons.ServerPacket>();
-        private UDPClientServerCommons.Last10 last10 = new UDPClientServerCommons.Last10();
-
-        private readonly object PackageLock = new object();
-        private readonly object ServerPackagesLock = new object();
-
-        /// <summary>
-        ///  the port to listen on
-        /// </summary>
-        private int udpPort = 4444;
-
-        private DateTime packetSendDate;
-
-        private System.Threading.Timer timer;
-
-        // the UDP socket
-        private Socket udpSocket;
-
-        private IPEndPoint ServerIpep;
-        */
+    {
         private UDPClientServerCommons.Client.ClientSide ClientSideNetworking;
 
         private ServerPacket serverPacket = null;
@@ -51,7 +29,7 @@ namespace Client
             InitializeComponent();
             ClientSideNetworking = new UDPClientServerCommons.Client.ClientSide(port);
             ClientSideNetworking.PacketReceivedEvent += new UDPClientServerCommons.Client.ClientSide.packetReceived(ClientSideNetworking_PacketReceivedEvent);
-            clientPacket.PlayerId= ClientSideNetworking.JoinGame(ServerIpep, "Karp", 1);
+            ClientSideNetworking.JoinGame(ServerIpep, "Karp", 1,1);
 
             button1.Visible = false;
 /*

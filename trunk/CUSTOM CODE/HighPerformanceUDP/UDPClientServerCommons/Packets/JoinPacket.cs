@@ -15,8 +15,6 @@ namespace UDPClientServerCommons.Packets
 
         private PacketIdCounter packetIdField;
 
-        public const ushort _MTU_PacketSize = 1400;
-
         private ushort playerIdField;
 
         public ushort PlayerId
@@ -41,6 +39,14 @@ namespace UDPClientServerCommons.Packets
             set { playerNameField = value; }
         }
 
+        private ushort teamIdField;
+
+        public ushort TeamId
+        {
+            get { return teamIdField; }
+            set { teamIdField = value; }
+        }
+
         #endregion
 
         #region ISerializablePacket Members
@@ -57,13 +63,14 @@ namespace UDPClientServerCommons.Packets
                 pos += 2;
                 pos += 2;
                 pos += Encoding.UTF8.GetByteCount(playerNameField);
+                pos += 2;
                 return pos;
             }
         }
 
         public byte[] ToByte()
         {
-            MemoryStream ms = new MemoryStream(_MTU_PacketSize);
+            MemoryStream ms = new MemoryStream(Constant._MTU_PacketSize);
          //   int pos = 0;
             ms.Write(BitConverter.GetBytes((ushort)PacketType), 0, 2);
            // pos += 2;
@@ -79,7 +86,8 @@ namespace UDPClientServerCommons.Packets
             //pos += 2;
             ms.Write(Encoding.UTF8.GetBytes(playerNameField), 0, Encoding.UTF8.GetByteCount(playerNameField));
             //pos += Encoding.UTF8.GetByteCount(PlayerNameField);
-        
+            ms.Write(BitConverter.GetBytes(teamIdField), 0, 2);
+
             byte[] result = ms.GetBuffer();
             ms.Close();
 
@@ -102,6 +110,7 @@ namespace UDPClientServerCommons.Packets
             //pos += 2;
             ms.Write(Encoding.UTF8.GetBytes(playerNameField), 0, Encoding.UTF8.GetByteCount(playerNameField));
             //pos += Encoding.UTF8.GetByteCount(PlayerNameField);
+            ms.Write(BitConverter.GetBytes(teamIdField), 0, 2);
 
             byte[] result = ms.GetBuffer();
             ms.Close();
@@ -129,6 +138,7 @@ namespace UDPClientServerCommons.Packets
 
             ushort stringLength = BitConverter.ToUInt16(binaryJoinPacket, 16);
             this.playerNameField = Encoding.ASCII.GetString(binaryJoinPacket, 18, stringLength);
+            this.teamIdField = BitConverter.ToUInt16(binaryJoinPacket, 18 + stringLength);
             
         }
 
@@ -142,7 +152,7 @@ namespace UDPClientServerCommons.Packets
 
             ushort stringLength = BitConverter.ToUInt16(binaryJoinPacket, 16 + index);
             this.playerNameField = Encoding.ASCII.GetString(binaryJoinPacket, 18 + index, stringLength);
-           
+            this.teamIdField = BitConverter.ToUInt16(binaryJoinPacket, 18 + stringLength);
         }
 
         public override string ToString()
@@ -159,6 +169,8 @@ namespace UDPClientServerCommons.Packets
             sb.Append(gameIdField);
             sb.Append("\nPlayerName = ");
             sb.Append(playerNameField);
+            sb.Append("\nTeamId = ");
+            sb.Append(teamIdField);
 
             return sb.ToString();
         }

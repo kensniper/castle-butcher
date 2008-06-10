@@ -11,6 +11,7 @@ namespace UDPClientServerCommons.Usefull
         public ushort Value
         {
             get { return counter; }
+            set { counter = value; }
         }
 
         public PacketIdCounter()

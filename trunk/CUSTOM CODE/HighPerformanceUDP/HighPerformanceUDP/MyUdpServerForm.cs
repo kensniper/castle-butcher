@@ -20,7 +20,8 @@ namespace HighPerformanceUDP
             InitializeComponent();
             //serverSide = new ServerSide(new IPEndPoint(IPAddress.Parse("10.0.0.3"),1234));
             serverSide = new ServerSide(1234);
-            serverSide.StartServer();
+            GameOptions gameOptions = new GameOptions("Poland","Niemcy", UDPClientServerCommons.Constants.GameTypeEnumeration.FragLimit,10);
+            serverSide.StartLANServer(gameOptions);
 }        
     }
 }

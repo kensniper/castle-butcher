@@ -4,14 +4,13 @@ using System.Text;
 using System.IO;
 using UDPClientServerCommons.Constants;
 using UDPClientServerCommons.Usefull;
+using System.Net;
 
 namespace UDPClientServerCommons.Packets
 {
     public class GameInfoPacket : ICloneable, Interfaces.ISerializablePacket, Interfaces.IPacket
     {
         #region fields
-
-        public const int _MTU_PacketSize = 1400;
 
         private DateTime timestampField;
 
@@ -25,9 +24,9 @@ namespace UDPClientServerCommons.Packets
             set { playerStatusListField = value; }
         }
 
-        private List<TeamScoreStruct> teamScoreListField = null;
+        private List<TeamData> teamScoreListField = null;
 
-        public List<TeamScoreStruct> TeamScoreList
+        public List<TeamData> TeamScoreList
         {
             get { return teamScoreListField; }
             set { teamScoreListField = value; }
@@ -49,6 +48,22 @@ namespace UDPClientServerCommons.Packets
             set { limitField = value; }
         }
 
+        private ushort gameIdField = 0;
+
+        public ushort GameId
+        {
+            get { return gameIdField; }
+            set { gameIdField = value; }
+        }
+
+        private IPEndPoint serverAddressField;
+
+        public IPEndPoint ServerAddress
+        {
+            get { return serverAddressField; }
+            set { serverAddressField = value; }
+        }
+
         #endregion
 
         #region ISerializablePacket Members
@@ -58,8 +73,9 @@ namespace UDPClientServerCommons.Packets
             get
             {
                 int size = 2;
-                size += 2;
+                size += 2;                
                 size += 8;
+                size += 2;
 
                 if (playerStatusListField != null)
                 {
@@ -82,6 +98,8 @@ namespace UDPClientServerCommons.Packets
 
                         size += 2;
                         size += 2;
+                        size += 2;
+                        size += Encoding.UTF8.GetByteCount(teamScoreListField[i].TeamName);
                     }
                 }
                 else
@@ -92,18 +110,23 @@ namespace UDPClientServerCommons.Packets
                 size += 2;
                 size += 2;
 
+                size += 2;
+                size += Encoding.UTF8.GetByteCount(serverAddressField.Address.ToString());
+                size += 4;
+
                 return size;
             }
         }
 
         public byte[] ToByte()
         {
-            MemoryStream ms = new MemoryStream(_MTU_PacketSize);
+            MemoryStream ms = new MemoryStream(Constant._MTU_PacketSize);
 
            // int pos = 0;
             ms.Write(BitConverter.GetBytes((ushort)PacketType), 0, 2);
             ms.Write(BitConverter.GetBytes(packetIdField.Value), 0, 2);
             ms.Write(BitConverter.GetBytes(timestampField.ToBinary()),0,8);
+            ms.Write(BitConverter.GetBytes(gameIdField), 0, 2);
 
             //pos += 2;
 
@@ -137,6 +160,9 @@ namespace UDPClientServerCommons.Packets
                   //  pos += 2;
                     ms.Write(BitConverter.GetBytes(teamScoreListField[i].TeamScore), 0, 2);
                     //pos += 2;
+                    ms.Write(BitConverter.GetBytes((ushort)Encoding.UTF8.GetByteCount(teamScoreListField[i].TeamName)), 0, 2);
+
+                    ms.Write(Encoding.UTF8.GetBytes(teamScoreListField[i].TeamName), 0, Encoding.UTF8.GetByteCount(teamScoreListField[i].TeamName));
                 }
             }
             else
@@ -150,6 +176,11 @@ namespace UDPClientServerCommons.Packets
             ms.Write(BitConverter.GetBytes(limitField), 0, 2);
           //  pos += 2;
 
+            int addressLength = Encoding.UTF8.GetByteCount(serverAddressField.Address.ToString());
+            ms.Write(BitConverter.GetBytes((ushort)addressLength), 0, 2);
+            ms.Write(Encoding.UTF8.GetBytes(serverAddressField.Address.ToString()), 0, addressLength);
+            ms.Write(BitConverter.GetBytes(serverAddressField.Port), 0, 4);
+
             byte[] result = ms.GetBuffer();
             ms.Close();
 
@@ -162,6 +193,7 @@ namespace UDPClientServerCommons.Packets
             ms.Write(BitConverter.GetBytes((ushort)PacketType), 0, 2);
             ms.Write(BitConverter.GetBytes(packetIdField.Value), 0, 2);
             ms.Write(BitConverter.GetBytes(timestampField.ToBinary()), 0, 8);
+            ms.Write(BitConverter.GetBytes(gameIdField), 0, 2);
           //  int pos = 2;
 
             if (playerStatusListField != null)
@@ -194,6 +226,10 @@ namespace UDPClientServerCommons.Packets
                   //  pos += 2;
                     ms.Write(BitConverter.GetBytes(teamScoreListField[i].TeamScore), 0, 2);
                     //pos += 2;
+
+                    ms.Write(BitConverter.GetBytes((ushort)Encoding.UTF8.GetByteCount(teamScoreListField[i].TeamName)), 0, 2);
+
+                    ms.Write(Encoding.UTF8.GetBytes(teamScoreListField[i].TeamName), 0, Encoding.UTF8.GetByteCount(teamScoreListField[i].TeamName));
                 }
             }
             else
@@ -207,6 +243,11 @@ namespace UDPClientServerCommons.Packets
             ms.Write(BitConverter.GetBytes(limitField), 0, 2);
             //pos += 2;
 
+            int addressLength = Encoding.UTF8.GetByteCount(serverAddressField.Address.ToString());
+            ms.Write(BitConverter.GetBytes((ushort)addressLength), 0, 2);
+            ms.Write(Encoding.UTF8.GetBytes(serverAddressField.Address.ToString()), 0, addressLength);
+            ms.Write(BitConverter.GetBytes(serverAddressField.Port), 0, 4);
+
             byte[] result = ms.GetBuffer();
             ms.Close();
 
@@ -219,7 +260,17 @@ namespace UDPClientServerCommons.Packets
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            GameInfoPacket cpy = new GameInfoPacket();
+            cpy.gameIdField = this.gameIdField;
+            cpy.gameTypeField = this.gameTypeField;
+            cpy.limitField = this.limitField;
+            cpy.packetIdField = this.packetIdField;
+            cpy.playerStatusListField = new List<PlayerStatus>(this.playerStatusListField);
+            cpy.serverAddressField = this.serverAddressField;
+            cpy.teamScoreListField = new List<TeamData>(this.teamScoreListField);
+            cpy.timestampField = this.timestampField;
+
+            return cpy;
         }
 
         #endregion
@@ -233,6 +284,10 @@ namespace UDPClientServerCommons.Packets
             sb.Append(gameTypeField);
             sb.Append("\nLimit = ");
             sb.Append(limitField);
+            sb.Append("\nGameId = ");
+            sb.Append(gameIdField);
+            sb.Append("\nServerAddress = ");
+            sb.Append(serverAddressField);
             sb.Append("\nPlayer status list");
             for (int i = 0; i < playerStatusListField.Count; i++)
                 sb.Append(playerStatusListField[i]);
@@ -245,8 +300,9 @@ namespace UDPClientServerCommons.Packets
 
         public GameInfoPacket()
         {
+            this.packetIdField = new PacketIdCounter();
             this.playerStatusListField = new List<PlayerStatus>();
-            this.teamScoreListField = new List<TeamScoreStruct>();
+            this.teamScoreListField = new List<TeamData>();
         }
 
         public GameInfoPacket(byte[] binaryGameInfoPacket)
@@ -256,6 +312,8 @@ namespace UDPClientServerCommons.Packets
             pos += 2;
             timestampField=DateTime.FromBinary(BitConverter.ToInt64(binaryGameInfoPacket,pos));
             pos += 8;
+            gameIdField = BitConverter.ToUInt16(binaryGameInfoPacket, pos);
+            pos += 2;
 
             playerStatusListField = new List<PlayerStatus>();
 
@@ -276,15 +334,19 @@ namespace UDPClientServerCommons.Packets
             int teamScoreCount = (int)BitConverter.ToUInt16(binaryGameInfoPacket, pos);
 
             pos += 2;
-            teamScoreListField = new List<TeamScoreStruct>();
+            teamScoreListField = new List<TeamData>();
 
             for (int i = 0; i < teamScoreCount; i++)
             {
-                TeamScoreStruct ts = new TeamScoreStruct();
+                TeamData ts = new TeamData();
                 ts.TeamId = BitConverter.ToUInt16(binaryGameInfoPacket, pos);
                 pos += 2;
                 ts.TeamScore = BitConverter.ToUInt16(binaryGameInfoPacket, pos);
                 pos += 2;
+                int count = (int)BitConverter.ToUInt16(binaryGameInfoPacket, pos);
+                pos += 2;
+                ts.TeamName = Encoding.UTF8.GetString(binaryGameInfoPacket, pos, count);
+                pos += count;
                 teamScoreListField.Add(ts);
             }
 
@@ -293,6 +355,14 @@ namespace UDPClientServerCommons.Packets
             pos += 2;
             this.limitField = BitConverter.ToUInt16(binaryGameInfoPacket, pos);
             pos += 2;
+
+            int addressLength = (int)BitConverter.ToUInt16(binaryGameInfoPacket, pos);
+            pos += 2;
+            string address = Encoding.UTF8.GetString(binaryGameInfoPacket, pos, addressLength);
+            pos += addressLength;
+            int port = BitConverter.ToInt32(binaryGameInfoPacket, pos);
+
+            serverAddressField = new IPEndPoint(IPAddress.Parse(address), port);
         }
 
         #endregion

@@ -47,6 +47,6 @@ namespace UDPClientServerCommons.Interfaces
         /// <param name="PlayerName">name of joining player</param>
         /// <param name="GameId">game id</param>
         /// <returns>Player Id</returns>
-        ushort JoinGame(IPEndPoint ServerIp, string PlayerName, ushort GameId);
+        void JoinGame(IPEndPoint ServerIp, string PlayerName, ushort GameId,ushort TeamId);
     }
 }

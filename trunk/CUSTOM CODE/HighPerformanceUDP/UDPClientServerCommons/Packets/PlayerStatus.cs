@@ -100,6 +100,9 @@ namespace UDPClientServerCommons.Packets
 
         public PlayerStatus()
         {
+            this.PlayerHealthField = 100;
+            this.PlayerPingField = 0;
+            this.PlayerScoreField = 0;
         }
 
         public PlayerStatus(byte[] binaryPlayerStatus)

@@ -21,7 +21,8 @@ namespace ServerHost
             {
                 CS_Server = new ServerSide(1234);
                 CS_Server.MessageWasReceivedEvent += new EventHandler(CS_Server_MessageWasReceivedEvent);
-                IPEndPoint adress = CS_Server.StartServer();
+                GameOptions gameOptions = new GameOptions("Poland", "Niemcy", UDPClientServerCommons.Constants.GameTypeEnumeration.FragLimit, 10);
+                IPEndPoint adress = CS_Server.StartLANServer(gameOptions);
 
                 Console.WriteLine("Server started at adress : {0}", adress.ToString());
                 Console.WriteLine("Press [ENTER] to termiante...");
@@ -29,7 +30,10 @@ namespace ServerHost
                 while (true)
                 {
                     string input = Console.ReadLine();
-                    //if (input.Length > 0)
+                    if (input.ToLower() == "start")
+                        Console.WriteLine(" Trying to start game .... Started? {0}", CS_Server.StartGame());
+
+                    if (input.Length == 0)
                         break;
                 }
             }

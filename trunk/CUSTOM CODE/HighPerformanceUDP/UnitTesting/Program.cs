@@ -6,6 +6,7 @@ using UDPClientServerCommons;
 using System.Collections;
 using UDPClientServerCommons.Constants;
 using UDPClientServerCommons.Packets;
+using System.Net;
 
 namespace UnitTesting
 {
@@ -14,7 +15,7 @@ namespace UnitTesting
         static void Main(string[] args)
         {
             byte[] binary = null;
-
+           
             Vector vector = new Vector(34.35f, 12.89f, 31.98f);
             Console.WriteLine(vector);
             binary = vector.ToMinimalByte();
@@ -41,6 +42,7 @@ namespace UnitTesting
             testClientPacket.PlayerShooting = true;
             testClientPacket.PlayerWalking = false;
             testClientPacket.TimeStamp = DateTime.Now;
+            testClientPacket.PacketId = 10;
 
             Console.WriteLine(testClientPacket);
 
@@ -54,6 +56,8 @@ namespace UnitTesting
             gameInfoPacket.GameType = GameTypeEnumeration.Objective;
             gameInfoPacket.Limit = 10;
             gameInfoPacket.PacketId = 6889;
+            gameInfoPacket.GameId = 10;
+            gameInfoPacket.ServerAddress = new IPEndPoint(IPAddress.Parse("90.156.78.90"), 1234);
             PlayerStatus ps1 = new PlayerStatus();
             ps1.PlayerHealth = 100;
             ps1.PlayerId = 8;
@@ -70,12 +74,14 @@ namespace UnitTesting
             ps2.PlayerTeam = 2;
             gameInfoPacket.PlayerStatusList.Add(ps1);
             gameInfoPacket.PlayerStatusList.Add(ps2);
-            TeamScoreStruct ts1 = new TeamScoreStruct();
+            TeamData ts1 = new TeamData();
             ts1.TeamId = 1;
             ts1.TeamScore = 89;
-            TeamScoreStruct ts2 = new TeamScoreStruct();
+            ts1.TeamName = "the crazy killers";
+            TeamData ts2 = new TeamData();
             ts2.TeamId = 2;
             ts2.TeamScore = 45;
+            ts2.TeamName = "what the fuckers";
             gameInfoPacket.TeamScoreList.Add(ts1);
             gameInfoPacket.TeamScoreList.Add(ts2);
             gameInfoPacket.TimeStamp = DateTime.Now;
@@ -94,6 +100,7 @@ namespace UnitTesting
             joinPacket.PlayerId = 34;
             joinPacket.PlayerName = "Ziomek2";
             joinPacket.TimeStamp = DateTime.Now;
+            joinPacket.TeamId = 67;
 
             Console.WriteLine(joinPacket);
             JoinPacket tmp3 = new JoinPacket(joinPacket.ToByte());

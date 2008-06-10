@@ -17,6 +17,7 @@ namespace Clutch.Net.UDP
         protected override void PacketSent(Clutch.Net.UDP.UDPPacketBuffer buffer, int bytesSent)
         {
            // MessageWasReceivedEvent("++ Package was sent",new EventArgs());
+            Console.WriteLine("packet sent");
         }
 
         public MyUdpServer(int port):base(port)
@@ -31,7 +32,7 @@ namespace Clutch.Net.UDP
 
         #region IDisposable Members
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             base.Stop();
         }
