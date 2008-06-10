@@ -31,8 +31,12 @@ namespace UDPClientServerCommons.Constants
         /// </summary>
         Unknown = 5,
         /// <summary>
+        /// Packet with error message
+        /// </summary>
+        MessagePacket = 6,
+        /// <summary>
         /// TEMP
         /// </summary>
-        ACK = 6
+        ACK = 7
     }
 }

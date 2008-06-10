@@ -32,7 +32,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Client\ClientSide.cs" />
+    <Compile Include="Client\ClientLanBroadcast.cs" />
     <Compile Include="Client\UDPLayer.cs" />
+    <Compile Include="Constants\Constant.cs" />
     <Compile Include="Constants\GameEventTypeEnumeration.cs" />
     <Compile Include="Constants\GameTypeEnumeration.cs" />
     <Compile Include="Constants\WeaponEnumeration.cs" />
@@ -44,6 +46,7 @@
     <Compile Include="Packets\BasePlayerInfo.cs" />
     <Compile Include="Packets\ClientPacket.cs" />
     <Compile Include="Interfaces\ISerializablePacket.cs" />
+    <Compile Include="Packets\MessagePacket.cs" />
     <Compile Include="Packets\GameEvent.cs" />
     <Compile Include="Packets\GameEventCollection.cs" />
     <Compile Include="Packets\GameInfoPacket.cs" />
@@ -52,6 +55,8 @@
     <Compile Include="Packets\LeaveGamePacket.cs" />
     <Compile Include="Packets\TeamScoreStruct.cs" />
     <Compile Include="ServerSide\Clutch.Net\UdpServer.cs" />
+    <Compile Include="ServerSide\GameOptions.cs" />
+    <Compile Include="ServerSide\ServerLanBroadcast.cs" />
     <Compile Include="ServerSide\MyUdpServer.cs" />
     <Compile Include="ServerSide\ServerSide.cs" />
     <Compile Include="Usefull\AckOperating.cs" />
@@ -64,6 +69,7 @@
     <Compile Include="Packets\ServerPacket.cs" />
     <Compile Include="Constants\Translator.cs" />
     <Compile Include="Packets\Vector.cs" />
+    <Compile Include="Usefull\Last10Packages.cs" />
     <Compile Include="Usefull\PacketIdCounter.cs" />
     <Compile Include="Usefull\PlayerIdNullException.cs" />
     <Compile Include="Usefull\ToManyAcksWaitingException.cs" />

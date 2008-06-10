@@ -84,8 +84,9 @@ namespace UDPClientServerCommons.Packets
 
         public byte[] ToByte()
         {
-            MemoryStream ms = new MemoryStream(14);
+            MemoryStream ms = new MemoryStream(16);
 
+            ms.Write(BitConverter.GetBytes((ushort)PacketType), 0, 2);
             ms.Write(BitConverter.GetBytes(playerIdField), 0, 2);
             ms.Write(BitConverter.GetBytes(gameIdField), 0, 2);
             ms.Write(BitConverter.GetBytes(packetIdField.Value),0,2);
@@ -104,7 +105,7 @@ namespace UDPClientServerCommons.Packets
 
         public int ByteCount
         {
-            get { return 14; }
+            get { return 16; }
         }
 
         #endregion
@@ -118,10 +119,10 @@ namespace UDPClientServerCommons.Packets
 
         public LeaveGamePacket(byte[] binaryLeaveGamePacket)
         {
-            this.playerIdField = BitConverter.ToUInt16(binaryLeaveGamePacket, 0);
-            this.gameIdField = BitConverter.ToUInt16(binaryLeaveGamePacket, 2);
-            this.packetIdField = new PacketIdCounter(BitConverter.ToUInt16(binaryLeaveGamePacket, 4));
-            this.timestampField = DateTime.FromBinary(BitConverter.ToInt64(binaryLeaveGamePacket, 6));
+            this.playerIdField = BitConverter.ToUInt16(binaryLeaveGamePacket, 2);
+            this.gameIdField = BitConverter.ToUInt16(binaryLeaveGamePacket, 4);
+            this.packetIdField = new PacketIdCounter(BitConverter.ToUInt16(binaryLeaveGamePacket, 6));
+            this.timestampField = DateTime.FromBinary(BitConverter.ToInt64(binaryLeaveGamePacket, 8));
         }
 
         public override string ToString()

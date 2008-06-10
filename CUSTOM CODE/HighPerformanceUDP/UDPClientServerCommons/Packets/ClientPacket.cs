@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using UDPClientServerCommons.Usefull;
+using UDPClientServerCommons.Constants;
 
 namespace UDPClientServerCommons.Packets
 {
@@ -69,7 +70,7 @@ namespace UDPClientServerCommons.Packets
 
         public override byte[] ToByte()
         {
-            MemoryStream ms = new MemoryStream(_MTU_PacketSize);
+            MemoryStream ms = new MemoryStream(Constant._MTU_PacketSize);
             ms.Write(BitConverter.GetBytes((ushort)PacketType), 0, 2);
             int pos = base.ByteCount;
             ms.Write(base.ToByte(), 0, pos);

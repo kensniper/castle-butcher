@@ -29,8 +29,6 @@ using UDPClientServerCommons.Constants;
         {
             #region Fields
 
-            public const ushort _MTU_PacketSize = 1400;
-
             private Vector playerPositionField;
 
             /// <summary>
@@ -317,7 +315,7 @@ using UDPClientServerCommons.Constants;
 
             public virtual byte[] ToByte()
             {
-                return ToByteConversion(_MTU_PacketSize);
+                return ToByteConversion(Constant._MTU_PacketSize);
             }
 
             public virtual byte[] ToMinimalByte()

@@ -11,8 +11,6 @@ namespace UDPClientServerCommons.Packets
     {
         #region fields
 
-        private const ushort _MTU_PacketSize = 1400;
-
         private DateTime timestampField;
 
         private PacketIdCounter packetIdField;
@@ -54,7 +52,7 @@ namespace UDPClientServerCommons.Packets
 
         public byte[] ToByte()
         {
-            MemoryStream ms = new MemoryStream(_MTU_PacketSize);
+            MemoryStream ms = new MemoryStream(Constant._MTU_PacketSize);
 
             //int pos = 0;
             ms.Write(BitConverter.GetBytes((ushort)PacketType), 0, 2);

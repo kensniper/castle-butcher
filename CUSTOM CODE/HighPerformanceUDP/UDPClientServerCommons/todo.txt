@@ -1,4 +1,13 @@
 ﻿--najnowsze do zrobienia !!!!!!!!
+--rozwiązać ostatecznie kwestie ACK (chociażby tymczasowo!!!) -- pominięte (czy słusznie?!)
+--dopisać osbługę leaveGame i GameInfo  -- zrobione
+
+ -- zrobić zakładanieGry, wyświetlanie aktualnych gier -- zrobione 
+ 
+ DO ZROBIENIA 
+wreszcie obsługa gracza-serwera
+głupie eventy dla Kowala !!!!!
+---------------------------------------------------------------------------------------
 rozwiązać ostatecznie kwestie ACK (chociażby tymczasowo!!!)
 dopisać osbługę leaveGame i GameInfo
 

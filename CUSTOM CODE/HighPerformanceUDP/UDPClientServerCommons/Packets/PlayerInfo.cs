@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using UDPClientServerCommons.Constants;
 
 namespace UDPClientServerCommons.Packets
 {
@@ -54,7 +55,7 @@ namespace UDPClientServerCommons.Packets
 
         public override byte[] ToByte()
         {
-            MemoryStream ms = new MemoryStream(_MTU_PacketSize);
+            MemoryStream ms = new MemoryStream(Constant._MTU_PacketSize);
             ms.Write(base.ToByte(), 0, base.ByteCount);
             ms.Write(BitConverter.GetBytes(damageTakenField), 0, 2);
             ms.Write(BitConverter.GetBytes(Convert.ToUInt16(ackIdsField.Count)), 0, 2);

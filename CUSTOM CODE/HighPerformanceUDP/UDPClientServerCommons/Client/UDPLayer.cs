@@ -309,14 +309,20 @@ namespace UDPClientServerCommons.Client
                 rwLock.AcquireWriterLock(-1);
                 shutdownFlag = true;
 
-                    if (udpSocket != null)
-                        udpSocket.Close();
+               /// test with closing socket - orginal position
+                  //  if (udpSocket != null)
+                  //      udpSocket.Close();
                   rwLock.ReleaseWriterLock();
 
                 // wait for any pending operations to complete on other
                 // threads before exiting.
+
                 while (rwOperationCount > 0)
                     Thread.Sleep(1);
+
+               // test new position
+                if (udpSocket != null)
+                    udpSocket.Close();                
                 }
             }
             catch (Exception ex)
@@ -329,7 +335,7 @@ namespace UDPClientServerCommons.Client
 
         internal void StopSendingByTimer()
         {
-            timer.Change(Timeout.Infinite, Timeout.Infinite);
+            timer.Change(Timeout.Infinite,Timeout.Infinite);
         }
     }
 }
