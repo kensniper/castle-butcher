@@ -104,6 +104,7 @@ namespace CastleButcher.GameEngine.Resources
             ExtendedMaterial[] materials;
             MeshEntry entry = new MeshEntry();
             Mesh mesh = Mesh.FromFile(AppConfig.MeshPath + fileName, MeshFlags.Managed, device, out materials);
+            
             int[] adjacency = new int[3 * mesh.NumberFaces];
             mesh.GenerateAdjacency(0, adjacency);
             mesh = mesh.Optimize(MeshFlags.OptimizeCompact | MeshFlags.OptimizeStripeReorder | MeshFlags.OptimizeAttributeSort, adjacency);
@@ -156,6 +157,7 @@ namespace CastleButcher.GameEngine.Resources
 
             RenderingDataEntry result = new RenderingDataEntry();
             result.RData = RenderingData.FromFile(AppConfig.MeshPath + fileName);
+            result.RData.CustomTransform = Microsoft.DirectX.Matrix.Identity;
             return result;
         }
         private CollisionMesh LoadCollisionMesh(string fileName)

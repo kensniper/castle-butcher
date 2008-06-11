@@ -34,7 +34,7 @@ namespace CastleButcher.UI
 
 
         bool normalMapping = false;
-        public MainView(ProgressReporter reporter, UIPlayer player,GameController controller)
+        public MainView(ProgressReporter reporter, UIPlayer player, GameController controller)
             : base()
         {
             this.isTransparent = true;
@@ -66,16 +66,16 @@ namespace CastleButcher.UI
             //slay = new SteeringLayer(player);
 
             gameController.Init();
-            playerInfoLayer = new PlayerControlLayer(player,gameController);
+            playerInfoLayer = new PlayerControlLayer(player, gameController);
             playerInfoLayer.RenderCrosshair = false;
             player.PlayerControl = playerInfoLayer;
             GM.AppWindow.PushLayer(playerInfoLayer);
-            GM.AppWindow.PushLayer(new BeginGameLayer(player,gameController));
+            GM.AppWindow.PushLayer(new BeginGameLayer(player, gameController));
 
             this.renderer = new Renderer(device);
             renderer.LoadData();
 
-            
+
 
             //ParticleEmitter em = new EngineEmitter(renderer.ParticleSystem);
             //em.Position = new MyVector(0, 0, 100);
@@ -97,7 +97,7 @@ namespace CastleButcher.UI
         {
             base.OnUpdateFrame(device, elapsedTime);
 
-            
+
             if (worldLoaded == true)
             {
 
@@ -133,24 +133,24 @@ namespace CastleButcher.UI
             pos.Y += player.PlayerControl.CameraShaker.Position.Y;
             //pos.Y += 9;
             MyVector target = pos + sdev.LookVector;
-            
+
             MyVector up = sdev.UpVector;
             device.RenderState.CullMode = Cull.Clockwise;
-            
-            
+
+
             renderer.SetUp(pos, sdev.LookVector, sdev.UpVector, player.CurrentCharacter.Velocity);
             ////stars
             renderer.RenderEnvironment(World.Instance.Environment);
             device.RenderState.ZBufferEnable = true;
             device.RenderState.ZBufferWriteEnable = true;
 
-            if (player.IsAlive && player.CurrentCharacter.Weapons.CurrentWeapon!=null)
+            if (player.IsAlive && player.CurrentCharacter.Weapons.CurrentWeapon != null)
             {
                 renderer.ShaderConstants.SetCamera(new MyVector(0, 0, 0), new MyVector(0, 1, 0), new MyVector(0, 0, -1));
                 renderer.ShaderConstants.SetMatrices(Matrix.Identity, Matrix.Identity,
                 device.Transform.Projection);
                 renderer.RenderRD(meshWithWeapon, Matrix.Translation(player.PlayerControl.CameraShaker.Position.X,
-                                                    player.PlayerControl.CameraShaker.Position.Y, 
+                                                    player.PlayerControl.CameraShaker.Position.Y,
                                                     player.PlayerControl.CameraShaker.Position.Z));
             }
             renderer.ShaderConstants.SetCamera(pos, sdev.UpVector, sdev.LookVector);
@@ -201,14 +201,14 @@ namespace CastleButcher.UI
             {
                 if (obj.RenderingData != null /*&& !(obj is Rocket)*/)
                 {
-
-                    if (obj != player.CurrentCharacter)
+                    if (obj == player.CurrentCharacter) continue;
+                    if (obj is Character)
                     {
-                        renderer.RenderRD(obj.RenderingData, obj.Transform);
+                        renderer.RenderRD(obj.RenderingData, obj.RenderingData.CustomTransform * obj.Transform);
                     }
                     else
                     {
-                        //renderer.RenderRD(meshWithWeapon, obj.Transform);
+                        renderer.RenderRD(obj.RenderingData, obj.RenderingData.CustomTransform * obj.Transform);
                     }
                 }
             }
@@ -219,7 +219,7 @@ namespace CastleButcher.UI
 
 
 
-            }
+        }
 
         public override void OnRenderFrame(Device device, float elapsedTime)
         {
