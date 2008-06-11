@@ -39,6 +39,9 @@
     <Compile Include="Constants\GameTypeEnumeration.cs" />
     <Compile Include="Constants\WeaponEnumeration.cs" />
     <Compile Include="Diagnostic\NetworkingDiagnostics.cs" />
+    <Compile Include="Interfaces\IOtherPlayerData.cs" />
+    <Compile Include="Interfaces\IPlayerDataRead.cs" />
+    <Compile Include="Interfaces\IPlayerDataWrite.cs" />
     <Compile Include="Interfaces\IServer.cs" />
     <Compile Include="Interfaces\IPacket.cs" />
     <Compile Include="Interfaces\IClient.cs" />
@@ -71,6 +74,7 @@
     <Compile Include="Packets\Vector.cs" />
     <Compile Include="Usefull\Last10Packages.cs" />
     <Compile Include="Usefull\PacketIdCounter.cs" />
+    <Compile Include="Usefull\PlayerData.cs" />
     <Compile Include="Usefull\PlayerIdNullException.cs" />
     <Compile Include="Usefull\ToManyAcksWaitingException.cs" />
   </ItemGroup>

@@ -5,28 +5,23 @@ using System.IO;
 
 namespace UDPClientServerCommons.Packets
 {
-    class GameEventCollection : ICollection<GameEvent>,Interfaces.ISerializablePacket,ICloneable
+    /// <summary>
+    /// Collection of game events
+    /// </summary>
+    public class GameEventCollection : ICollection<GameEvent>,Interfaces.ISerializablePacket,ICloneable
     {
         #region fields
 
         private readonly object ListLock = new object();
 
-        private List<GameEvent> GameEventList = null;
+        private List<GameEvent> gameEventList = null;
 
-        private ushort PlayerIdField;
-
-        public ushort PlayerId
-        {
-            get { return PlayerIdField; }
-            set { PlayerIdField = value; }
-        }
-
-        private DateTime GameEventTimeField;
+        private DateTime gameEventTimeField;
 
         public DateTime GameEventTime
         {
-            get { return GameEventTimeField; }
-            set { GameEventTimeField = value; }
+            get { return gameEventTimeField; }
+            set { gameEventTimeField = value; }
         }
 
         #endregion
@@ -37,7 +32,7 @@ namespace UDPClientServerCommons.Packets
         {
             lock (ListLock)
             {
-                GameEventList.Add(item);
+                gameEventList.Add(item);
             }
         }
 
@@ -45,7 +40,7 @@ namespace UDPClientServerCommons.Packets
         {
             lock (ListLock)
             {
-                GameEventList.Clear();
+                gameEventList.Clear();
             }
         }
 
@@ -54,7 +49,7 @@ namespace UDPClientServerCommons.Packets
             bool ret = false;
             lock (ListLock)
             {
-                ret = GameEventList.Contains(item);
+                ret = gameEventList.Contains(item);
             }
             return ret;
         }
@@ -63,7 +58,7 @@ namespace UDPClientServerCommons.Packets
         {
             lock (ListLock)
             {
-                GameEventList.CopyTo(array, arrayIndex);
+                gameEventList.CopyTo(array, arrayIndex);
             }
         }
 
@@ -74,7 +69,7 @@ namespace UDPClientServerCommons.Packets
                 int tmp = -1;
                 lock (ListLock)
                 {
-                    tmp = GameEventList.Count;
+                    tmp = gameEventList.Count;
                 }
                 return tmp;
             }
@@ -90,7 +85,7 @@ namespace UDPClientServerCommons.Packets
             bool tmp = false;
             lock (ListLock)
             {
-                tmp = GameEventList.Remove(item);
+                tmp = gameEventList.Remove(item);
             }
             return tmp;
         }
@@ -101,7 +96,7 @@ namespace UDPClientServerCommons.Packets
 
         public IEnumerator<GameEvent> GetEnumerator()
         {
-            return GameEventList.GetEnumerator();
+            return gameEventList.GetEnumerator();
         }
 
         #endregion
@@ -110,7 +105,7 @@ namespace UDPClientServerCommons.Packets
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return GameEventList.GetEnumerator();
+            return gameEventList.GetEnumerator();
         }
 
         #endregion
@@ -122,7 +117,7 @@ namespace UDPClientServerCommons.Packets
             GameEventCollection cpy = new GameEventCollection();
             lock(ListLock)
             {
-                cpy.GameEventList = new List<GameEvent>(this.GameEventList);
+                cpy.gameEventList = new List<GameEvent>(this.gameEventList);
             }
             return cpy;
         }
@@ -134,20 +129,35 @@ namespace UDPClientServerCommons.Packets
         public GameEventCollection()
             : base()
         {
-            GameEventList = new List<GameEvent>();
+            gameEventList = new List<GameEvent>();
         }
 
         public GameEventCollection(byte[] binaryGameEventCollection)
         {
             lock (ListLock)
             {
-                this.GameEventList = new List<GameEvent>();
+                this.gameEventList = new List<GameEvent>();
                 int count = (int)BitConverter.ToInt16(binaryGameEventCollection, 0);
-
+                this.gameEventTimeField = DateTime.FromBinary(BitConverter.ToInt64(binaryGameEventCollection, 2));
                 for (int i = 0; i < count; i++)
                 {
-                    GameEvent ge = new GameEvent(binaryGameEventCollection, 2 + 4 * i);
-                    this.GameEventList.Add(ge);
+                    GameEvent ge = new GameEvent(binaryGameEventCollection, 10 + 4 * i);
+                    this.gameEventList.Add(ge);
+                }
+            }
+        }
+
+        public GameEventCollection(byte[] binaryGameEventCollection,int index)
+        {
+            lock (ListLock)
+            {
+                this.gameEventList = new List<GameEvent>();
+                int count = (int)BitConverter.ToInt16(binaryGameEventCollection, index);
+                this.gameEventTimeField = DateTime.FromBinary(BitConverter.ToInt64(binaryGameEventCollection, 2 + index));
+                for (int i = 0; i < count; i++)
+                {
+                    GameEvent ge = new GameEvent(binaryGameEventCollection, 10 + index + 4 * i);
+                    this.gameEventList.Add(ge);
                 }
             }
         }
@@ -156,9 +166,11 @@ namespace UDPClientServerCommons.Packets
         {
             StringBuilder sb = new StringBuilder();
 
+            sb.Append("\nGameEventTime = ");
+            sb.Append(gameEventTimeField);
             sb.Append("\nGameEventCollection");
-            for (int i = 0; i < this.GameEventList.Count; i++)
-                sb.Append(GameEventList[i]);
+            for (int i = 0; i < this.gameEventList.Count; i++)
+                sb.Append(gameEventList[i]);
 
             return sb.ToString();
         }
@@ -173,9 +185,10 @@ namespace UDPClientServerCommons.Packets
             {
                 // because listCount first
                 int count = 2;
-                for (int i = 0; i < GameEventList.Count; i++)
+                count += 8; //datetime
+                for (int i = 0; i < gameEventList.Count; i++)
                 {
-                    count += GameEventList[i].ByteCount;
+                    count += gameEventList[i].ByteCount;
                 }
                 return count;
             }
@@ -188,11 +201,12 @@ namespace UDPClientServerCommons.Packets
             {
                 ms = new MemoryStream(ByteCount);
 
-                ms.Write(BitConverter.GetBytes((ushort)GameEventList.Count), 0, 2);
+                ms.Write(BitConverter.GetBytes((ushort)gameEventList.Count), 0, 2);
                // int pos = 2;
-                for (int i = 0; i < GameEventList.Count; i++)
+                ms.Write(BitConverter.GetBytes(gameEventTimeField.ToBinary()), 0, 8);
+                for (int i = 0; i < gameEventList.Count; i++)
                 {
-                    ms.Write(GameEventList[i].ToByte(), 0, 4);
+                    ms.Write(gameEventList[i].ToByte(), 0, 4);
                     //pos += GameEventList[i].ByteCount;
                 }
             }

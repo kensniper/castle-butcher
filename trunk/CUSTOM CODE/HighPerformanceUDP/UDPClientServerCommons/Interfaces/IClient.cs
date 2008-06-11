@@ -116,5 +116,13 @@ namespace UDPClientServerCommons.Interfaces
         {
             get;
         }
+
+        ///// <summary>
+        ///// Information about players
+        ///// </summary>
+        //List<Interfaces.IOtherPlayerData> PlayerDataList
+        //{
+        //    get;
+        //}
     }
 }

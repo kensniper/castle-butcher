@@ -56,8 +56,8 @@ namespace UDPClientServerCommons.Packets
             copy.PlayerPosition = (Vector)this.PlayerPosition.Clone();
             copy.PlayerShooting = this.PlayerShooting;
             copy.TimeStamp = this.TimeStamp;
-            copy.PlayerWalking = this.PlayerWalking;
-            copy.PlayerRunning = this.PlayerRunning;
+            //copy.PlayerWalking = this.PlayerWalking;
+            //copy.PlayerRunning = this.PlayerRunning;
             copy.AckRequired = this.AckRequired;
             copy.packetIdField = new PacketIdCounter(this.packetIdField.Value);
             copy.timestampField = this.timestampField;

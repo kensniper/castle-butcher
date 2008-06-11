@@ -267,7 +267,7 @@ namespace Client
                     break;
 
             }
-            ClientSideNetworking.UpdateDataToSend(clientPacket, false);
+            //ClientSideNetworking.UpdateDataToSend(clientPacket, false);
             this.Refresh();
         }
 
