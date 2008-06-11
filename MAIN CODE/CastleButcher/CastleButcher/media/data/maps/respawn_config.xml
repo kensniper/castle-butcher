@@ -4,7 +4,7 @@
 		<LightSource direction="[0.5,-0.5,-1]" color="[1,1,1]" image="moon.tga"/>
 	</EnvironmentData>
 	<Object type="mesh" position="[0,0,0]" rotation="[0,0,0]">
-		<RenderingData file="castle.x" />
+		<RenderingData file="castle2.x" />
 		<CollisionData type="Tree" file="castle.cm" />
 	</Object>
 	<RespawnPointList>

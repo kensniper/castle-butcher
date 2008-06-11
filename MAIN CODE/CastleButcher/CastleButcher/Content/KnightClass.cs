@@ -30,6 +30,7 @@ namespace CastleButcher.Content
             walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("knightWalkingPoint.cm");
             //hitMesh = ResourceCache.Instance.GetCollisionMesh("knightHitMesh.cm");
             renderingData = ResourceCache.Instance.GetRenderingData("knightWalkingMesh2.x");
+            float r = renderingData.BoundingSphereRadius;
 
         }
         public override PlayerMovementParameters MovementParameters

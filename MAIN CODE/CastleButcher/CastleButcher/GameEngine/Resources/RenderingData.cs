@@ -39,6 +39,14 @@ namespace CastleButcher.GameEngine.Resources
 
         float boundingSphereRadius = -1;
 
+        Matrix customTransform;
+
+        public Matrix CustomTransform
+        {
+            get { return customTransform; }
+            set { customTransform = value; }
+        }
+
         public float BoundingSphereRadius
         {
             get
