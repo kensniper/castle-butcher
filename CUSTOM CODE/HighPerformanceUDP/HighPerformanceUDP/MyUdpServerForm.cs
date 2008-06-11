@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Clutch.Net.UDP;
 using System.Net;
 using UDPClientServerCommons;
+using UDPClientServerCommons.Server;
 
 namespace HighPerformanceUDP
 {

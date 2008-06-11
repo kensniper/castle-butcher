@@ -18,9 +18,9 @@ namespace UDPClientServerCommons
             to.PlayerLookingDirection = from.PlayerLookingDirection;
             to.PlayerMovementDirection = from.PlayerMovementDirection;
             to.PlayerPosition = from.PlayerPosition;
-            to.PlayerRunning = from.PlayerRunning;
+            //to.PlayerRunning = from.PlayerRunning;
             to.PlayerShooting = from.PlayerShooting;
-            to.PlayerWalking = from.PlayerWalking;
+            //to.PlayerWalking = from.PlayerWalking;
 
             return to;
         }

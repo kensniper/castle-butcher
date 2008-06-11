@@ -18,8 +18,8 @@ using UDPClientServerCommons.Constants;
         ///     PlayerCarringWeponTwo,
         ///     PlayerJumping,
         ///     PlayerShooting,
-        ///     PlayerWalking,
-        ///     PlayerRunning,
+        /// --    PlayerWalking,
+        /// --    PlayerRunning,
         ///     PlayerDucking} 1
         /// Timestamp 8
         /// 
@@ -124,25 +124,25 @@ using UDPClientServerCommons.Constants;
 
             private bool playerWalkingField;
 
-            /// <summary>
-            /// tells if curent movement type is walking
-            /// </summary>
-            public bool PlayerWalking
-            {
-                get { return playerWalkingField; }
-                set { playerWalkingField = value; }
-            }
+            ///// <summary>
+            ///// tells if curent movement type is walking
+            ///// </summary>
+            //public bool PlayerWalking
+            //{
+            //    get { return playerWalkingField; }
+            //    set { playerWalkingField = value; }
+            //}
 
-            private bool playerRunningField;
+            //private bool playerRunningField;
 
-            /// <summary>
-            /// tells if curent movement type is running
-            /// </summary>
-            public bool PlayerRunning
-            {
-                get { return playerRunningField; }
-                set { playerRunningField = value; }
-            }
+            ///// <summary>
+            ///// tells if curent movement type is running
+            ///// </summary>
+            //public bool PlayerRunning
+            //{
+            //    get { return playerRunningField; }
+            //    set { playerRunningField = value; }
+            //}
 
             private bool playerDuckingField;
 
@@ -181,9 +181,9 @@ using UDPClientServerCommons.Constants;
                 this.playerDuckingField = oldPacket.playerDuckingField;
                 this.playerIdField = oldPacket.playerIdField;
                 this.playerJumpingField = oldPacket.playerJumpingField;
-                this.playerRunningField = oldPacket.playerRunningField;
+                //this.playerRunningField = oldPacket.playerRunningField;
                 this.playerShootingField = oldPacket.playerShootingField;
-                this.playerWalkingField = oldPacket.playerWalkingField;
+                //this.playerWalkingField = oldPacket.playerWalkingField;
             }
 
             public BasePlayerInfo(byte[] binaryBasePlayerInfo)
@@ -209,8 +209,8 @@ using UDPClientServerCommons.Constants;
                 playerCarringWeponTwoField = bitArray[1];
                 playerJumpingField = bitArray[2];
                 playerShootingField = bitArray[3];
-                playerWalkingField = bitArray[4];
-                playerRunningField = bitArray[5];
+                //playerWalkingField = bitArray[4];
+                //playerRunningField = bitArray[5];
                 playerDuckingField = bitArray[6];
                 AckRequiredField = bitArray[7];
             }
@@ -234,12 +234,12 @@ using UDPClientServerCommons.Constants;
                 sb.Append(this.playerMovementDirectionField);
                 sb.Append("\n playerPositionField = \t");
                 sb.Append(this.playerPositionField);
-                sb.Append("\n playerRunningField = \t");
-                sb.Append(this.playerRunningField);
+                //sb.Append("\n playerRunningField = \t");
+                //sb.Append(this.playerRunningField);
                 sb.Append("\n playerShootingField = \t");
                 sb.Append(this.playerShootingField);
-                sb.Append("\n playerWalkingField = \t");
-                sb.Append(this.playerWalkingField);
+                //sb.Append("\n playerWalkingField = \t");
+                //sb.Append(this.playerWalkingField);
                 sb.Append("\n AckRequired = \t");
                 sb.Append(this.AckRequiredField);
               
@@ -262,8 +262,8 @@ using UDPClientServerCommons.Constants;
                 copy.playerMovementDirectionField = (Vector)this.playerMovementDirectionField.Clone();
                 copy.playerPositionField = (Vector)this.playerPositionField.Clone();
                 copy.playerShootingField = this.playerShootingField;
-                copy.playerWalkingField = this.playerWalkingField;
-                copy.playerRunningField = this.playerRunningField;
+                //copy.playerWalkingField = this.playerWalkingField;
+                //copy.playerRunningField = this.playerRunningField;
                 copy.AckRequiredField = this.AckRequiredField;
                 return copy;
             }
@@ -294,8 +294,8 @@ using UDPClientServerCommons.Constants;
                 bitArray[1] = playerCarringWeponTwoField;
                 bitArray[2] = playerJumpingField;
                 bitArray[3] = playerShootingField;
-                bitArray[4] = playerWalkingField;
-                bitArray[5] = playerRunningField;
+                //bitArray[4] = playerWalkingField;
+                //bitArray[5] = playerRunningField;
                 bitArray[6] = playerDuckingField;
                 bitArray[7] = AckRequiredField;
 

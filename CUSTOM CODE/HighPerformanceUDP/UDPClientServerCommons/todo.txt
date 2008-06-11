@@ -9,11 +9,14 @@ wreszcie obsługa gracza-serwera
 głupie eventy dla Kowala !!!!!
 ---------------------------------------------------------------------------------------
 rozwiązać ostatecznie kwestie ACK (chociażby tymczasowo!!!)
-dopisać osbługę leaveGame i GameInfo
-
-zrobić zakładanieGry, wyświetlanie aktualnych gier
 wreszcie obsługa gracza-serwera
 głupie eventy dla Kowala !!!!!
+
+zrobic cos z zamykaniem socketu (przestac go zamykac?)
+---------------------------------------------------------------------------------------
+--dopisać osbługę leaveGame i GameInfo
+
+--zrobić zakładanieGry, wyświetlanie aktualnych gier
 
 ---------------------------------------------------------------------------------------
 

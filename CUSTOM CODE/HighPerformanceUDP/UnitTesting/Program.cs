@@ -14,6 +14,9 @@ namespace UnitTesting
     {
         static void Main(string[] args)
         {
+            UDPClientServerCommons.Usefull.PlayerData pd = new UDPClientServerCommons.Usefull.PlayerData();
+            pd.Duck = true;
+            bool tst = pd.Duck;
             byte[] binary = null;
            
             Vector vector = new Vector(34.35f, 12.89f, 31.98f);
@@ -38,9 +41,9 @@ namespace UnitTesting
             testClientPacket.PlayerLookingDirection = new Vector(45.56f, 34.67f, 87.45f);
             testClientPacket.PlayerMovementDirection = new Vector(43.54f, 87.34f, 56.21f);
             testClientPacket.PlayerPosition = new Vector(1f, 5f, 67.65f);
-            testClientPacket.PlayerRunning = true;
+            //testClientPacket.PlayerRunning = true;
             testClientPacket.PlayerShooting = true;
-            testClientPacket.PlayerWalking = false;
+            //testClientPacket.PlayerWalking = false;
             testClientPacket.TimeStamp = DateTime.Now;
             testClientPacket.PacketId = 10;
 
@@ -134,9 +137,9 @@ namespace UnitTesting
             testClientPacket2.PlayerLookingDirection = new Vector(45.4f, 334.617f, 187.425f);
             testClientPacket2.PlayerMovementDirection = new Vector(473.547f, 837.343f, 546.231f);
             testClientPacket2.PlayerPosition = new Vector(17f, 57f, 677.675f);
-            testClientPacket2.PlayerRunning = true;
+            //testClientPacket2.PlayerRunning = true;
             testClientPacket2.PlayerShooting = true;
-            testClientPacket2.PlayerWalking = false;
+            //testClientPacket2.PlayerWalking = false;
             
             testClientPacket2.DamageTaken = 100;
             testClientPacket2.AckIds.Add(412);

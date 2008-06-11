@@ -22,21 +22,29 @@ namespace UDPClientServerCommons.Constants
         /// occures when player changes his weapon to Sword
         /// </summary>
         SwitchWeaponToSword = 3,
+        ///// <summary>
+        ///// occures when player starts walking
+        ///// </summary>
+        //WalkNow = 4,
+        ///// <summary>
+        ///// occures when player starts running
+        ///// </summary>
+        //RunNow = 5,
+        ///// <summary>
+        ///// occures when player starts standing
+        ///// </summary>
+        //StandNow = 6,
+        ///// <summary>
+        ///// occures when player starts ducking
+        ///// </summary>
+        //DuckNow = 7,
         /// <summary>
-        /// occures when player starts walking
+        /// Occures when player dies
         /// </summary>
-        WalkNow = 4,
+        PlayerDead = 8,
         /// <summary>
-        /// occures when player starts running
+        /// Occures when player dies and borns :)
         /// </summary>
-        RunNow = 5,
-        /// <summary>
-        /// occures when player starts standing
-        /// </summary>
-        StandNow = 6,
-        /// <summary>
-        /// occures when player starts ducking
-        /// </summary>
-        DuckNow = 7
+        PlayerRespawn=9
     }
 }
