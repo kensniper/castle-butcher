@@ -59,13 +59,13 @@ namespace UDPClientServerCommons.Interfaces
             set;
         }
 
-        /// <summary>
-        /// Is player ducking
-        /// default false
-        /// </summary>
-        bool Duck
-        {
-            set;
-        }
+        ///// <summary>
+        ///// Is player ducking
+        ///// default false
+        ///// </summary>
+        //bool Duck
+        //{
+        //    set;
+        //}
     }
 }

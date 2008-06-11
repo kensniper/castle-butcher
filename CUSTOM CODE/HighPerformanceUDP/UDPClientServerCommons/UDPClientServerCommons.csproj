@@ -36,9 +36,12 @@
     <Compile Include="Client\UDPLayer.cs" />
     <Compile Include="Constants\Constant.cs" />
     <Compile Include="Constants\GameEventTypeEnumeration.cs" />
+    <Compile Include="Constants\GamePlayEventTypeEnumeration.cs" />
     <Compile Include="Constants\GameTypeEnumeration.cs" />
     <Compile Include="Constants\WeaponEnumeration.cs" />
     <Compile Include="Diagnostic\NetworkingDiagnostics.cs" />
+    <Compile Include="Interfaces\IGameEvent.cs" />
+    <Compile Include="Interfaces\IGamePlayEvent.cs" />
     <Compile Include="Interfaces\IOtherPlayerData.cs" />
     <Compile Include="Interfaces\IPlayerDataRead.cs" />
     <Compile Include="Interfaces\IPlayerDataWrite.cs" />
@@ -49,8 +52,7 @@
     <Compile Include="Packets\ClientPacket.cs" />
     <Compile Include="Interfaces\ISerializablePacket.cs" />
     <Compile Include="Packets\MessagePacket.cs" />
-    <Compile Include="Packets\GameEvent.cs" />
-    <Compile Include="Packets\GameEventCollection.cs" />
+    <Compile Include="Packets\GamePlayEvent.cs" />
     <Compile Include="Packets\GameInfoPacket.cs" />
     <Compile Include="Packets\PlayerStatus.cs" />
     <Compile Include="Packets\JoinPacket.cs" />

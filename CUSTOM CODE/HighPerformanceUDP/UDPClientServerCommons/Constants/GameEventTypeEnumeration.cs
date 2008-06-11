@@ -4,7 +4,7 @@ using System.Text;
 
 namespace UDPClientServerCommons.Constants
 {
-    public enum GameEventTypeEnumeration : ushort
+    public enum GamePlayEventTypeEnumeration : ushort
     {
         /// <summary>
         /// when player jumps

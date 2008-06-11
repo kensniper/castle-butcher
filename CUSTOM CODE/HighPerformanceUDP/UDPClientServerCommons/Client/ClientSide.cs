@@ -374,10 +374,10 @@ namespace UDPClientServerCommons.Client
             return result;
         }
 
-        public IPacket GetNewestDataFromServer()
-        {
-            return last10Packeges.LastPacket;
-        }
+        //public IPacket GetNewestDataFromServer()
+        //{
+        //    return last10Packeges.LastPacket;
+        //}
 
         public void UpdatePlayerData(Microsoft.DirectX.Vector3 position, Microsoft.DirectX.Vector3 lookDirection, Microsoft.DirectX.Vector3 moventDirection)
         {
@@ -477,6 +477,26 @@ namespace UDPClientServerCommons.Client
                         return null;
                 }
             }
+        }
+
+        public List<IOtherPlayerData> PlayerDataList
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void UpdatePlayerData(IPlayerDataWrite playerData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<IGameplayEvent> GameplayEventList
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public List<IGameEvent> GameEventList
+        {
+            get { throw new NotImplementedException(); }
         }
 
         #endregion
