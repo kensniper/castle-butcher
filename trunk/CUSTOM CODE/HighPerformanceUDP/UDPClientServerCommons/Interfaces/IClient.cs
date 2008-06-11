@@ -43,6 +43,12 @@ namespace UDPClientServerCommons.Interfaces
         /// <param name="weaponNew"> new weapon carried by the player</param>
         void UpdatePlayerData(Microsoft.DirectX.Vector3 position, Microsoft.DirectX.Vector3 lookDirection, Microsoft.DirectX.Vector3 moventDirection, WeaponEnumeration weaponAttacked, bool playerAttacked, bool playerJumped, bool weaponChanged, WeaponEnumeration weaponNew);
 
+        /// <summary> Send new playerData
+        /// 
+        /// </summary>
+        /// <param name="playerData">info about the current player state</param>
+        void UpdatePlayerData(Interfaces.IPlayerDataWrite playerData);
+        
         /// <summary>
         /// Leave current game
         /// </summary>
@@ -57,11 +63,11 @@ namespace UDPClientServerCommons.Interfaces
         /// <returns>Player Id</returns>
         void JoinGame(IPEndPoint ServerIp, string PlayerName, ushort GameId,ushort TeamId);
 
-        /// <summary>
-        /// Neweest ServerPacket received by the client
-        /// </summary>
-        /// <returns></returns>
-        IPacket GetNewestDataFromServer();
+        ///// <summary>
+        ///// Neweest ServerPacket received by the client
+        ///// </summary>
+        ///// <returns></returns>
+        //IPacket GetNewestDataFromServer();
 
         /// <summary>
         /// tells if receiving broadcast about lan games is on
@@ -117,12 +123,22 @@ namespace UDPClientServerCommons.Interfaces
             get;
         }
 
-        ///// <summary>
-        ///// Information about players
-        ///// </summary>
-        //List<Interfaces.IOtherPlayerData> PlayerDataList
-        //{
-        //    get;
-        //}
+        /// <summary>
+        /// Information about players
+        /// </summary>
+        List<Interfaces.IOtherPlayerData> PlayerDataList
+        {
+            get;
+        }
+
+        List<Interfaces.IGameplayEvent> GameplayEventList
+        {
+            get;
+        }
+
+        List<Interfaces.IGameEvent> GameEventList
+        {
+            get;
+        }
     }
 }

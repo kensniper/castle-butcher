@@ -41,13 +41,13 @@ namespace UDPClientServerCommons.Interfaces
             get;
         }
 
-        /// <summary>
-        /// Is player ducking
-        /// default false
-        /// </summary>
-        bool Duck
-        {
-            get;
-        }
+        ///// <summary>
+        ///// Is player ducking
+        ///// default false
+        ///// </summary>
+        //bool Duck
+        //{
+        //    get;
+        //}
     }
 }

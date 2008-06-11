@@ -187,6 +187,26 @@ namespace UDPClientServerCommons.Server
             get { throw new NotImplementedException(); }
         }
 
+        public void UpdatePlayerData(UDPClientServerCommons.Interfaces.IPlayerDataWrite playerData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<UDPClientServerCommons.Interfaces.IOtherPlayerData> PlayerDataList
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public List<UDPClientServerCommons.Interfaces.IGameplayEvent> GameplayEventList
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public List<UDPClientServerCommons.Interfaces.IGameEvent> GameEventList
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         #endregion
     }
 }
