@@ -48,7 +48,7 @@ namespace CastleButcher.UI
             get { return slay.CameraShaker; }
         }
 
-
+        
 
         public bool ShowPlayerList
         {
@@ -64,13 +64,13 @@ namespace CastleButcher.UI
         }
 
 
-        public PlayerControlLayer(Player player, GameController controller)
+        public PlayerControlLayer(Player player,GameController controller)
             : base()
         {
             this.isTransparent = true;
             this.RecievesEmptyMouse = true;
             RecievesEmptyMouse = true;
-
+            
 
             gameController = controller;
             slay = new SteeringLayer(player);
@@ -94,7 +94,7 @@ namespace CastleButcher.UI
             numFrags = new GuiTextLabel("0", new RectangleF(10, bottom - 40, 150, 18), 18);
             numDeaths = new GuiTextLabel("0", new RectangleF(10, bottom - 20, 150, 18), 18);
             statusInfo = new GuiTextLabel("", new RectangleF(0, 100, size.Width, 40), 40, "Ghotic",
-                Align.Center, Color.Blue);
+                Align.Center, Color.Black);
             AddControl(statusInfo);
 
             AddControl(velocity);
@@ -197,7 +197,7 @@ namespace CastleButcher.UI
         public override void OnUpdateFrame(Device device, float elapsedTime)
         {
             base.OnUpdateFrame(device, elapsedTime);
-
+            
             if (gameController.GameStatus == GameStatus.WaitingForStart)
             {
                 if (statusInfo.Text != "Oczekiwanie na innych graczy")
@@ -216,11 +216,13 @@ namespace CastleButcher.UI
             {
                 slay.OnUpdateFrame(device, elapsedTime);
                 SoundSystem.SoundEngine.Update((Vector3)player.CurrentCharacter.Position, (Vector3)player.CurrentCharacter.LookDirection, new Vector3(0, 1, 0));
+                SoundSystem.SoundEngine.UpdateSoundList();
+                SoundSystem.SoundEngine.UpdateBackgroundMusic();
 
 
-                //velocity.Text = player.CurrentCharacter.CharacterController.SetVelocity.ToString() + ":" +
-                //    player.CurrentCharacter.Velocity.ToString();
-                velocity.Text = slay.CameraShaker.Position.ToString();
+                velocity.Text = player.CurrentCharacter.CharacterController.SetVelocity.ToString() + ":" +
+                    player.CurrentCharacter.Velocity.ToString();
+                //velocity.Text = slay.CameraShaker.Position.ToString();
                 //velocity.Text = player.CurrentShip.RigidBodyData.AngularVelocity.Length.ToString();
                 shield.Text = "S:" + player.CurrentCharacter.ArmorState.Shield.ToString();
                 hp.Text = "HP:" + player.CurrentCharacter.ArmorState.Hp.ToString();
@@ -246,14 +248,11 @@ namespace CastleButcher.UI
                 else
                     weaponAmmo.Text = "";
 
-
-
             }
             else
             {
-
+                
             }
-
         }
 
         public override void OnRenderFrame(Device device, float elapsedTime)
@@ -277,7 +276,7 @@ namespace CastleButcher.UI
             {
 
             }
-
+            
             if (player.IsAlive == false)
             {
                 //if (pressedButtons[0] == true)
@@ -311,24 +310,6 @@ namespace CastleButcher.UI
                     AddControl(playerList);
                     playerListAdded = true;
                 }
-                if (pressedKeys.Contains(KeyMapping.Default.NextWeapon))
-                {
-                    player.CurrentCharacter.Weapons.SelectNextRanged();
-                }
-                if (pressedKeys.Contains(KeyMapping.Default.PreviousWeapon))
-                {
-                    player.CurrentCharacter.Weapons.SelectPreviousRanged();
-                }
-                if (pressedKeys.Contains(KeyMapping.Default.SelectMelee))
-                {
-                    player.CurrentCharacter.Weapons.CurrentWeaponType = CastleButcher.GameEngine.Weapons.WeaponType.Melee;
-                }
-                if (pressedKeys.Contains(KeyMapping.Default.SelectRanged))
-                {
-                    player.CurrentCharacter.Weapons.CurrentWeaponType= CastleButcher.GameEngine.Weapons.WeaponType.Ranged;
-                }
-
-
                 if (releasedKeys.Contains(System.Windows.Forms.Keys.F2) && playerListAdded == true)
                 {
                     RemoveControl(playerList);
