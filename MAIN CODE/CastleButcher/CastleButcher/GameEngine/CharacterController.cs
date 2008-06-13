@@ -115,6 +115,7 @@ namespace CastleButcher.GameEngine
                 if (velocity == 0 && footsoundDescriptor != null)
                 {
                     SoundSystem.SoundEngine.StopSteps(footsoundDescriptor);
+                    footsoundDescriptor = null;
                 }
                 //ship.AutoPilot.SetVelocity = velocity * ship.EngineParameters.MaxVelocity;
             }
