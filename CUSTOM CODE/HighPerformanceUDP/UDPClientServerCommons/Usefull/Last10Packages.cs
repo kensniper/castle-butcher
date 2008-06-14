@@ -36,7 +36,7 @@ namespace UDPClientServerCommons.Usefull
                 {
                     if (!packets.ContainsKey(last10.Counter))
                         return null;
-                    return packets[last10.Counter];
+                    return (Interfaces.IPacket)packets[last10.Counter].Clone();
                 }
             }
         }

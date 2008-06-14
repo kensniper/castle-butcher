@@ -24,6 +24,9 @@ namespace UDPClientServerCommons.Client
 
         private bool isRunningField = false;
 
+        /// <summary>
+        /// is broadcast receiving service is running
+        /// </summary>
         public bool IsRunning
         {
             get { return isRunningField; }
@@ -32,6 +35,10 @@ namespace UDPClientServerCommons.Client
         public ClientLanBroadcast()
         {        }
 
+        /// <summary>
+        /// Starts receiving broadcast packets
+        /// </summary>
+        /// <returns></returns>
         public bool StartBroadcastReceiving()
         {
             bool result = true;
@@ -74,9 +81,6 @@ namespace UDPClientServerCommons.Client
                     rwLock.AcquireWriterLock(-1);
                     shutdownFlag = true;
 
-                    bool tst = udpSocket.Connected;
-                    if (tst)
-                        udpSocket.Disconnect(true);
                     if (udpSocket != null)
                         udpSocket.Close();
                     
@@ -171,7 +175,8 @@ namespace UDPClientServerCommons.Client
 
                     // call the abstract method PacketReceived(), passing the buffer that
                     // has just been filled from the socket read.
-                    PacketWasReceived(buffer);
+                    if (isRunningField)
+                        PacketWasReceived(buffer);
                 }
                 catch (SocketException se)
                 {
@@ -183,7 +188,7 @@ namespace UDPClientServerCommons.Client
                 }
                 catch (Exception ex)
                 {
-                     Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncEndReceive", ex);
+                    Diagnostic.NetworkingDiagnostics.Logging.Fatal("AsyncEndReceive", ex);
                     Interlocked.Decrement(ref rwOperationCount);
 
                     // we're done with the socket for now, release the reader lock.
@@ -215,6 +220,22 @@ namespace UDPClientServerCommons.Client
                     }
                 return result;
             }
+        }
+
+        /// <summary>
+        /// pauses receiving packets
+        /// </summary>
+        public void STOP()
+        {
+            isRunningField = false;
+        }
+
+        /// <summary>
+        /// unpauses receiving packets
+        /// </summary>
+        public void START()
+        {
+            isRunningField = true;
         }
 
         #region IDisposable Members

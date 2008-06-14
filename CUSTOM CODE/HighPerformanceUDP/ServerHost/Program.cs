@@ -23,7 +23,7 @@ namespace ServerHost
                 CS_Server = new ServerSide(1234);
                 CS_Server.MessageWasReceivedEvent += new EventHandler(CS_Server_MessageWasReceivedEvent);
                 GameOptions gameOptions = new GameOptions("Poland", "Niemcy", UDPClientServerCommons.Constants.GameTypeEnumeration.FragLimit, 10);
-                IPEndPoint adress = CS_Server.StartLANServer(gameOptions);
+                IPEndPoint adress = CS_Server.StartLANServer(gameOptions,false,null);
 
                 Console.WriteLine("Server started at adress : {0}", adress.ToString());
                 Console.WriteLine("Press [ENTER] to termiante...");

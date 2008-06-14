@@ -1,4 +1,13 @@
-﻿--najnowsze do zrobienia !!!!!!!!
+﻿coraz to nowsze :) 14.06.2008
+przedewszystkim aplikacja testowa - testy serializacji i eventow
+obsluga bledow
+znalezienie i poprawienie bledow z socketami
+
+uwagi Kowala??
+
+wysylanie eventow w pakietach ClientPacket(wielokrotnie zamiast ack)
+--------------------------------------------------------------------------------------
+--najnowsze do zrobienia !!!!!!!!
 --rozwiązać ostatecznie kwestie ACK (chociażby tymczasowo!!!) -- pominięte (czy słusznie?!)
 --dopisać osbługę leaveGame i GameInfo  -- zrobione
 
@@ -6,7 +15,7 @@
  
  DO ZROBIENIA 
 wreszcie obsługa gracza-serwera
-głupie eventy dla Kowala !!!!!
+--głupie eventy dla Kowala !!!!!
 ---------------------------------------------------------------------------------------
 rozwiązać ostatecznie kwestie ACK (chociażby tymczasowo!!!)
 wreszcie obsługa gracza-serwera

@@ -141,7 +141,7 @@ namespace UnitTesting
             testClientPacket2.PlayerShooting = true;
             //testClientPacket2.PlayerWalking = false;
             
-            testClientPacket2.DamageTaken = 100;
+            testClientPacket2.Health = 100;
             testClientPacket2.AckIds.Add(412);
             testClientPacket2.AckIds.Add(456);
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace UDPClientServerCommons.Usefull
 {
-    public class PlayerData:Interfaces.IPlayerDataWrite,Interfaces.IPlayerDataRead
+    public class PlayerData:Interfaces.IPlayerDataWrite,Interfaces.IPlayerDataRead,Interfaces.IOtherPlayerData
     {
         #region IPlayerDataRead Members and IPlayerDataWrite Members
 

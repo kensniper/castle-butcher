@@ -8,7 +8,7 @@ using UDPClientServerCommons.Packets;
 
 namespace UDPClientServerCommons.Server
 {
-    public class ServerSide:MyUdpServer,IDisposable
+    public class ServerSide:MyUdpServer,IDisposable,Interfaces.IServer
     {
         #region fields
 
@@ -40,6 +40,18 @@ namespace UDPClientServerCommons.Server
         private System.Threading.Timer timer;
         private Usefull.PacketIdCounter packetIdCounter;
 
+        /// <summary>
+        /// when server is not dedicated
+        /// </summary>
+        private ClientForServer clientForServer = null;
+
+        /// <summary>
+        /// method for client stuff when server is not dedicated
+        /// </summary>
+        public Interfaces.IClientForServer Client
+        {
+            get { return clientForServer; }
+        }
         #endregion
 
         #region Constructor
@@ -49,10 +61,11 @@ namespace UDPClientServerCommons.Server
         /// </summary>
         /// <param name="gameOptions">options for new game</param>
         /// <returns></returns>
-        public IPEndPoint StartLANServer(GameOptions gameOptions)
+        public IPEndPoint StartLANServer(GameOptions gameOptions,bool dedicatedServer,Interfaces.IPlayerMe Me)
         {
             lanBroadcast = new ServerLanBroadcast();
-
+            Usefull.PlayerMe me = (Usefull.PlayerMe)Me;
+            PlayerStatus ps = new PlayerStatus();
             lock (gameInfoPacketLock)
             {
                 Random rand = new Random(gameOptions.GetHashCode());
@@ -60,6 +73,20 @@ namespace UDPClientServerCommons.Server
                 gameInfoPacket.GameType = gameOptions.GameType;
                 gameInfoPacket.Limit = gameOptions.GameLimit;
                 gameInfoPacket.PlayerStatusList = new List<PlayerStatus>();
+                if (!dedicatedServer && me != null)
+                {
+                    ps.PlayerId = (ushort)rand.Next(1000, 9999);
+                    ps.PlayerName = me.PlayerName;
+                    if (me.PlayerTeam == gameOptions.TeamOneName)
+                        ps.PlayerTeam = 13;
+                    else
+                        ps.PlayerTeam = 39;
+
+                    clientForServer = new ClientForServer();
+                    clientForServer.AddMessageToServer += new ClientForServer.AddMessageDelegate(clientForServer_AddMessageToServer);
+                    clientForServer.JoinGame(ps.PlayerId, gameInfoPacket.GameId, ps.PlayerName, ps.PlayerTeam);
+                }
+
                 gameInfoPacket.TeamScoreList = new List<TeamData>();
                 TeamData ts1 = new TeamData(13, gameOptions.TeamOneName);
                 TeamData ts2 = new TeamData(39, gameOptions.TeamTwoName);
@@ -68,9 +95,54 @@ namespace UDPClientServerCommons.Server
                 gameInfoPacket.TeamScoreList.Add(ts2);
                 gameInfoPacketSendCounter = 0;
             }
+            if (!dedicatedServer && me != null)
+            {
+                lock (serverPacketLock)
+                {
+                    PlayerInfo pi = new PlayerInfo();
+                    pi.PlayerId = ps.PlayerId;
+                    serverPacket.PlayerInfoList.Add(pi);
+                }
+            }
 
             timer.Change(0, _TimerTickPeriod);
             return base.Start();
+        }
+
+        void clientForServer_AddMessageToServer(UDPClientServerCommons.Interfaces.IPacket packet)
+        {
+            if (packet.PacketType == PacketTypeEnumeration.StandardClientPacket)
+            {
+                // adding client info to server packet
+                ClientPacket cp = (ClientPacket)packet;
+                lock (serverPacket)
+                {
+                    for (int i = 0; i < serverPacket.PlayerInfoList.Count; i++)
+                        if (serverPacket.PlayerInfoList[i].PlayerId == cp.PlayerId)
+                        {
+                            serverPacket.PlayerInfoList[i] = Translator.TranslateBetweenClientPacketAndPlayerInfo(cp);
+                            break;
+                        }
+                }
+            }
+            if (packet.PacketType == PacketTypeEnumeration.JoinPacket)
+            {
+                JoinPacket joinPacket = (JoinPacket)packet;
+                lock (serverPacketLock)
+                {
+                    for (int i = 0; i < gameInfoPacket.PlayerStatusList.Count; i++)
+                    {
+                        if (gameInfoPacket.PlayerStatusList[i].PlayerId == joinPacket.PlayerId)
+                        {
+                            // we update playerName
+                            gameInfoPacket.PlayerStatusList[i].PlayerName = joinPacket.PlayerName;
+                            // change team request
+                            gameInfoPacket.PlayerStatusList[i].PlayerTeam = joinPacket.TeamId;
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         public bool StartGame()
@@ -119,7 +191,7 @@ namespace UDPClientServerCommons.Server
         /// </summary>
         /// <param name="gameOptions"></param>
         /// <returns></returns>
-        public IPEndPoint StartINTERNETServer(GameOptions gameOptions)
+        public IPEndPoint StartINTERNETServer(GameOptions gameOptions,bool dedicatedServer,Interfaces.IPlayerMe Me)
         {
             throw new NotImplementedException("Option for internet gaming has not been implemented");
         }

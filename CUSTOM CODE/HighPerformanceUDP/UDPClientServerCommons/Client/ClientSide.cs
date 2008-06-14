@@ -10,6 +10,9 @@ using UDPClientServerCommons.Packets;
 
 namespace UDPClientServerCommons.Client
 {
+    /// <summary>
+    /// Networking class for Client
+    /// </summary>
     public class ClientSide:IDisposable,IClient
     {
         #region fields
@@ -61,6 +64,18 @@ namespace UDPClientServerCommons.Client
         private ClientLanBroadcast lanBroadcast = null;
 
         private Usefull.PacketIdCounter packetIdCounter = new UDPClientServerCommons.Usefull.PacketIdCounter();
+
+        /// <summary>
+        /// List of Game events
+        /// </summary>        
+        private List<IGameEvent> gameEventList = new List<IGameEvent>();
+        private readonly object gameEventListLock = new object();
+
+        /// <summary>
+        /// List of gameplay events
+        /// </summary>
+        private List<IGameplayEvent> gameplayEventList = new List<IGameplayEvent>();
+        private readonly object gameplayEventListLock = new object();        
 
         #endregion
 
@@ -135,11 +150,27 @@ namespace UDPClientServerCommons.Client
                 switch (packet.PacketType)
                 {
                     case PacketTypeEnumeration.StandardServerPacket:
+                        List<Interfaces.IGameplayEvent> gameplayEvents = GameEvents.GameEventExtractor.GetGameplayEvents((ServerPacket)packet, (ServerPacket)last10Packeges.LastPacket, playerIdField);
+                        lock (gameplayEventListLock)
+                        {
+                            for (int i = 0; i < gameplayEvents.Count; i++)
+                                gameplayEventList.Add(gameplayEvents[i]);
+                        }
                         last10Packeges.AddPacket(packet);
                         break;
                     case PacketTypeEnumeration.GameInfoPacket:
                         GameInfoPacket gameInfoPacket = (GameInfoPacket)packet;
-
+                        if (gameIdField.HasValue && gameInfoPacket.GameId == gameIdField.Value)
+                        {
+                            List<IGameEvent> gameEvents = GameEvents.GameEventExtractor.GetGameEvents(gameInfoPacket, (GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket, playerIdField);
+                            lock (gameInfoPacketsLock)
+                            {
+                                for (int i = 0; i < gameEvents.Count; i++)
+                                {
+                                    gameEventList.Add(gameEvents[i]);
+                                }
+                            }
+                        }
                         lock (gameInfoPacket)
                         {
                             if (gameInfoPackets.ContainsKey(gameInfoPacket.GameId))
@@ -294,8 +325,14 @@ namespace UDPClientServerCommons.Client
             {
                 lanBroadcast = new ClientLanBroadcast();
                 lanBroadcast.PacketWasReceived += new ClientLanBroadcast.PacketReceived(lanBroadCast_PacketWasReceived);
+                lanBroadcast.StartBroadcastReceiving();
             }
-            lanBroadcast.StartBroadcastReceiving();
+            else
+            {
+                if (!lanBroadcast.IsRunning)
+                    lanBroadcast.START();
+            }
+            
         }
 
         public void JoinGame(IPEndPoint ServerIp, string PlayerName, ushort GameId, ushort TeamId)
@@ -325,30 +362,18 @@ namespace UDPClientServerCommons.Client
             bool result = true;
             if (playerIdField.HasValue && gameIdField.HasValue && teamIdField.HasValue)
             {
-                List<GameInfoPacket> gameInfoPacketList = new List<GameInfoPacket>(CurrentLanGames);
-                if (gameInfoPacketList == null)
+                GameInfoPacket gPack = (GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket;
+                if (gPack == null)
                     return false;
 
-                bool gameOk = false;
                 List<ushort> teamIdList = new List<ushort>();
                 List<ushort> playerIdList = new List<ushort>();
 
-                for (int i = 0; i < gameInfoPacketList.Count; i++)
-                {
-                    if (gameInfoPacketList[i].GameId == gameIdField)
-                    {
-                        for (int k = 0; k < gameInfoPacketList[i].TeamScoreList.Count; k++)
-                            teamIdList.Add(gameInfoPacketList[i].TeamScoreList[k].TeamId);
-                        for (int k = 0; k < gameInfoPacketList[i].PlayerStatusList.Count; k++)
-                            teamIdList.Add(gameInfoPacketList[i].PlayerStatusList[k].PlayerId);
+                for (int k = 0; k < gPack.TeamScoreList.Count; k++)
+                    teamIdList.Add(gPack.TeamScoreList[k].TeamId);
+                for (int k = 0; k < gPack.PlayerStatusList.Count; k++)
+                    teamIdList.Add(gPack.PlayerStatusList[k].PlayerId);
 
-                        gameOk = true;
-                        break;
-                    }
-                }
-
-                if (!gameOk)
-                    return false;
                 //todo: exception ?
                 //maybe it would be better to throw exception ??
                 if (!teamIdList.Contains(TeamId))
@@ -374,18 +399,13 @@ namespace UDPClientServerCommons.Client
             return result;
         }
 
-        //public IPacket GetNewestDataFromServer()
-        //{
-        //    return last10Packeges.LastPacket;
-        //}
-
         public void UpdatePlayerData(Microsoft.DirectX.Vector3 position, Microsoft.DirectX.Vector3 lookDirection, Microsoft.DirectX.Vector3 moventDirection)
         {
             lock (clientPacketLock)
             {
-                clientPacket.PlayerPosition = Translator.TranslateVector3toVector(position);
-                clientPacket.PlayerLookingDirection = Translator.TranslateVector3toVector(lookDirection);
-                clientPacket.PlayerMovementDirection = Translator.TranslateVector3toVector(moventDirection);
+                clientPacket.PlayerPosition = Translator.TranslateBetweenVectorAndVector(position);
+                clientPacket.PlayerLookingDirection = Translator.TranslateBetweenVectorAndVector(lookDirection);
+                clientPacket.PlayerMovementDirection = Translator.TranslateBetweenVectorAndVector(moventDirection);
             }
         }
 
@@ -427,9 +447,9 @@ namespace UDPClientServerCommons.Client
         {
             lock (clientPacketLock)
             {
-                clientPacket.PlayerPosition = Translator.TranslateVector3toVector(position);
-                clientPacket.PlayerLookingDirection = Translator.TranslateVector3toVector(lookDirection);
-                clientPacket.PlayerMovementDirection = Translator.TranslateVector3toVector(moventDirection);
+                clientPacket.PlayerPosition = Translator.TranslateBetweenVectorAndVector(position);
+                clientPacket.PlayerLookingDirection = Translator.TranslateBetweenVectorAndVector(lookDirection);
+                clientPacket.PlayerMovementDirection = Translator.TranslateBetweenVectorAndVector(moventDirection);
             }
         }
 
@@ -456,12 +476,11 @@ namespace UDPClientServerCommons.Client
             gameIdField = null;
             teamIdField = null;
 
-            System.Threading.Thread.Sleep(10);
-            udpNetworking.Dispose();
+            //System.Threading.Thread.Sleep(10);
+            //udpNetworking.Dispose();
             if (lanBroadcast.IsRunning)
             {
-                lanBroadcast.Dispose();
-                lanBroadcast = null;
+                lanBroadcast.STOP();
             }
         }
 
@@ -481,22 +500,78 @@ namespace UDPClientServerCommons.Client
 
         public List<IOtherPlayerData> PlayerDataList
         {
-            get { throw new NotImplementedException(); }
+            get { 
+                Interfaces.IPacket packet = last10Packeges.LastPacket;
+                if (packet == null)
+                {
+                    return null;
+                }
+                else if (packet.PacketType == PacketTypeEnumeration.StandardServerPacket && this.playerIdField.HasValue)
+                {
+                    ServerPacket spack = (ServerPacket)packet;
+                    List<IOtherPlayerData> list = new List<IOtherPlayerData>();
+                    for (int i = 0; i < spack.PlayerInfoList.Count; i++)
+                    {
+                        if (spack.PlayerInfoList[i].PlayerId != this.playerIdField.Value)
+                            list.Add(Translator.TranslatePlayerInfoToPlayerOtherData(spack.PlayerInfoList[i]));
+                    }
+                    return list;
+                }
+                else
+                    return null;
+            }
         }
 
         public void UpdatePlayerData(IPlayerDataWrite playerData)
         {
-            throw new NotImplementedException();
+            Usefull.PlayerData pdata = (Usefull.PlayerData)playerData;
+            lock (clientPacket)
+            {
+                clientPacket.PlayerJumping = pdata.Jump;
+                clientPacket.PlayerShooting = pdata.Shoot;
+                clientPacket.PlayerPosition = Translator.TranslateBetweenVectorAndVector( pdata.Position);
+                clientPacket.PlayerMovementDirection = Translator.TranslateBetweenVectorAndVector(pdata.Velocity);
+                clientPacket.PlayerLookingDirection = Translator.TranslateBetweenVectorAndVector(pdata.LookingDirection);
+                switch (pdata.Weapon)
+                {
+                    case WeaponEnumeration.CrossBow:
+                        clientPacket.PlayerCarringWeponOne = true;
+                        clientPacket.PlayerCarringWeponTwo = false;
+                        break;
+                    case WeaponEnumeration.None:
+                        clientPacket.PlayerCarringWeponOne = false;
+                        clientPacket.PlayerCarringWeponTwo = false;
+                        break;
+                    case WeaponEnumeration.Sword:
+                        clientPacket.PlayerCarringWeponOne = false;
+                        clientPacket.PlayerCarringWeponTwo = true;
+                        break;
+                }
+            }
         }
 
         public List<IGameplayEvent> GameplayEventList
         {
-            get { throw new NotImplementedException(); }
+            get {
+                lock (gameplayEventListLock)
+                {
+                    List<IGameplayEvent> list = new List<IGameplayEvent>(gameplayEventList);
+                    gameplayEventList.Clear();
+                    return list;
+                }
+            }
         }
 
         public List<IGameEvent> GameEventList
         {
-            get { throw new NotImplementedException(); }
+            get {
+                lock (gameEventListLock)
+                {
+                    List<IGameEvent> list = new List<IGameEvent>(gameEventList);
+                    gameEventList.Clear();
+                    return list;
+                }
+            }
         }
 
         #endregion
