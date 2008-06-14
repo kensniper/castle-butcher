@@ -144,15 +144,7 @@ namespace CastleButcher.UI
             device.RenderState.ZBufferEnable = true;
             device.RenderState.ZBufferWriteEnable = true;
 
-            if (player.IsAlive && player.CurrentCharacter.Weapons.CurrentWeapon != null)
-            {
-                renderer.ShaderConstants.SetCamera(new MyVector(0, 0, 0), new MyVector(0, 1, 0), new MyVector(0, 0, -1));
-                renderer.ShaderConstants.SetMatrices(Matrix.Identity, Matrix.Identity,
-                device.Transform.Projection);
-                renderer.RenderRD(meshWithWeapon, Matrix.Translation(player.PlayerControl.CameraShaker.Position.X,
-                                                    player.PlayerControl.CameraShaker.Position.Y,
-                                                    player.PlayerControl.CameraShaker.Position.Z));
-            }
+            
             renderer.ShaderConstants.SetCamera(pos, sdev.UpVector, sdev.LookVector);
 
 
@@ -216,6 +208,20 @@ namespace CastleButcher.UI
             ////effects
             //renderer.RenderExplosions();
             //renderer.RenderParticles();
+
+
+            device.Clear(ClearFlags.ZBuffer, Color.Black, 1, 0);
+            device.RenderState.ZBufferEnable = true;
+            device.RenderState.ZBufferWriteEnable = true;
+            if (player.IsAlive && player.CurrentCharacter.Weapons.CurrentWeapon != null)
+            {
+                renderer.ShaderConstants.SetCamera(new MyVector(0, 0, 0), new MyVector(0, 1, 0), new MyVector(0, 0, -1));
+                renderer.ShaderConstants.SetMatrices(Matrix.Identity, Matrix.Identity,
+                device.Transform.Projection);
+                renderer.RenderRD(meshWithWeapon, Matrix.Translation(player.PlayerControl.CameraShaker.Position.X,
+                                                    player.PlayerControl.CameraShaker.Position.Y,
+                                                    player.PlayerControl.CameraShaker.Position.Z));
+            }
 
 
 
