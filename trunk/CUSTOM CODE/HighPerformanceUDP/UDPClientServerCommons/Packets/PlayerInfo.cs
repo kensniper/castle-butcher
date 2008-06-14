@@ -7,35 +7,19 @@ using UDPClientServerCommons.Constants;
 namespace UDPClientServerCommons.Packets
 {
     /// <summary>
-    /// Client Packet is formmated this way:
-    /// PlayerPosition 12
-    /// PlayerMovementDirection 12
-    /// PlayerLookingDirection 12
-    /// PlayerId 2
-    ///     {PlayerCarringWeponOne,
-    ///     PlayerCarringWeponTwo,
-    ///     PlayerJumping,
-    ///     PlayerShooting,
-    ///     PlayerWalking,
-    ///     PlayerRunning,
-    ///     PlayerDucking} 1
-    /// Timestamp 8
-    /// DamageTaken 2
-    /// Number of Acks 2
-    /// Acks (Number of Acks) * 2
-    /// Packet length = 51 + (Number of Acks) * 2 bytes
+    /// Information Send by the server about player
     /// </summary>
     public class PlayerInfo:BasePlayerInfo,ICloneable,Interfaces.ISerializablePacket
     {
-        private ushort damageTakenField;
+        private ushort healthField;
 
         /// <summary>
-        /// Damage taken by player, if 0 then no damage was taken :)
+        /// Health field, 100 mean that player is healthy
         /// </summary>
-        public ushort DamageTaken
+        public ushort Health
         {
-            get { return damageTakenField; }
-            set { damageTakenField = value; }
+            get { return healthField; }
+            set { healthField = value; }
         }
 
         new public int ByteCount
@@ -51,18 +35,27 @@ namespace UDPClientServerCommons.Packets
             set { ackIdsField = value; }
         }
 
+        private DateTime timestampField;
+
+        public DateTime Timestamp
+        {
+            get { return timestampField; }
+            set { timestampField = value; }
+        }
+
         #region IPacket Members
 
         public override byte[] ToByte()
         {
             MemoryStream ms = new MemoryStream(Constant._MTU_PacketSize);
             ms.Write(base.ToByte(), 0, base.ByteCount);
-            ms.Write(BitConverter.GetBytes(damageTakenField), 0, 2);
+            ms.Write(BitConverter.GetBytes(healthField), 0, 2);
             ms.Write(BitConverter.GetBytes(Convert.ToUInt16(ackIdsField.Count)), 0, 2);
             for (int i = 0; i < ackIdsField.Count; i++)
             {
                 ms.Write(BitConverter.GetBytes(ackIdsField[i]), 0, 2);
             }
+            ms.Write(BitConverter.GetBytes(timestampField.ToBinary()),0,8);
 
             byte[] result = ms.GetBuffer();
             ms.Close();
@@ -74,12 +67,13 @@ namespace UDPClientServerCommons.Packets
         {
             MemoryStream ms = new MemoryStream(this.ByteCount);
             ms.Write(base.ToMinimalByte(), 0, base.ByteCount);
-            ms.Write(BitConverter.GetBytes(damageTakenField), 0, 2);
+            ms.Write(BitConverter.GetBytes(healthField), 0, 2);
             ms.Write(BitConverter.GetBytes(Convert.ToUInt16(ackIdsField.Count)), 0, 2);
             for (int i = 0; i < ackIdsField.Count; i++)
             {
                 ms.Write(BitConverter.GetBytes(ackIdsField[i]), 0, 2);
             }
+            ms.Write(BitConverter.GetBytes(timestampField.ToBinary()), 0, 8);
 
             byte[] result = ms.GetBuffer();
             ms.Close();
@@ -90,38 +84,49 @@ namespace UDPClientServerCommons.Packets
         public PlayerInfo()
             : base()
         {
-            ackIdsField = new List<ushort>(); 
+            ackIdsField = new List<ushort>();
+            healthField = 100;
         }
 
         public PlayerInfo(byte[] binaryPlayerInfo)
             : base(binaryPlayerInfo)
         {
-            this.damageTakenField = (ushort)BitConverter.ToInt16(binaryPlayerInfo, base.ByteCount);
-            ushort ackNumber = (ushort)BitConverter.ToInt16(binaryPlayerInfo, base.ByteCount+2);
+            int pos = base.ByteCount;
+            this.healthField = (ushort)BitConverter.ToInt16(binaryPlayerInfo, pos);
+            pos += 2;
+            ushort ackNumber = (ushort)BitConverter.ToInt16(binaryPlayerInfo, pos);
+            pos += 2;
             ackIdsField = new List<ushort>();
             for (ushort i = 0; i < ackNumber; i++)
             {
-                ackIdsField.Add((ushort)BitConverter.ToInt16(binaryPlayerInfo, base.ByteCount + 2+2 + i * 2));
+                ackIdsField.Add((ushort)BitConverter.ToInt16(binaryPlayerInfo, pos));
+                pos += i * 2;
             }
+            timestampField = DateTime.FromBinary( BitConverter.ToInt64(binaryPlayerInfo, pos));
         }
 
         public PlayerInfo(byte[] binaryPlayerInfo,int index)
             : base(binaryPlayerInfo,index)
         {
-            this.damageTakenField = (ushort)BitConverter.ToInt16(binaryPlayerInfo, index + base.ByteCount);
-            ushort ackNumber = (ushort)BitConverter.ToInt16(binaryPlayerInfo, index + base.ByteCount+2);
+            int pos = index + base.ByteCount;
+            this.healthField = (ushort)BitConverter.ToInt16(binaryPlayerInfo, pos);
+            pos += 2;
+            ushort ackNumber = (ushort)BitConverter.ToInt16(binaryPlayerInfo, pos);
+            pos += 2;
             ackIdsField=new List<ushort>();
             for (ushort i = 0; i < ackNumber; i++)
             {
-                ackIdsField.Add((ushort)BitConverter.ToInt16(binaryPlayerInfo, index + base.ByteCount +2+2+ i * 2));
+                ackIdsField.Add((ushort)BitConverter.ToInt16(binaryPlayerInfo, pos));
+                pos += i * 2;
             }
+            timestampField = DateTime.FromBinary( BitConverter.ToInt64(binaryPlayerInfo, pos));
         }
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder(base.ToString());
             sb.Append("\n DamageTaken = \t");
-            sb.Append(damageTakenField);
+            sb.Append(healthField);
             sb.Append("\n Number od acks = \t");
             sb.Append(ackIdsField.Count);
 
@@ -130,6 +135,9 @@ namespace UDPClientServerCommons.Packets
                 sb.Append("\n\t ack id = \t");
                 sb.Append(ackIdsField[i]);
             }
+
+            sb.Append("\n Timestamp = ");
+            sb.Append(timestampField);
 
             return sb.ToString();
         }
@@ -141,9 +149,9 @@ namespace UDPClientServerCommons.Packets
         object ICloneable.Clone()
         {
             PlayerInfo copy = (PlayerInfo)base.Clone();
-            copy.damageTakenField = this.damageTakenField;
+            copy.healthField = this.healthField;
             copy.ackIdsField = new List<ushort>(this.ackIdsField);
-
+            copy.timestampField = this.timestampField;
             return copy;
         }
 

@@ -12,6 +12,8 @@
     <AssemblyName>UDPClientServerCommons</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>keyBackup.p12</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,22 +31,34 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Client\ClientSide.cs" />
     <Compile Include="Client\ClientLanBroadcast.cs" />
     <Compile Include="Client\UDPLayer.cs" />
     <Compile Include="Constants\Constant.cs" />
-    <Compile Include="Constants\GameEventTypeEnumeration.cs" />
+    <Compile Include="GameEvents\GameStartedEvent.cs" />
+    <Compile Include="GameEvents\TeamScoredEvent.cs" />
+    <Compile Include="GameEvents\GameEventExtractor.cs" />
     <Compile Include="Constants\GamePlayEventTypeEnumeration.cs" />
+    <Compile Include="Constants\GameEventTypeEnumeration.cs" />
     <Compile Include="Constants\GameTypeEnumeration.cs" />
     <Compile Include="Constants\WeaponEnumeration.cs" />
     <Compile Include="Diagnostic\NetworkingDiagnostics.cs" />
+    <Compile Include="GameEvents\PlayerChangedTeamEvent.cs" />
+    <Compile Include="GameEvents\PlayerJoinedEvent.cs" />
+    <Compile Include="GameEvents\PlayerNickChangedEvent.cs" />
+    <Compile Include="GameEvents\PlayerQuitEvent.cs" />
+    <Compile Include="Interfaces\IClientForServer.cs" />
+    <Compile Include="Interfaces\IClientForServerBase.cs" />
     <Compile Include="Interfaces\IGameEvent.cs" />
     <Compile Include="Interfaces\IGamePlayEvent.cs" />
     <Compile Include="Interfaces\IOtherPlayerData.cs" />
     <Compile Include="Interfaces\IPlayerDataRead.cs" />
     <Compile Include="Interfaces\IPlayerDataWrite.cs" />
+    <Compile Include="Interfaces\IPlayerMe.cs" />
     <Compile Include="Interfaces\IServer.cs" />
     <Compile Include="Interfaces\IPacket.cs" />
     <Compile Include="Interfaces\IClient.cs" />
@@ -52,12 +66,13 @@
     <Compile Include="Packets\ClientPacket.cs" />
     <Compile Include="Interfaces\ISerializablePacket.cs" />
     <Compile Include="Packets\MessagePacket.cs" />
-    <Compile Include="Packets\GamePlayEvent.cs" />
+    <Compile Include="GameEvents\GamePlayEvent.cs" />
     <Compile Include="Packets\GameInfoPacket.cs" />
     <Compile Include="Packets\PlayerStatus.cs" />
     <Compile Include="Packets\JoinPacket.cs" />
     <Compile Include="Packets\LeaveGamePacket.cs" />
     <Compile Include="Packets\TeamScoreStruct.cs" />
+    <Compile Include="GameEvents\PlayerScoredEvent.cs" />
     <Compile Include="ServerSide\ClientForServer.cs" />
     <Compile Include="ServerSide\Clutch.Net\UdpServer.cs" />
     <Compile Include="ServerSide\GameOptions.cs" />
@@ -78,6 +93,7 @@
     <Compile Include="Usefull\PacketIdCounter.cs" />
     <Compile Include="Usefull\PlayerData.cs" />
     <Compile Include="Usefull\PlayerIdNullException.cs" />
+    <Compile Include="Usefull\PlayerMe.cs" />
     <Compile Include="Usefull\ToManyAcksWaitingException.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +116,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="todo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="keyBackup.p12" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

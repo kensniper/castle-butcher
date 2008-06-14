@@ -4,47 +4,46 @@ using System.Text;
 
 namespace UDPClientServerCommons.Constants
 {
-    public enum GamePlayEventTypeEnumeration : ushort
+    /// <summary>
+    /// event that happens during game like join,quit,etc...
+    /// </summary>
+    public enum GameEventTypeEnumeration : ushort
     {
         /// <summary>
-        /// when player jumps
+        /// when player joins
         /// </summary>
-        JumpNow = 0,
+        PlayerJoined = 0,
         /// <summary>
-        /// when player shoots/stabs/punches :)
+        /// when player quits game
         /// </summary>
-        UseWeapon = 1,
+        PlayerQuitted = 1,
         /// <summary>
-        /// occures when player changes his weapon to Crossbow
+        /// when game started
         /// </summary>
-        SwitchWeaponToCrossbow = 2,
+        GameStared = 2,
         /// <summary>
-        /// occures when player changes his weapon to Sword
+        /// Round endded
         /// </summary>
-        SwitchWeaponToSword = 3,
-        ///// <summary>
-        ///// occures when player starts walking
-        ///// </summary>
-        //WalkNow = 4,
-        ///// <summary>
-        ///// occures when player starts running
-        ///// </summary>
-        //RunNow = 5,
-        ///// <summary>
-        ///// occures when player starts standing
-        ///// </summary>
-        //StandNow = 6,
-        ///// <summary>
-        ///// occures when player starts ducking
-        ///// </summary>
-        //DuckNow = 7,
+        EndRound = 3,
         /// <summary>
-        /// Occures when player dies
+        /// New round started
         /// </summary>
-        PlayerDead = 8,
+        NewRound = 4,
         /// <summary>
-        /// Occures when player dies and borns :)
+        /// Player changed team
         /// </summary>
-        PlayerRespawn=9
+        PlayerChangedTeam = 5,
+        /// <summary>
+        /// player just scored
+        /// </summary>
+        PlayerScored = 6,
+        /// <summary>
+        /// Team just scored
+        /// </summary>
+        TeamScored = 7,
+        /// <summary>
+        /// Player changed his nicked
+        /// </summary>
+        PlayerNickChanged = 8
     }
 }

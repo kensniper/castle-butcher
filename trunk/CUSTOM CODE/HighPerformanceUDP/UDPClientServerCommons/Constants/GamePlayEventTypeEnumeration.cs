@@ -5,29 +5,33 @@ using System.Text;
 namespace UDPClientServerCommons.Constants
 {
     /// <summary>
-    /// event that happens during game like join,quit,etc...
+    /// events that occur during gameplay
     /// </summary>
-    public enum GameEventTypeEnumeration : ushort
+    public enum GamePlayEventTypeEnumeration : ushort
     {
         /// <summary>
-        /// when player joins
+        /// when player jumps
         /// </summary>
-        PlayerJoined = 0,
+        JumpNow = 0,
         /// <summary>
-        /// when player quits game
+        /// when player shoots/stabs/punches :)
         /// </summary>
-        PlayerQuitted = 1,
+        UseWeapon = 1,
         /// <summary>
-        /// when game started
+        /// occures when player changes his weapon
         /// </summary>
-        GameStared =2,
+        WeaponChange = 2,
         /// <summary>
-        /// Round endded
+        /// Occures when player dies
         /// </summary>
-        EndRound=3,
+        PlayerDead = 3,
         /// <summary>
-        /// New round started
+        /// Occures when player dies and borns :)
         /// </summary>
-        NewRound=4
+        PlayerRespawn = 4,
+        /// <summary>
+        /// Occures when player took some damage
+        /// </summary>   
+        PlayerWasHit = 5
     }
 }

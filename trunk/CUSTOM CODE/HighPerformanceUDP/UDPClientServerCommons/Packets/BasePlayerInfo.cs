@@ -122,7 +122,7 @@ using UDPClientServerCommons.Constants;
                 set { playerShootingField = value; }
             }
 
-            private bool playerWalkingField;
+            //private bool playerWalkingField;
 
             ///// <summary>
             ///// tells if curent movement type is walking
