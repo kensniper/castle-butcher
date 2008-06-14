@@ -130,7 +130,7 @@ namespace CastleButcher.UI
             CharacterController sdev = player.CurrentCharacter.CharacterController;
             MyVector pos = player.CurrentCharacter.Position;
             pos.X += player.PlayerControl.CameraShaker.Position.X;
-            pos.Y += player.PlayerControl.CameraShaker.Position.Y;
+            pos.Y += player.PlayerControl.CameraShaker.Position.Y-player.CurrentCharacter.YMotionToCompensate;
             //pos.Y += 9;
             MyVector target = pos + sdev.LookVector;
 
@@ -204,7 +204,7 @@ namespace CastleButcher.UI
                     if (obj == player.CurrentCharacter) continue;
                     if (obj is Character)
                     {
-                        renderer.RenderRD(obj.RenderingData, obj.RenderingData.CustomTransform * obj.Transform);
+                        renderer.RenderRD(obj.RenderingData, Matrix.Translation(0,-(obj as Character).YMotionToCompensate,0)*obj.RenderingData.CustomTransform * obj.Transform);
                     }
                     else
                     {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Framework.MyMath;
+using CastleButcher.GameEngine;
 
 namespace Framework.Physics
 {
@@ -340,7 +341,11 @@ namespace Framework.Physics
                 {
                     if (walkingEnabled[objects[i]] && walkAmount.ContainsKey(objects[i]))
                     {
-                        collisionDetector.LowerObject(objects[i], walkData[objects[i]], objects[0], walkAmount[objects[i]]);
+                        float l=collisionDetector.LowerObject(objects[i], walkData[objects[i]], objects[0], walkAmount[objects[i]]);
+                        if (objects[i] is Character)
+                        {
+                            (objects[i] as Character).YMotionToCompensate += walkAmount[objects[i]] - l;
+                        }
                     }
                 }
             }

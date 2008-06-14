@@ -168,6 +168,17 @@ namespace CastleButcher.GameEngine
                     }
                 }
 
+                for (int i = 0; i < players.Count; i++)
+                {
+                    if (players[i].IsAlive)
+                    {
+                        float compensationSpeed = 5 + (10*players[i].CurrentCharacter.YMotionToCompensate);
+                        players[i].CurrentCharacter.YMotionToCompensate -= compensationSpeed * timeElapsed;
+                        if (players[i].CurrentCharacter.YMotionToCompensate < 0)
+                            players[i].CurrentCharacter.YMotionToCompensate = 0;
+                    }
+                }
+
 
                 return true;
             }

@@ -16,6 +16,13 @@ namespace CastleButcher.GameEngine
         protected CharacterClass characterClass;
         protected Weapons.WeaponCollection weapons;
 
+        float yMotionToCompensate = 0;
+
+        public float YMotionToCompensate
+        {
+            get { return yMotionToCompensate; }
+            set { yMotionToCompensate = value; }
+        }
 
         public Weapons.WeaponCollection Weapons
         {
@@ -121,11 +128,11 @@ namespace CastleButcher.GameEngine
             if (Weapons.CurrentWeapon.Ammo < 0 && Weapons.CurrentWeapon.WeaponClass.WeaponType == CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
                 Weapons.SelectPreviousRanged();
             SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.crossbowOff, (Vector3)this.Position);
-            
+
             World.Instance.AddObject(missile as IGameObject);
             Weapons.CurrentWeapon.Use();
 
-            if(Weapons.CurrentWeaponType== CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
+            if (Weapons.CurrentWeaponType == CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
                 if (Weapons.CurrentWeapon.Ammo <= 0)
                 {
                     Weapons.SelectNextRanged();
@@ -187,7 +194,7 @@ namespace CastleButcher.GameEngine
         public virtual bool TakeDamage(int damage)
         {
 
-         
+
 
             armorState.Shield -= damage;
             if (armorState.Shield <= 0)
@@ -209,7 +216,7 @@ namespace CastleButcher.GameEngine
                 else if (characterClass.GameTeam == GameTeam.Knights)
                     SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.knightLongDeath, (Vector3)Position);
 
-                
+
                 return true;
             }
             if (characterClass.GameTeam == GameTeam.Assassins)
@@ -299,6 +306,7 @@ namespace CastleButcher.GameEngine
         RenderingData spectatingRenderingData;
         static PlayerMovementParameters SpectatorMovementParameters =
             new PlayerMovementParameters(0, GameSettings.Default.SpectatorSpeed);
+
 
         public SpectatingCharacter(Player player, CharacterClass characterClass, MyVector position, MyQuaternion orientation)
             : base(player, characterClass, position, orientation)

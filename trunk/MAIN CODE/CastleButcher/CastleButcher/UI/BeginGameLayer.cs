@@ -69,7 +69,7 @@ namespace CastleButcher.UI
                 controller.AddPlayer(new AIPlayer("AIPlayer2", ObjectCache.Instance.GetAssassinClass()));
                 controller.AddPlayer(new AIPlayer("AIPlayer3", ObjectCache.Instance.GetAssassinClass()));
             }
-            controller.BeginRound();            
+            controller.BeginRound();
         }
 
         void joinAssassins_OnClick()
