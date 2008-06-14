@@ -12,6 +12,7 @@
     <AssemblyName>CastleButcher</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -203,6 +203,7 @@
     <Compile Include="GameEngine\CharacterParameters.cs" />
     <Compile Include="GameEngine\CharacterController.cs" />
     <Compile Include="GameEngine\Weapons\SwordBlade.cs" />
+    <Compile Include="UI\JoinGameDialog.cs" />
     <Compile Include="UI\SteeringLayer.cs" />
     <Compile Include="GameEngine\Weapons\WeaponPickup.cs" />
     <Compile Include="GameEngine\Weapons\Arrow.cs" />
@@ -255,7 +256,7 @@
       <DependentUpon>GameSettings.settings</DependentUpon>
     </Compile>
     <Compile Include="UI\BeginGameLayer.cs" />
-    <Compile Include="UI\CastleMap.cs" />
+    <Compile Include="UI\HUD\CastleMap.cs" />
     <Compile Include="UI\HUD\AdjustableQuad.cs" />
     <Compile Include="UI\HUD\CrosshairControl.cs" />
     <Compile Include="UI\HUD\RadarControl.cs" />

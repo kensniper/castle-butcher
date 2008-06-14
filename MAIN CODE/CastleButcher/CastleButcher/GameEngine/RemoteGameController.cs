@@ -15,11 +15,19 @@ namespace CastleButcher.GameEngine
 
         ClientSide clientNetworkLayer;
         Player player;
-        public RemoteGameController(Player player)
+
+        public Player Player
+        {
+            get { return player; }
+            set { player = value; }
+        }
+        public RemoteGameController(Player player,ClientSide clientSide,UDPClientServerCommons.Packets.GameInfoPacket gameInfo)
         {
             gameStatus = GameStatus.WaitingForStart;
-            clientNetworkLayer = new ClientSide(4444);
+            clientNetworkLayer = clientSide;
             this.player = player;
+            clientNetworkLayer.JoinGame(gameInfo.ServerAddress, player.Name, gameInfo.GameId, gameInfo.TeamScoreList[0].TeamId);
+            
 
         }
 
@@ -29,6 +37,8 @@ namespace CastleButcher.GameEngine
         public override void AddPlayer(Player player)
         {
             World.Instance.AddPlayer(player);
+            if (player == this.player)
+                ChangePlayerTeam(player, player.CharacterClass.GameTeam);
         }
 
         public override void RemovePlayer(Player player)
@@ -39,13 +49,21 @@ namespace CastleButcher.GameEngine
         public override void ChangePlayerTeam(Player player, GameTeam newTeam)
         {
             World.Instance.ChangeTeam(player, newTeam);
+            if (player == this.player)
+            {
+                if (newTeam == GameTeam.Assassins)
+                    clientNetworkLayer.ChangeTeam(clientNetworkLayer.CurrentGameInfo.TeamScoreList[0].TeamId);
+                else
+                    clientNetworkLayer.ChangeTeam(clientNetworkLayer.CurrentGameInfo.TeamScoreList[1].TeamId);
+            }
+
         }
 
         public override void BeginRound()
         {
             World.Instance.Start();
             gameStatus = GameStatus.InProgress;
-            player.NetworkId=clientNetworkLayer.JoinGame(new System.Net.IPEndPoint(IPAddress.Parse("10.0.0.2"), 1234), "kkk", 0);
+            
 
         }
 
@@ -98,11 +116,11 @@ namespace CastleButcher.GameEngine
                 }
             }
 
-            if (allDead)
-            {
-                EndRound(player.CharacterClass.GameTeam);
-                BeginRound();
-            }
+            //if (allDead)
+            //{
+            //    EndRound(player.CharacterClass.GameTeam);
+            //    BeginRound();
+            //}
         }
 
         protected override void OnCharacterAdded(Character character)
@@ -126,65 +144,75 @@ namespace CastleButcher.GameEngine
 
         public override bool Update(float timeElapsed)
         {
-            if (player.IsAlive && player.CurrentCharacter != null)
-            {
-                clientNetworkLayer.UpdatePlayerData((Vector3)player.CurrentCharacter.Position,
-                    (Vector3)player.CurrentCharacter.LookDirection,
-                    (Vector3)player.CurrentCharacter.Velocity);
-            }
-            if (player.IsAlive)
-            {
-                UDPClientServerCommons.ServerPacket packet = ((UDPClientServerCommons.Interfaces.IServerData)clientNetworkLayer).GetNeewestDataFromServer();
-                if (packet != null)
-                {
-                    for (int i = 0; i < packet.PlayerInfoList.Count; i++)
-                    {
-                        UDPClientServerCommons.PlayerInfo pInfo = packet.PlayerInfoList[i];
+            //if (player.IsAlive && player.CurrentCharacter != null)
+            //{
+            //    clientNetworkLayer.UpdatePlayerData((Vector3)player.CurrentCharacter.Position,
+            //        (Vector3)player.CurrentCharacter.LookDirection,
+            //        (Vector3)player.CurrentCharacter.Velocity);
+            //}
+            //if (player.IsAlive)
+            //{
+            //    UDPClientServerCommons.ServerPacket packet = ((UDPClientServerCommons.Interfaces.IServerData)clientNetworkLayer).GetNeewestDataFromServer();
+            //    if (packet != null)
+            //    {
+            //        for (int i = 0; i < packet.PlayerInfoList.Count; i++)
+            //        {
+            //            UDPClientServerCommons.PlayerInfo pInfo = packet.PlayerInfoList[i];
 
-                        bool newPlayer = false;
-                        foreach (Player pp in World.Instance.Players)
-                        {
-                            if (pInfo.PlayerId == pp.NetworkId)
-                            {
-                                newPlayer = false;
-                                break;
-                            }
-                        }
-                        if (newPlayer)
-                        {
-                            AddPlayer(new Player(pInfo.PlayerId.ToString(), ObjectCache.Instance.GetKnightClass()));
+            //            bool newPlayer = false;
+            //            foreach (Player pp in World.Instance.Players)
+            //            {
+            //                if (pInfo.PlayerId == pp.NetworkId)
+            //                {
+            //                    newPlayer = false;
+            //                    break;
+            //                }
+            //            }
+            //            if (newPlayer)
+            //            {
+            //                AddPlayer(new Player(pInfo.PlayerId.ToString(), ObjectCache.Instance.GetKnightClass()));
 
-                        }
+            //            }
 
-                    }
-                    for (int i = 0; i < packet.PlayerInfoList.Count; i++)
-                    {
-                        UDPClientServerCommons.PlayerInfo pInfo = packet.PlayerInfoList[i];
+            //        }
+            //        for (int i = 0; i < packet.PlayerInfoList.Count; i++)
+            //        {
+            //            UDPClientServerCommons.PlayerInfo pInfo = packet.PlayerInfoList[i];
 
-                        foreach (Player p in World.Instance.Players)
-                        {
+            //            foreach (Player p in World.Instance.Players)
+            //            {
 
-                            if (p.NetworkId == pInfo.PlayerId)
-                            {
-                                MyVector v = new MyVector();
-                                v.X = pInfo.PlayerPosition.X;
-                                v.Y = pInfo.PlayerPosition.Y;
-                                v.Z = pInfo.PlayerPosition.Z;
-                                p.CurrentCharacter.Position = v;
-                                v.X = pInfo.PlayerMovementDirection.X;
-                                v.Y = pInfo.PlayerMovementDirection.Y;
-                                v.Z = pInfo.PlayerMovementDirection.Z;
-                                p.CurrentCharacter.Velocity = v;
+            //                if (p.NetworkId == pInfo.PlayerId)
+            //                {
+            //                    MyVector v = new MyVector();
+            //                    v.X = pInfo.PlayerPosition.X;
+            //                    v.Y = pInfo.PlayerPosition.Y;
+            //                    v.Z = pInfo.PlayerPosition.Z;
+            //                    p.CurrentCharacter.Position = v;
+            //                    v.X = pInfo.PlayerMovementDirection.X;
+            //                    v.Y = pInfo.PlayerMovementDirection.Y;
+            //                    v.Z = pInfo.PlayerMovementDirection.Z;
+            //                    p.CurrentCharacter.Velocity = v;
 
-                            }
-                        }
+            //                }
+            //            }
 
-                    }
-                }
-            }
+            //        }
+            //    }
+            //}
 
             World.Instance.Update(timeElapsed);
             return true;
+        }
+
+        public override void EndGame()
+        {
+            clientNetworkLayer.LeaveGame();
+        }
+
+        public override void StartGame()
+        {
+            throw new NotImplementedException();
         }
     }
 }

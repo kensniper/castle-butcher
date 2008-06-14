@@ -24,6 +24,7 @@ namespace CastleButcher
 
         UI.MainMenu mainMenu;
         MainView mainView;
+        GameController gameController;
 
         bool firstRun = true;
         bool waitingForJoin = false;
@@ -37,19 +38,21 @@ namespace CastleButcher
 
             mainMenu = new CastleButcher.UI.MainMenu(false);
             mainMenu.OnExitGame += delegate { this.hasFinished = true; window.CloseWindow(); };
-            mainMenu.OnNewGame+=new WindowDataHandler(this.StartGame);
-            mainMenu.OnResumeGame+=new ButtonEventHandler(this.ResumeGame);
+            mainMenu.OnNewGame += new WindowDataHandler(this.StartGame);
+            mainMenu.OnResumeGame += new ButtonEventHandler(this.ResumeGame);
             mainMenu.OnJoinServer += new WindowDataHandler(JoinServer);
 
             window.PushLayer(mainMenu);
-            
+
 
         }
 
         void JoinServer(object d)
         {
+            if (gameController != null)
+                gameController.EndGame();
             waitingForJoin = true;
-            NewGameData data = new NewGameData();
+            JoinGameData data = new JoinGameData();
             ProgressReporter reporter = new ProgressReporter();
             Thread bkgLoader = new Thread(new ParameterizedThreadStart(delegate(object o)
             {
@@ -62,9 +65,9 @@ namespace CastleButcher
             //ShipClass shipClass=ObjectCache.Instance.GetShipClass(data.PlayerShip);
             frameworkWindow.RemoveLayer(mainView);
             UIPlayer player = new UIPlayer(data.PlayerName, null);
-            mainView = new MainView(reporter, player, new RemoteGameController(player));
-            //mainView = new MainView(reporter, null);
-            //mainView = new MainView(reporter, null);
+            gameController = new RemoteGameController(player, data.ClientSide, data.GameInfo);
+            mainView = new MainView(reporter, player, gameController);
+
             frameworkWindow.RemoveLayer(mainMenu);
             frameworkWindow.PushLayer(mainView);
             Cursor.Hide();
@@ -81,21 +84,24 @@ namespace CastleButcher
 
         public void StartGame(object d)
         {
+            if (gameController != null)
+                gameController.EndGame();
             //World.Instance.
             NewGameData data = (NewGameData)d;
             ProgressReporter reporter = new ProgressReporter();
             Thread bkgLoader = new Thread(new ParameterizedThreadStart(delegate(object o)
             {
-                object[] tab=(object[])o;
+                object[] tab = (object[])o;
                 World.FromFileBkg((string)tab[0], (ProgressReporter)tab[1]);
             }));
-            bkgLoader.Start(new object[] { AppConfig.MapPath+"respawn_config.xml", reporter });
+            bkgLoader.Start(new object[] { AppConfig.MapPath + "respawn_config.xml", reporter });
             //World.FromFileBkg("respawn_config.xml", reporter);
             //World.Instance=new
             //ShipClass shipClass=ObjectCache.Instance.GetShipClass(data.PlayerShip);
             frameworkWindow.RemoveLayer(mainView);
-            UIPlayer player = new UIPlayer(data.PlayerName, null); 
-            mainView=new MainView(reporter,player,new LocalGameController(player));
+            UIPlayer player = new UIPlayer(data.PlayerName, null);
+            gameController = new LocalGameController(player);
+            mainView = new MainView(reporter, player, gameController);
             //mainView = new MainView(reporter, null);
             //mainView = new MainView(reporter, null);
             frameworkWindow.RemoveLayer(mainMenu);
@@ -132,7 +138,7 @@ namespace CastleButcher
         {
             base.OnRenderFrame(device, elapsedTime);
 
-            
+
         }
 
         public override void OnUpdateFrame(Device device, float elapsedTime)
@@ -146,7 +152,7 @@ namespace CastleButcher
 
             if (waitingForJoin)
             {
-             
+
             }
             //GM.AppWindow.Text = GM.AppWindow.FPS.ToString();
         }
@@ -155,12 +161,12 @@ namespace CastleButcher
             base.OnKeyboard(pressedKeys, releasedKeys, pressedChar, pressedKey, elapsedTime);
             foreach (Keys k in pressedKeys)
             {
-                if(k == Keys.Escape)
+                if (k == Keys.Escape)
                 {
 
                     if (GM.AppWindow.GetLayer(1) != mainMenu)
-                    {                        
-                        
+                    {
+
                         GM.AppWindow.PushLayer(mainMenu);
                         mainMenu.GameInProgress = true;
                         World.Instance.Paused = true;
@@ -171,14 +177,17 @@ namespace CastleButcher
                     }
                     else
                     {
+                        //mainMenu.Ga
+                        if (gameController != null)
+                            gameController.EndGame();
                         hasFinished = true;
                         GM.AppWindow.CloseWindow();
                     }
                 }
-                else if(k == KeyMapping.Default.ToggleFullscreen)
+                else if (k == KeyMapping.Default.ToggleFullscreen)
                 {
-                    GM.AppWindow.LockKey(KeyMapping.Default.ToggleFullscreen);                        
-                    GM.AppWindow.ToggleFullscreen();                        
+                    GM.AppWindow.LockKey(KeyMapping.Default.ToggleFullscreen);
+                    GM.AppWindow.ToggleFullscreen();
                 }
             }
         }

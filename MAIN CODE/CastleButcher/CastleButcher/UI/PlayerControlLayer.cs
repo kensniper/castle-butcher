@@ -31,13 +31,13 @@ namespace CastleButcher.UI
         //GuiTextLabel 
 
         HUD.CrosshairControl crosshair;
-        HUD.RadarControl radar;
-        HUD.SpeedometerControl speedometer;
+        HUD.CastleMap castleMap;
 
         Player player;
 
         PlayerList playerList;
         bool playerListAdded = false;
+        bool mapAdded = false;
         SteeringLayer slay;
         GameController gameController;
 
@@ -113,6 +113,7 @@ namespace CastleButcher.UI
 
             crosshair = new CastleButcher.UI.HUD.CrosshairControl(new PointF(size.Width / 2, size.Height / 2));
             //AddControl(crosshair);
+            castleMap = new CastleButcher.UI.HUD.CastleMap(new PointF(size.Width / 2, size.Height / 2));
             RenderCrosshair = false;
 
             //radar = new CastleButcher.UI.HUD.RadarControl(new PointF(size.Width - 256, size.Height - 256));
@@ -180,6 +181,7 @@ namespace CastleButcher.UI
 
             playerList.ProcessRect(new RectangleF(100, 100, size.Width - 200, size.Height - 200));
             crosshair.Position = new PointF(size.Width / 2, size.Height / 2);
+            castleMap.Position = new PointF(size.Width / 2, size.Height / 2);
             //radar.Position = new PointF(size.Width - 256, size.Height - 256);
             //speedometer.Position = new PointF(size.Width / 2, size.Height - 200);
 
@@ -209,7 +211,10 @@ namespace CastleButcher.UI
                     statusInfo.Text = "";
             }
 
-
+            if (mapAdded)
+            {
+                castleMap.Update();
+            }
 
 
             if (player.CurrentCharacter != null)
@@ -314,6 +319,16 @@ namespace CastleButcher.UI
                 {
                     RemoveControl(playerList);
                     playerListAdded = false;
+                }
+                if (pressedKeys.Contains(System.Windows.Forms.Keys.Tab) && mapAdded == false)
+                {
+                    AddControl(castleMap);
+                    mapAdded = true;
+                }
+                if (releasedKeys.Contains(System.Windows.Forms.Keys.Tab) && mapAdded == true)
+                {
+                    RemoveControl(castleMap);
+                    mapAdded = false;
                 }
             }
         }
