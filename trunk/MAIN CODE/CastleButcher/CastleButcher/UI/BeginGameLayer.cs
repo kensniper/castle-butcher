@@ -48,9 +48,6 @@ namespace CastleButcher.UI
             verts[1] = new CustomVertex.TransformedColored(GM.AppWindow.GraphicsParameters.WindowSize.Width, GM.AppWindow.GraphicsParameters.WindowSize.Height, 0, 1, Color.FromArgb(127, 200, 200, 200).ToArgb());
             
             System.Windows.Forms.Cursor.Show();
-
-            
-
         }
 
         void startGame_OnClick()
@@ -58,7 +55,7 @@ namespace CastleButcher.UI
             RemoveControl(startGame);
             hasFinished = true;
             System.Windows.Forms.Cursor.Hide();
-            controller.AddPlayer(player);
+            
             //test
             if (player.CharacterClass.GameTeam == GameTeam.Assassins)
             {
@@ -80,7 +77,8 @@ namespace CastleButcher.UI
             RemoveControl(joinKnights);
             RemoveControl(joinAssassins);
             player.CharacterClass = ObjectCache.Instance.GetAssassinClass();
-            if (true||controller.IsLocal == true)
+            controller.AddPlayer(player);
+            if (controller.IsLocal == true)
             {
                 AddControl(startGame);
             }
@@ -96,7 +94,8 @@ namespace CastleButcher.UI
             RemoveControl(joinKnights);
             RemoveControl(joinAssassins);
             player.CharacterClass = ObjectCache.Instance.GetKnightClass();
-            if (true ||controller.IsLocal == true)
+            controller.AddPlayer(player);
+            if (controller.IsLocal == true)
             {
                 AddControl(startGame);
             }

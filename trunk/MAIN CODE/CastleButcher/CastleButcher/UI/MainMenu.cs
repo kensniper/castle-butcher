@@ -119,8 +119,9 @@ namespace CastleButcher.UI
         private void Join()
         {
             //
-            if (OnJoinServer != null)
-                OnJoinServer(null);
+            JoinGameDialog dialog = new JoinGameDialog();
+            AddControl(dialog);
+            dialog.OnExit += OnJoinServer;
         }
         private void ReturnToGame()
         {

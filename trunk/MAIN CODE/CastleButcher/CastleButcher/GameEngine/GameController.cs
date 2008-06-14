@@ -38,9 +38,11 @@ namespace CastleButcher.GameEngine
 
         public abstract void ChangePlayerTeam(Player player,GameTeam team);
 
+        public abstract void StartGame();
         public abstract void BeginRound();
         public abstract void EndRound();
         public abstract void EndRound(GameTeam defeatedTeam);
+        public abstract void EndGame();
 
 
         protected abstract void OnPlayerAdded(Player player);

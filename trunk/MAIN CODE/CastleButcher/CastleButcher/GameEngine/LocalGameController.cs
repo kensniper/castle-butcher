@@ -5,17 +5,28 @@ using System.Text;
 using UDPClientServerCommons;
 using UDPClientServerCommons.Client;
 using UDPClientServerCommons.Interfaces;
+using UDPClientServerCommons.Server;
 namespace CastleButcher.GameEngine
 {
     public class LocalGameController : GameController
     {
-
+        ServerSide serverNetworkLayer;
         Player player;
+
+        public Player Player
+        {
+            get { return player; }
+            set { player = value; }
+        }
         public LocalGameController(Player player)
         {
             gameStatus = GameStatus.WaitingForStart;
             this.player = player;
+            serverNetworkLayer = new ServerSide(4444);
+            GameOptions options = new GameOptions("Zabójcy", "Rycerze", UDPClientServerCommons.Constants.GameTypeEnumeration.TimeLimit, 10);
+            UDPClientServerCommons.Usefull.PlayerMe pl = new UDPClientServerCommons.Usefull.PlayerMe("Zabójcy", player.Name);
 
+            serverNetworkLayer.StartLANServer(options, false, pl);       
         }
 
         
@@ -24,6 +35,8 @@ namespace CastleButcher.GameEngine
         public override void AddPlayer(Player player)
         {
             World.Instance.AddPlayer(player);
+            if (player == this.player)
+                ChangePlayerTeam(player, player.CharacterClass.GameTeam);
         }
 
         public override void RemovePlayer(Player player)
@@ -34,19 +47,31 @@ namespace CastleButcher.GameEngine
         public override void ChangePlayerTeam(Player player, GameTeam newTeam)
         {
             World.Instance.ChangeTeam(player, newTeam);
+            if (player == this.player)
+            {
+                //if(newTeam== GameTeam.Assassins)
+                //    serverNetworkLayer.Client.ChangeTeam(serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList[0].TeamId);
+                //else
+                //    serverNetworkLayer.Client.ChangeTeam(serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList[1].TeamId);
+                //if (newTeam == GameTeam.Assassins)
+                //    serverNetworkLayer.Client.ChangeTeam(13);
+                //else
+                //    serverNetworkLayer.Client.ChangeTeam(39);
+            }
+            
         }
 
         public override void BeginRound()
         {
             World.Instance.Start();
-            gameStatus = GameStatus.InProgress;
-            
+            gameStatus = GameStatus.InProgress;            
         }
 
         public override void EndRound()
         {
             World.Instance.Paused = true;
             gameStatus = GameStatus.WaitingForStart;
+            
         }
         public override void EndRound(GameTeam defeatedTeam)
         {
@@ -122,6 +147,17 @@ namespace CastleButcher.GameEngine
         {
             World.Instance.Update(timeElapsed);
             return true;
+        }
+
+        public override void EndGame()
+        {
+            serverNetworkLayer.Client.LeaveGame();
+        }
+
+        public override void StartGame()
+        {
+            serverNetworkLayer.StartGame();
+            BeginRound();
         }
     }
 }

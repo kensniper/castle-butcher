@@ -83,7 +83,7 @@ namespace Framework.GUI
         /// <summary>
         /// Fires when list's selected item has changed.
         /// </summary>
-        public ListEventHandler OnSelectionChange = null;
+        public event ListEventHandler OnSelectionChange = null;
 
         public GuiListBox(RectangleF rect, int numVisibleItems)
             : base(rect, GM.GetUniqueName())
