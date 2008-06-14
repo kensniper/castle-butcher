@@ -337,8 +337,15 @@ namespace CastleButcher.GameEngine
         public virtual void Update(float dt)
         {
             //footsteps
-            if(footsoundDescriptor!=null)
-                footsoundDescriptor.Position = (Vector3)character.Position;
+            try
+            {
+                if (footsoundDescriptor != null)
+                    footsoundDescriptor.Position = (Vector3)character.Position;
+            }
+            catch (NullReferenceException)
+            {
+                //zdarza sie...
+            }
 
 
             //strafing

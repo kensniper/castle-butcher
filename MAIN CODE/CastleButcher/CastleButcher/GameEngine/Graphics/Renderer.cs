@@ -10,7 +10,7 @@ using CastleButcher.GameEngine.Graphics.Particles;
 
 namespace CastleButcher.GameEngine.Graphics
 {
-    public class Renderer:IUpdateable,IDeviceRelated,IDisposable
+    public class Renderer : IUpdateable, IDeviceRelated, IDisposable
     {
         #region Parameters
         MyVector cameraPosition;
@@ -106,17 +106,17 @@ namespace CastleButcher.GameEngine.Graphics
 
         void World_OnShipAdded(Character ship)
         {
-            
+
         }
 
         void World_OnObjectRemoved(IGameObject obj)
         {
-            
+
         }
 
         void World_OnObjectAdded(IGameObject obj)
         {
-            
+
         }
 
 
@@ -172,9 +172,9 @@ namespace CastleButcher.GameEngine.Graphics
             return exp;
         }
 
-        
 
-        public void SetMaterial(MaterialData material,Material dxMaterial)
+
+        public void SetMaterial(MaterialData material, Material dxMaterial)
         {
             if (material != null)
             {
@@ -203,26 +203,35 @@ namespace CastleButcher.GameEngine.Graphics
 
             }
         }
-
-        public void RenderRD(RenderingData rdata,Matrix world)
-        {
-            for (int i = 0; i < rdata.MeshMaterials.Length; i++)
-            {
-                
-                SetMaterial(rdata.MeshMaterials[i],rdata.MeshDxMaterials[i]);
-                ShaderConstants.World = world;
-                ShaderConstants.SetEffectParameters(currentEffect.DxEffect, currentEffect.ParamHandles);
-
-                currentEffect.DxEffect.Begin(FX.None);
-                currentEffect.DxEffect.BeginPass(0);
-                rdata.DxMesh.DrawSubset(i);
-                currentEffect.DxEffect.EndPass();
-                currentEffect.DxEffect.End();
-            }
-        }
         #endregion
 
         #region Rendering
+        public void RenderRD(RenderingData rdata, Matrix world)
+        {
+            ShaderConstants.World = world;
+            for (int i = 0; i < rdata.MeshMaterials.Length; i++)
+            {
+
+                if (i == 0 || (i > 0 && rdata.MeshMaterials[i - 1] != rdata.MeshMaterials[i]))
+                {
+                    if (i > 0)
+                    {
+                        currentEffect.DxEffect.EndPass();
+                        currentEffect.DxEffect.End();
+                    }
+                    SetMaterial(rdata.MeshMaterials[i], rdata.MeshDxMaterials[i]);
+                    ShaderConstants.SetEffectParameters(currentEffect.DxEffect, currentEffect.ParamHandles);
+                    currentEffect.DxEffect.Begin(FX.None);
+                    currentEffect.DxEffect.BeginPass(0);
+
+                }
+                rdata.DxMesh.DrawSubset(i);
+
+            }
+            currentEffect.DxEffect.EndPass();
+            currentEffect.DxEffect.End();
+        }
+
 
         public void SetEffect(EffectData effect)
         {
@@ -285,7 +294,7 @@ namespace CastleButcher.GameEngine.Graphics
             }
             currentEffect.DxEffect.EndPass();
             currentEffect.DxEffect.End();
-            
+
         }
 
         public void RenderExplosions()
@@ -303,14 +312,14 @@ namespace CastleButcher.GameEngine.Graphics
             {
                 BillboardObject bilb = this.MakeBillboardObject(explosions[i].Position, explosions[i].Size);
 
-                
+
                 currentEffect.DxEffect.SetValue("EmissiveTexture", explosions[i].ExplosionMap.CurrentTexture);
                 ShaderConstants.World = Matrix.Translation((Vector3)bilb.Position);
                 currentEffect.DxEffect.SetValue("WorldViewProjection", ShaderConstants.WorldViewProjection);
                 currentEffect.DxEffect.CommitChanges();
-                
+
                 bilb.Render(Device);
-                
+
 
                 if (explosions[i].ExplosionMap.Running == false)
                 {
@@ -320,7 +329,7 @@ namespace CastleButcher.GameEngine.Graphics
 
             }
             currentEffect.DxEffect.EndPass();
-            
+
             currentEffect.DxEffect.End();
         }
 
@@ -339,7 +348,7 @@ namespace CastleButcher.GameEngine.Graphics
         #region IUpdateable Members
         public bool Update(float timeElapsed)
         {
-            
+
             foreach (Explosion ex in explosions)
             {
                 ex.ExplosionMap.Advance(timeElapsed);
