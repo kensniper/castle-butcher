@@ -96,9 +96,12 @@ namespace Client
                 ChooseTeamForm chooseTeam = new ChooseTeamForm(gameInfoPacket);
                 if (chooseTeam.ShowDialog(this) == DialogResult.OK)
                 {
-                    clientSideNetworking.JoinGame(gameInfoPacket.ServerAddress, chooseTeam.PlayerName, gameInfoPacket.GameId, chooseTeam.TeamId.Value);
-                    gamePlayForm = new GameplayForm(clientSideNetworking);
-                    gamePlayForm.Show();
+                    bool result = clientSideNetworking.JoinGame(gameInfoPacket.ServerAddress, chooseTeam.PlayerName, gameInfoPacket.GameId, chooseTeam.TeamId.Value);
+                    if (result)
+                    {
+                        gamePlayForm = new GameplayForm(clientSideNetworking);
+                        gamePlayForm.Show();
+                    }
                 }
             }
         }
