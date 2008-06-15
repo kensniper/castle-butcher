@@ -19,7 +19,7 @@ namespace CastleButcher.Content
             this.gameTeam = GameTeam.Assassins;
             this.pickupRD = ResourceCache.Instance.GetRenderingData("pipePickup.x");
             this.missileRD = ResourceCache.Instance.GetRenderingData("arrow2.x");
-            this.cameraRD = ResourceCache.Instance.GetRenderingData("handWithCrossbow.x");
+            this.cameraRD = ResourceCache.Instance.GetRenderingData("handwithpipe.x");
             this.weaponType = WeaponType.Ranged;
             this.weaponParams = new WeaponInfo(100, 2f, 100);
             this.flyingObjectParameters = new CastleButcher.GameEngine.PlayerMovementParameters(0, 500);
