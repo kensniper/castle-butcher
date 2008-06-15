@@ -66,12 +66,15 @@ namespace CastleButcher.UI.HUD
 
         public override void Render(Device device, float elapsedTime)
         {
-            base.Render(device, elapsedTime);
-            GUIStyle style = GM.GUIStyleManager.GetStyleByName("PlayerInfo");
+            if (this.IsDisabled == false)
+            {
+                base.Render(device, elapsedTime);
+                GUIStyle style = GM.GUIStyleManager.GetStyleByName("PlayerInfo");
 
-            List<Quad> quads=new List<Quad>();
-            quads.Add(normalQuad);
-            style.Render(device, quads);
+                List<Quad> quads = new List<Quad>();
+                quads.Add(normalQuad);
+                style.Render(device, quads);
+            }
         }
     }
 }

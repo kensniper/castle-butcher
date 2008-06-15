@@ -9,32 +9,39 @@ using CastleButcher.GameEngine;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
-namespace CastleButcher.UI
+namespace CastleButcher.UI.HUD
 {
     class PlayerList : GuiControl
     {
-        List<Player> players=new List<Player>();
+        List<Player> players = new List<Player>();
         int nameX, shipX, fragsX, deathsX;
         int headerY, playerY;
-        List<Quad> headerQuads=new List<Quad>();
-        List<Quad> playerQuads=new List<Quad>();
+        List<Quad> headerQuads = new List<Quad>();
+        List<Quad> playerQuads = new List<Quad>();
 
         RectangleF controlRect;
-
-        public PlayerList(RectangleF rect)
+        GameController gameController;
+        public PlayerList(RectangleF rect, GameController controller)
             : base(rect, GM.GetUniqueName())
         {
+            gameController = controller;
             ProcessRect(rect);
         }
 
+        public void Update()
+        {
+            BuildHeaderQuads();
+            BuildPlayerQuads();
+            
+        }
         public void ProcessRect(RectangleF rect)
         {
             this.controlRect = rect;
             nameX = (int)rect.X;
             headerY = (int)rect.Y;
-            playerY = headerY + 30;
+            playerY = headerY + 70;
 
-            shipX = nameX + 100;
+            shipX = nameX;
             fragsX = shipX + 100;
             deathsX = fragsX + 80;
 
@@ -46,19 +53,19 @@ namespace CastleButcher.UI
         {
             headerQuads.Clear();
             BitmapFont font = GM.FontManager.GetFamily("Arial").GetFont(22);
-            StringBlock b=new StringBlock("PLAYER",new RectangleF(nameX,headerY,100,22),Align.Left,22,
-                ColorValue.FromColor(Color.Yellow),true);
+            StringBlock b = new StringBlock("Zabójcy:" + gameController.AssassinsScore.ToString() + " Rycerze:" + gameController.KnightsScore.ToString(),
+                new RectangleF(nameX, headerY, controlRect.Width, 40), Align.Center, 40,
+                ColorValue.FromColor(Color.Yellow), true);
             headerQuads.AddRange(font.GetProcessedQuads(b));
-
-            //b = new StringBlock("SHIP", new RectangleF(shipX, headerY, 100, 22), Align.Left, 22,
-            //    ColorValue.FromColor(Color.Yellow), true);
-            //headerQuads.AddRange(font.GetProcessedQuads(b));
-
-            b = new StringBlock("FRAGS", new RectangleF(fragsX, headerY, 80, 22), Align.Left, 22,
+            b = new StringBlock("PLAYER", new RectangleF(nameX, headerY + 40, 100, 22), Align.Left, 22,
                 ColorValue.FromColor(Color.Yellow), true);
             headerQuads.AddRange(font.GetProcessedQuads(b));
 
-            b = new StringBlock("DEATHS", new RectangleF(deathsX, headerY, 80, 22), Align.Left, 22,
+            b = new StringBlock("FRAGS", new RectangleF(fragsX, headerY + 40, 80, 22), Align.Left, 22,
+                ColorValue.FromColor(Color.Yellow), true);
+            headerQuads.AddRange(font.GetProcessedQuads(b));
+
+            b = new StringBlock("DEATHS", new RectangleF(deathsX, headerY + 40, 80, 22), Align.Left, 22,
                 ColorValue.FromColor(Color.Yellow), true);
             headerQuads.AddRange(font.GetProcessedQuads(b));
         }
@@ -69,22 +76,33 @@ namespace CastleButcher.UI
             BitmapFont font = GM.FontManager.GetFamily("Arial").GetFont(18);
             StringBlock b;
             int currentY = playerY;
-            foreach (Player p in players)
+            foreach (Player p in World.Instance.Players)
             {
+                
+                Color color;
+                if (p.CharacterClass != null)
+                {
+                    if (p.CharacterClass.GameTeam == GameTeam.Assassins)
+                        color = Color.Green;
+                    else
+                        color = Color.Gray;
+                }
+                else
+                    color = Color.Yellow;
                 b = new StringBlock(p.Name, new RectangleF(nameX, currentY, 100, 20), Align.Left, 18,
-                ColorValue.FromColor(Color.Yellow), true);
+                ColorValue.FromColor(color), true);
                 playerQuads.AddRange(font.GetProcessedQuads(b));
 
                 //b = new StringBlock(p.ShipClass.Name, new RectangleF(shipX, currentY, 100, 20), Align.Left, 18,
                 //ColorValue.FromColor(Color.Yellow), true);
                 //playerQuads.AddRange(font.GetProcessedQuads(b));
 
-                b = new StringBlock("FRAGS", new RectangleF(fragsX, currentY, 80, 20), Align.Left, 18,
-                    ColorValue.FromColor(Color.Yellow), true);
+                b = new StringBlock(p.Frags.ToString(), new RectangleF(fragsX, currentY, 80, 20), Align.Left, 18,
+                    ColorValue.FromColor(color), true);
                 playerQuads.AddRange(font.GetProcessedQuads(b));
 
-                b = new StringBlock("DEATHS", new RectangleF(deathsX, currentY, 80, 20), Align.Left, 18,
-                    ColorValue.FromColor(Color.Yellow), true);
+                b = new StringBlock(p.Deaths.ToString(), new RectangleF(deathsX, currentY, 80, 20), Align.Left, 18,
+                    ColorValue.FromColor(color), true);
                 playerQuads.AddRange(font.GetProcessedQuads(b));
 
                 currentY += 20;

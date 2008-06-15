@@ -44,7 +44,7 @@ namespace CastleButcher.GameEngine.Weapons
                 }
                 else
                     currentType = value;
-                
+
             }
         }
 
@@ -99,14 +99,10 @@ namespace CastleButcher.GameEngine.Weapons
             currentType = WeaponType.Melee;
             if (melee.Count == 0)
             {
-                if (ranged.Count > 0)
-                    SelectNextRanged();
-                else
-                {
-                    if (OnWeaponChanged != null)
-                        OnWeaponChanged(null);
-                    return;
-                }
+
+                if (OnWeaponChanged != null)
+                    OnWeaponChanged(null);
+                return;
             }
             int oldMelee = currentMelee;
             currentMelee++;
@@ -125,14 +121,10 @@ namespace CastleButcher.GameEngine.Weapons
             currentType = WeaponType.Melee;
             if (melee.Count == 0)
             {
-                if (ranged.Count > 0)
-                    SelectNextRanged();
-                else
-                {
-                    if (OnWeaponChanged != null)
-                        OnWeaponChanged(null);
-                    return;
-                }
+
+                if (OnWeaponChanged != null)
+                    OnWeaponChanged(null);
+                return;
             }
             int oldMelee = currentMelee;
             currentMelee--;
@@ -153,7 +145,10 @@ namespace CastleButcher.GameEngine.Weapons
             if (ranged.Count == 0)
             {
                 if (melee.Count != 0)
+                {
                     SelectNextMelee();
+                    return;
+                }
                 else
                 {
                     if (OnWeaponChanged != null)
@@ -191,7 +186,10 @@ namespace CastleButcher.GameEngine.Weapons
             if (ranged.Count == 0)
             {
                 if (melee.Count != 0)
+                {
                     SelectPreviousMelee();
+                    return;
+                }
                 else
                 {
                     if (OnWeaponChanged != null)
@@ -202,7 +200,7 @@ namespace CastleButcher.GameEngine.Weapons
             }
             int oldRanged = currentRanged;
             currentRanged--;
-            if (currentRanged <= 0)
+            if (currentRanged < 0)
             {
                 currentRanged = ranged.Count - 1;
             }

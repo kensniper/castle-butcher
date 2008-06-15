@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AnimatedMapData>
+	<AnimationData duration="1.5" loop="false"/>
+	<MapFile file="explosion1\exp1.dds"/>	
+	<MapFile file="explosion1\exp2.dds"/>
+	<MapFile file="explosion1\exp5.dds"/>
+	<MapFile file="explosion1\exp6.dds"/>
+	<MapFile file="explosion1\exp3.dds"/>
+	<MapFile file="explosion1\exp4.dds"/>
+	<MapFile file="explosion1\exp7.dds"/>
+	<MapFile file="explosion1\exp8.dds"/>
+	<MapFile file="explosion1\exp9.dds"/>
+	<MapFile file="explosion1\exp10.dds"/>
+	<MapFile file="explosion1\exp13.dds"/>
+	<MapFile file="explosion1\exp14.dds"/>
+	<MapFile file="explosion1\exp11.dds"/>
+	<MapFile file="explosion1\exp12.dds"/>
+	<MapFile file="explosion1\exp15.dds"/>
+	<MapFile file="explosion1\exp16.dds"/>
+</AnimatedMapData>

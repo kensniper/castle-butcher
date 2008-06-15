@@ -74,6 +74,7 @@ namespace CastleButcher.GameEngine
         }
         public override void EndRound(GameTeam defeatedTeam)
         {
+            base.EndRound(defeatedTeam);
             World.Instance.Paused = true;
             gameStatus = GameStatus.WaitingForStart;
         }

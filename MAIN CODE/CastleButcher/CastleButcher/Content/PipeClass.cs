@@ -8,31 +8,32 @@ using CastleButcher.GameEngine;
 using Framework.MyMath;
 using Framework.Physics;
 
-
 namespace CastleButcher.Content
 {
-    class SwordClass:WeaponClass
+    public class PipeClass : WeaponClass
     {
-        public SwordClass()
+
+        public PipeClass()
         {
-            name = "Sword";
+            name = "Crossbow";
             this.gameTeam = GameTeam.Knights;
-            this.pickupRD = null;
-            this.missileRD = null;
-            this.weaponType = WeaponType.Melee;
-            this.weaponParams = new WeaponInfo(30, 0.5f, 100);
+            this.pickupRD = ResourceCache.Instance.GetRenderingData("crossbowContainer.x");
+            this.missileRD = ResourceCache.Instance.GetRenderingData("arrow2.x");
+            this.cameraRD = ResourceCache.Instance.GetRenderingData("handWithCrossbow.x");
+            this.weaponType = WeaponType.Ranged;
+            this.weaponParams = new WeaponInfo(100, 2f, 100);
             this.flyingObjectParameters = new CastleButcher.GameEngine.PlayerMovementParameters(0, 500);
             this.collisionDataType = Framework.Physics.CollisionDataType.CollisionSphere;
             this.collisionData = new CollisionSphere(4);
-            this.ammoInBox = 1;
-            this.pickupReuseTime=2;
+            this.ammoInBox = 5;
+            this.pickupReuseTime = 2;
 
         }
 
         public override CastleButcher.GameEngine.IMissile GetMissile(object owner, Framework.MyMath.MyVector position, Framework.MyMath.MyQuaternion orientation)
         {
-            IMissile missile = new Arrow(owner, this, position, orientation, (new MyVector(0, 0, -1)).Rotate(orientation) * this.flyingObjectParameters.MaxVelocity);
-            
+            IMissile missile = new Arrow(owner, this, new MyVector(position.X, position.Y - 1, position.Z), orientation, (new MyVector(0, 0, -1)).Rotate(orientation) * this.flyingObjectParameters.MaxVelocity);
+
             return missile;
         }
     }

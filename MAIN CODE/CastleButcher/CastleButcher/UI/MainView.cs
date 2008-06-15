@@ -62,7 +62,7 @@ namespace CastleButcher.UI
 
             worldLoaded = true;
 
-            meshWithWeapon = ResourceCache.Instance.GetRenderingData("handWithCrossbow.x");
+            //meshWithWeapon = ResourceCache.Instance.GetRenderingData("handWithCrossbow.x");
             //slay = new SteeringLayer(player);
 
             gameController.Init();
@@ -75,6 +75,8 @@ namespace CastleButcher.UI
             this.renderer = new Renderer(device);
             renderer.LoadData();
 
+            World.Instance.OnGrenadeHit += new GrenadeEventHandler(Instance_OnGrenadeHit);
+
 
 
             //ParticleEmitter em = new EngineEmitter(renderer.ParticleSystem);
@@ -86,6 +88,11 @@ namespace CastleButcher.UI
             GM.AppWindow.AddKeyLock(KeyMapping.Default.NextWeapon);
             GM.AppWindow.AddKeyLock(KeyMapping.Default.PreviousWeapon);
 
+        }
+
+        void Instance_OnGrenadeHit(Grenade grenade, MyVector position)
+        {
+            renderer.MakeExplosion(position, grenade.ImpactDamage);
         }
 
         private void InitRound()
@@ -103,6 +110,9 @@ namespace CastleButcher.UI
 
                 gameController.Update(elapsedTime);
                 renderer.Update(elapsedTime);
+
+                //Object
+                
 
             }
             else
@@ -206,7 +216,7 @@ namespace CastleButcher.UI
             }
 
             ////effects
-            //renderer.RenderExplosions();
+            renderer.RenderExplosions();
             //renderer.RenderParticles();
 
 
@@ -218,10 +228,12 @@ namespace CastleButcher.UI
                 renderer.ShaderConstants.SetCamera(new MyVector(0, 0, 0), new MyVector(0, 1, 0), new MyVector(0, 0, -1));
                 renderer.ShaderConstants.SetMatrices(Matrix.Identity, Matrix.Identity,
                 device.Transform.Projection);
-                renderer.RenderRD(meshWithWeapon, Matrix.Translation(player.PlayerControl.CameraShaker.Position.X,
+                renderer.RenderRD(player.CurrentCharacter.Weapons.CurrentWeapon.WeaponClass.CameraRenderingData, Matrix.Translation(player.PlayerControl.CameraShaker.Position.X,
                                                     player.PlayerControl.CameraShaker.Position.Y,
                                                     player.PlayerControl.CameraShaker.Position.Z));
             }
+
+            
 
 
 

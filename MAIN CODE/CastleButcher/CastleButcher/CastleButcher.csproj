@@ -101,8 +101,10 @@
     <Compile Include="AppControl.cs" />
     <Compile Include="Content\AssassinClass.cs" />
     <Compile Include="Content\CrossbowClass.cs" />
+    <Compile Include="Content\GrenadeClass.cs" />
     <Compile Include="Content\KnightClass.cs" />
-    <Compile Include="Content\SwordClass.cs" />
+    <Compile Include="Content\FireballClass.cs" />
+    <Compile Include="Content\PipeClass.cs" />
     <Compile Include="Framework\Camera.cs" />
     <Compile Include="Framework\DefaultValues.cs" />
     <Compile Include="Framework\Fonts\BitmapFont.cs" />
@@ -202,6 +204,7 @@
     <Compile Include="GameEngine\Resources\ResourceCache.cs" />
     <Compile Include="GameEngine\CharacterParameters.cs" />
     <Compile Include="GameEngine\CharacterController.cs" />
+    <Compile Include="GameEngine\Weapons\Grenade.cs" />
     <Compile Include="GameEngine\Weapons\SwordBlade.cs" />
     <Compile Include="UI\JoinGameDialog.cs" />
     <Compile Include="UI\SteeringLayer.cs" />
@@ -265,7 +268,7 @@
     <Compile Include="UI\MainView.cs" />
     <Compile Include="UI\NewGameDialog.cs" />
     <Compile Include="UI\PlayerControlLayer.cs" />
-    <Compile Include="UI\PlayerList.cs" />
+    <Compile Include="UI\HUD\PlayerList.cs" />
     <Compile Include="UI\Shaker.cs" />
     <Compile Include="UI\UICharacterController.cs" />
     <Compile Include="UI\UIPlayer.cs" />

@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.DirectX.Direct3D;
 using System.Xml;
 using System.Globalization;
+using Framework;
 
 namespace CastleButcher.GameEngine.Resources
 {
@@ -102,7 +103,7 @@ namespace CastleButcher.GameEngine.Resources
     }
 
 
-    public class MapAnimation : AnimationInstance
+    public class MapAnimation : AnimationInstance,IMapData,IUpdateable
     {
         AnimatedMapData map;
 
@@ -158,6 +159,25 @@ namespace CastleButcher.GameEngine.Resources
         }
 
 
+
+        #region IMapData Members
+
+        public Texture DxTexture
+        {
+            get { return CurrentTexture; }
+        }
+
+        #endregion
+
+        #region IUpdateable Members
+
+        public bool Update(float timeElapsed)
+        {
+            Advance(timeElapsed);
+            return true;
+        }
+
+        #endregion
     }
 
     

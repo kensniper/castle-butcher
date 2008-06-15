@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Framework.Physics;
@@ -9,15 +9,17 @@ using Framework;
 
 namespace CastleButcher.GameEngine.Weapons
 {
-    class Arrow : PointMass, IMissile, ITemporaryObject, IGameObject
+    public class Grenade : PointMass, IMissile, ITemporaryObject, IGameObject
     {
         object owner;
         WeaponClass weaponClass;
 
         float remainingTime;
-        static CollisionSphere collisionSphere = new CollisionSphere(3);
+        int impactDamage;
 
-        public Arrow(object owner, WeaponClass weaponClass, MyVector position, MyQuaternion orientation, MyVector velocity)
+        CollisionSphere collisionSphere = new CollisionSphere(3);
+
+        public Grenade(float mass,object owner, WeaponClass weaponClass, MyVector position, MyQuaternion orientation, MyVector velocity)
             : base(new PhysicalProperties(0, 0, 0))
         {
             this.owner = owner;
@@ -28,9 +30,10 @@ namespace CastleButcher.GameEngine.Weapons
             data.Position = position;
             data.Orientation = orientation;
             data.Velocity = velocity;
-            data.Mass = 0;
+            data.Mass = mass;
             this.PointMassData = data;
             remainingTime = weaponClass.WeaponParameters.ParticleLifetime;
+            impactDamage = weaponClass.WeaponParameters.HitDamage;
         }
 
         #region IMissile Members
@@ -42,14 +45,18 @@ namespace CastleButcher.GameEngine.Weapons
 
         public int ImpactDamage
         {
-            get { return weaponClass.WeaponParameters.HitDamage; }
+            get { return impactDamage; }
+            set
+            {
+                impactDamage = value;
+            }
         }
 
         #endregion
 
         public override float BoundingSphereRadius
         {
-            get { return collisionSphere.Radius; }
+            get { return 0; }
         }
 
         public override CollisionDataType CollisionDataType
@@ -68,7 +75,7 @@ namespace CastleButcher.GameEngine.Weapons
 
         public string Name
         {
-            get { return "Arrow from " + weaponClass.Name; }
+            get { return "Grenade from " + weaponClass.Name; }
         }
 
         public IPhysicalObject PhysicalData
