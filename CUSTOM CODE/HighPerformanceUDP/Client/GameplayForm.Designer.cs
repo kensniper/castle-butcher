@@ -40,6 +40,7 @@
             this.txtEvents = new System.Windows.Forms.TextBox();
             this.txtX = new System.Windows.Forms.TextBox();
             this.txtY = new System.Windows.Forms.TextBox();
+            this.txtSend = new System.Windows.Forms.TextBox();
             this.splitContainerMain.Panel1.SuspendLayout();
             this.splitContainerMain.Panel2.SuspendLayout();
             this.splitContainerMain.SuspendLayout();
@@ -113,7 +114,6 @@
             // 
             this.splitContainerMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainerMain.IsSplitterFixed = true;
             this.splitContainerMain.Location = new System.Drawing.Point(0, 0);
             this.splitContainerMain.Name = "splitContainerMain";
             this.splitContainerMain.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -124,6 +124,7 @@
             // 
             // splitContainerMain.Panel2
             // 
+            this.splitContainerMain.Panel2.Controls.Add(this.txtSend);
             this.splitContainerMain.Panel2.Controls.Add(this.txtX);
             this.splitContainerMain.Panel2.Controls.Add(this.txtY);
             this.splitContainerMain.Panel2.Controls.Add(this.btnRight);
@@ -132,8 +133,8 @@
             this.splitContainerMain.Panel2.Controls.Add(this.btnJump);
             this.splitContainerMain.Panel2.Controls.Add(this.btnDown);
             this.splitContainerMain.Panel2.Controls.Add(this.btnLeft);
-            this.splitContainerMain.Size = new System.Drawing.Size(398, 283);
-            this.splitContainerMain.SplitterDistance = 205;
+            this.splitContainerMain.Size = new System.Drawing.Size(550, 369);
+            this.splitContainerMain.SplitterDistance = 233;
             this.splitContainerMain.TabIndex = 3;
             // 
             // splitContainerUp
@@ -149,8 +150,8 @@
             // splitContainerUp.Panel2
             // 
             this.splitContainerUp.Panel2.Controls.Add(this.txtEvents);
-            this.splitContainerUp.Size = new System.Drawing.Size(398, 205);
-            this.splitContainerUp.SplitterDistance = 196;
+            this.splitContainerUp.Size = new System.Drawing.Size(550, 233);
+            this.splitContainerUp.SplitterDistance = 270;
             this.splitContainerUp.TabIndex = 0;
             // 
             // dgData
@@ -162,7 +163,7 @@
             this.dgData.Location = new System.Drawing.Point(0, 0);
             this.dgData.Name = "dgData";
             this.dgData.ReadOnly = true;
-            this.dgData.Size = new System.Drawing.Size(196, 205);
+            this.dgData.Size = new System.Drawing.Size(270, 233);
             this.dgData.TabIndex = 0;
             // 
             // txtEvents
@@ -173,7 +174,7 @@
             this.txtEvents.Name = "txtEvents";
             this.txtEvents.ReadOnly = true;
             this.txtEvents.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtEvents.Size = new System.Drawing.Size(198, 205);
+            this.txtEvents.Size = new System.Drawing.Size(276, 233);
             this.txtEvents.TabIndex = 0;
             // 
             // txtX
@@ -194,11 +195,21 @@
             this.txtY.TabIndex = 3;
             this.txtY.Text = "0";
             // 
+            // txtSend
+            // 
+            this.txtSend.Location = new System.Drawing.Point(3, 72);
+            this.txtSend.Multiline = true;
+            this.txtSend.Name = "txtSend";
+            this.txtSend.ReadOnly = true;
+            this.txtSend.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtSend.Size = new System.Drawing.Size(544, 57);
+            this.txtSend.TabIndex = 4;
+            // 
             // GameplayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(398, 283);
+            this.ClientSize = new System.Drawing.Size(550, 369);
             this.Controls.Add(this.splitContainerMain);
             this.Name = "GameplayForm";
             this.Text = "GameplayForm";
@@ -230,5 +241,6 @@
         private System.Windows.Forms.TextBox txtEvents;
         private System.Windows.Forms.TextBox txtX;
         private System.Windows.Forms.TextBox txtY;
+        private System.Windows.Forms.TextBox txtSend;
     }
 }

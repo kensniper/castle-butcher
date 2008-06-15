@@ -144,7 +144,7 @@ namespace UnitTesting
             testClientPacket2.Health = 100;
             testClientPacket2.AckIds.Add(412);
             testClientPacket2.AckIds.Add(456);
-
+            testClientPacket2.Timestamp = DateTime.Now;
             Console.WriteLine(testClientPacket2);
             PlayerInfo tmp5 = new PlayerInfo(testClientPacket2.ToByte());
             Console.WriteLine("========================================");
