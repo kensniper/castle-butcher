@@ -174,33 +174,7 @@ namespace CastleButcher.UI
             //device.RenderState.FillMode = FillMode.Point;
             device.RenderState.CullMode = Cull.Clockwise;
 
-            //****************************************************
-            //test
-            //renderer.ShaderConstants.World = Matrix.Identity;
-            //for (int i = 0; i < dxMaterials.Length; i++)
-            //{
-            //    if (i==0 || (i > 0 && materials[i-1]!=materials[i]))
-            //    {
-            //        if (i > 0)
-            //        {
-            //            renderer.currentEffect.DxEffect.EndPass();
-            //            renderer.currentEffect.DxEffect.End();
-            //        }
-            //        renderer.SetMaterial(materials[i], dxMaterials[i]);
-
-            //        renderer.ShaderConstants.SetEffectParameters(renderer.currentEffect.DxEffect, renderer.currentEffect.ParamHandles);
-            //        renderer.currentEffect.DxEffect.Begin(FX.None);
-            //        renderer.currentEffect.DxEffect.BeginPass(0);
-
-            //    }
-
-
-            //    mesh.DrawSubset(i);
-
-            //}
-            //renderer.currentEffect.DxEffect.EndPass();
-            //renderer.currentEffect.DxEffect.End();
-
+           
             //*******************************************************
             foreach (IGameObject obj in World.Instance.GameObjects)
             {
@@ -209,6 +183,7 @@ namespace CastleButcher.UI
                     if (obj == player.CurrentCharacter) continue;
                     if (obj is Character)
                     {
+                        
                         renderer.RenderRD(obj.RenderingData, /*Matrix.Translation(0,-(obj as Character).YMotionToCompensate,0)*/obj.RenderingData.CustomTransform * obj.Transform);
                     }
                     else

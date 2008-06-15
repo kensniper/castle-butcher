@@ -109,6 +109,7 @@ namespace CastleButcher.GameEngine
 
         protected override void OnPlayerKilled(Player player)
         {
+            
             bool allDead = true;
             if (player.CharacterClass.GameTeam == GameTeam.Assassins)
             {

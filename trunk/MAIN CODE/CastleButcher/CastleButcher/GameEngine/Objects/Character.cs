@@ -69,6 +69,18 @@ namespace CastleButcher.GameEngine
                 lookOrientation = value;
             }
         }
+        MyQuaternion walkOrientation;
+        public MyQuaternion WalkOrientation
+        {
+            get
+            {
+                return walkOrientation;
+            }
+            set
+            {
+                walkOrientation = value;
+            }
+        }
 
 
         public Character(Player player, CharacterClass characterClass, MyVector position, MyQuaternion orientation)
@@ -253,7 +265,7 @@ namespace CastleButcher.GameEngine
             {
                 if (player.IsAlive)
                 {
-                    return characterClass.RenderingData;
+                    return characterClass.CharRenderingData(this);
                 }
                 //else
                 return null;
@@ -264,7 +276,7 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                return Matrix.RotationQuaternion((Quaternion)this.Orientation) * Matrix.Translation(Position.X, Position.Y, Position.Z);
+                return Matrix.RotationQuaternion((Quaternion)this.WalkOrientation) * Matrix.Translation(Position.X, Position.Y, Position.Z);
             }
         }
 
