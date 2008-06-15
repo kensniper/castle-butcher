@@ -296,7 +296,7 @@ namespace Client
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.ToString());
             }
             //object[] param = { e.Graphics };  
             //DoInvoke inv = new DoInvoke(DoStuff);

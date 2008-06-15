@@ -12,7 +12,7 @@ namespace UDPClientServerCommons.Interfaces
     public interface IServer
     {
         /// <summary>
-        /// Ip of the server
+        /// Ip of the server, null if error
         /// </summary>
         IPAddress MyIp
         {
@@ -38,14 +38,14 @@ namespace UDPClientServerCommons.Interfaces
         /// <param name="gameOptions"> game parameters</param>
         /// <param name="dedicatedServer">is server going to be dedicated</param>
         /// <param name="Me">if server is not dedicated - playerData is needed</param>
-        /// <returns></returns>
+        /// <returns>Server Adress or null if error occured</returns>
         IPEndPoint StartLANServer(GameOptions gameOptions, bool dedicatedServer, Interfaces.IPlayerMe Me);
 
         /// <summary>
         /// Starts Game - starts sending player info
         /// todo: ignore join packets after game starts?
         /// </summary>
-        /// <returns></returns>
+        /// <returns>true if everything went ok</returns>
         bool StartGame();
 
         /// <summary>

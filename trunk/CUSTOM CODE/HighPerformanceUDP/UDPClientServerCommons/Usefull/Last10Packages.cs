@@ -34,9 +34,9 @@ namespace UDPClientServerCommons.Usefull
             get {
                 lock (packetLock)
                 {
-                    if (!packets.ContainsKey(last10.Counter))
+                    if (!packets.ContainsKey(last10.GetPrevoius(1)))
                         return null;
-                    return (Interfaces.IPacket)packets[last10.Counter].Clone();
+                    return (Interfaces.IPacket)packets[last10.GetPrevoius(1)].Clone();
                 }
             }
         }

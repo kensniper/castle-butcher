@@ -19,7 +19,7 @@ namespace UDPClientServerCommons.Interfaces
         /// <param name="PlayerName">name of joining player</param>
         /// <param name="GameId">game id</param>
         /// <returns>Player Id</returns>
-        void JoinGame(IPEndPoint ServerIp, string PlayerName, ushort GameId, ushort TeamId);
+        bool JoinGame(IPEndPoint ServerIp, string PlayerName, ushort GameId, ushort TeamId);
 
         /// <summary>
         /// tells if receiving broadcast about lan games is on
@@ -28,11 +28,12 @@ namespace UDPClientServerCommons.Interfaces
         {
             get;
         }
-        
+
         /// <summary>
         /// Starts looking for current lan games by receiving lan broadcasts
         /// </summary>
-        void StartLookingForLANGames();
+        /// <returns>true if everything went ok</returns>
+        bool StartLookingForLANGames();
 
         /// <summary>
         /// Says when the game has started, (everyone joined and playing)
@@ -53,7 +54,7 @@ namespace UDPClientServerCommons.Interfaces
         }
 
         /// <summary>
-        /// Current Information about lan games in progress
+        /// Current Information about lan games in progress,empty list if not found
         /// </summary>
         List<UDPClientServerCommons.Packets.GameInfoPacket> CurrentLanGames
         {

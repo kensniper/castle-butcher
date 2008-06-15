@@ -16,6 +16,8 @@ namespace Client
         private delegate void RefreshDelegate();
         private bool joinedGame = false;
 
+        private GameplayForm gamePlayForm;
+
         public StartForm()
         {
             InitializeComponent();
@@ -37,10 +39,12 @@ namespace Client
         {
             clientSideNetworking = new UDPClientServerCommons.Client.ClientSide(Int32.Parse(txtPort.Text));
             txtPort.ReadOnly = true;
-            clientSideNetworking.StartLookingForLANGames();
-            btnStart.Enabled = false;
-            btnRefresh.Enabled = true;
-            clientSideNetworking.PacketReceivedEvent += new UDPClientServerCommons.Client.ClientSide.packetReceived(clientSideNetworking_PacketReceivedEvent);
+            if (clientSideNetworking.StartLookingForLANGames()==true)
+            {
+                btnStart.Enabled = false;
+                btnRefresh.Enabled = true;
+                clientSideNetworking.PacketReceivedEvent += new UDPClientServerCommons.Client.ClientSide.packetReceived(clientSideNetworking_PacketReceivedEvent);
+            }
         }
 
         private void RefreshGrid()
@@ -93,12 +97,15 @@ namespace Client
                 if (chooseTeam.ShowDialog(this) == DialogResult.OK)
                 {
                     clientSideNetworking.JoinGame(gameInfoPacket.ServerAddress, chooseTeam.PlayerName, gameInfoPacket.GameId, chooseTeam.TeamId.Value);
+                    gamePlayForm = new GameplayForm(clientSideNetworking);
+                    gamePlayForm.Show();
                 }
             }
         }
 
         private void StartForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if(clientSideNetworking!=null)
             clientSideNetworking.Dispose();
         }
 
@@ -119,6 +126,12 @@ namespace Client
             {
                 MessageBox.Show(ex.ToString());   
             }
+        }
+
+        private void splitContainer1_Panel2_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            StartForm st = new StartForm();
+            st.Show();
         }
     }
 }
