@@ -117,7 +117,6 @@ namespace CastleButcher.GameEngine
                     SoundSystem.SoundEngine.StopSteps(footsoundDescriptor);
                     footsoundDescriptor = null;
                 }
-                //ship.AutoPilot.SetVelocity = velocity * ship.EngineParameters.MaxVelocity;
             }
         }
 
@@ -224,6 +223,10 @@ namespace CastleButcher.GameEngine
         {
             if (character.HasGroundContact)
             {
+
+                SoundSystem.SoundEngine.StopSteps(footsoundDescriptor);
+                footsoundDescriptor = null;
+
                 MyVector v = character.Velocity;
                 v.Y += GameSettings.Default.JumpSpeed;
                 character.Velocity = v;
@@ -340,13 +343,22 @@ namespace CastleButcher.GameEngine
             try
             {
                 if (footsoundDescriptor != null)
+                {
                     footsoundDescriptor.Position = (Vector3)character.Position;
+
+                   
+                }
+
+                
             }
             catch (NullReferenceException)
             {
                 //zdarza sie...
             }
-
+            if (character.HasGroundContact && Velocity != 0 && footsoundDescriptor == null)
+            {
+                footsoundDescriptor = SoundSystem.SoundEngine.StartSteps(SoundSystem.Enums.SoundTypes.stepsInside1, (Vector3)character.Position);
+            }
 
             //strafing
             if (strafeX * maxStrafeSpeed != strafeSpeedX)
