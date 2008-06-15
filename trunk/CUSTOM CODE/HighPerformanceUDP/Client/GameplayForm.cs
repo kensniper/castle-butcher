@@ -144,6 +144,8 @@ namespace Client
                     }
                 }
             }
+            else
+                MessageBox.Show("was null");
         }
 
         private void RefreshGameplayEvents(object obj)
@@ -153,7 +155,7 @@ namespace Client
             {
                 for (int i = 0; i < events.Count; i++)
                 {
-                    txtEvents.Text += txtEvents.Text + System.Environment.NewLine +
+                    txtEvents.Text = txtEvents.Text + System.Environment.NewLine +
                         "\t GameplayEvent " + events[i].GameplayEventType.ToString() + " player + " + events[i].PlayerId.ToString() + " timestamp " + events[i].Timestamp.ToShortTimeString();
                 }
             }
