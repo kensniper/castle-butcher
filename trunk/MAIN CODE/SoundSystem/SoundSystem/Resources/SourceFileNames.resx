@@ -291,4 +291,7 @@
   <data name="defeat" xml:space="preserve">
     <value>Defeat.wav</value>
   </data>
+  <data name="explode" xml:space="preserve">
+    <value>Explode.wav</value>
+  </data>
 </root>
