@@ -53,7 +53,7 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                return assassinsScore;
+                return knightsScore;
             }
         }
 
