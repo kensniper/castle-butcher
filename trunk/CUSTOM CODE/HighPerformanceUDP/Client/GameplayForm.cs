@@ -144,6 +144,10 @@ namespace Client
                             info = tse.GameEventType.ToString() + "teamName " + tse.TeamName + " id " + tse.TeamId.ToString() + " scored " + (tse.CurrentScoreField - tse.OldScore).ToString();
                             break;
                     }
+                    txtEvents.Text = txtEvents.Text + System.Environment.NewLine +
+                        "GameEvent " + info;
+                    txtEvents.Select(txtEvents.Text.Length - 1, 1);
+                    txtEvents.ScrollToCaret();
                 }
             }
             else
@@ -159,6 +163,8 @@ namespace Client
                 {
                     txtEvents.Text = txtEvents.Text + System.Environment.NewLine +
                         "\t GameplayEvent " + events[i].GameplayEventType.ToString() + " player + " + events[i].PlayerId.ToString() + " timestamp " + events[i].Timestamp.ToShortTimeString();
+                    txtEvents.Select(txtEvents.Text.Length - 1, 1);
+                    txtEvents.ScrollToCaret();
                 }
             }
         }
