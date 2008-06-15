@@ -61,6 +61,7 @@ namespace SoundSystem.Enums
         fanfare1,
         fanfare2,
         fanfare3,
-        fanfare4
+        fanfare4,
+        defeat
     }
 }

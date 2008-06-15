@@ -288,4 +288,7 @@
   <data name="welcomeMusic" xml:space="preserve">
     <value>CastleButcher.mp3</value>
   </data>
+  <data name="defeat" xml:space="preserve">
+    <value>Defeat.wav</value>
+  </data>
 </root>

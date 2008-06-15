@@ -223,6 +223,15 @@ namespace SoundSystem.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Defeat.wav.
+        /// </summary>
+        internal static string defeat {
+            get {
+                return ResourceManager.GetString("defeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CastleButcher.mp3.
         /// </summary>
         internal static string endingMusic {
