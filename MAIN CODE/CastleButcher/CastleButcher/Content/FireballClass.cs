@@ -38,8 +38,8 @@ namespace CastleButcher.Content
             animD.Start();
             animD.Loop = true;
             MapAnimation animN = animatedMapDataN.GetAnimationInstance();
-            animD.Start();
-            animD.Loop = true;
+            animN.Start();
+            animN.Loop = true;
             missileRD.MeshMaterials[0] = new MaterialData(animD, animN, null,  new Microsoft.DirectX.Direct3D.Material());
             cameraRD.MeshMaterials[0] = missileRD.MeshMaterials[0];
             GM.AppWindow.AddUpdateableItem(animD as IUpdateable);
