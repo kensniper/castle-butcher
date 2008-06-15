@@ -122,7 +122,7 @@ namespace UDPClientServerCommons.Client
                 if (packet != null && packet.PacketType == PacketTypeEnumeration.GameInfoPacket)
                 {
                     GameInfoPacket gameInfoPacket = (GameInfoPacket)packet;
-                    lock (gameInfoPacket)
+                    lock (gameInfoPacketsLock)
                     {
                         if (gameInfoPackets.ContainsKey(gameInfoPacket.GameId))
                             gameInfoPackets[gameInfoPacket.GameId].AddPacket(gameInfoPacket);
@@ -183,6 +183,7 @@ namespace UDPClientServerCommons.Client
                                 return;
                             }
                         }
+
                         List<Interfaces.IGameplayEvent> gameplayEvents = GameEvents.GameEventExtractor.GetGameplayEvents((ServerPacket)packet, (ServerPacket)last10Packeges.LastPacket, playerIdField);
                         lock (gameplayEventListLock)
                         {

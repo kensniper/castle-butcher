@@ -27,7 +27,7 @@ namespace UDPClientServerCommons.Server
 
         //public AddMessageDelegate AddMessageToServer;
 
-        private AddMessageDelegate GetMessageFromServer;
+        public AddMessageDelegate GetMessageFromServer;
 
         private bool gameIsRunningAsDedicatedServer = true;
 
@@ -390,7 +390,7 @@ namespace UDPClientServerCommons.Server
         public void UpdatePlayerData(UDPClientServerCommons.Interfaces.IPlayerDataWrite playerData)
         {
             Usefull.PlayerData pdata = (Usefull.PlayerData)playerData;
-            lock (clientPacket)
+            lock (clientPacketLock)
             {
                 try
                 {

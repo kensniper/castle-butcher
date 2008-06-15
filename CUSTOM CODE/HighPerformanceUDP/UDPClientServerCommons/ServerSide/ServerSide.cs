@@ -222,7 +222,7 @@ namespace UDPClientServerCommons.Server
             {
                 // adding client info to server packet
                 ClientPacket cp = (ClientPacket)packet;
-                lock (serverPacket)
+                lock (serverPacketLock)
                 {
                     for (int i = 0; i < serverPacket.PlayerInfoList.Count; i++)
                         if (serverPacket.PlayerInfoList[i].PlayerId == cp.PlayerId)
@@ -281,6 +281,7 @@ namespace UDPClientServerCommons.Server
                                 buff.RemoteEndPoint = cliendAdressList[i];
                                 base.AsyncBeginSend(buff);
                             }
+                            clientForServer.GetMessageFromServer(gameInfoPacket);
                             // we send every 10 ticks = every second
                             gameInfoPacketSendCounter = 10;
                         }
@@ -305,7 +306,7 @@ namespace UDPClientServerCommons.Server
                                 buff.RemoteEndPoint = cliendAdressList[i];
                                 base.AsyncBeginSend(buff);
                             }
-
+                            clientForServer.GetMessageFromServer(gameInfoPacket);
                             if (cliendAdressList.Count > 0)
                             {
                                 if (lastPackages.ContainsKey(last10.Counter))
@@ -342,7 +343,7 @@ namespace UDPClientServerCommons.Server
                     buff.RemoteEndPoint = cliendAdressList[i];
                     base.AsyncBeginSend(buff);
                 }
-                
+                clientForServer.GetMessageFromServer(serverPacket);
                     //clear client events ??
                 for (int k = 0; k < serverPacket.PlayerInfoList.Count; k++)
                 {
@@ -477,6 +478,10 @@ namespace UDPClientServerCommons.Server
                                             clientPackagesDictionary[clientPacket.PlayerId].AddPacket(clientPacket);
                                             packetOk = true;
                                         }
+                                        else
+                                        {
+                                            Diagnostic.NetworkingDiagnostics.Logging.Error("Old ClientPacket was received");
+                                        }
                                 }
                                 if(packetOk)
                                 lock (serverPacketLock)
@@ -485,6 +490,8 @@ namespace UDPClientServerCommons.Server
                                     {
                                         if (clientPacket.PlayerId == serverPacket.PlayerInfoList[i].PlayerId)
                                         {
+                                            if (clientPacket.PlayerJumping || clientPacket.PlayerShooting)
+                                                Diagnostic.NetworkingDiagnostics.Logging.Warn(" Packet with events received " + clientPacket.ToString());
                                             // here we need to validate what Client send us !!!!!!
                                             // todo: validation
                                             serverPacket.PlayerInfoList[i] = UDPClientServerCommons.Translator.TranslateBetweenClientPacketAndPlayerInfo(clientPacket);
