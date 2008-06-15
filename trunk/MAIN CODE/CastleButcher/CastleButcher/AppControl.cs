@@ -52,7 +52,7 @@ namespace CastleButcher
             if (gameController != null)
                 gameController.EndGame();
             waitingForJoin = true;
-            JoinGameData data = new JoinGameData();
+            JoinGameData data = (JoinGameData)d;
             ProgressReporter reporter = new ProgressReporter();
             Thread bkgLoader = new Thread(new ParameterizedThreadStart(delegate(object o)
             {

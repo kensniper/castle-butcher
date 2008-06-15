@@ -27,6 +27,7 @@ namespace CastleButcher.UI
             this.controller = controller;
             this.player = player;
             this.locksMouse = true;
+            this.locksKeyboard = false;
             float x = GM.AppWindow.GraphicsParameters.WindowSize.Width / 2;
             float y = GM.AppWindow.GraphicsParameters.WindowSize.Height - 300;
 

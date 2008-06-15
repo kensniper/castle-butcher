@@ -7,6 +7,7 @@ using Framework;
 using System.IO;
 using CastleButcher.GameEngine;
 using UDPClientServerCommons;
+using UDPClientServerCommons.Packets;
 namespace CastleButcher.UI
 {
 
@@ -69,7 +70,7 @@ namespace CastleButcher.UI
             //LoadMapData();
 
             clientSide = new UDPClientServerCommons.Client.ClientSide(4444);
-            clientSide.StartLookingForLANGames();
+            bool ret=clientSide.StartLookingForLANGames();
 
         }
 
@@ -95,11 +96,10 @@ namespace CastleButcher.UI
         //}
         private void UpdateSelection()
         {
-            System.Net.IPEndPoint add = (System.Net.IPEndPoint)gameList.SelectedItemData;
-            if (add != null)
+            if (gameList.SelectedItemData != null)
             {
                 ok.Enable();
-            }
+            }          
             else
             {
                 ok.Disable();
@@ -119,6 +119,12 @@ namespace CastleButcher.UI
 
         }
 
+        public override void Render(Microsoft.DirectX.Direct3D.Device device, float elapsedTime)
+        {
+            UpdateList();
+            base.Render(device, elapsedTime);
+
+        }
         private void UpdateList()
         {
             gameList.RemoveAll();
@@ -129,24 +135,5 @@ namespace CastleButcher.UI
 
             }
         }
-
-        //private void LoadMapData()
-        //{
-        //    DirectoryInfo dInfo = new DirectoryInfo(AppConfig.MapPath);
-        //    FileInfo[] files = dInfo.GetFiles("*.xml");
-        //    mapDescriptors.Clear();
-
-        //    foreach (FileInfo fi in files)
-        //    {
-        //        MapDescriptor desc = MapDescriptor.FromFile(fi.FullName);
-        //        if (desc != null)
-        //            mapDescriptors.Add(desc);
-        //    }
-        //    //mapSelection.RemoveAll();
-        //    foreach (MapDescriptor desc in mapDescriptors)
-        //    {
-        //        mapSelection.AddItem(desc.MapName, desc);
-        //    }
-        //}
     }
 }
