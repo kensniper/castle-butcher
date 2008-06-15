@@ -7,6 +7,7 @@ using UDPClientServerCommons.Client;
 using UDPClientServerCommons.Interfaces;
 using UDPClientServerCommons.Server;
 using Microsoft.DirectX;
+using Framework.MyMath;
 namespace CastleButcher.GameEngine
 {
     public class LocalGameController : GameController
@@ -66,6 +67,8 @@ namespace CastleButcher.GameEngine
         {
             World.Instance.Start();
             gameStatus = GameStatus.InProgress;
+
+            //siec?
         }
 
         public override void EndRound()
@@ -87,6 +90,8 @@ namespace CastleButcher.GameEngine
             {
                 SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.defeat, (Vector3)player.CurrentCharacter.Position);
             }
+
+            //siec?
         }
 
         protected override void OnPlayerAdded(Player player)
@@ -109,7 +114,7 @@ namespace CastleButcher.GameEngine
 
         protected override void OnPlayerKilled(Player player)
         {
-            
+
             bool allDead = true;
             if (player.CharacterClass.GameTeam == GameTeam.Assassins)
             {
@@ -156,7 +161,25 @@ namespace CastleButcher.GameEngine
 
         public override bool Update(float timeElapsed)
         {
+            List<IOtherPlayerData> data = serverNetworkLayer.Client.PlayerDataList;
+            for (int i = 0; i < World.Instance.Players.Count; i++)
+            {
+                Player p = World.Instance.Players[i];
+
+                for (int j = 0; j < data.Count; j++)
+                {
+                    if (p.NetworkId == /*data[i].ID*/0)
+                    {
+                        p.CurrentCharacter.Position = (MyVector)data[i].Position;
+
+                        p.CurrentCharacter.Velocity = (MyVector)data[i].Velocity;
+                        
+                        //p.CurrentCharacter.
+                    }
+                }
+            }
             World.Instance.Update(timeElapsed);
+            //serverNetworkLayer.Client.UpdatePlayerData(
             return true;
         }
 

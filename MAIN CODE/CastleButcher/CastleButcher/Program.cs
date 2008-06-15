@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Threading;
 using CastleButcher.GameEngine;
 using Microsoft.DirectX;
+using Framework.MyMath;
 
 namespace CastleButcher
 {
@@ -31,7 +32,14 @@ namespace CastleButcher
                     ///can be properly allocated. Creating resources after InitializeGraphics() can lead to 
                     ///crashes because of unallocated resources(After InitializeGraphics() OnCreateDevice may not
                     ///be called).
-                    
+
+                    MyVector up = new MyVector(0, 1, 0);
+                    MyVector v = new MyVector(1, 2, -1);
+                    v.Normalize();
+                    MyVector right = v ^ up;
+                    right.Normalize();
+
+
                     
 
 

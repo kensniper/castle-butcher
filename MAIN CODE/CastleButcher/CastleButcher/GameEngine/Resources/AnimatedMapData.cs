@@ -154,6 +154,8 @@ namespace CastleButcher.GameEngine.Resources
         {
             get
             {
+                if (currentTexture >= map.DxTextures.Length)
+                    currentTexture %= map.DxTextures.Length;
                 return map.DxTextures[currentTexture];
             }
         }
