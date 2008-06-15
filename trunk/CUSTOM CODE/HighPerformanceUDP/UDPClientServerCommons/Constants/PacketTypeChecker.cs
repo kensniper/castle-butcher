@@ -26,9 +26,6 @@ namespace UDPClientServerCommons
         {
             switch (Check(binaryPacket))
             {
-                case PacketTypeEnumeration.ACK:
-                    return null;
-                    
                 case PacketTypeEnumeration.GameInfoPacket:
                     return new Packets.GameInfoPacket(binaryPacket);
 

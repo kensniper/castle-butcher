@@ -70,13 +70,15 @@ namespace Client
                     string blabla = jumpField.ToString() + shootField.ToString();
                 }
                 dgData.Invoke(new RefreshStuff(RefreshGrid), network.PlayerDataList);
-                txtEvents.Invoke(new RefreshStuff(RefreshGameEvents), network.GameEventList);
-                txtEvents.Invoke(new RefreshStuff(RefreshGameplayEvents), network.GameplayEventList);
+                List<UDPClientServerCommons.Interfaces.IGameEvent> gevent = network.GameEventList;
+                List<UDPClientServerCommons.Interfaces.IGameplayEvent> gpevent = network.GameplayEventList;
+                txtEvents.Invoke(new RefreshStuff(RefreshGameEvents), gevent);
+                txtEvents.Invoke(new RefreshStuff(RefreshGameplayEvents), gpevent);
                 txtSend.Invoke(new ShowData(showData), pdata);
             }
             catch (Exception ex)
             {
-                
+                UDPClientServerCommons.Diagnostic.NetworkingDiagnostics.Logging.Error(" client timerCallback Error", ex);
             }
         }
 

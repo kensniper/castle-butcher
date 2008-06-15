@@ -48,6 +48,9 @@ namespace UDPClientServerCommons.Server
         /// </summary>
         private ClientForServer clientForServer = null;
 
+        private Dictionary<ushort, Usefull.Last10Packages> clientPackagesDictionary = new Dictionary<ushort, UDPClientServerCommons.Usefull.Last10Packages>();
+        private readonly object clientPackagesDictionaryLock = new object();
+
         /// <summary>
         /// method for client stuff when server is not dedicated
         /// </summary>
@@ -55,6 +58,7 @@ namespace UDPClientServerCommons.Server
         {
             get { return clientForServer; }
         }
+
         #endregion
 
         #region Constructor
@@ -310,7 +314,7 @@ namespace UDPClientServerCommons.Server
                                     lastPackages.Add(last10.Counter, gameInfoPacket);
                                 last10.Increase();
                             }
-                            // we need to send GameInfoPaket every 30 ticks - 30 seconds
+                            // we need to send GameInfoPaket every 30 ticks - 3 seconds
                             gameInfoPacketSendCounter = 30;
                         }
                         else
@@ -371,9 +375,24 @@ namespace UDPClientServerCommons.Server
                     Interfaces.IPacket packet = PacketTypeChecker.GetPacket(buff.Data);
                     if (packet != null)
                     {
-
                         switch (packet.PacketType)
                         {
+                            case PacketTypeEnumeration.PingResponse :
+                                DateTime received = DateTime.Now;
+                                TimeSpan span = received.Subtract(packet.TimeStamp);
+                                Packets.PingResponsePacket pingResponsePacket = (Packets.PingResponsePacket)packet;
+                                lock (gameInfoPacketLock)
+                                {
+                                    for (int i = 0; i < gameInfoPacket.PlayerStatusList.Count; i++)
+                                    {
+                                        if (gameInfoPacket.PlayerStatusList[i].PlayerId == pingResponsePacket.PlayerId)
+                                        {
+                                            gameInfoPacket.PlayerStatusList[i].PlayerPing = (ushort)span.TotalMilliseconds;
+                                            break;
+                                        }
+                                    }
+                                }
+                                break;
                             case (PacketTypeEnumeration.JoinPacket):
                                 JoinPacket joinPacket = (JoinPacket)packet;
                                 ushort id = 0;
@@ -442,10 +461,26 @@ namespace UDPClientServerCommons.Server
                                 }
                                 break;
                             case (PacketTypeEnumeration.StandardClientPacket):
+                                ClientPacket clientPacket = (ClientPacket)packet;
+                                bool packetOk = false;
+                                lock (clientPackagesDictionaryLock)
+                                {
+                                    if (!clientPackagesDictionary.ContainsKey(clientPacket.PlayerId))
+                                    {
+                                        clientPackagesDictionary.Add(clientPacket.PlayerId, new UDPClientServerCommons.Usefull.Last10Packages());
+                                        clientPackagesDictionary[clientPacket.PlayerId].AddPacket(clientPacket);
+                                    }
+                                    else
+                                        if (clientPackagesDictionary[clientPacket.PlayerId].LastPacket != null &&
+                                            clientPacket.PacketId.Value > clientPackagesDictionary[clientPacket.PlayerId].LastPacket.PacketId.Value)
+                                        {
+                                            clientPackagesDictionary[clientPacket.PlayerId].AddPacket(clientPacket);
+                                            packetOk = true;
+                                        }
+                                }
+                                if(packetOk)
                                 lock (serverPacketLock)
                                 {
-                                    ClientPacket clientPacket = (ClientPacket)packet;
-
                                     for (int i = 0; i < serverPacket.PlayerInfoList.Count; i++)
                                     {
                                         if (clientPacket.PlayerId == serverPacket.PlayerInfoList[i].PlayerId)

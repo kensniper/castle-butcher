@@ -161,6 +161,16 @@ namespace UDPClientServerCommons.Client
                     PacketReceivedEvent(packet);
                 switch (packet.PacketType)
                 {
+                    case PacketTypeEnumeration.PingRequest:
+                        PingResponsePacket pingResponsePacket = new PingResponsePacket();
+                        if (playerIdField.HasValue)
+                        {
+                            pingResponsePacket.PlayerId = playerIdField.Value;
+                            pingResponsePacket.PacketId = packetIdCounter.Next();
+                            pingResponsePacket.TimeStamp = DateTime.Now;
+                            udpNetworking.SendPacket(pingResponsePacket.ToByte());
+                        }
+                        break;
                     case PacketTypeEnumeration.StandardServerPacket:
                         bool start = false;
                         if (last10Packeges.LastPacket == null)
@@ -258,6 +268,11 @@ namespace UDPClientServerCommons.Client
                         catch (Exception ex)
                         {
                             Diagnostic.NetworkingDiagnostics.Logging.Fatal("udpNetworking_GetData", ex);
+                        }
+                        finally
+                        {
+                            clientPacket.PlayerJumping = false;
+                            clientPacket.PlayerShooting = false;
                         }
                         return null;
                     }
