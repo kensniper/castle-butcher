@@ -116,6 +116,7 @@
             // 
             this.soundsListBx.FormattingEnabled = true;
             this.soundsListBx.Items.AddRange(new object[] {
+            "explode",
             "defeat",
             "swordFight1",
             "swordFight2",
