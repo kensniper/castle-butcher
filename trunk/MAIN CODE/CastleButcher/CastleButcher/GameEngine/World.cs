@@ -14,6 +14,7 @@ namespace CastleButcher.GameEngine
     public delegate void PlayerEventHandler(Player player);
     public delegate void CharacterEventHandler(Character character);
     public delegate void ObjectEventHandler(IGameObject obj);
+    public delegate void GrenadeEventHandler(Grenade grenade, MyVector position);
     /// <summary>
     /// Klasa "œwiata" czyli pojemnika na obiekty. Ta klasa realizuje wszelkiego rodzaniu oddzia³ywania miêdzy obiektami
     /// </summary>
@@ -95,6 +96,8 @@ namespace CastleButcher.GameEngine
         public event ObjectEventHandler OnObjectAdded;
         public event ObjectEventHandler OnObjectRemoved;
 
+        public event GrenadeEventHandler OnGrenadeHit;
+
 
         public World()
         {
@@ -172,7 +175,7 @@ namespace CastleButcher.GameEngine
                 {
                     if (players[i].IsAlive)
                     {
-                        float compensationSpeed = 5 + (10*players[i].CurrentCharacter.YMotionToCompensate);
+                        float compensationSpeed = 5 + (10 * players[i].CurrentCharacter.YMotionToCompensate);
                         players[i].CurrentCharacter.YMotionToCompensate -= compensationSpeed * timeElapsed;
                         if (players[i].CurrentCharacter.YMotionToCompensate < 0)
                             players[i].CurrentCharacter.YMotionToCompensate = 0;
@@ -546,32 +549,79 @@ namespace CastleButcher.GameEngine
             return true;
         }
 
+        private void GrenadeExplosion(Grenade grenade, CollisionParameters parameters)
+        {
+            float maxDistance = grenade.ImpactDamage/4;
+            float impactDamage = grenade.ImpactDamage;
+            if (OnGrenadeHit != null)
+                OnGrenadeHit(grenade, parameters.CollisionPoint);
+            RemoveObject((IGameObject)grenade);
+
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (players[i].IsAlive)
+                {
+                    MyVector pos = players[i].CurrentCharacter.Position;
+
+                    if ((pos - parameters.CollisionPoint).Length < maxDistance)
+                    {
+                        int damage = (int)(impactDamage * ((pos - parameters.CollisionPoint).Length / maxDistance));
+
+
+                        players[i].OnMissileHit(grenade, parameters);
+
+                        if (players[i].CurrentCharacter.TakeDamage(damage))
+                        {
+
+                            ((Character)grenade.Owner).Player.OnEnemyDestroyed(players[i]);
+
+                            World.Instance.PlayerKilled(players[i]);
+
+                        }
+                    }
+                }
+            }
+        }
         private bool MissileToStatic(IMissile missile, IGameObject obj, CollisionParameters parameters)
         {
             //RemoveObject((IGameObject)missile);
-            (missile as IGameObject).PhysicalData.Velocity = new MyVector(0, 0, 0);
-            SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.arrowOff1, (Vector3)parameters.CollisionPoint);
+            if (!(missile is Grenade))
+            {
+                (missile as IGameObject).PhysicalData.Velocity = new MyVector(0, 0, 0);
+                SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.arrowOff1, (Vector3)parameters.CollisionPoint);
+            }
+            else
+            {
+                GrenadeExplosion(missile as Grenade, parameters);
+            }
             return false;
         }
         private bool MissileToDestroyable(IMissile missile, DestroyableObj obj, CollisionParameters parameters)
         {
             if (obj is Character && missile.Owner == obj)
                 return false;
-            if (obj is Character)
+            if (missile is Grenade)
             {
-                (obj as Character).Player.OnMissileHit(missile, parameters);
+                GrenadeExplosion(missile as Grenade, parameters);
             }
-            if (obj.TakeDamage(missile.ImpactDamage))
+            else
             {
                 if (obj is Character)
                 {
-                    ((Character)missile.Owner).Player.OnEnemyDestroyed((obj as Character).Player);
-                    RemoveObject((IGameObject)missile);
-                    World.Instance.PlayerKilled((obj as Character).Player);
+                    (obj as Character).Player.OnMissileHit(missile, parameters);
                 }
-                else
+                if (obj.TakeDamage(missile.ImpactDamage))
                 {
-                    RemoveObject((IGameObject)missile);
+                    if (obj is Character)
+                    {
+                        ((Character)missile.Owner).Player.OnEnemyDestroyed((obj as Character).Player);
+                        RemoveObject((IGameObject)missile);
+                        World.Instance.PlayerKilled((obj as Character).Player);
+                    }
+                    else
+                    {
+                        RemoveObject((IGameObject)missile);
+                    }
                 }
             }
 
@@ -601,8 +651,8 @@ namespace CastleButcher.GameEngine
         {
             if (obj1 is Character && obj2 is WeaponPickup)
             {
-                if ((obj2 as WeaponPickup).Ready && (obj1 as Character).CharacterClass.GameTeam ==
-                    (obj2 as WeaponPickup).WeaponClass.GameTeam)
+                if ((obj2 as WeaponPickup).Ready && ((obj1 as Character).CharacterClass.GameTeam ==
+                    (obj2 as WeaponPickup).WeaponClass.GameTeam || (obj2 as WeaponPickup).WeaponClass.GameTeam == GameTeam.Both))
                 {
                     //zbieranie broni
                     (obj1 as Character).Weapons.AddWeapon((obj2 as WeaponPickup).WeaponClass);
@@ -627,7 +677,7 @@ namespace CastleButcher.GameEngine
                     }
 
 
-                    
+
                 }
                 return true;
             }

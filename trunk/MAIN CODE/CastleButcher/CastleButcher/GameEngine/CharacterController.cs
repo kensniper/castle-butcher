@@ -224,8 +224,11 @@ namespace CastleButcher.GameEngine
             if (character.HasGroundContact)
             {
 
-                SoundSystem.SoundEngine.StopSteps(footsoundDescriptor);
-                footsoundDescriptor = null;
+                if (footsoundDescriptor != null)
+                {
+                    SoundSystem.SoundEngine.StopSteps(footsoundDescriptor);
+                    footsoundDescriptor = null;
+                }
 
                 MyVector v = character.Velocity;
                 v.Y += GameSettings.Default.JumpSpeed;
@@ -345,11 +348,7 @@ namespace CastleButcher.GameEngine
                 if (footsoundDescriptor != null)
                 {
                     footsoundDescriptor.Position = (Vector3)character.Position;
-
-                   
                 }
-
-                
             }
             catch (NullReferenceException)
             {

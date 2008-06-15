@@ -6,7 +6,14 @@ using System.Xml;
 
 namespace CastleButcher.GameEngine.Resources
 {
-    public class MapData
+    public interface IMapData
+    {
+        Texture DxTexture
+        {
+            get;
+        }
+    }
+    public class MapData:IMapData
     {
         string fileName;
 

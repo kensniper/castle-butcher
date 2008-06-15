@@ -65,6 +65,18 @@ namespace CastleButcher.GameEngine
             {
                 entry.Weapon = new CrossbowClass();
             }
+            else if (fileName == "Fireball")
+            {
+                entry.Weapon = new FireballClass();
+            }
+            else if (fileName == "Pipe")
+            {
+                entry.Weapon = new PipeClass();
+            }
+            else if (fileName == "Grenade")
+            {
+                entry.Weapon = new GrenadeClass();
+            }
             return entry;
         }
         private PowerupEntry LoadPowerup(string fileName)

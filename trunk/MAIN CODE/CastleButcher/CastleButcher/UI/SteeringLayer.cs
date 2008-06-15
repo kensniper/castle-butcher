@@ -112,6 +112,13 @@ namespace CastleButcher.UI
                 sdev.TurnY = 1 * yDeltaAvg.Value / maxY;
             }
 
+            if(player.IsAlive)
+            {
+                if (zDelta > 0)
+                    player.CurrentCharacter.Weapons.SelectNextRanged();
+                else if (zDelta<0)
+                    player.CurrentCharacter.Weapons.SelectPreviousRanged();
+            }
 
         }
         public override void OnKeyboard(List<System.Windows.Forms.Keys> pressedKeys, List<System.Windows.Forms.Keys> releasedKeys, char pressedChar, int pressedKey, float elapsedTime)

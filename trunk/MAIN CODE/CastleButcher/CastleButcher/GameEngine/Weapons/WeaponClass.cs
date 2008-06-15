@@ -9,7 +9,7 @@ using Framework.MyMath;
 namespace CastleButcher.GameEngine.Weapons
 {
 
-    public enum WeaponType { Melee, Ranged };
+    public enum WeaponType { Melee, Ranged,Grenade };
     /// <summary>
     /// 
     /// </summary>
@@ -30,12 +30,12 @@ namespace CastleButcher.GameEngine.Weapons
         {
             get { return pickupRD; }
         }
-        //RenderingData installedRD;
+        protected RenderingData cameraRD;
 
-        //public RenderingData InstalledRenderingData
-        //{
-        //    get { return installedRD; }
-        //}
+        public RenderingData CameraRenderingData
+        {
+            get { return cameraRD; }
+        }
 
         protected RenderingData missileRD;
         public RenderingData MissileRenderingData

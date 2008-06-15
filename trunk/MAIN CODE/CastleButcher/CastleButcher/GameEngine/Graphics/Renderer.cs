@@ -155,6 +155,7 @@ namespace CastleButcher.GameEngine.Graphics
             return obj;
         }
 
+
         public Explosion MakeExplosion(MyVector position)
         {
             return MakeExplosion(position, 10f);
@@ -178,19 +179,29 @@ namespace CastleButcher.GameEngine.Graphics
         {
             if (material != null)
             {
-                SetEffect("lighting.fx");
-                string handle = material.MaterialType.ToString();
-                currentEffect.DxEffect.Technique = handle;
-
-                if (material.DiffuseMap != null)
-                    currentEffect.DxEffect.SetValue("DiffuseTexture", material.DiffuseMap.DxTexture);
-                if (material.NormalMap != null)
-                    currentEffect.DxEffect.SetValue("NormalTexture", material.NormalMap.DxTexture);
-                if (material.SpecularMap != null)
-                    currentEffect.DxEffect.SetValue("SpecularTexture", material.SpecularMap.DxTexture);
-                if (material.EmissiveMap != null)
+                if (material.MaterialType == MaterialType.Emissive)
+                {
+                    SetEffect("emissive.fx");
+                    currentEffect.DxEffect.Technique = "emissive_map";
                     currentEffect.DxEffect.SetValue("EmissiveTexture", material.EmissiveMap.DxTexture);
-                currentEffect.DxEffect.SetValue("SpecularPower", dxMaterial.SpecularSharpness * 10);
+                }
+                else
+                {
+                    SetEffect("lighting.fx");
+                    string handle = material.MaterialType.ToString();
+                    currentEffect.DxEffect.Technique = handle;
+                    if (material.DiffuseMap != null)
+                        currentEffect.DxEffect.SetValue("DiffuseTexture", material.DiffuseMap.DxTexture);
+                    if (material.NormalMap != null)
+                        currentEffect.DxEffect.SetValue("NormalTexture", material.NormalMap.DxTexture);
+                    if (material.SpecularMap != null)
+                        currentEffect.DxEffect.SetValue("SpecularTexture", material.SpecularMap.DxTexture);
+                    if (material.EmissiveMap != null)
+                        currentEffect.DxEffect.SetValue("EmissiveTexture", material.EmissiveMap.DxTexture);
+                    currentEffect.DxEffect.SetValue("SpecularPower", dxMaterial.SpecularSharpness * 10);
+                }
+
+                
             }
             else
             {

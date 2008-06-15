@@ -35,7 +35,7 @@ namespace CastleButcher.UI
 
         Player player;
 
-        PlayerList playerList;
+        HUD.PlayerList playerList;
         bool playerListAdded = false;
         bool mapAdded = false;
         SteeringLayer slay;
@@ -112,7 +112,7 @@ namespace CastleButcher.UI
             AddControl(numDeaths);
 
             crosshair = new CastleButcher.UI.HUD.CrosshairControl(new PointF(size.Width / 2, size.Height / 2));
-            //AddControl(crosshair);
+            AddControl(crosshair);
             castleMap = new CastleButcher.UI.HUD.CastleMap(new PointF(size.Width / 2, size.Height / 2));
             RenderCrosshair = false;
 
@@ -123,7 +123,7 @@ namespace CastleButcher.UI
             //    new PointF(size.Width / 2, size.Height - 200));
             //AddControl(speedometer);
 
-            playerList = new PlayerList(new RectangleF(100, 100, size.Width - 200, size.Height - 200));
+            playerList = new HUD.PlayerList(new RectangleF(100, 100, size.Width - 200, size.Height - 200),gameController);
 
             World.Instance.OnPlayerAdded += new PlayerEventHandler(playerList.AddPlayer);
             World.Instance.OnPlayerRemoved += new PlayerEventHandler(playerList.RemovePlayer);
@@ -168,10 +168,10 @@ namespace CastleButcher.UI
             set
             {
                 crosshair.IsDisabled = !value;
-                if (crosshair.IsDisabled)
-                    RemoveControl(crosshair);
-                else
-                    AddControl(crosshair);
+                //if (crosshair.IsDisabled)
+                //    RemoveControl(crosshair);
+                //else
+                //    AddControl(crosshair);
             }
         }
         public override void OnResetDevice(Device device)
@@ -249,6 +249,7 @@ namespace CastleButcher.UI
                     CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
                 {
                     weaponAmmo.Text = "Ammo:" + player.CurrentCharacter.Weapons.CurrentRanged.Ammo.ToString();
+                    RenderCrosshair = true;
                 }
                 else
                     weaponAmmo.Text = "";
@@ -313,11 +314,13 @@ namespace CastleButcher.UI
                 if (pressedKeys.Contains(System.Windows.Forms.Keys.F2) && playerListAdded == false)
                 {
                     AddControl(playerList);
+                    playerList.Update();
                     playerListAdded = true;
                 }
                 if (releasedKeys.Contains(System.Windows.Forms.Keys.F2) && playerListAdded == true)
                 {
                     RemoveControl(playerList);
+                    playerList.Update();
                     playerListAdded = false;
                 }
                 if (pressedKeys.Contains(System.Windows.Forms.Keys.Tab) && mapAdded == false)
