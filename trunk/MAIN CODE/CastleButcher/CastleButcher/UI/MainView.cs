@@ -129,8 +129,8 @@ namespace CastleButcher.UI
         {
             CharacterController sdev = player.CurrentCharacter.CharacterController;
             MyVector pos = player.CurrentCharacter.Position;
-            pos.X += player.PlayerControl.CameraShaker.Position.X;
-            pos.Y += player.PlayerControl.CameraShaker.Position.Y-player.CurrentCharacter.YMotionToCompensate;
+            //pos.X += player.PlayerControl.CameraShaker.Position.X;
+            //pos.Y += /*player.PlayerControl.CameraShaker.Position.Y*/-player.CurrentCharacter.YMotionToCompensate;
             //pos.Y += 9;
             MyVector target = pos + sdev.LookVector;
 
