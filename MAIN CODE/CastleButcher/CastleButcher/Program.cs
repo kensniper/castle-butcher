@@ -49,7 +49,7 @@ namespace CastleButcher
                     //push some layers to display
                     form.PushLayer(new AppControl(form));
 
-                    SoundSystem.SoundEngine.InitializeEngine(GM.AppWindow);
+                    SoundSystem.SoundEngine.InitializeEngine(GM.AppWindow,0,0.05f,1);
                     SoundSystem.SoundEngine.NameFinder.MusicDirectoryPath = GameSettings.Default.MusicPath;
                     SoundSystem.SoundEngine.NameFinder.SoundDirectoryPath = GameSettings.Default.SoundPath;
 
