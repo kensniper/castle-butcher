@@ -165,6 +165,8 @@ namespace CastleButcher.UI
                 device.Transform.Projection);
             device.RenderState.ZBufferEnable = true;
             device.RenderState.ZBufferWriteEnable = true;
+            device.SetRenderState(RenderStates.SourceBlend, (int)Blend.One);
+            device.SetRenderState(RenderStates.DestinationBlend, (int)Blend.InvSourceAlpha);
 
 
 
@@ -207,7 +209,7 @@ namespace CastleButcher.UI
                     if (obj == player.CurrentCharacter) continue;
                     if (obj is Character)
                     {
-                        renderer.RenderRD(obj.RenderingData, Matrix.Translation(0,-(obj as Character).YMotionToCompensate,0)*obj.RenderingData.CustomTransform * obj.Transform);
+                        renderer.RenderRD(obj.RenderingData, /*Matrix.Translation(0,-(obj as Character).YMotionToCompensate,0)*/obj.RenderingData.CustomTransform * obj.Transform);
                     }
                     else
                     {

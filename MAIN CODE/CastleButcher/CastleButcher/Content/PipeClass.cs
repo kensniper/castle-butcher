@@ -17,7 +17,7 @@ namespace CastleButcher.Content
         {
             name = "Pipe";
             this.gameTeam = GameTeam.Assassins;
-            this.pickupRD = ResourceCache.Instance.GetRenderingData("crossbowContainer.x");
+            this.pickupRD = ResourceCache.Instance.GetRenderingData("pipePickup.x");
             this.missileRD = ResourceCache.Instance.GetRenderingData("arrow2.x");
             this.cameraRD = ResourceCache.Instance.GetRenderingData("handWithCrossbow.x");
             this.weaponType = WeaponType.Ranged;
