@@ -14,10 +14,12 @@ namespace CastleButcher.Content
 {
     class FireballClass : WeaponClass
     {
-        AnimatedMapData animatedMapData;
+        AnimatedMapData animatedMapDataD;
+        AnimatedMapData animatedMapDataN;
         public FireballClass()
         {
-            animatedMapData = ResourceCache.Instance.GetAnimatedTexture("fireball.amd");
+            animatedMapDataD = ResourceCache.Instance.GetAnimatedTexture("fireball.amd");
+            animatedMapDataN = ResourceCache.Instance.GetAnimatedTexture("fireball_bump.amd");
             name = "Fireball";
             this.gameTeam = GameTeam.Assassins;
             this.pickupRD = ResourceCache.Instance.GetRenderingData("fireball.x");
@@ -32,12 +34,16 @@ namespace CastleButcher.Content
             this.ammoInBox = 5;
             this.pickupReuseTime = 2;
 
-            MapAnimation anim = animatedMapData.GetAnimationInstance();
-            anim.Start();
-            anim.Loop = true;
-            missileRD.MeshMaterials[0] = new AnimatedMaterialData(null, null, null, anim, new Microsoft.DirectX.Direct3D.Material());
+            MapAnimation animD = animatedMapDataD.GetAnimationInstance();
+            animD.Start();
+            animD.Loop = true;
+            MapAnimation animN = animatedMapDataN.GetAnimationInstance();
+            animD.Start();
+            animD.Loop = true;
+            missileRD.MeshMaterials[0] = new MaterialData(animD, animN, null,  new Microsoft.DirectX.Direct3D.Material());
             cameraRD.MeshMaterials[0] = missileRD.MeshMaterials[0];
-            GM.AppWindow.AddUpdateableItem(anim as IUpdateable);
+            GM.AppWindow.AddUpdateableItem(animD as IUpdateable);
+            GM.AppWindow.AddUpdateableItem(animN as IUpdateable);
 
         }
 
