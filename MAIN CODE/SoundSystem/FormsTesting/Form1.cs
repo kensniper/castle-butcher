@@ -45,6 +45,13 @@ namespace FormsTesting
             float z = (float)Convert.ToDouble(zTxtBx.Text.ToString());
             switch (soundsListBx.Text)
             {
+                case "explode":
+                    soundSourceTxtBx.Text =
+                        SoundSystem.SoundEngine.NameFinder.FindSound(
+                        SoundSystem.Enums.SoundTypes.explode);
+                    SoundSystem.SoundEngine.PlaySound(
+                        SoundSystem.Enums.SoundTypes.explode, new Vector3(x, y, z));
+                    break;
                 case "defeat":
                     soundSourceTxtBx.Text =
                         SoundSystem.SoundEngine.NameFinder.FindSound(
