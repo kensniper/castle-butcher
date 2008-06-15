@@ -5,7 +5,7 @@
 	</EnvironmentData>
 	<Object type="mesh" position="[0,0,0]" rotation="[0,0,0]">
 		<RenderingData file="castle3.x" />
-		<CollisionData type="Tree" file="castle5.cm" />
+		<CollisionData type="Tree" file="castle.cm" />
 	</Object>
 	<RespawnPointList>
 	  <Assassins>

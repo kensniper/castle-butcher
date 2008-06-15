@@ -93,6 +93,7 @@ namespace CastleButcher.UI
         void Instance_OnGrenadeHit(Grenade grenade, MyVector position)
         {
             renderer.MakeExplosion(position, grenade.ImpactDamage);
+            SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.explode, (Vector3)position);
         }
 
         private void InitRound()
