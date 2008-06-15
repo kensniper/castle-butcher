@@ -30,7 +30,7 @@ namespace CastleButcher.Content
             walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("assassinWalkingPoint.cm");
             //hitMesh = ResourceCache.Instance.GetCollisionMesh("assassinHitMesh.cm");
             
-            renderingData = ResourceCache.Instance.GetRenderingData("assassinWalkingMesh.x");
+            renderingData = ResourceCache.Instance.GetRenderingData("assassinWalkingMesh2.x");
         }
         public override PlayerMovementParameters MovementParameters
         {
