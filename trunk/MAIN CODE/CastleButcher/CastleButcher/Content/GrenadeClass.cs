@@ -20,7 +20,7 @@ namespace CastleButcher.Content
             this.gameTeam = GameTeam.Knights;
             this.pickupRD = ResourceCache.Instance.GetRenderingData("grenade.x");
             this.missileRD = ResourceCache.Instance.GetRenderingData("grenade.x");
-            this.cameraRD = ResourceCache.Instance.GetRenderingData("handWithFireball.x");
+            this.cameraRD = ResourceCache.Instance.GetRenderingData("handWithGrenade.x");
             this.weaponType = WeaponType.Ranged;
             this.weaponParams = new WeaponInfo(100, 0.5f, 100);
             this.flyingObjectParameters = new CastleButcher.GameEngine.PlayerMovementParameters(0, 200);
