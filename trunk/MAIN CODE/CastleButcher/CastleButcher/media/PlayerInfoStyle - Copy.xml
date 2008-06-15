@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<GUI StyleName="PlayerInfo" ImageFile="gui_hud.tga" FntFile="arial_22.fnt;arial_18.fnt">
+	<DefaultValues TextSize="18" Color="0xFFFFFFFF"/>
+    <Control Name="TextLabel">
+        <DefaultValues TextSize="18" Color="0xFFFFFFFF"/>
+    </Control>
+	<Control Name="Crosshair">
+        <Image Name="Normal"         X="389" Y="0" Width="175" Height="96" Color="0xFFFFFFFF" />        
+    </Control>
+	
+	<Control Name="Map">
+		<Image Name="Map" X="0" Y="0" Width="389" Height="392" Color="0xFFFFFFFF" />
+		<Image Name="Assassin" X="563" Y="0" Width="16" Height="16" Color="0xFFFFFFFF" />
+		<Image Name="Knight" X="563" Y="16" Width="16" Height="16" Color="0x00FFFFFF" />
+	</Control>
+</GUI>
