@@ -162,6 +162,7 @@ namespace CastleButcher.GameEngine
             List<IGameplayEvent> gameplayEvents = clientNetworkLayer.GameplayEventList;
             for (int i = 0; i < gameEvents.Count; i++)
             {
+
                 if (gameEvents[i].GameEventType == GameEventTypeEnumeration.GameStared)
                 {
                     //gameEvents[i].
@@ -177,11 +178,33 @@ namespace CastleButcher.GameEngine
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerChangedTeam)
                 {
                     PlayerChangedTeamEvent ev = (PlayerChangedTeamEvent)gameEvents[i];
-                    
-                    for(int j=0;i<World.Instance.Players.Count;i++)
-                    {
 
-                    }
+                    Player p = GetPlayerByID(ev.PlayerId);
+                    ChangePlayerTeam(p, GetTeamByID(ev.NewTeamId));
+                }
+                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerQuitted)
+                {
+                    PlayerQuitEvent ev = (PlayerQuitEvent)gameEvents[i];
+
+                    Player p = GetPlayerByID(ev.PlayerId);
+                    RemovePlayer(p);
+                }
+                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.NewRound)
+                {
+                    BeginRound();
+                }
+                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.EndRound)
+                {
+                    EndRound();
+                }
+                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.TeamScored)
+                {
+                    TeamScoredEvent ev = (TeamScoredEvent)gameEvents[i];
+                    GameTeam team = GetTeamByID(ev.TeamId);
+                    if (team == GameTeam.Assassins)
+                        assassinsScore++;
+                    else
+                        knightsScore++;
                 }
 
             }

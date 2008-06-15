@@ -6,6 +6,7 @@ using CastleButcher.GameEngine;
 using Framework.Physics;
 using CastleButcher.GameEngine.Resources;
 using Framework.MyMath;
+using Microsoft.DirectX;
 
 namespace CastleButcher.Content
 {
@@ -31,9 +32,12 @@ namespace CastleButcher.Content
             collisionData.m_hardPoints = tempPoints.ToArray();
             walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("knightWalkingPoint.cm");
             //hitMesh = ResourceCache.Instance.GetCollisionMesh("knightHitMesh.cm");
-            renderingData = ResourceCache.Instance.GetRenderingData("knightWalkingMesh2.x");
-            rdWithCrossbow = ResourceCache.Instance.GetRenderingData("knightWalkingMesh2.x");
-            rdWithGrenade = ResourceCache.Instance.GetRenderingData("knightWalkingMesh2.x");
+//            renderingData = ResourceCache.Instance.GetRenderingData("knightStanding.x");
+            Matrix rot = Matrix.RotationY((float)Math.PI);
+            renderingData = ResourceCache.Instance.GetRenderingData("knightStanding.x");
+            //renderingData.CustomTransform = rot;
+            rdWithCrossbow = ResourceCache.Instance.GetRenderingData("knightWithCrossbow.x");
+            rdWithGrenade = ResourceCache.Instance.GetRenderingData("knightWithGrenade.x");
 
             float r = renderingData.BoundingSphereRadius;
 

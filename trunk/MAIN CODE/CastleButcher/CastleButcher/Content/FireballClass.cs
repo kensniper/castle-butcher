@@ -41,7 +41,7 @@ namespace CastleButcher.Content
             animN.Start();
             animN.Loop = true;
             missileRD.MeshMaterials[0] = new MaterialData(animD, animN, null,  new Microsoft.DirectX.Direct3D.Material());
-            cameraRD.MeshMaterials[0] = missileRD.MeshMaterials[0];
+            cameraRD.MeshMaterials[4] = missileRD.MeshMaterials[0];
             GM.AppWindow.AddUpdateableItem(animD as IUpdateable);
             GM.AppWindow.AddUpdateableItem(animN as IUpdateable);
 
