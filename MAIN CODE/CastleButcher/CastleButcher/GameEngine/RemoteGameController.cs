@@ -7,6 +7,9 @@ using System.Net;
 using CastleButcher.UI;
 using Microsoft.DirectX;
 using Framework.MyMath;
+using UDPClientServerCommons.Interfaces;
+using UDPClientServerCommons.Constants;
+using UDPClientServerCommons.GameEvents;
 
 namespace CastleButcher.GameEngine
 {
@@ -21,13 +24,13 @@ namespace CastleButcher.GameEngine
             get { return player; }
             set { player = value; }
         }
-        public RemoteGameController(Player player,ClientSide clientSide,UDPClientServerCommons.Packets.GameInfoPacket gameInfo)
+        public RemoteGameController(Player player, ClientSide clientSide, UDPClientServerCommons.Packets.GameInfoPacket gameInfo)
         {
             gameStatus = GameStatus.WaitingForStart;
             clientNetworkLayer = clientSide;
             this.player = player;
             clientNetworkLayer.JoinGame(gameInfo.ServerAddress, player.Name, gameInfo.GameId, gameInfo.TeamScoreList[0].TeamId);
-            
+
 
         }
 
@@ -63,7 +66,7 @@ namespace CastleButcher.GameEngine
         {
             World.Instance.Start();
             gameStatus = GameStatus.InProgress;
-            
+
 
         }
 
@@ -153,62 +156,36 @@ namespace CastleButcher.GameEngine
 
         public override bool Update(float timeElapsed)
         {
-            //if (player.IsAlive && player.CurrentCharacter != null)
-            //{
-            //    clientNetworkLayer.UpdatePlayerData((Vector3)player.CurrentCharacter.Position,
-            //        (Vector3)player.CurrentCharacter.LookDirection,
-            //        (Vector3)player.CurrentCharacter.Velocity);
-            //}
-            //if (player.IsAlive)
-            //{
-            //    UDPClientServerCommons.ServerPacket packet = ((UDPClientServerCommons.Interfaces.IServerData)clientNetworkLayer).GetNeewestDataFromServer();
-            //    if (packet != null)
-            //    {
-            //        for (int i = 0; i < packet.PlayerInfoList.Count; i++)
-            //        {
-            //            UDPClientServerCommons.PlayerInfo pInfo = packet.PlayerInfoList[i];
+            List<IOtherPlayerData> data = clientNetworkLayer.PlayerDataList;
 
-            //            bool newPlayer = false;
-            //            foreach (Player pp in World.Instance.Players)
-            //            {
-            //                if (pInfo.PlayerId == pp.NetworkId)
-            //                {
-            //                    newPlayer = false;
-            //                    break;
-            //                }
-            //            }
-            //            if (newPlayer)
-            //            {
-            //                AddPlayer(new Player(pInfo.PlayerId.ToString(), ObjectCache.Instance.GetKnightClass()));
+            List<IGameEvent> gameEvents = clientNetworkLayer.GameEventList;
+            List<IGameplayEvent> gameplayEvents = clientNetworkLayer.GameplayEventList;
+            for (int i = 0; i < gameEvents.Count; i++)
+            {
+                if (gameEvents[i].GameEventType == GameEventTypeEnumeration.GameStared)
+                {
+                    //gameEvents[i].
+                    StartGame();
+                }
+                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerJoined)
+                {
+                    PlayerJoinedEvent ev = (PlayerJoinedEvent)gameEvents[i];
+                    Player p = new Player(ev.PlayerName, null);
+                    p.NetworkId = ev.PlayerId;
+                    AddPlayer(p);
+                }
+                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerChangedTeam)
+                {
+                    PlayerChangedTeamEvent ev = (PlayerChangedTeamEvent)gameEvents[i];
+                    
+                    for(int j=0;i<World.Instance.Players.Count;i++)
+                    {
 
-            //            }
+                    }
+                }
 
-            //        }
-            //        for (int i = 0; i < packet.PlayerInfoList.Count; i++)
-            //        {
-            //            UDPClientServerCommons.PlayerInfo pInfo = packet.PlayerInfoList[i];
-
-            //            foreach (Player p in World.Instance.Players)
-            //            {
-
-            //                if (p.NetworkId == pInfo.PlayerId)
-            //                {
-            //                    MyVector v = new MyVector();
-            //                    v.X = pInfo.PlayerPosition.X;
-            //                    v.Y = pInfo.PlayerPosition.Y;
-            //                    v.Z = pInfo.PlayerPosition.Z;
-            //                    p.CurrentCharacter.Position = v;
-            //                    v.X = pInfo.PlayerMovementDirection.X;
-            //                    v.Y = pInfo.PlayerMovementDirection.Y;
-            //                    v.Z = pInfo.PlayerMovementDirection.Z;
-            //                    p.CurrentCharacter.Velocity = v;
-
-            //                }
-            //            }
-
-            //        }
-            //    }
-            //}
+            }
+          
 
             World.Instance.Update(timeElapsed);
             return true;
@@ -221,7 +198,7 @@ namespace CastleButcher.GameEngine
 
         public override void StartGame()
         {
-            throw new NotImplementedException();
+
         }
     }
 }

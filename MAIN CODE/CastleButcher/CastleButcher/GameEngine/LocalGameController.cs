@@ -8,6 +8,7 @@ using UDPClientServerCommons.Interfaces;
 using UDPClientServerCommons.Server;
 using Microsoft.DirectX;
 using Framework.MyMath;
+using UDPClientServerCommons.Constants;
 namespace CastleButcher.GameEngine
 {
     public class LocalGameController : GameController
@@ -162,22 +163,37 @@ namespace CastleButcher.GameEngine
         public override bool Update(float timeElapsed)
         {
             List<IOtherPlayerData> data = serverNetworkLayer.Client.PlayerDataList;
-            for (int i = 0; i < World.Instance.Players.Count; i++)
+
+            List<IGameEvent> gameEvents = serverNetworkLayer.Client.GameEventList;
+            List<IGameplayEvent> gameplayEvents = serverNetworkLayer.Client.GameplayEventList;
+            for (int i = 0; i < gameEvents.Count; i++)
             {
-                Player p = World.Instance.Players[i];
-
-                for (int j = 0; j < data.Count; j++)
+                if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerJoined)
                 {
-                    if (p.NetworkId == /*data[i].ID*/0)
-                    {
-                        p.CurrentCharacter.Position = (MyVector)data[i].Position;
-
-                        p.CurrentCharacter.Velocity = (MyVector)data[i].Velocity;
-                        
-                        //p.CurrentCharacter.
-                    }
+                    //gameEvents[i].
                 }
+
             }
+
+            //if (data != null)
+            //{
+            //    for (int i = 0; i < World.Instance.Players.Count; i++)
+            //    {
+            //        Player p = World.Instance.Players[i];
+
+            //        for (int j = 0; j < data.Count; j++)
+            //        {
+            //            if (p.NetworkId == /*data[i].ID*/0)
+            //            {
+            //                p.CurrentCharacter.Position = (MyVector)data[i].Position;
+
+            //                p.CurrentCharacter.Velocity = (MyVector)data[i].Velocity;
+
+            //                //p.CurrentCharacter.
+            //            }
+            //        }
+            //    }
+            //}
             World.Instance.Update(timeElapsed);
             //serverNetworkLayer.Client.UpdatePlayerData(
             return true;
