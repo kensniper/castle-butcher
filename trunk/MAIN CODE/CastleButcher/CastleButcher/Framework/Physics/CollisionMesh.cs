@@ -204,12 +204,18 @@ namespace Framework.Physics
 
             }
 
-            //mesh.m_edges = new CEdge[file.ReadInt32()];
-            //for (int i = 0; i < mesh.m_edges.Length; i++)
-            //{
-            //    mesh.m_edges[i] = new CEdge((uint)file.ReadInt32() - 1, (uint)file.ReadInt32() - 1);
-            //}
-            mesh.m_edges = new CEdge[0];
+            try
+            {
+                mesh.m_edges = new CEdge[file.ReadInt32()];
+                for (int i = 0; i < mesh.m_edges.Length; i++)
+                {
+                    mesh.m_edges[i] = new CEdge((uint)file.ReadInt32() - 1, (uint)file.ReadInt32() - 1);
+                }
+            }
+            catch
+            {
+                mesh.m_edges = new CEdge[0];
+            }
 
             file.Close();
             mesh.m_hardPoints = (MyVector[])mesh.m_vertices.Clone();

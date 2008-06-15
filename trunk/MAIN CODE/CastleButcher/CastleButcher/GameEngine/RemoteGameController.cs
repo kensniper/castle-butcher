@@ -77,6 +77,14 @@ namespace CastleButcher.GameEngine
             base.EndRound(defeatedTeam);
             World.Instance.Paused = true;
             gameStatus = GameStatus.WaitingForStart;
+            if (defeatedTeam == player.CharacterClass.GameTeam)
+            {
+                SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.fanfare1, (Vector3)player.CurrentCharacter.Position);
+            }
+            else
+            {
+                SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.defeat, (Vector3)player.CurrentCharacter.Position);
+            }
         }
 
         protected override void OnPlayerAdded(Player player)

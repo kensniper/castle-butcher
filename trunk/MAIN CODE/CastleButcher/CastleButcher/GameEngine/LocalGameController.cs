@@ -6,6 +6,7 @@ using UDPClientServerCommons;
 using UDPClientServerCommons.Client;
 using UDPClientServerCommons.Interfaces;
 using UDPClientServerCommons.Server;
+using Microsoft.DirectX;
 namespace CastleButcher.GameEngine
 {
     public class LocalGameController : GameController
@@ -26,12 +27,12 @@ namespace CastleButcher.GameEngine
             GameOptions options = new GameOptions("Zabójcy", "Rycerze", UDPClientServerCommons.Constants.GameTypeEnumeration.TimeLimit, 10);
             UDPClientServerCommons.Usefull.PlayerMe pl = new UDPClientServerCommons.Usefull.PlayerMe("Zabójcy", player.Name);
 
-            serverNetworkLayer.StartLANServer(options, false, pl);       
+            serverNetworkLayer.StartLANServer(options, false, pl);
         }
 
-        
 
-        
+
+
         public override void AddPlayer(Player player)
         {
             World.Instance.AddPlayer(player);
@@ -58,26 +59,34 @@ namespace CastleButcher.GameEngine
                 //else
                 //    serverNetworkLayer.Client.ChangeTeam(39);
             }
-            
+
         }
 
         public override void BeginRound()
         {
             World.Instance.Start();
-            gameStatus = GameStatus.InProgress;            
+            gameStatus = GameStatus.InProgress;
         }
 
         public override void EndRound()
         {
             World.Instance.Paused = true;
             gameStatus = GameStatus.WaitingForStart;
-            
+
         }
         public override void EndRound(GameTeam defeatedTeam)
         {
             base.EndRound(defeatedTeam);
             World.Instance.Paused = true;
             gameStatus = GameStatus.WaitingForStart;
+            if (defeatedTeam == player.CharacterClass.GameTeam)
+            {
+                SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.fanfare1, (Vector3)player.CurrentCharacter.Position);
+            }
+            else
+            {
+                SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.defeat, (Vector3)player.CurrentCharacter.Position);
+            }
         }
 
         protected override void OnPlayerAdded(Player player)
@@ -95,7 +104,7 @@ namespace CastleButcher.GameEngine
 
         protected override void OnPlayerRespawned(Player player)
         {
-            
+
         }
 
         protected override void OnPlayerKilled(Player player)
