@@ -64,6 +64,7 @@ namespace SoundSystem
             sound = new SecondaryBuffer(fileName, description3D, device);
             sound3D = new Buffer3D(sound);
             sound3D.Position = position;
+            sound3D.MinDistance = 15f;
         }
       
     }
