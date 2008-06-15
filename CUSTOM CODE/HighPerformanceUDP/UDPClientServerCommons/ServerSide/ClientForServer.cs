@@ -145,74 +145,126 @@ namespace UDPClientServerCommons.Server
  
         #region IClient Members
 
-        public void JoinGame(ushort playerId, ushort gameId, string playerName, ushort teamId)
-        {
-            this.playerIdField = playerId;
-            this.gameIdField = gameId;
-            this.playerNameField = playerName;
-            this.teamIdField = teamId;
-
-            gameIsRunningAsDedicatedServer = false;
-
-            // start sending data to server
-            timer.Change(0,TimerTickPeriod);
-        }
-
-        public bool ChangeTeam(ushort TeamId)
+        /// <summary>
+        /// adds player to game which server is hosting (player-server game)
+        /// </summary>
+        /// <param name="playerId">player id</param>
+        /// <param name="gameId">game id</param>
+        /// <param name="playerName">player name</param>
+        /// <param name="teamId">team id</param>
+        public bool JoinGame(ushort playerId, ushort gameId, string playerName, ushort teamId)
         {
             bool result = true;
-            if (playerIdField.HasValue && gameIdField.HasValue && teamIdField.HasValue)
+            try
             {
-                GameInfoPacket gPack = (GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket;
-                if (gPack == null)
-                    return false;
+                this.playerIdField = playerId;
+                this.gameIdField = gameId;
+                this.playerNameField = playerName;
+                this.teamIdField = teamId;
 
-                List<ushort> teamIdList = new List<ushort>();
-                List<ushort> playerIdList = new List<ushort>();
+                gameIsRunningAsDedicatedServer = false;
 
-                for (int k = 0; k < gPack.TeamScoreList.Count; k++)
-                    teamIdList.Add(gPack.TeamScoreList[k].TeamId);
-                for (int k = 0; k < gPack.PlayerStatusList.Count; k++)
-                    teamIdList.Add(gPack.PlayerStatusList[k].PlayerId);
-
-                //todo: exception ?
-                //maybe it would be better to throw exception ??
-                if (!teamIdList.Contains(TeamId))
-                    return false;
-                if (!playerIdList.Contains(playerIdField.Value))
-                    return false;
-
-                teamIdField = TeamId;
-
-                JoinPacket joinPacket = new JoinPacket();
-                joinPacket.PlayerId = playerIdField.Value;
-                joinPacket.TeamId = teamIdField.Value;
-                joinPacket.TimeStamp = DateTime.Now;
-                joinPacket.PlayerName = playerNameField;
-                joinPacket.GameId = gameIdField.Value;
-
-                AddMessageToServer(joinPacket);
+                // start sending data to server
+                timer.Change(0, TimerTickPeriod);
             }
-            else
+            catch (Exception ex)
+            {
                 result = false;
-
+                Diagnostic.NetworkingDiagnostics.Logging.Fatal("join game", ex);
+            }
             return result;
         }
 
+        /// <summary>
+        /// Change team method
+        /// </summary>
+        /// <param name="TeamId">new teamId</param>
+        /// <returns>true if successfull</returns>
+        public bool ChangeTeam(ushort TeamId)
+        {
+            bool result = true;
+            try
+            {
+                if (playerIdField.HasValue && gameIdField.HasValue && teamIdField.HasValue)
+                {
+                    GameInfoPacket gPack = (GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket;
+                    if (gPack == null)
+                        return false;
+
+                    List<ushort> teamIdList = new List<ushort>();
+                    List<ushort> playerIdList = new List<ushort>();
+
+                    for (int k = 0; k < gPack.TeamScoreList.Count; k++)
+                        teamIdList.Add(gPack.TeamScoreList[k].TeamId);
+                    for (int k = 0; k < gPack.PlayerStatusList.Count; k++)
+                        teamIdList.Add(gPack.PlayerStatusList[k].PlayerId);
+
+                    //todo: exception ?
+                    //maybe it would be better to throw exception ??
+                    if (!teamIdList.Contains(TeamId))
+                        return false;
+                    if (!playerIdList.Contains(playerIdField.Value))
+                        return false;
+
+                    teamIdField = TeamId;
+
+                    JoinPacket joinPacket = new JoinPacket();
+                    joinPacket.PlayerId = playerIdField.Value;
+                    joinPacket.TeamId = teamIdField.Value;
+                    joinPacket.TimeStamp = DateTime.Now;
+                    joinPacket.PlayerName = playerNameField;
+                    joinPacket.GameId = gameIdField.Value;
+
+                    AddMessageToServer(joinPacket);
+                }
+                else
+                    result = false;
+            }
+            catch (Exception ex)
+            {
+                Diagnostic.NetworkingDiagnostics.Logging.Fatal("Change team S", ex);
+                result = false;
+            }
+            return result;
+        }
+
+        /// <summary> Send with with this method if no event occured
+        /// 
+        /// </summary>
+        /// <param name="position">player new position</param>
+        /// <param name="lookDirection">player new looking/aiming direction</param>
+        /// <param name="moventDirection">player new movement vector</param>
         public void UpdatePlayerData(Microsoft.DirectX.Vector3 position, Microsoft.DirectX.Vector3 lookDirection, Microsoft.DirectX.Vector3 moventDirection)
         {
             lock (clientPacketLock)
             {
-                clientPacket.PlayerPosition = Translator.TranslateBetweenVectorAndVector(position);
-                clientPacket.PlayerLookingDirection = Translator.TranslateBetweenVectorAndVector(lookDirection);
-                clientPacket.PlayerMovementDirection = Translator.TranslateBetweenVectorAndVector(moventDirection);
+                try
+                {
+                    clientPacket.PlayerPosition = Translator.TranslateBetweenVectorAndVector(position);
+                    clientPacket.PlayerLookingDirection = Translator.TranslateBetweenVectorAndVector(lookDirection);
+                    clientPacket.PlayerMovementDirection = Translator.TranslateBetweenVectorAndVector(moventDirection);
+                }
+                catch (Exception ex)
+                {
+                    Diagnostic.NetworkingDiagnostics.Logging.Error("Update player data S", ex);
+                }
             }
         }
 
+        /// <summary> Send with this method if important event occured
+        /// 
+        /// </summary>
+        /// <param name="weaponAttacked"> weapon that was used to atack</param>
+        /// <param name="playerAttacked"> true if player used his weapon </param>
+        /// <param name="playerJumped">true if player jumped</param>
+        /// <param name="weaponChanged"> true if weapon changed</param>
+        /// <param name="weaponNew"> new weapon carried by the player</param>
         public void UpdatePlayerData(WeaponEnumeration weaponAttacked, bool playerAttacked, bool playerJumped, bool weaponChanged, WeaponEnumeration weaponNew)
         {
             lock (clientPacketLock)
             {
+                try
+                {
                 clientPacket.PlayerShooting = playerAttacked;
                 clientPacket.PlayerJumping = playerJumped;
                 if (playerAttacked)
@@ -240,156 +292,250 @@ namespace UDPClientServerCommons.Server
                             clientPacket.PlayerCarringWeponOne = true;
                         }
                     }
+                }
+                catch (Exception ex)
+                {
+                    Diagnostic.NetworkingDiagnostics.Logging.Error("Update player data S", ex);
+                }
             }
         }
 
+        /// <summary> Send with this method if event occured and position changed
+        /// 
+        /// </summary>
+        /// <param name="position">player new position</param>
+        /// <param name="lookDirection">player new looking/aiming direction</param>
+        /// <param name="moventDirection">player new movement vector</param>
+        /// <param name="weaponAttacked"> weapon that was used to atack</param>
+        /// <param name="playerAttacked"> true if player used his weapon </param>
+        /// <param name="playerJumped">true if player jumped</param>
+        /// <param name="weaponChanged"> true if weapon changed</param>
+        /// <param name="weaponNew"> new weapon carried by the player</param>
         public void UpdatePlayerData(Microsoft.DirectX.Vector3 position, Microsoft.DirectX.Vector3 lookDirection, Microsoft.DirectX.Vector3 moventDirection, WeaponEnumeration weaponAttacked, bool playerAttacked, bool playerJumped, bool weaponChanged, WeaponEnumeration weaponNew)
         {
             lock (clientPacketLock)
             {
+                try
+                {
                 clientPacket.PlayerPosition = Translator.TranslateBetweenVectorAndVector(position);
                 clientPacket.PlayerLookingDirection = Translator.TranslateBetweenVectorAndVector(lookDirection);
                 clientPacket.PlayerMovementDirection = Translator.TranslateBetweenVectorAndVector(moventDirection);
+                }
+                catch (Exception ex)
+                {
+                    Diagnostic.NetworkingDiagnostics.Logging.Error("Update player data S", ex);
+                }
             }
         }
 
-        public void LeaveGame()
+        /// <summary>
+        /// Leave current game
+        /// </summary>
+        /// <returns>true if operation was successfull</returns>
+        public bool LeaveGame()
         {
+            bool result = true;
             if (playerIdField.HasValue && gameIdField.HasValue)
             {
-                LeaveGamePacket leaveGamePacket = new LeaveGamePacket();
-                leaveGamePacket.GameId = gameIdField.Value;
-                leaveGamePacket.PlayerId = playerIdField.Value;
-                leaveGamePacket.TimeStamp = DateTime.Now;
-
-                AddMessageToServer(leaveGamePacket);
-            }
-        }
-
-        public bool PlayerHasSuccesfullyJoinedGame
-        {
-            get
-            {
-                if (playerIdField.HasValue && gameIdField.HasValue && teamIdField.HasValue && gameInfoPackets.ContainsKey(gameIdField.Value))
+                try
                 {
-                    GameInfoPacket pck = (GameInfoPacket)((GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket).Clone();
+                    LeaveGamePacket leaveGamePacket = new LeaveGamePacket();
+                    leaveGamePacket.GameId = gameIdField.Value;
+                    leaveGamePacket.PlayerId = playerIdField.Value;
+                    leaveGamePacket.TimeStamp = DateTime.Now;
 
-                    if (pck == null)
-                        return false;
-                    else
-                    {
-                        for (int i = 0; i < pck.PlayerStatusList.Count; i++)
-                        {
-                            if (pck.PlayerStatusList[i].PlayerId == playerIdField.Value)
-                                return true;
-                        }
-                        return false;
-                    }
+                    AddMessageToServer(leaveGamePacket);
                 }
-                else
-                    return false;
+                catch (Exception ex)
+                {
+                    result = false;
+                    Diagnostic.NetworkingDiagnostics.Logging.Fatal("LeaveGame S", ex);
+                }
             }
+            else
+                result = false;
+
+            return result;
         }
 
-        public bool GameStarted
-        {
-            get
-            {
-                return (playerIdField.HasValue && (last10Packeges.LastPacket != null));
-            }
-        }
-
+        /// <summary>
+        /// Information about players, null if no data avalible
+        /// </summary>
         public GameInfoPacket CurrentGameInfo
         {
             get
             {
                 lock (gameInfoPacketsLock)
                 {
-                    if (gameIdField.HasValue && gameInfoPackets.ContainsKey(gameIdField.Value))
-                        return (GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket.Clone();
-                    else
-                        return null;
+                    try
+                    {
+                        if (gameIdField.HasValue && gameInfoPackets.ContainsKey(gameIdField.Value))
+                            return (GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket.Clone();
+                        else
+                            return null;
+                    }
+                    catch (Exception ex)
+                    {
+                        Diagnostic.NetworkingDiagnostics.Logging.Fatal("CurrentGameInfo S", ex);
+                    }
+                    return null;
                 }
             }
         }
 
+        /// <summary> Send new playerData
+        /// 
+        /// </summary>
+        /// <param name="playerData">info about the current player state</param>
         public void UpdatePlayerData(UDPClientServerCommons.Interfaces.IPlayerDataWrite playerData)
         {
             Usefull.PlayerData pdata = (Usefull.PlayerData)playerData;
             lock (clientPacket)
             {
-                clientPacket.PlayerJumping = pdata.Jump;
-                clientPacket.PlayerShooting = pdata.Shoot;
-                clientPacket.PlayerPosition = Translator.TranslateBetweenVectorAndVector(pdata.Position);
-                clientPacket.PlayerMovementDirection = Translator.TranslateBetweenVectorAndVector(pdata.Velocity);
-                clientPacket.PlayerLookingDirection = Translator.TranslateBetweenVectorAndVector(pdata.LookingDirection);
-                switch (pdata.Weapon)
+                try
                 {
-                    case WeaponEnumeration.CrossBow:
-                        clientPacket.PlayerCarringWeponOne = true;
-                        clientPacket.PlayerCarringWeponTwo = false;
-                        break;
-                    case WeaponEnumeration.None:
-                        clientPacket.PlayerCarringWeponOne = false;
-                        clientPacket.PlayerCarringWeponTwo = false;
-                        break;
-                    case WeaponEnumeration.Sword:
-                        clientPacket.PlayerCarringWeponOne = false;
-                        clientPacket.PlayerCarringWeponTwo = true;
-                        break;
+                    clientPacket.PlayerJumping = pdata.Jump;
+                    clientPacket.PlayerShooting = pdata.Shoot;
+                    clientPacket.PlayerPosition = Translator.TranslateBetweenVectorAndVector(pdata.Position);
+                    clientPacket.PlayerMovementDirection = Translator.TranslateBetweenVectorAndVector(pdata.Velocity);
+                    clientPacket.PlayerLookingDirection = Translator.TranslateBetweenVectorAndVector(pdata.LookingDirection);
+                    switch (pdata.Weapon)
+                    {
+                        case WeaponEnumeration.CrossBow:
+                            clientPacket.PlayerCarringWeponOne = true;
+                            clientPacket.PlayerCarringWeponTwo = false;
+                            break;
+                        case WeaponEnumeration.None:
+                            clientPacket.PlayerCarringWeponOne = false;
+                            clientPacket.PlayerCarringWeponTwo = false;
+                            break;
+                        case WeaponEnumeration.Sword:
+                            clientPacket.PlayerCarringWeponOne = false;
+                            clientPacket.PlayerCarringWeponTwo = true;
+                            break;
+                    }
+                }
+                catch (Exception ex) 
+                {
+                    Diagnostic.NetworkingDiagnostics.Logging.Error("UpdatePlayerData S", ex);
                 }
             }
         }
 
+        /// <summary>
+        /// Information about players, null if no data avalible
+        /// </summary>
         public List<UDPClientServerCommons.Interfaces.IOtherPlayerData> PlayerDataList
         {
             get
             {
-                Interfaces.IPacket packet = last10Packeges.LastPacket;
-                if (packet == null)
+                try
                 {
-                    return null;
-                }
-                else if (packet.PacketType == PacketTypeEnumeration.StandardServerPacket && this.playerIdField.HasValue)
-                {
-                    ServerPacket spack = (ServerPacket)packet;
-                    List<IOtherPlayerData> list = new List<IOtherPlayerData>();
-                    for (int i = 0; i < spack.PlayerInfoList.Count; i++)
+                    Interfaces.IPacket packet = last10Packeges.LastPacket;
+                    if (packet == null)
                     {
-                        if (spack.PlayerInfoList[i].PlayerId != this.playerIdField.Value)
-                            list.Add(Translator.TranslatePlayerInfoToPlayerOtherData(spack.PlayerInfoList[i]));
+                        return null;
                     }
-                    return list;
+                    else if (packet.PacketType == PacketTypeEnumeration.StandardServerPacket && this.playerIdField.HasValue)
+                    {
+                        ServerPacket spack = (ServerPacket)packet;
+                        List<IOtherPlayerData> list = new List<IOtherPlayerData>();
+                        for (int i = 0; i < spack.PlayerInfoList.Count; i++)
+                        {
+                            if (spack.PlayerInfoList[i].PlayerId != this.playerIdField.Value)
+                                list.Add(Translator.TranslatePlayerInfoToPlayerOtherData(spack.PlayerInfoList[i]));
+                        }
+                        return list;
+                    }
+                    else
+                        return null;
                 }
-                else
-                    return null;
+                catch (Exception ex)
+                {
+                    Diagnostic.NetworkingDiagnostics.Logging.Error("Player Data list", ex);
+                }
+                return null;
             }
         }
 
+        /// <summary>
+        /// list of gameplay events, its cleard after get !
+        /// </summary>
         public List<UDPClientServerCommons.Interfaces.IGameplayEvent> GameplayEventList
         {
             get
             {
                 lock (gameplayEventListLock)
                 {
-                    List<IGameplayEvent> list = new List<IGameplayEvent>(gameplayEventList);
-                    gameplayEventList.Clear();
-                    return list;
+                    try
+                    {
+                        List<IGameplayEvent> list = new List<IGameplayEvent>(gameplayEventList);
+                        gameplayEventList.Clear();
+                        return list;
+                    }
+                    catch (Exception ex)
+                    {
+                        Diagnostic.NetworkingDiagnostics.Logging.Error("GameplayEventList S", ex);
+                    }
+                    return new List<IGameplayEvent>();
                 }
             }
         }
 
+        /// <summary>
+        /// list of game events, it's cleard after get
+        /// </summary>
         public List<UDPClientServerCommons.Interfaces.IGameEvent> GameEventList
         {
             get
             {
                 lock (gameEventListLock)
                 {
+                    try
+                    {
                     List<IGameEvent> list = new List<IGameEvent>(gameEventList);
                     gameEventList.Clear();
                     return list;
+                    }
+                    catch (Exception ex)
+                    {
+                        Diagnostic.NetworkingDiagnostics.Logging.Error("GameEventList S", ex);
+                    }
+                    return new List<IGameEvent>();
                 }
             }
+        }
+
+        /// <summary>
+        /// id of current player
+        /// </summary>
+        public ushort? PlayerId
+        {
+            get { return playerIdField; }
+        }
+
+        /// <summary>
+        /// id of player team
+        /// </summary>
+        public ushort? TeamId
+        {
+            get { return teamIdField; }
+        }
+
+        /// <summary>
+        /// name of current player
+        /// </summary>
+        public string PlayerName
+        {
+            get { return playerNameField; }
+        }
+
+        /// <summary>
+        /// Id of current game player is playing
+        /// </summary>
+        public ushort? GameId
+        {
+            get { return gameIdField; }
         }
 
         #endregion

@@ -8,11 +8,14 @@ using UDPClientServerCommons.Packets;
 
 namespace UDPClientServerCommons.Server
 {
+    /// <summary>
+    /// Server Side networking of Castle Strike
+    /// </summary>
     public class ServerSide:MyUdpServer,IDisposable,Interfaces.IServer
     {
         #region fields
 
-        private const int _TimerTickPeriod = 100;
+        private const int _TimerTickPeriod = 1000;
 
         /// <summary>
         /// Server packet parts
@@ -56,95 +59,74 @@ namespace UDPClientServerCommons.Server
 
         #region Constructor
 
-        /// <summary> Starts new LAN Game
-        /// 
+        /// <summary>
+        /// Starts local game, it also starts broadcasting game info all over network
         /// </summary>
-        /// <param name="gameOptions">options for new game</param>
-        /// <returns></returns>
+        /// <param name="gameOptions"> game parameters</param>
+        /// <param name="dedicatedServer">is server going to be dedicated</param>
+        /// <param name="Me">if server is not dedicated - playerData is needed</param>
+        /// <returns>Server Adress or null if error occured</returns>
         public IPEndPoint StartLANServer(GameOptions gameOptions,bool dedicatedServer,Interfaces.IPlayerMe Me)
         {
-            lanBroadcast = new ServerLanBroadcast();
-            Usefull.PlayerMe me = (Usefull.PlayerMe)Me;
-            PlayerStatus ps = new PlayerStatus();
-            lock (gameInfoPacketLock)
+            try
             {
-                Random rand = new Random(gameOptions.GetHashCode());
-                gameInfoPacket.GameId = (ushort)rand.Next(1000, 9999);
-                gameInfoPacket.GameType = gameOptions.GameType;
-                gameInfoPacket.Limit = gameOptions.GameLimit;
-                gameInfoPacket.PlayerStatusList = new List<PlayerStatus>();
+                lanBroadcast = new ServerLanBroadcast();
+                Usefull.PlayerMe me = (Usefull.PlayerMe)Me;
+                PlayerStatus ps = new PlayerStatus();
+                lock (gameInfoPacketLock)
+                {
+                    Random rand = new Random(gameOptions.GetHashCode());
+                    gameInfoPacket.GameId = (ushort)rand.Next(1000, 9999);
+                    gameInfoPacket.GameType = gameOptions.GameType;
+                    gameInfoPacket.Limit = gameOptions.GameLimit;
+                    gameInfoPacket.PlayerStatusList = new List<PlayerStatus>();
+                    if (!dedicatedServer && me != null)
+                    {
+                        ps.PlayerId = (ushort)rand.Next(1000, 9999);
+                        ps.PlayerName = me.PlayerName;
+                        if (me.PlayerTeam == gameOptions.TeamOneName)
+                            ps.PlayerTeam = 13;
+                        else
+                            ps.PlayerTeam = 39;
+
+                        clientForServer = new ClientForServer();
+                        clientForServer.AddMessageToServer += new ClientForServer.AddMessageDelegate(clientForServer_AddMessageToServer);
+                        clientForServer.JoinGame(ps.PlayerId, gameInfoPacket.GameId, ps.PlayerName, ps.PlayerTeam);
+                    }
+
+                    gameInfoPacket.TeamScoreList = new List<TeamData>();
+                    TeamData ts1 = new TeamData(13, gameOptions.TeamOneName);
+                    TeamData ts2 = new TeamData(39, gameOptions.TeamTwoName);
+                    gameInfoPacket.ServerAddress = base.ServerIpAdress;
+                    gameInfoPacket.TeamScoreList.Add(ts1);
+                    gameInfoPacket.TeamScoreList.Add(ts2);
+                    gameInfoPacketSendCounter = 0;
+                }
                 if (!dedicatedServer && me != null)
                 {
-                    ps.PlayerId = (ushort)rand.Next(1000, 9999);
-                    ps.PlayerName = me.PlayerName;
-                    if (me.PlayerTeam == gameOptions.TeamOneName)
-                        ps.PlayerTeam = 13;
-                    else
-                        ps.PlayerTeam = 39;
-
-                    clientForServer = new ClientForServer();
-                    clientForServer.AddMessageToServer += new ClientForServer.AddMessageDelegate(clientForServer_AddMessageToServer);
-                    clientForServer.JoinGame(ps.PlayerId, gameInfoPacket.GameId, ps.PlayerName, ps.PlayerTeam);
-                }
-
-                gameInfoPacket.TeamScoreList = new List<TeamData>();
-                TeamData ts1 = new TeamData(13, gameOptions.TeamOneName);
-                TeamData ts2 = new TeamData(39, gameOptions.TeamTwoName);
-                gameInfoPacket.ServerAddress = base.ServerIpAdress;
-                gameInfoPacket.TeamScoreList.Add(ts1);
-                gameInfoPacket.TeamScoreList.Add(ts2);
-                gameInfoPacketSendCounter = 0;
-            }
-            if (!dedicatedServer && me != null)
-            {
-                lock (serverPacketLock)
-                {
-                    PlayerInfo pi = new PlayerInfo();
-                    pi.PlayerId = ps.PlayerId;
-                    serverPacket.PlayerInfoList.Add(pi);
-                }
-            }
-
-            timer.Change(0, _TimerTickPeriod);
-            return base.Start();
-        }
-
-        void clientForServer_AddMessageToServer(UDPClientServerCommons.Interfaces.IPacket packet)
-        {
-            if (packet.PacketType == PacketTypeEnumeration.StandardClientPacket)
-            {
-                // adding client info to server packet
-                ClientPacket cp = (ClientPacket)packet;
-                lock (serverPacket)
-                {
-                    for (int i = 0; i < serverPacket.PlayerInfoList.Count; i++)
-                        if (serverPacket.PlayerInfoList[i].PlayerId == cp.PlayerId)
-                        {
-                            serverPacket.PlayerInfoList[i] = Translator.TranslateBetweenClientPacketAndPlayerInfo(cp);
-                            break;
-                        }
-                }
-            }
-            if (packet.PacketType == PacketTypeEnumeration.JoinPacket)
-            {
-                JoinPacket joinPacket = (JoinPacket)packet;
-                lock (serverPacketLock)
-                {
-                    for (int i = 0; i < gameInfoPacket.PlayerStatusList.Count; i++)
+                    lock (serverPacketLock)
                     {
-                        if (gameInfoPacket.PlayerStatusList[i].PlayerId == joinPacket.PlayerId)
-                        {
-                            // we update playerName
-                            gameInfoPacket.PlayerStatusList[i].PlayerName = joinPacket.PlayerName;
-                            // change team request
-                            gameInfoPacket.PlayerStatusList[i].PlayerTeam = joinPacket.TeamId;
-                            break;
-                        }
+                        PlayerInfo pi = new PlayerInfo();
+                        pi.PlayerId = ps.PlayerId;
+                        serverPacket.PlayerInfoList.Add(pi);
                     }
                 }
+
+                timer.Change(0, _TimerTickPeriod);
+                return base.Start();
             }
+            catch (Exception ex)
+            {
+                Diagnostic.NetworkingDiagnostics.Logging.Fatal("StartLanServer S", ex);
+            }
+            return null;
         }
 
+        /// <summary>
+        /// Starts Game - starts sending player info
+        /// todo: ignore join packets after game starts?
+        /// </summary>
+        /// <returns>true if everything went ok</returns>
         public bool StartGame()
         {
             bool ret = true;
@@ -203,8 +185,8 @@ namespace UDPClientServerCommons.Server
                 ServerIpAdress = new IPEndPoint(MyIp,port);
             base.MessageWasReceivedEvent += new EventHandler(myUdpServer_MessageWasReceivedEvent);
             System.Threading.TimerCallback timerCallback = new System.Threading.TimerCallback(timerCallbackMethod);
-            timer = new System.Threading.Timer(timerCallback, null, System.Threading.Timeout.Infinite, 100);
-            ackOperating = new AckOperating();
+            timer = new System.Threading.Timer(timerCallback, null, System.Threading.Timeout.Infinite,_TimerTickPeriod );
+           // ackOperating = new AckOperating();
 
             //diagnostics
             Diagnostic.NetworkingDiagnostics.Configure();
@@ -218,8 +200,8 @@ namespace UDPClientServerCommons.Server
         {
             base.MessageWasReceivedEvent += new EventHandler(myUdpServer_MessageWasReceivedEvent);
             System.Threading.TimerCallback timerCallback = new System.Threading.TimerCallback(timerCallbackMethod);
-            timer = new System.Threading.Timer(timerCallback, null, System.Threading.Timeout.Infinite, 100);
-            ackOperating = new AckOperating();
+            timer = new System.Threading.Timer(timerCallback, null, System.Threading.Timeout.Infinite, _TimerTickPeriod);
+            //ackOperating = new AckOperating();
 
             //diagnostics
             Diagnostic.NetworkingDiagnostics.Configure();
@@ -230,75 +212,118 @@ namespace UDPClientServerCommons.Server
 
         #endregion
 
+        private void clientForServer_AddMessageToServer(UDPClientServerCommons.Interfaces.IPacket packet)
+        {
+            if (packet.PacketType == PacketTypeEnumeration.StandardClientPacket)
+            {
+                // adding client info to server packet
+                ClientPacket cp = (ClientPacket)packet;
+                lock (serverPacket)
+                {
+                    for (int i = 0; i < serverPacket.PlayerInfoList.Count; i++)
+                        if (serverPacket.PlayerInfoList[i].PlayerId == cp.PlayerId)
+                        {
+                            serverPacket.PlayerInfoList[i] = Translator.TranslateBetweenClientPacketAndPlayerInfo(cp);
+                            break;
+                        }
+                }
+            }
+            if (packet.PacketType == PacketTypeEnumeration.JoinPacket)
+            {
+                JoinPacket joinPacket = (JoinPacket)packet;
+                lock (serverPacketLock)
+                {
+                    for (int i = 0; i < gameInfoPacket.PlayerStatusList.Count; i++)
+                    {
+                        if (gameInfoPacket.PlayerStatusList[i].PlayerId == joinPacket.PlayerId)
+                        {
+                            // we update playerName
+                            gameInfoPacket.PlayerStatusList[i].PlayerName = joinPacket.PlayerName;
+                            // change team request
+                            gameInfoPacket.PlayerStatusList[i].PlayerTeam = joinPacket.TeamId;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         private void timerCallbackMethod(object target)
         {
             bool gameHasStarted = false;
             lock (gameInfoPacketLock)
             {
-                gameHasStarted = gameStarted;
-                if (!gameStarted)
+                try
                 {
-                    if (gameInfoPacketSendCounter == 0)
+                    gameHasStarted = gameStarted;
+                    if (!gameStarted)
                     {
-                        // game hasnt started yet so sent game info more often
-                        UDPPacketBuffer buff = new UDPPacketBuffer();
-                        gameInfoPacket.TimeStamp = DateTime.Now;
-                        gameInfoPacket.PacketId.Value = packetIdCounter.Next();
-
-                        buff.Data = gameInfoPacket.ToMinimalByte();
-                        buff.DataLength = buff.Data.Length;
-
-                        // broadcasting GameInfo to everyone
-                        lanBroadcast.SendAsync(buff.Data);
-                        Console.WriteLine("Sending broadcast");
-                        for (int i = 0; i < cliendAdressList.Count; i++)
+                        if (gameInfoPacketSendCounter == 0)
                         {
-                            buff.RemoteEndPoint = cliendAdressList[i];
-                            base.AsyncBeginSend(buff);
+                            // game hasnt started yet so sent game info more often
+                            UDPPacketBuffer buff = new UDPPacketBuffer();
+                            gameInfoPacket.TimeStamp = DateTime.Now;
+                            gameInfoPacket.PacketId.Value = packetIdCounter.Next();
+
+                            buff.Data = gameInfoPacket.ToMinimalByte();
+                            buff.DataLength = buff.Data.Length;
+
+                            // broadcasting GameInfo to everyone
+                            lanBroadcast.SendAsync(buff.Data);
+                            Console.WriteLine("Sending broadcast");
+                            for (int i = 0; i < cliendAdressList.Count; i++)
+                            {
+                                buff.RemoteEndPoint = cliendAdressList[i];
+                                base.AsyncBeginSend(buff);
+                            }
+                            // we send every 10 ticks = every second
+                            gameInfoPacketSendCounter = 10;
                         }
-                        // we send every 10 ticks = every second
-                        gameInfoPacketSendCounter = 10;
+                        else
+                            gameInfoPacketSendCounter--;
                     }
                     else
-                        gameInfoPacketSendCounter--;
-                }
-                else
-                {
-                    // game has started so we dont have to send game info so often
-                    if (gameInfoPacketSendCounter == 0)
                     {
-                        UDPPacketBuffer buff = new UDPPacketBuffer();
-                        gameInfoPacket.TimeStamp = DateTime.Now;
-                        gameInfoPacket.PacketId.Value = packetIdCounter.Next();
-
-                        buff.Data = gameInfoPacket.ToMinimalByte();
-                        buff.DataLength = gameInfoPacket.ByteCount;
-
-                        for (int i = 0; i < cliendAdressList.Count; i++)
+                        // game has started so we dont have to send game info so often
+                        if (gameInfoPacketSendCounter == 0)
                         {
-                            buff.RemoteEndPoint = cliendAdressList[i];
-                            base.AsyncBeginSend(buff);
-                        }
+                            UDPPacketBuffer buff = new UDPPacketBuffer();
+                            gameInfoPacket.TimeStamp = DateTime.Now;
+                            gameInfoPacket.PacketId.Value = packetIdCounter.Next();
 
-                        if (cliendAdressList.Count > 0)
-                        {
-                            if (lastPackages.ContainsKey(last10.Counter))
-                                lastPackages[last10.Counter] = gameInfoPacket;
-                            else
-                                lastPackages.Add(last10.Counter, gameInfoPacket);
-                            last10.Increase();
+                            buff.Data = gameInfoPacket.ToMinimalByte();
+                            buff.DataLength = gameInfoPacket.ByteCount;
+
+                            for (int i = 0; i < cliendAdressList.Count; i++)
+                            {
+                                buff.RemoteEndPoint = cliendAdressList[i];
+                                base.AsyncBeginSend(buff);
+                            }
+
+                            if (cliendAdressList.Count > 0)
+                            {
+                                if (lastPackages.ContainsKey(last10.Counter))
+                                    lastPackages[last10.Counter] = gameInfoPacket;
+                                else
+                                    lastPackages.Add(last10.Counter, gameInfoPacket);
+                                last10.Increase();
+                            }
+                            // we need to send GameInfoPaket every 30 ticks - 30 seconds
+                            gameInfoPacketSendCounter = 30;
                         }
-                        // we need to send GameInfoPaket every 30 ticks - 30 seconds
-                        gameInfoPacketSendCounter = 30;
+                        else
+                            gameInfoPacketSendCounter--;
                     }
-                    else
-                        gameInfoPacketSendCounter--;
                 }
+                catch (Exception ex)
+                { Diagnostic.NetworkingDiagnostics.Logging.Fatal("Server Timer Error !!! ", ex); }
             }
 
             if(gameHasStarted)
             lock (serverPacketLock)
             {
+                try
+                {
                 UDPPacketBuffer buff = new UDPPacketBuffer();
                 serverPacket.TimeStamp = DateTime.Now;
                 serverPacket.PacketId.Value = packetIdCounter.Next();
@@ -318,6 +343,9 @@ namespace UDPClientServerCommons.Server
                         lastPackages.Add(last10.Counter, serverPacket);
                     last10.Increase();
                 }
+                }
+                catch (Exception ex)
+                { Diagnostic.NetworkingDiagnostics.Logging.Fatal("Server Timer Error !!! ", ex); }
             }
         }
 
@@ -459,28 +487,43 @@ namespace UDPClientServerCommons.Server
             }
         }
 
+        /// <summary>
+        /// Ip of the server, null if error
+        /// </summary>
         public IPAddress MyIp
         {
             get
             {
-                IPAddress result = null;
-                string myHost = System.Net.Dns.GetHostName();
-                System.Net.IPHostEntry myIPs = System.Net.Dns.GetHostEntry(myHost);
-                for (int i = 0; i < myIPs.AddressList.Length; i++)
-                    //just LAN
-                    if (myIPs.AddressList[i].AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                    {
-                        result = myIPs.AddressList[i];
-                        break;
-                    }
-                return result;
+                try
+                {
+                    IPAddress result = null;
+                    string myHost = System.Net.Dns.GetHostName();
+                    System.Net.IPHostEntry myIPs = System.Net.Dns.GetHostEntry(myHost);
+                    for (int i = 0; i < myIPs.AddressList.Length; i++)
+                        //just LAN
+                        if (myIPs.AddressList[i].AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        {
+                            result = myIPs.AddressList[i];
+                            break;
+                        }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Diagnostic.NetworkingDiagnostics.Logging.Error("ip get error", ex);
+                }
+                return null;
             }
         }
 
+        /// <summary>
+        /// Close and cleans up the server
+        /// </summary>
         public override void Dispose()
         {
             base.Dispose();
-            lanBroadcast.Dispose();
+            if (lanBroadcast != null)
+                lanBroadcast.Dispose();
         }
     }
 }

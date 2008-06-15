@@ -64,6 +64,15 @@ namespace UDPClientServerCommons.Usefull
             get { return duckField; }
         }
 
+        private ushort playerIdField;
+
+        public ushort PlayerId
+        {
+            get { return playerIdField; }
+            set { playerIdField = value; }
+        }
+
+
         #endregion
     }
 }

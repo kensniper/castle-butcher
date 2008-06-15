@@ -52,17 +52,18 @@ namespace UDPClientServerCommons.Interfaces
         /// <summary>
         /// Leave current game
         /// </summary>
-        void LeaveGame();
+        /// <returns>true if operation was successfull</returns>
+        bool LeaveGame();
 
         /// <summary>
         /// Change team method
         /// </summary>
-        /// <param name="TeamId"></param>
-        /// <returns></returns>
+        /// <param name="TeamId">new teamId</param>
+        /// <returns>true if successfull</returns>
         bool ChangeTeam(ushort TeamId);
 
         /// <summary>
-        /// Current info about game player is playing
+        /// Current info about game player is playing, null if no data avalible
         /// </summary>
         GameInfoPacket CurrentGameInfo
         {
@@ -70,7 +71,7 @@ namespace UDPClientServerCommons.Interfaces
         }
 
         /// <summary>
-        /// Information about players
+        /// Information about players, null if no data avalible
         /// </summary>
         List<Interfaces.IOtherPlayerData> PlayerDataList
         {
@@ -89,6 +90,38 @@ namespace UDPClientServerCommons.Interfaces
        /// Events that happend during game (someone joined etc.)
        /// </summary>
         List<Interfaces.IGameEvent> GameEventList
+        {
+            get;
+        }
+
+        /// <summary>
+        /// id of current player
+        /// </summary>
+        ushort? PlayerId
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Id of current game player is playing
+        /// </summary>
+        ushort? GameId
+        {
+            get;
+        }
+            
+        /// <summary>
+        /// name of current player
+        /// </summary>
+        string PlayerName
+        {
+            get;
+        }
+
+        /// <summary>
+        /// id of player team
+        /// </summary>
+        ushort? TeamId
         {
             get;
         }

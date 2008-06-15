@@ -30,11 +30,11 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnStart = new System.Windows.Forms.Button();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.btnJoin = new System.Windows.Forms.Button();
-            this.txtPort = new System.Windows.Forms.MaskedTextBox();
             this.btnLeave = new System.Windows.Forms.Button();
+            this.txtPort = new System.Windows.Forms.MaskedTextBox();
+            this.btnJoin = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -59,6 +59,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.btnJoin);
             this.splitContainer1.Panel2.Controls.Add(this.btnRefresh);
             this.splitContainer1.Panel2.Controls.Add(this.btnStart);
+            this.splitContainer1.Panel2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseDoubleClick);
             this.splitContainer1.Size = new System.Drawing.Size(361, 264);
             this.splitContainer1.SplitterDistance = 214;
             this.splitContainer1.TabIndex = 0;
@@ -78,25 +79,24 @@
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
             // 
-            // btnStart
+            // btnLeave
             // 
-            this.btnStart.Location = new System.Drawing.Point(277, 11);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 23);
-            this.btnStart.TabIndex = 0;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            this.btnLeave.Location = new System.Drawing.Point(144, 11);
+            this.btnLeave.Name = "btnLeave";
+            this.btnLeave.Size = new System.Drawing.Size(46, 23);
+            this.btnLeave.TabIndex = 3;
+            this.btnLeave.Text = "Leave";
+            this.btnLeave.UseVisualStyleBackColor = true;
+            this.btnLeave.Click += new System.EventHandler(this.btnLeave_Click);
             // 
-            // btnRefresh
+            // txtPort
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(12, 11);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 1;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            this.txtPort.Location = new System.Drawing.Point(238, 13);
+            this.txtPort.Mask = "0000";
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(33, 20);
+            this.txtPort.TabIndex = 1;
+            this.txtPort.Text = "1111";
             // 
             // btnJoin
             // 
@@ -108,24 +108,25 @@
             this.btnJoin.UseVisualStyleBackColor = true;
             this.btnJoin.Click += new System.EventHandler(this.btnJoin_Click);
             // 
-            // txtPort
+            // btnRefresh
             // 
-            this.txtPort.Location = new System.Drawing.Point(238, 13);
-            this.txtPort.Mask = "0000";
-            this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(33, 20);
-            this.txtPort.TabIndex = 1;
-            this.txtPort.Text = "1111";
+            this.btnRefresh.Location = new System.Drawing.Point(12, 11);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 1;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
-            // btnLeave
+            // btnStart
             // 
-            this.btnLeave.Location = new System.Drawing.Point(144, 11);
-            this.btnLeave.Name = "btnLeave";
-            this.btnLeave.Size = new System.Drawing.Size(46, 23);
-            this.btnLeave.TabIndex = 3;
-            this.btnLeave.Text = "Leave";
-            this.btnLeave.UseVisualStyleBackColor = true;
-            this.btnLeave.Click += new System.EventHandler(this.btnLeave_Click);
+            this.btnStart.Location = new System.Drawing.Point(277, 11);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(75, 23);
+            this.btnStart.TabIndex = 0;
+            this.btnStart.Text = "Start";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // StartForm
             // 
