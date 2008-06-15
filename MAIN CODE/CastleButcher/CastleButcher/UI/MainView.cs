@@ -186,6 +186,11 @@ namespace CastleButcher.UI
                         
                         renderer.RenderRD(obj.RenderingData, /*Matrix.Translation(0,-(obj as Character).YMotionToCompensate,0)*/obj.RenderingData.CustomTransform * obj.Transform);
                     }
+                    else if(obj is WeaponPickup)
+                    {
+                        if((obj as WeaponPickup).Ready)
+                            renderer.RenderRD(obj.RenderingData, obj.RenderingData.CustomTransform * obj.Transform);
+                    }
                     else
                     {
                         renderer.RenderRD(obj.RenderingData, obj.RenderingData.CustomTransform * obj.Transform);

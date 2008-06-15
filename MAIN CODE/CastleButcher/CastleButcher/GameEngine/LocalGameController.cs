@@ -9,6 +9,7 @@ using UDPClientServerCommons.Server;
 using Microsoft.DirectX;
 using Framework.MyMath;
 using UDPClientServerCommons.Constants;
+using UDPClientServerCommons.GameEvents;
 namespace CastleButcher.GameEngine
 {
     public class LocalGameController : GameController
@@ -168,9 +169,48 @@ namespace CastleButcher.GameEngine
             List<IGameplayEvent> gameplayEvents = serverNetworkLayer.Client.GameplayEventList;
             for (int i = 0; i < gameEvents.Count; i++)
             {
-                if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerJoined)
+                if (gameEvents[i].GameEventType == GameEventTypeEnumeration.GameStared)
                 {
                     //gameEvents[i].
+                    //StartGame();
+                }
+                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerJoined)
+                {
+                    PlayerJoinedEvent ev = (PlayerJoinedEvent)gameEvents[i];
+                    Player p = new Player(ev.PlayerName, null);
+                    p.NetworkId = ev.PlayerId;
+                    AddPlayer(p);
+                }
+                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerChangedTeam)
+                {
+                    PlayerChangedTeamEvent ev = (PlayerChangedTeamEvent)gameEvents[i];
+
+                    Player p = GetPlayerByID(ev.PlayerId);
+                    ChangePlayerTeam(p, GetTeamByID(ev.NewTeamId));
+                }
+                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerQuitted)
+                {
+                    PlayerQuitEvent ev = (PlayerQuitEvent)gameEvents[i];
+
+                    Player p = GetPlayerByID(ev.PlayerId);
+                    RemovePlayer(p);
+                }
+                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.NewRound)
+                {
+                    BeginRound();
+                }
+                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.EndRound)
+                {
+                    EndRound();
+                }
+                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.TeamScored)
+                {
+                    TeamScoredEvent ev = (TeamScoredEvent)gameEvents[i];
+                    GameTeam team = GetTeamByID(ev.TeamId);
+                    if (team == GameTeam.Assassins)
+                        assassinsScore++;
+                    else
+                        knightsScore++;
                 }
 
             }

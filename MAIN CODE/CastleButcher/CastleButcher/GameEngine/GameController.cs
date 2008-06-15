@@ -12,6 +12,29 @@ namespace CastleButcher.GameEngine
         protected GameStatus gameStatus;
         protected int knightsScore;
         protected int assassinsScore;
+
+        protected ushort assassinsID;
+        protected ushort knightsID;
+
+        public GameTeam GetTeamByID(ushort id)
+        {
+            if (id == assassinsID)
+                return GameTeam.Assassins;
+            if (id == knightsID)
+                return GameTeam.Knights;
+            else
+                return GameTeam.Both;
+        }
+
+        public Player GetPlayerByID(ushort id)
+        {
+            for (int i = 0; i < World.Instance.Players.Count; i++)
+            {
+                if (World.Instance.Players[i].NetworkId == id)
+                    return World.Instance.Players[i];
+            }
+            return null;
+        }
         public GameStatus GameStatus
         {
             get
