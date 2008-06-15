@@ -310,20 +310,21 @@ namespace CastleButcher.UI
         {
             base.OnKeyboard(pressedKeys, releasedKeys, pressedChar, pressedKey, elapsedTime);
             slay.OnKeyboard(pressedKeys, releasedKeys, pressedChar, pressedKey, elapsedTime);
+            if (pressedKeys.Contains(System.Windows.Forms.Keys.F2) && playerListAdded == false)
+            {
+                AddControl(playerList);
+                playerList.Update();
+                playerListAdded = true;
+            }
+            if (releasedKeys.Contains(System.Windows.Forms.Keys.F2) && playerListAdded == true)
+            {
+                RemoveControl(playerList);
+                playerList.Update();
+                playerListAdded = false;
+            }
             if (player.IsAlive)
             {
-                if (pressedKeys.Contains(System.Windows.Forms.Keys.F2) && playerListAdded == false)
-                {
-                    AddControl(playerList);
-                    playerList.Update();
-                    playerListAdded = true;
-                }
-                if (releasedKeys.Contains(System.Windows.Forms.Keys.F2) && playerListAdded == true)
-                {
-                    RemoveControl(playerList);
-                    playerList.Update();
-                    playerListAdded = false;
-                }
+                
                 if (pressedKeys.Contains(System.Windows.Forms.Keys.Tab) && mapAdded == false)
                 {
                     AddControl(castleMap);
