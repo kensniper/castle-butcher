@@ -215,6 +215,7 @@ namespace CastleButcher.UI
             {
                 castleMap.Update();
             }
+            playerList.Update();
 
 
             if (player.CurrentCharacter != null)
