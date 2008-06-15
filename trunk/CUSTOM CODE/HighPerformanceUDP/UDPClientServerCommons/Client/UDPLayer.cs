@@ -95,7 +95,7 @@ namespace UDPClientServerCommons.Client
                 ClientPacket clientPacket = GetData();
                 if (clientPacket != null)
                 {
-                    clientPacket.PacketId.Next();
+                    //clientPacket.PacketId.Next();
                     //udpSocket.SendTo(clientPacket.ToByte(), ServerIpep);
                     SendPacket(clientPacket.ToByte());
                 }
@@ -325,7 +325,7 @@ namespace UDPClientServerCommons.Client
                       Thread.Sleep(1);
 
                       //todo: tempSolution
-                      // if we are waiting more than 10 sec than break
+                      // if we are waiting more than 10 sec
                       TimeSpan span = DateTime.Now.Subtract(startWaiting);
                       if (span.TotalSeconds > 10)
                           break;
