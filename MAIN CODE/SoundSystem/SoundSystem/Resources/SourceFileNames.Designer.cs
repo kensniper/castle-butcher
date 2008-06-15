@@ -241,6 +241,15 @@ namespace SoundSystem.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Explode.wav.
+        /// </summary>
+        internal static string explode {
+            get {
+                return ResourceManager.GetString("explode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fanfare1.wav.
         /// </summary>
         internal static string fanfare1 {
