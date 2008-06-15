@@ -9,18 +9,20 @@ using Framework.MyMath;
 
 namespace CastleButcher.Content
 {
-    public class KnightClass:CharacterClass
+    public class KnightClass : CharacterClass
     {
-        PlayerMovementParameters movementParameters=new PlayerMovementParameters(35,GameSettings.Default.KnightSpeed);
+        PlayerMovementParameters movementParameters = new PlayerMovementParameters(35, GameSettings.Default.KnightSpeed);
         CollisionMesh collisionData;
         CollisionMesh walkingCollisionData;
         //CollisionMesh hitMesh;
         RenderingData renderingData;
+        RenderingData rdWithCrossbow;
+        RenderingData rdWithGrenade;
 
         public KnightClass()
         {
             collisionData = ResourceCache.Instance.GetCollisionMesh("knightHitMesh.cm");
-            List<MyVector> tempPoints=new List<MyVector>();
+            List<MyVector> tempPoints = new List<MyVector>();
             for (int i = 0; i < collisionData.m_hardPoints.Length; i++)
             {
                 if (collisionData.m_hardPoints[i].Y < 0)
@@ -30,6 +32,9 @@ namespace CastleButcher.Content
             walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("knightWalkingPoint.cm");
             //hitMesh = ResourceCache.Instance.GetCollisionMesh("knightHitMesh.cm");
             renderingData = ResourceCache.Instance.GetRenderingData("knightWalkingMesh2.x");
+            rdWithCrossbow = ResourceCache.Instance.GetRenderingData("knightWalkingMesh2.x");
+            rdWithGrenade = ResourceCache.Instance.GetRenderingData("knightWalkingMesh2.x");
+
             float r = renderingData.BoundingSphereRadius;
 
         }
@@ -61,6 +66,22 @@ namespace CastleButcher.Content
         public override GameTeam GameTeam
         {
             get { return GameTeam.Knights; }
+        }
+
+        public override RenderingData CharRenderingData(Character character)
+        {
+            if (character.Weapons.CurrentWeapon != null)
+            {
+                if (character.Weapons.CurrentWeapon.WeaponClass is PipeClass)
+                {
+                    return rdWithCrossbow;
+                }
+                else if (character.Weapons.CurrentWeapon.WeaponClass is FireballClass)
+                    return rdWithGrenade;
+            }
+
+            return RenderingData;
+
         }
     }
 }

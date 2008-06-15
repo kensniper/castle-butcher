@@ -9,13 +9,15 @@ using Framework.MyMath;
 
 namespace CastleButcher.Content
 {
-    public class AssassinClass:CharacterClass
+    public class AssassinClass : CharacterClass
     {
-        PlayerMovementParameters movementParameters=new PlayerMovementParameters(50,GameSettings.Default.AssassinSpeed);
+        PlayerMovementParameters movementParameters = new PlayerMovementParameters(50, GameSettings.Default.AssassinSpeed);
         CollisionMesh collisionData;
         CollisionMesh walkingCollisionData;
         //CollisionMesh hitMesh;
         RenderingData renderingData;
+        RenderingData rdWithPipe;
+        RenderingData rdWithFireball;
 
         public AssassinClass()
         {
@@ -29,8 +31,10 @@ namespace CastleButcher.Content
             collisionData.m_hardPoints = tempPoints.ToArray();
             walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("assassinWalkingPoint.cm");
             //hitMesh = ResourceCache.Instance.GetCollisionMesh("assassinHitMesh.cm");
-            
+
             renderingData = ResourceCache.Instance.GetRenderingData("assassinWalkingMesh2.x");
+            rdWithPipe = ResourceCache.Instance.GetRenderingData("assassinWithPipe.x");
+            rdWithFireball = ResourceCache.Instance.GetRenderingData("assassinWithPipe.x");
         }
         public override PlayerMovementParameters MovementParameters
         {
@@ -55,6 +59,20 @@ namespace CastleButcher.Content
         public override CastleButcher.GameEngine.Resources.RenderingData RenderingData
         {
             get { return renderingData; }
+        }
+
+        public override RenderingData CharRenderingData(Character character)
+        {
+            if (character.Weapons.CurrentWeapon != null)
+            {
+                if (character.Weapons.CurrentWeapon.WeaponClass is PipeClass)
+                {
+                    return rdWithPipe;
+                }
+                else if (character.Weapons.CurrentWeapon.WeaponClass is FireballClass)
+                    return rdWithFireball;
+            }
+            return RenderingData;
         }
 
         public override GameTeam GameTeam

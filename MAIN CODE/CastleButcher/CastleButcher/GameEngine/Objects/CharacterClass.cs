@@ -43,5 +43,7 @@ namespace CastleButcher.GameEngine
         {
             get;
         }
+
+        public abstract RenderingData CharRenderingData(Character character);
     }
 }

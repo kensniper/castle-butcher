@@ -101,13 +101,13 @@ namespace CastleButcher.GameEngine
                 if (value > 1)
                 {
                     value = 1;
-                    
+
                 }
                 if (value < -1)
                     value = -1;
                 velocity = value;
 
-                if (velocity != 0 && footsoundDescriptor==null)
+                if (velocity != 0 && footsoundDescriptor == null)
                 {
                     footsoundDescriptor = SoundSystem.SoundEngine.StartSteps(SoundSystem.Enums.SoundTypes.stepsInside1, (Vector3)character.Position);
 
@@ -296,7 +296,9 @@ namespace CastleButcher.GameEngine
             lookVector.Rotate(qY);
             rightVector.Rotate(qY);
             lookVector.Normalize();
-            character.LookOrientation = initialOrientation * (qY*qX);
+//            character.LookOrientation = initialOrientation * (qY * qX);
+            character.LookOrientation = initialOrientation * (qY * qX);
+            character.WalkOrientation = initialOrientation * qY;
 
             //MyVector zVelocity = lookVector * (ship.Velocity.Dot(lookVector));
             ////MyVector xVelocity = rightVector * (ship.Velocity.Dot(rightVector));
