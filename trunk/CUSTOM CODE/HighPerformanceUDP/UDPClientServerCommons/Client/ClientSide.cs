@@ -162,11 +162,19 @@ namespace UDPClientServerCommons.Client
                 switch (packet.PacketType)
                 {
                     case PacketTypeEnumeration.StandardServerPacket:
+                        bool start = false;
+                        if(last10Packeges.LastPacket == null)
+                            start=true;
                         List<Interfaces.IGameplayEvent> gameplayEvents = GameEvents.GameEventExtractor.GetGameplayEvents((ServerPacket)packet, (ServerPacket)last10Packeges.LastPacket, playerIdField);
                         lock (gameplayEventListLock)
                         {
                             for (int i = 0; i < gameplayEvents.Count; i++)
                                 gameplayEventList.Add(gameplayEvents[i]);
+                        }
+                        lock (gameEventListLock)
+                        {
+                            if (start)
+                                gameEventList.Add(new GameEvents.GameStartedEvent());
                         }
                         last10Packeges.AddPacket(packet);
                         break;
@@ -264,7 +272,9 @@ namespace UDPClientServerCommons.Client
             finally
             {
                 udpNetworking.Dispose();
-                if (lanBroadcast!= null && lanBroadcast.IsRunning)
+              //  if (lanBroadcast!= null && lanBroadcast.IsRunning)
+                // why isRunning is needed ??
+                if(lanBroadcast!=null)
                     lanBroadcast.Dispose();
             }
         }

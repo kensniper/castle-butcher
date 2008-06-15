@@ -21,7 +21,7 @@ namespace UDPClientServerCommons
             //to.PlayerRunning = from.PlayerRunning;
             to.PlayerShooting = from.PlayerShooting;
             //to.PlayerWalking = from.PlayerWalking;
-
+            to.Timestamp = from.TimeStamp;
             return to;
         }
 

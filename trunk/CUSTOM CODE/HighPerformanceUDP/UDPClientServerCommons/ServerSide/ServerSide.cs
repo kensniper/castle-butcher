@@ -29,7 +29,7 @@ namespace UDPClientServerCommons.Server
         /// <summary>
         /// Not used but may be needed in the future
         /// </summary>
-        private AckOperating ackOperating;
+        //private AckOperating ackOperating;
 
         /// <summary>
         /// Game info parts
@@ -273,6 +273,7 @@ namespace UDPClientServerCommons.Server
                             Console.WriteLine("Sending broadcast");
                             for (int i = 0; i < cliendAdressList.Count; i++)
                             {
+                                Console.WriteLine("Sending gameInfo to : {0}", cliendAdressList[i]);
                                 buff.RemoteEndPoint = cliendAdressList[i];
                                 base.AsyncBeginSend(buff);
                             }
@@ -296,6 +297,7 @@ namespace UDPClientServerCommons.Server
 
                             for (int i = 0; i < cliendAdressList.Count; i++)
                             {
+                                Console.WriteLine("Sending gameInfo to : {0}", cliendAdressList[i]);
                                 buff.RemoteEndPoint = cliendAdressList[i];
                                 base.AsyncBeginSend(buff);
                             }
@@ -332,6 +334,7 @@ namespace UDPClientServerCommons.Server
 
                 for (int i = 0; i < cliendAdressList.Count; i++)
                 {
+                    Console.WriteLine("Sending serverPacket to : {0}", cliendAdressList[i]);
                     buff.RemoteEndPoint = cliendAdressList[i];
                     base.AsyncBeginSend(buff);
                 }

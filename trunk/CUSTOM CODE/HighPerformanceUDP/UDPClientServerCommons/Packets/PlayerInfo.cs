@@ -24,7 +24,7 @@ namespace UDPClientServerCommons.Packets
 
         new public int ByteCount
         {
-            get {return base.ByteCount + 2+2 + ackIdsField.Count*2; }
+            get {return base.ByteCount + 2+2 + ackIdsField.Count*2 + 8; }
         }
 
         private List<ushort> ackIdsField;
@@ -100,7 +100,7 @@ namespace UDPClientServerCommons.Packets
             for (ushort i = 0; i < ackNumber; i++)
             {
                 ackIdsField.Add((ushort)BitConverter.ToInt16(binaryPlayerInfo, pos));
-                pos += i * 2;
+                pos += 2;
             }
             timestampField = DateTime.FromBinary( BitConverter.ToInt64(binaryPlayerInfo, pos));
         }
@@ -117,7 +117,7 @@ namespace UDPClientServerCommons.Packets
             for (ushort i = 0; i < ackNumber; i++)
             {
                 ackIdsField.Add((ushort)BitConverter.ToInt16(binaryPlayerInfo, pos));
-                pos += i * 2;
+                pos += 2;
             }
             timestampField = DateTime.FromBinary( BitConverter.ToInt64(binaryPlayerInfo, pos));
         }

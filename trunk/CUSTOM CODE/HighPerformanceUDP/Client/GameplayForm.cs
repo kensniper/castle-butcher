@@ -14,6 +14,8 @@ namespace Client
         private UDPClientServerCommons.Interfaces.IClient network = null;
 
         private delegate void RefreshStuff(object obj);
+        private delegate float GetVal();
+        private delegate void ShowData(UDPClientServerCommons.Usefull.PlayerData pd);
 
         private System.Threading.Timer gameLoopTimer = null;
 
@@ -34,16 +36,29 @@ namespace Client
             //gameLoopTimer = new System.Threading.Timer(new System.Threading.TimerCallback(timerCallback), null, 0, 1000);
         }
 
+        private float getValueFromTxtX()
+        {
+            return float.Parse(txtX.Text);
+        }
+
+        private float getValueFromTxtY()
+        {
+            return float.Parse(txtY.Text);
+        }
+
         private void timerCallback(object obj)
         {
             try
             {
+                UDPClientServerCommons.Interfaces.IPlayerDataWrite pdata = new UDPClientServerCommons.Usefull.PlayerData();
                 lock (cordsLock)
                 {
-                    UDPClientServerCommons.Interfaces.IPlayerDataWrite pdata = new UDPClientServerCommons.Usefull.PlayerData();
-                    pdata.Position = new Microsoft.DirectX.Vector3(float.Parse(txtX.Text), float.Parse(txtY.Text), 0.0f);
-                    pdata.LookingDirection = new Microsoft.DirectX.Vector3(float.Parse(txtX.Text), float.Parse(txtY.Text), 0.0f);
-                    pdata.Velocity = new Microsoft.DirectX.Vector3(float.Parse(txtX.Text), float.Parse(txtY.Text), 0.0f);
+                    float valX = (float)( txtX.Invoke(new GetVal(getValueFromTxtX)));
+                    float valY = (float)(txtY.Invoke(new GetVal(getValueFromTxtY)));
+                                     
+                    pdata.Position = new Microsoft.DirectX.Vector3(valX, valY, 0.0f);
+                    pdata.LookingDirection = new Microsoft.DirectX.Vector3(valX, valY, 0.0f);
+                    pdata.Velocity = new Microsoft.DirectX.Vector3(valX, valY, 0.0f);
                     pdata.Jump = jumpField;
                     pdata.Shoot = shootField;
 
@@ -57,11 +72,18 @@ namespace Client
                 dgData.Invoke(new RefreshStuff(RefreshGrid), network.PlayerDataList);
                 txtEvents.Invoke(new RefreshStuff(RefreshGameEvents), network.GameEventList);
                 txtEvents.Invoke(new RefreshStuff(RefreshGameplayEvents), network.GameplayEventList);
+                txtSend.Invoke(new ShowData(showData), pdata);
             }
             catch (Exception ex)
             {
                 
             }
+        }
+
+        private void showData(UDPClientServerCommons.Usefull.PlayerData data)
+        {
+            if(data.Shoot || data.Jump)
+            txtSend.Text = data.ToString() + System.Environment.NewLine + txtSend.Text;
         }
 
         private void AddTime(object obj)

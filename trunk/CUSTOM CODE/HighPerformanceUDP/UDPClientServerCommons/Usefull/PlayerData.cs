@@ -74,5 +74,21 @@ namespace UDPClientServerCommons.Usefull
 
 
         #endregion
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(positionField);
+            sb.Append(" ; ");
+            sb.Append(weaponField);
+            sb.Append(" ;Id ");
+            sb.Append(playerIdField);
+            sb.Append(" ;J ");
+            sb.Append(jumpField);
+            sb.Append(" ;S ");
+            sb.Append(shootField);
+
+            return sb.ToString();
+        }
     }
 }
