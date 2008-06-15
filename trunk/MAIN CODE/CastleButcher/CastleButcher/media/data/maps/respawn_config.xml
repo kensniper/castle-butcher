@@ -19,6 +19,8 @@
 	</RespawnPointList>
 	<WeaponPickupList>
 		<Object type="weapon" name="Crossbow" position="[-100.8680,4.2149,-217.4415]" rotation="[0,0,0]" />
+		<Object type="weapon" name="Pipe" position="[-50.8680,4.2149,-217.4415]" rotation="[0,0,0]" />
+		<Object type="weapon" name="Grenade" position="[50.8680,4.2149,-217.4415]" rotation="[0,0,0]" />
 		<Object type="weapon" name="Fireball" position="[100.8680,4.2149,-217.4415]" rotation="[0,0,0]" />
 	</WeaponPickupList>
 	

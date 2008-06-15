@@ -20,7 +20,7 @@ namespace CastleButcher.Content
             animatedMapData = ResourceCache.Instance.GetAnimatedTexture("fireball.amd");
             name = "Fireball";
             this.gameTeam = GameTeam.Assassins;
-            this.pickupRD = ResourceCache.Instance.GetRenderingData("crossbowContainer.x");
+            this.pickupRD = ResourceCache.Instance.GetRenderingData("fireball.x");
             this.missileRD = ResourceCache.Instance.GetRenderingData("fireball.x");
             this.cameraRD = ResourceCache.Instance.GetRenderingData("handWithFireball.x");
 
@@ -29,7 +29,7 @@ namespace CastleButcher.Content
             this.flyingObjectParameters = new CastleButcher.GameEngine.PlayerMovementParameters(0, 200);
             this.collisionDataType = Framework.Physics.CollisionDataType.CollisionSphere;
             this.collisionData = new CollisionSphere(4);
-            this.ammoInBox = 1;
+            this.ammoInBox = 5;
             this.pickupReuseTime = 2;
 
             MapAnimation anim = animatedMapData.GetAnimationInstance();

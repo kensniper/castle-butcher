@@ -15,8 +15,8 @@ namespace CastleButcher.Content
 
         public PipeClass()
         {
-            name = "Crossbow";
-            this.gameTeam = GameTeam.Knights;
+            name = "Pipe";
+            this.gameTeam = GameTeam.Assassins;
             this.pickupRD = ResourceCache.Instance.GetRenderingData("crossbowContainer.x");
             this.missileRD = ResourceCache.Instance.GetRenderingData("arrow2.x");
             this.cameraRD = ResourceCache.Instance.GetRenderingData("handWithCrossbow.x");
