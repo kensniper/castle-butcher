@@ -71,6 +71,8 @@
     <Compile Include="Packets\MessagePacket.cs" />
     <Compile Include="GameEvents\GamePlayEvent.cs" />
     <Compile Include="Packets\GameInfoPacket.cs" />
+    <Compile Include="Packets\PingRequestPacket.cs" />
+    <Compile Include="Packets\PingResponsePacket.cs" />
     <Compile Include="Packets\PlayerStatus.cs" />
     <Compile Include="Packets\JoinPacket.cs" />
     <Compile Include="Packets\LeaveGamePacket.cs" />

@@ -58,9 +58,9 @@ namespace ServerHost
                 packetNumber=(packetNumber+1)%Int64.MaxValue;
                 Console.WriteLine("Received packet {0}", packetNumber);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //ignore :)
+                Console.WriteLine(ex.ToString());
             }
         }
     }

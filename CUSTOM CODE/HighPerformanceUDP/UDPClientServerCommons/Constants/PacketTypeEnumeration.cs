@@ -35,8 +35,12 @@ namespace UDPClientServerCommons.Constants
         /// </summary>
         MessagePacket = 6,
         /// <summary>
-        /// TEMP
+        /// Ping request
         /// </summary>
-        ACK = 7
+        PingRequest = 7,
+        /// <summary>
+        /// Ping response
+        /// </summary>
+        PingResponse = 8
     }
 }
