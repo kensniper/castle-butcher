@@ -338,6 +338,14 @@ namespace UDPClientServerCommons.Server
                     buff.RemoteEndPoint = cliendAdressList[i];
                     base.AsyncBeginSend(buff);
                 }
+                
+                    //clear client events ??
+                for (int k = 0; k < serverPacket.PlayerInfoList.Count; k++)
+                {
+                    serverPacket.PlayerInfoList[k].PlayerJumping = false;
+                    serverPacket.PlayerInfoList[k].PlayerShooting = false;
+                }
+
                 if (cliendAdressList.Count > 0)
                 {
                     if (lastPackages.ContainsKey(last10.Counter))

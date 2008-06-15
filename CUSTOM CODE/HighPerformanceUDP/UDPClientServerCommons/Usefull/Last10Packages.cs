@@ -29,6 +29,20 @@ namespace UDPClientServerCommons.Usefull
             }
         }
 
+        public Interfaces.IPacket GetPrevious(int howManyBack)
+        {
+            if (howManyBack > 9 || howManyBack < 0)
+                return null;
+
+            lock (packetLock)
+            {
+                int i = last10.GetPrevoius(howManyBack);
+                if (!packets.ContainsKey(i))
+                    return null;
+                return packets[i];
+            }
+        }
+
         public Interfaces.IPacket LastPacket
         {
             get {
