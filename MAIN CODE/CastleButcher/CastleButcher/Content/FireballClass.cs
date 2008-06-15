@@ -23,6 +23,7 @@ namespace CastleButcher.Content
             this.pickupRD = ResourceCache.Instance.GetRenderingData("crossbowContainer.x");
             this.missileRD = ResourceCache.Instance.GetRenderingData("fireball.x");
             this.cameraRD = ResourceCache.Instance.GetRenderingData("handWithFireball.x");
+
             this.weaponType = WeaponType.Ranged;
             this.weaponParams = new WeaponInfo(100, 0.5f, 100);
             this.flyingObjectParameters = new CastleButcher.GameEngine.PlayerMovementParameters(0, 200);
@@ -33,8 +34,9 @@ namespace CastleButcher.Content
 
             MapAnimation anim = animatedMapData.GetAnimationInstance();
             anim.Start();
+            anim.Loop = true;
             missileRD.MeshMaterials[0] = new AnimatedMaterialData(null, null, null, anim, new Microsoft.DirectX.Direct3D.Material());
-
+            cameraRD.MeshMaterials[0] = missileRD.MeshMaterials[0];
             GM.AppWindow.AddUpdateableItem(anim as IUpdateable);
 
         }

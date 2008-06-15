@@ -456,7 +456,7 @@ namespace CastleButcher.GameEngine
         private void PlayerRespawned(Player p)
         {
             p.OnRespawned();
-            SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.fanfare1, (Vector3)p.CurrentCharacter.Position);
+            //SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.fanfare1, (Vector3)p.CurrentCharacter.Position);
             if (OnPlayerRespawned != null)
                 OnPlayerRespawned(p);
         }
