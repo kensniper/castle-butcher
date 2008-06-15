@@ -317,8 +317,19 @@ namespace UDPClientServerCommons.Client
                 // wait for any pending operations to complete on other
                 // threads before exiting.
 
-                while (rwOperationCount > 0)
-                    Thread.Sleep(1);
+               //todo: tempSolution
+                  DateTime startWaiting = DateTime.Now;
+
+                  while (rwOperationCount > 0)
+                  {
+                      Thread.Sleep(1);
+
+                      //todo: tempSolution
+                      // if we are waiting more than 10 sec than break
+                      TimeSpan span = DateTime.Now.Subtract(startWaiting);
+                      if (span.TotalSeconds > 10)
+                          break;
+                  }
 
                // test new position
                 if (udpSocket != null)
