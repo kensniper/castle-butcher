@@ -194,9 +194,12 @@ namespace CastleButcher.GameEngine
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerJoined)
                 {
                     PlayerJoinedEvent ev = (PlayerJoinedEvent)gameEvents[i];
-                    Player p = new Player(ev.PlayerName, null);
-                    p.NetworkId = ev.PlayerId;
-                    AddPlayer(p);
+                    if (ev.PlayerName != player.Name)
+                    {
+                        Player p = new Player(ev.PlayerName, null);
+                        p.NetworkId = ev.PlayerId;
+                        AddPlayer(p);
+                    }
                 }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerChangedTeam)
                 {
