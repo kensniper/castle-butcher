@@ -10,6 +10,7 @@ using Microsoft.DirectX;
 using Framework.MyMath;
 using UDPClientServerCommons.Constants;
 using UDPClientServerCommons.GameEvents;
+using UDPClientServerCommons.Usefull;
 namespace CastleButcher.GameEngine
 {
     public class LocalGameController : GameController
@@ -279,6 +280,15 @@ namespace CastleButcher.GameEngine
                 {
                     serverNetworkLayer.Client.UpdatePlayerData((Vector3)player.CurrentCharacter.Position, (Vector3)
                         player.CurrentCharacter.LookDirection, (Vector3)player.CurrentCharacter.Velocity);
+                }
+                List<PlayerHealthData> list=new List<PlayerHealthData>();
+                for (int i = 0; i < World.Instance.Players.Count; i++)
+                {
+                    PlayerHealthData hpdata=new UDPClientServerCommons.Usefull.PlayerHealthData();
+                    hpdata.PlayerHealth = (ushort)(World.Instance.Players[i].IsAlive ? 100 : 0);
+                    hpdata.PlayerId = World.Instance.Players[i].NetworkId;
+                    list.Add(hpdata);
+                    serverNetworkLayer.UpdatePlayerHealth(list);
                 }
             }
             return true;
