@@ -148,7 +148,8 @@ namespace CastleButcher.GameEngine
                 if (Weapons.CurrentWeapon.Ammo <= 0)
                 {
                     Weapons.SelectNextRanged();
-                    Weapons.CurrentWeapon.Use();
+                    if(Weapons.CurrentWeapon!=null)
+                        Weapons.CurrentWeapon.Use();
                 }
 
 
