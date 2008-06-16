@@ -29,7 +29,7 @@ namespace CastleButcher.GameEngine.Resources
     }
     class TextureEntry
     {
-        public MapData Texture;
+        public IMapData Texture;
     }
     class DxEffectEntry
     {
@@ -189,6 +189,16 @@ namespace CastleButcher.GameEngine.Resources
                 result.Texture = MapData.FromFile(AppConfig.TexturePath + fileName);
                 //result.FileName = fileName;
             }
+            else if (fileName.Substring(fileName.Length - 4) == ".amd")
+            {
+                AnimatedMapData amd = GetAnimatedTexture(fileName);
+                MapAnimation anim = amd.GetAnimationInstance();
+                result.Texture = anim;
+                anim.Start();
+                anim.Loop = true;
+                GM.AppWindow.AddUpdateableItem(anim);
+                //result.FileName = fileName;
+            }
             else
             {
                 result.Texture = new MapData(GetDxTexture(fileName), fileName);
@@ -323,7 +333,7 @@ namespace CastleButcher.GameEngine.Resources
                 return result.Texture;
         }
 
-        public MapData GetTexture(string fileName)
+        public IMapData GetTexture(string fileName)
         {
             TextureEntry result = (TextureEntry)textures[fileName];
             if (result == null)

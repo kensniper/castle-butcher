@@ -26,9 +26,9 @@ namespace CastleButcher.GameEngine.Graphics
                 set { lightDirection = value; }
             }
 
-            Resources.MapData starTexture;
+            Resources.IMapData starTexture;
 
-            public Resources.MapData StarTexture
+            public Resources.IMapData StarTexture
             {
                 get { return starTexture; }
                 set { starTexture = value; }

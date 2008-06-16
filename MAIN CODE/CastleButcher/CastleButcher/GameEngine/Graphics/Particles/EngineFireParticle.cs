@@ -17,8 +17,8 @@ namespace CastleButcher.GameEngine.Graphics.Particles
             fireMap = ResourceCache.Instance.GetTexture("fire.dds");
             smokeMap = ResourceCache.Instance.GetTexture("smoke.dds");
         }
-        Resources.MapData fireMap;
-        Resources.MapData smokeMap;
+        Resources.IMapData fireMap;
+        Resources.IMapData smokeMap;
         #region IParticleClass Members
 
         public EffectData Effect

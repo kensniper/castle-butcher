@@ -27,7 +27,7 @@ namespace CastleButcher.GameEngine.Graphics.Particles
         {
             particleMap = ResourceCache.Instance.GetTexture(mapName);
         }
-        Resources.MapData particleMap;
+        Resources.IMapData particleMap;
         #region IParticleClass Members
 
         public EffectData Effect
