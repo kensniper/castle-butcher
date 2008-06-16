@@ -31,6 +31,16 @@ namespace CastleButcher.GameEngine
             get { return CurrentCharacter.CharacterController; }
         }
 
+
+        DateTime lastTimeStamp;
+
+        public DateTime LastTimeStamp
+        {
+            get { return lastTimeStamp; }
+            set { lastTimeStamp = value; }
+        }
+
+
         private int frags = 0;
 
         public int Frags
