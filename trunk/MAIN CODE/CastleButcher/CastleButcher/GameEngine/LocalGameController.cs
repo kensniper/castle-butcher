@@ -53,10 +53,10 @@ namespace CastleButcher.GameEngine
             World.Instance.ChangeTeam(player, newTeam);
             if (player == this.player)
             {
-                if (newTeam == GameTeam.Assassins)
-                    serverNetworkLayer.Client.ChangeTeam(serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList[0].TeamId);
-                else
-                    serverNetworkLayer.Client.ChangeTeam(serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList[1].TeamId);
+                //if (newTeam == GameTeam.Assassins)
+                //    serverNetworkLayer.Client.ChangeTeam(serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList[0].TeamId);
+                //else
+                //    serverNetworkLayer.Client.ChangeTeam(serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList[1].TeamId);
                 //if (newTeam == GameTeam.Assassins)
                 //    serverNetworkLayer.Client.ChangeTeam(13);
                 //else
