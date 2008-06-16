@@ -20,10 +20,10 @@
 	<WeaponPickupList>
 		<Object type="weapon" name="Crossbow" position="[87.575,52.858,72.0]" rotation="[0,0,0]" />
 		<Object type="weapon" name="Crossbow" position="[-37,2.823,173.051]" rotation="[0,0,0]" />
-		<Object type="weapon" name="Pipe" position="[-233,1.761,175.862]" rotation="[0,0,0]" />
-		<Object type="weapon" name="Pipe" position="[284.146,92.284,-259.467]" rotation="[0,0,0]" />
+		<Object type="weapon" name="Pipe" position="[-233,1.761,-233.553]" rotation="[0,0,0]" />
+		<Object type="weapon" name="Pipe" position="[284.146,86.763,-259.467]" rotation="[0,0,0]" />
 		<Object type="weapon" name="Grenade" position="[0.0,86.763,-289.0]" rotation="[0,0,0]" />
-		<Object type="weapon" name="Fireball" position="[0.632,92.284,282.677]" rotation="[0,0,0]" />
+		<Object type="weapon" name="Fireball" position="[0.632,86.763,282.677]" rotation="[0,0,0]" />
 	</WeaponPickupList>
 	
  </Map>
