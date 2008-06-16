@@ -100,6 +100,8 @@ namespace CastleButcher.GameEngine
             PointMassData data = this.PointMassData;
             data.Position = position;
             data.Orientation = orientation;
+            lookOrientation = orientation;
+            walkOrientation = orientation;
             //this.armorState.Shield = shipClass.ArmorParameters.ShieldAmount;
             //this.armorState.Hull = shipClass.ArmorParameters.HullAmount;
 
