@@ -233,15 +233,15 @@ namespace CastleButcher.UI
                 shield.Text = "S:" + player.CurrentCharacter.ArmorState.Shield.ToString();
                 hp.Text = "HP:" + player.CurrentCharacter.ArmorState.Hp.ToString();
                 if (player.CurrentCharacter.Weapons.CurrentWeapon != null)
-                    numObjects.Text = "WeaponReady:" + player.CurrentCharacter.Weapons.CurrentWeapon.Ready.ToString();
+                    numObjects.Text = "Broñ Gotowa:" + player.CurrentCharacter.Weapons.CurrentWeapon.Ready.ToString();
                 else
                     numObjects.Text = "";
 
-                numFrags.Text = "Frags: " + player.Frags.ToString();
-                numDeaths.Text = "Deaths: " + player.Deaths.ToString();
+                numFrags.Text = "Fragi: " + player.Frags.ToString();
+                numDeaths.Text = "Œmierci: " + player.Deaths.ToString();
 
                 //weaponEnergy.Text = "E:" + player.CurrentShip.WeaponEnergy;
-                currentWeapon.Text = (player.CurrentCharacter.Weapons.CurrentWeapon != null) ? "Weapon: " + player.CurrentCharacter.Weapons.CurrentRanged.WeaponClass.Name : "Weapon: None";
+                currentWeapon.Text = (player.CurrentCharacter.Weapons.CurrentWeapon != null) ? "Broñ: " + player.CurrentCharacter.Weapons.CurrentRanged.WeaponClass.Name : "Broñ: Brak";
 
                 //speedometer.SetSpeed = sdev.SetVelocity;
                 //speedometer.CurrentSpeed = player.CurrentShip.Velocity.Length;
@@ -249,7 +249,7 @@ namespace CastleButcher.UI
                 if (player.CurrentCharacter.Weapons.CurrentWeapon != null && player.CurrentCharacter.Weapons.CurrentWeaponType ==
                     CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
                 {
-                    weaponAmmo.Text = "Ammo:" + player.CurrentCharacter.Weapons.CurrentRanged.Ammo.ToString();
+                    weaponAmmo.Text = "Amunicja:" + player.CurrentCharacter.Weapons.CurrentRanged.Ammo.ToString();
                     RenderCrosshair = true;
                 }
                 else

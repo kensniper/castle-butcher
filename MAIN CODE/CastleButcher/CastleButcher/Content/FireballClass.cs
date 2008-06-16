@@ -20,7 +20,7 @@ namespace CastleButcher.Content
         {
             animatedMapDataD = ResourceCache.Instance.GetAnimatedTexture("fireball.amd");
             animatedMapDataN = ResourceCache.Instance.GetAnimatedTexture("fireball_bump.amd");
-            name = "Fireball";
+            name = "Kula ognia";
             this.gameTeam = GameTeam.Assassins;
             this.pickupRD = ResourceCache.Instance.GetRenderingData("fireball.x");
             this.missileRD = ResourceCache.Instance.GetRenderingData("fireball.x");

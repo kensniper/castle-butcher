@@ -15,7 +15,7 @@ namespace CastleButcher.Content
 
         public CrossbowClass()
         {
-            name = "Crossbow";
+            name = "Kusza";
             this.gameTeam = GameTeam.Knights;
             this.pickupRD = ResourceCache.Instance.GetRenderingData("crossbowPickup.x");
             this.missileRD = ResourceCache.Instance.GetRenderingData("arrow2.x");
