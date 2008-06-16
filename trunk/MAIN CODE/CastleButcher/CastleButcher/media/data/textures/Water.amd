@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AnimatedMapData>
+	<AnimationData duration="0.5" loop="true"/>
+	<MapFile file="water\water1.jpg"/>	
+	<MapFile file="water\water2.jpg"/>
+	<MapFile file="water\water5.jpg"/>
+	<MapFile file="water\water6.jpg"/>
+	<MapFile file="water\water3.jpg"/>
+	<MapFile file="water\water4.jpg"/>
+	<MapFile file="water\water7.jpg"/>
+	<MapFile file="water\water8.jpg"/>
+	<MapFile file="water\water9.jpg"/>
+	<MapFile file="water\water10.jpg"/>
+</AnimatedMapData>
