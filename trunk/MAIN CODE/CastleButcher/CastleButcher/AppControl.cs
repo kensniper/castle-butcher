@@ -37,7 +37,11 @@ namespace CastleButcher
             frameworkWindow = window;
 
             mainMenu = new CastleButcher.UI.MainMenu(false);
-            mainMenu.OnExitGame += delegate { this.hasFinished = true; window.CloseWindow(); };
+            mainMenu.OnExitGame += delegate
+            {
+                this.hasFinished = true; if (gameController != null)
+                    gameController.EndGame(); window.CloseWindow();
+            };
             mainMenu.OnNewGame += new WindowDataHandler(this.StartGame);
             mainMenu.OnResumeGame += new ButtonEventHandler(this.ResumeGame);
             mainMenu.OnJoinServer += new WindowDataHandler(JoinServer);
