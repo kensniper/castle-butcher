@@ -58,18 +58,18 @@ namespace CastleButcher.UI
             System.Windows.Forms.Cursor.Hide();
             
             //test
-            if (player.CharacterClass.GameTeam == GameTeam.Assassins)
-            {
-                controller.AddPlayer(new AIPlayer("AIPlayer1", ObjectCache.Instance.GetKnightClass()));
-                controller.AddPlayer(new AIPlayer("AIPlayer2", ObjectCache.Instance.GetKnightClass()));
-                controller.AddPlayer(new AIPlayer("AIPlayer3", ObjectCache.Instance.GetAssassinClass()));
-            }
-            else
-            {
-                controller.AddPlayer(new AIPlayer("AIPlayer1", ObjectCache.Instance.GetKnightClass()));
-                controller.AddPlayer(new AIPlayer("AIPlayer2", ObjectCache.Instance.GetAssassinClass()));
-                controller.AddPlayer(new AIPlayer("AIPlayer3", ObjectCache.Instance.GetAssassinClass()));
-            }
+            //if (player.CharacterClass.GameTeam == GameTeam.Assassins)
+            //{
+            //    controller.AddPlayer(new AIPlayer("AIPlayer1", ObjectCache.Instance.GetKnightClass()));
+            //    controller.AddPlayer(new AIPlayer("AIPlayer2", ObjectCache.Instance.GetKnightClass()));
+            //    controller.AddPlayer(new AIPlayer("AIPlayer3", ObjectCache.Instance.GetAssassinClass()));
+            //}
+            //else
+            //{
+            //    controller.AddPlayer(new AIPlayer("AIPlayer1", ObjectCache.Instance.GetKnightClass()));
+            //    controller.AddPlayer(new AIPlayer("AIPlayer2", ObjectCache.Instance.GetAssassinClass()));
+            //    controller.AddPlayer(new AIPlayer("AIPlayer3", ObjectCache.Instance.GetAssassinClass()));
+            //}
             controller.BeginRound();
         }
 

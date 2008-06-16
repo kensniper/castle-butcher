@@ -209,7 +209,59 @@ namespace CastleButcher.GameEngine
 
             }
 
-            World.Instance.Update(timeElapsed);
+            if (World.Instance.Started)
+            {
+                for (int i = 0; i < gameplayEvents.Count; i++)
+                {
+                    if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.PlayerDead)
+                    {
+
+                    }
+                    else if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.JumpNow)
+                    {
+                        Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
+                        p.CharacterController.Jump();
+                    }
+                    else if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.WeaponChange)
+                    {
+                        Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
+                        //gameplayEvents[i].
+                    }
+                    else if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.UseWeapon)
+                    {
+                        Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
+                        //p.CharacterController.Jump();
+                    }
+                }
+
+                if (data != null)
+                {
+                    for (int i = 0; i < data.Count; i++)
+                    {
+                        Player p = GetPlayerByID(data[i].PlayerId);
+                        if (p.LastTimeStamp < data[i].Timestamp && p.IsAlive)
+                        {
+                            p.CurrentCharacter.Position = (MyVector)data[i].Position;
+                            p.CurrentCharacter.Velocity = (MyVector)data[i].Velocity;
+                            p.CurrentCharacter.LookOrientation = this.LookOrientationFromDirection((MyVector)data[i].LookingDirection);
+                            p.CurrentCharacter.WalkOrientation = this.WalkOrientationFromDirection((MyVector)data[i].LookingDirection);
+                            p.LastTimeStamp = data[i].Timestamp;
+
+                        }
+
+
+
+                        //p.CurrentCharacter.
+
+                    }
+                }
+                World.Instance.Update(timeElapsed);
+                if (player.IsAlive)
+                {
+                    clientNetworkLayer.UpdatePlayerData((Vector3)player.CurrentCharacter.Position, (Vector3)
+                        player.CurrentCharacter.LookDirection, (Vector3)player.CurrentCharacter.Velocity);
+                }
+            }
             return true;
         }
 
