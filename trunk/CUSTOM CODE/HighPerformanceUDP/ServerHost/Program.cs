@@ -40,6 +40,12 @@ namespace ServerHost
                         if (CS_Server.Client.CurrentGameInfo != null)
                             Console.WriteLine(CS_Server.Client.CurrentGameInfo.ToString());
                     }
+                    if (input.ToLower() == "pl")
+                    {
+                        List<UDPClientServerCommons.Interfaces.IOtherPlayerData> list = new List<UDPClientServerCommons.Interfaces.IOtherPlayerData>(CS_Server.Client.PlayerDataList);
+                        for (int i = 0; i < list.Count; i++)
+                            Console.WriteLine("\t {0}", list[i]);
+                    }
                     if (input.Length == 0)
                         break;
                 }
