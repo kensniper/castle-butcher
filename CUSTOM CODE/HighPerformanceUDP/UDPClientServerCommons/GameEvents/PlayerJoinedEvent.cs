@@ -29,10 +29,19 @@ namespace UDPClientServerCommons.GameEvents
             get { return playerNameField; }
         }
 
-        public PlayerJoinedEvent(ushort id, string name)
+        private ushort teamIdField;
+
+        public ushort TeamId
+        {
+            get { return teamIdField; }
+            set { teamIdField = value; }
+        }
+
+        public PlayerJoinedEvent(ushort id, string name,ushort teamId)
         {
             this.playerIdField = id;
             this.playerNameField = name;
+            this.teamIdField = teamId;
         }
     }
 }

@@ -499,7 +499,7 @@ namespace UDPClientServerCommons.Client
                     lock(gameEventListLock)
                     {
                         for (int i = 0; i < gip.PlayerStatusList.Count; i++)
-                            gameEventList.Add(new GameEvents.PlayerJoinedEvent(gip.PlayerStatusList[i].PlayerId, gip.PlayerStatusList[i].PlayerName));
+                            gameEventList.Add(new GameEvents.PlayerJoinedEvent(gip.PlayerStatusList[i].PlayerId, gip.PlayerStatusList[i].PlayerName, gip.PlayerStatusList[i].PlayerTeam));
                     }
                 }
 
