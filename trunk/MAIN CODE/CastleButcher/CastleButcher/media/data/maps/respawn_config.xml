@@ -9,11 +9,11 @@
 	</Object>
 	<RespawnPointList>
 	  <Assassins>
-		<Object type="respawn" position="[-266.218,8.561,-288.607]" rotation="[0,0,0]" />
+		<Object type="respawn" position="[-266.218,13.561,-288.607]" rotation="[0,0,0]" />
 		<Object type="respawn" position="[265.782,90.811,-271.136]" rotation="[0,0,0]" />			
 	   </Assassins>		
 	   <Knights>
-		<Object type="respawn" position="[37.411,8.718,171.3417]" rotation="[0,0,0]" />
+		<Object type="respawn" position="[37.411,15.718,171.3417]" rotation="[0,0,0]" />
 		<Object type="respawn" position="[104.694,60.042,56.452]" rotation="[0,0,0]" />
 	   </Knights>
 	</RespawnPointList>
