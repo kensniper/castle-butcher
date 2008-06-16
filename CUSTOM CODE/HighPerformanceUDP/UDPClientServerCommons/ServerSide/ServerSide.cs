@@ -15,7 +15,7 @@ namespace UDPClientServerCommons.Server
     {
         #region fields
 
-        private const int _TimerTickPeriod = 1000;
+        private const int _TimerTickPeriod = 100;
 
         /// <summary>
         /// Server packet parts
@@ -329,6 +329,7 @@ namespace UDPClientServerCommons.Server
                                 buff.RemoteEndPoint = cliendAdressList[i];
                                 base.AsyncBeginSend(buff);
                             }
+                            if(clientForServer!=null && !clientForServer.GameIsRunningAsDedicatedServer)
                             clientForServer.GetMessageFromServer(gameInfoPacket);
                             // we send every 10 ticks = every second
                             gameInfoPacketSendCounter = 10;
@@ -354,6 +355,7 @@ namespace UDPClientServerCommons.Server
                                 buff.RemoteEndPoint = cliendAdressList[i];
                                 base.AsyncBeginSend(buff);
                             }
+                            if (clientForServer != null && !clientForServer.GameIsRunningAsDedicatedServer)
                             clientForServer.GetMessageFromServer(gameInfoPacket);
                             if (cliendAdressList.Count > 0)
                             {
@@ -391,6 +393,7 @@ namespace UDPClientServerCommons.Server
                     buff.RemoteEndPoint = cliendAdressList[i];
                     base.AsyncBeginSend(buff);
                 }
+                if (clientForServer != null && !clientForServer.GameIsRunningAsDedicatedServer)
                 clientForServer.GetMessageFromServer(serverPacket);
                     //clear client events ??
                 for (int k = 0; k < serverPacket.PlayerInfoList.Count; k++)
