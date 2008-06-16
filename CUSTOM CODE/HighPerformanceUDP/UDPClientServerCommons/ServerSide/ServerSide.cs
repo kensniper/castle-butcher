@@ -185,9 +185,15 @@ namespace UDPClientServerCommons.Server
             {
                 try
                 {
-                    if (gameInfoPacket.TeamScoreList.Count == 2 &&
+                    if ((gameInfoPacket.TeamScoreList.Count == 2 &&
                         cliendAdressList.Count > 1 &&
-                        gameInfoPacket.PlayerStatusList.Count > 1)
+                        gameInfoPacket.PlayerStatusList.Count > 1) ||
+                        (
+                        gameInfoPacket.TeamScoreList.Count == 2 &&
+                        cliendAdressList.Count == 1 &&
+                        gameInfoPacket.PlayerStatusList.Count > 1
+                        && clientForServer!=null && !clientForServer.GameIsRunningAsDedicatedServer
+                        ))
                     {
                         int teamOne = 0;
                         int teamTwo = 0;
