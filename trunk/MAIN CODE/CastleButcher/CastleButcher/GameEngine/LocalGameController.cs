@@ -294,7 +294,7 @@ namespace CastleButcher.GameEngine
                 if (player.IsAlive)
                 {
                     serverNetworkLayer.Client.UpdatePlayerData((Vector3)player.CurrentCharacter.Position, (Vector3)
-                        player.CurrentCharacter.LookDirection, (Vector3)player.CurrentCharacter.Velocity);
+                        player.CurrentCharacter.CharacterController.LookVector, (Vector3)player.CurrentCharacter.Velocity);
                 }
                 List<PlayerHealthData> list=new List<PlayerHealthData>();
                 for (int i = 0; i < World.Instance.Players.Count; i++)
