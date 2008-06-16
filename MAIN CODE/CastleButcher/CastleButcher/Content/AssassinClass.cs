@@ -28,7 +28,7 @@ namespace CastleButcher.Content
 
         public AssassinClass()
         {
-            collisionData = ResourceCache.Instance.GetCollisionMesh("assassinHitMesh.cm");
+            collisionData = ResourceCache.Instance.GetCollisionMesh("assassinHitMesh2.cm");
             List<MyVector> tempPoints = new List<MyVector>();
             for (int i = 0; i < collisionData.m_hardPoints.Length; i++)
             {
@@ -45,7 +45,7 @@ namespace CastleButcher.Content
             rdWithFireball = ResourceCache.Instance.GetRenderingData("assassinWithPipe.x");
             deadRd = ResourceCache.Instance.GetRenderingData("assassinDead.x");
 
-            Matrix tr = Matrix.Translation(0, -2, 0);
+            Matrix tr = Matrix.Translation(0, -4, 0);
             deadRd.CustomTransform = tr;
         }
         public override PlayerMovementParameters MovementParameters

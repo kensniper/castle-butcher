@@ -29,7 +29,7 @@ namespace CastleButcher.Content
 
         public KnightClass()
         {
-            collisionData = ResourceCache.Instance.GetCollisionMesh("knightHitMesh.cm");
+            collisionData = ResourceCache.Instance.GetCollisionMesh("knightHitMesh2.cm");
             List<MyVector> tempPoints = new List<MyVector>();
             for (int i = 0; i < collisionData.m_hardPoints.Length; i++)
             {
@@ -50,8 +50,8 @@ namespace CastleButcher.Content
             float r = renderingData.BoundingSphereRadius;
 
 
-            //Matrix tr = Matrix.Translation(0, -4, 0);
-            //deadRd.CustomTransform = tr;
+            Matrix tr = Matrix.Translation(0, -3, 0);
+            deadRd.CustomTransform = tr;
 
         }
         public override PlayerMovementParameters MovementParameters

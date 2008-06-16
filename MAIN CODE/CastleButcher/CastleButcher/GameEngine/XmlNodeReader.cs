@@ -60,7 +60,7 @@ namespace CastleButcher.GameEngine
                     if (result == null)
                         throw new FileFormatException("Nieprawid³owy opis collision data w pliku ");
                     CollisionMesh m = CollisionMesh.FromFile(AppConfig.MeshPath + result, false);
-                    data = CollisionOctree.FromMesh(m, 0, 0, 0, 30, 2, 200);
+                    data = CollisionOctree.FromMesh(m, 0, 0, 0, 20, 5, 100);
                     break;
 
             }

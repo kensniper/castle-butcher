@@ -22,7 +22,7 @@ namespace CastleButcher.Content
             this.cameraRD = ResourceCache.Instance.GetRenderingData("handWithCrossbow.x");
             this.weaponType = WeaponType.Ranged;
             this.weaponParams = new WeaponInfo(100, 2f, 100);
-            this.flyingObjectParameters = new CastleButcher.GameEngine.PlayerMovementParameters(0, 500);
+            this.flyingObjectParameters = new CastleButcher.GameEngine.PlayerMovementParameters(0, 400);
             this.collisionDataType = Framework.Physics.CollisionDataType.CollisionSphere;
             this.collisionData = new CollisionSphere(4);
             this.ammoInBox = 5;
