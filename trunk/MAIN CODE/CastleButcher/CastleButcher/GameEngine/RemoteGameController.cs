@@ -64,6 +64,7 @@ namespace CastleButcher.GameEngine
 
         public override void BeginRound()
         {
+            World.Instance.Remote = true;
             World.Instance.Start();
             gameStatus = GameStatus.InProgress;
 
