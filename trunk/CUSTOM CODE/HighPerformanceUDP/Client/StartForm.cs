@@ -37,13 +37,17 @@ namespace Client
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            clientSideNetworking = new UDPClientServerCommons.Client.ClientSide(Int32.Parse(txtPort.Text));
+            if (clientSideNetworking == null)
+            {
+                clientSideNetworking = new UDPClientServerCommons.Client.ClientSide(Int32.Parse(txtPort.Text));
+                clientSideNetworking.PacketReceivedEvent += new UDPClientServerCommons.Client.ClientSide.packetReceived(clientSideNetworking_PacketReceivedEvent);
+            }
             txtPort.ReadOnly = true;
             if (clientSideNetworking.StartLookingForLANGames()==true)
             {
                 btnStart.Enabled = false;
-                btnRefresh.Enabled = true;
-                clientSideNetworking.PacketReceivedEvent += new UDPClientServerCommons.Client.ClientSide.packetReceived(clientSideNetworking_PacketReceivedEvent);
+                btnRefresh.Enabled = true;               
+                
             }
         }
 
