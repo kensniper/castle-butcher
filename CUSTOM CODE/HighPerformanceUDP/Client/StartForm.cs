@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Net;
 
 namespace Client
 {
@@ -139,6 +140,23 @@ namespace Client
         {
             StartForm st = new StartForm();
             st.Show();
+        }
+
+        private void btnJoinAddress_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                bool result = clientSideNetworking.JoinGame(new System.Net.IPEndPoint(IPAddress.Parse(txtAddress.Text),ushort.Parse( txtPort.Text)), txtName.Text, ushort.Parse(txtGame.Text), ushort.Parse(txtTeam.Text));
+                if (result)
+                {
+                    gamePlayForm = new GameplayForm(clientSideNetworking);
+                    gamePlayForm.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }
