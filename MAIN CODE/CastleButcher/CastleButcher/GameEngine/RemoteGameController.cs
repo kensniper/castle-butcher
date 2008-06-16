@@ -284,7 +284,7 @@ namespace CastleButcher.GameEngine
                 if (player.IsAlive)
                 {
                     clientNetworkLayer.UpdatePlayerData((Vector3)player.CurrentCharacter.Position, (Vector3)
-                        player.CurrentCharacter.LookDirection, (Vector3)player.CurrentCharacter.Velocity);
+                        player.CurrentCharacter.CharacterController.LookVector, (Vector3)player.CurrentCharacter.Velocity);
                 }
             }
             return true;
