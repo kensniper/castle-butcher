@@ -193,18 +193,17 @@ namespace CastleButcher.GameEngine
                 {
                     BeginRound();
                 }
-                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.EndRound)
-                {
-                    EndRound();
-                }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.TeamScored)
                 {
+                    
                     TeamScoredEvent ev = (TeamScoredEvent)gameEvents[i];
                     GameTeam team = GetTeamByID(ev.TeamId);
                     if (team == GameTeam.Assassins)
-                        assassinsScore++;
+                        team = GameTeam.Knights;
                     else
-                        knightsScore++;
+                        team = GameTeam.Assassins;
+                    EndRound(team);
+                    
                 }
 
             }
