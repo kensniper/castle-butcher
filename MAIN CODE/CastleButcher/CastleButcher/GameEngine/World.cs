@@ -33,6 +33,15 @@ namespace CastleButcher.GameEngine
         //List<Ship> ships;
         List<Player> players;
 
+
+        bool remote = false;
+
+        public bool Remote
+        {
+            get { return remote; }
+            set { remote = value; }
+        }
+
         public List<Player> Players
         {
             get { return players; }
@@ -569,7 +578,8 @@ namespace CastleButcher.GameEngine
 
 
                         players[i].OnMissileHit(grenade, parameters);
-
+                        if (remote)
+                            damage = 0;
                         if (players[i].CurrentCharacter.TakeDamage(damage))
                         {
 
@@ -606,11 +616,14 @@ namespace CastleButcher.GameEngine
             }
             else
             {
+                int damage = missile.ImpactDamage;
                 if (obj is Character)
                 {
                     (obj as Character).Player.OnMissileHit(missile, parameters);
                 }
-                if (obj.TakeDamage(missile.ImpactDamage))
+                if (remote)
+                    damage = 0;
+                if (obj.TakeDamage(damage))
                 {
                     if (obj is Character)
                     {
