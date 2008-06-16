@@ -49,5 +49,15 @@ namespace UDPClientServerCommons.Interfaces
         //{
         //    get;
         //}
+
+        DateTime Timestamp
+        {
+            get;
+        }
+
+        ushort PlayerId
+        {
+            get;
+        }
     }
 }
