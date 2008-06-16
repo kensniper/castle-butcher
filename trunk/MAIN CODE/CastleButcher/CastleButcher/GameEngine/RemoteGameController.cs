@@ -173,8 +173,9 @@ namespace CastleButcher.GameEngine
                 if (gameEvents[i].GameEventType == GameEventTypeEnumeration.GameStared)
                 {
                     //gameEvents[i].
-                    StartGame();
                     player.NetworkId = clientNetworkLayer.PlayerId ?? 0;
+                    StartGame();
+                    
                 }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerJoined)
                 {
@@ -193,6 +194,10 @@ namespace CastleButcher.GameEngine
                         }
                         p.NetworkId = ev.PlayerId;
                         AddPlayer(p);
+                    }
+                    else
+                    {
+                        player.NetworkId = ev.PlayerId;
                     }
                 }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerChangedTeam)
