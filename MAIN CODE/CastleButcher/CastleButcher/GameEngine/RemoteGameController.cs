@@ -29,7 +29,7 @@ namespace CastleButcher.GameEngine
             gameStatus = GameStatus.WaitingForStart;
             clientNetworkLayer = clientSide;
             this.player = player;
-            clientNetworkLayer.JoinGame(gameInfo.ServerAddress, player.Name, gameInfo.GameId, gameInfo.TeamScoreList[0].TeamId);
+            bool ret=clientNetworkLayer.JoinGame(gameInfo.ServerAddress, player.Name, gameInfo.GameId, gameInfo.TeamScoreList[0].TeamId);
 
 
         }
@@ -98,10 +98,10 @@ namespace CastleButcher.GameEngine
 
         protected override void OnPlayerRemoved(Player player)
         {
-            if (World.Instance.Players.Count == 0)
-            {
-                EndRound();
-            }
+            //if (World.Instance.Players.Count == 0)
+            //{
+            //    EndRound();
+            //}
         }
 
         protected override void OnPlayerRespawned(Player player)

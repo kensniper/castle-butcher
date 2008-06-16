@@ -281,7 +281,7 @@ namespace CastleButcher.GameEngine
 
         public override void StartGame()
         {
-            serverNetworkLayer.StartGame();
+            bool ret = serverNetworkLayer.StartGame();
             World.Instance.Remote = false;
             BeginRound();
         }
