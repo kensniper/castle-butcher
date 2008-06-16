@@ -380,6 +380,14 @@ namespace CastleButcher.GameEngine
 
             PhysicsSimulator.Paused = false;
 
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                if (gameObjects[i] is DeadCharacter)
+                {
+                    RemoveObject(gameObjects[i]);
+                    i--;
+                }
+            }
 
             started = true;
             //sort playetrs by id
@@ -717,6 +725,7 @@ namespace CastleButcher.GameEngine
         {
             physicsSimulator.DisableWalking(player.CurrentCharacter);
             RemoveObject(player.CurrentCharacter);
+            AddObject(new DeadCharacter(player.CurrentCharacter.CharacterClass.DeadRd,player.CurrentCharacter.Position));
             player.OnDestroyed(player.CurrentCharacter);
 
 

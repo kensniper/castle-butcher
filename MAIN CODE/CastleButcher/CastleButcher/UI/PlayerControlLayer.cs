@@ -253,7 +253,10 @@ namespace CastleButcher.UI
                     RenderCrosshair = true;
                 }
                 else
+                {
                     weaponAmmo.Text = "";
+                    RenderCrosshair = false;
+                }
 
             }
             else

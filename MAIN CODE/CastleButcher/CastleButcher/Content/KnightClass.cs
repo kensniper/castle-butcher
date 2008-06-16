@@ -19,6 +19,13 @@ namespace CastleButcher.Content
         RenderingData renderingData;
         RenderingData rdWithCrossbow;
         RenderingData rdWithGrenade;
+        RenderingData deadRd;
+
+        public override RenderingData DeadRd
+        {
+            get { return deadRd; }
+
+        }
 
         public KnightClass()
         {
@@ -32,14 +39,19 @@ namespace CastleButcher.Content
             collisionData.m_hardPoints = tempPoints.ToArray();
             walkingCollisionData = ResourceCache.Instance.GetCollisionMesh("knightWalkingPoint.cm");
             //hitMesh = ResourceCache.Instance.GetCollisionMesh("knightHitMesh.cm");
-//            renderingData = ResourceCache.Instance.GetRenderingData("knightStanding.x");
+            //            renderingData = ResourceCache.Instance.GetRenderingData("knightStanding.x");
             Matrix rot = Matrix.RotationY((float)Math.PI);
             renderingData = ResourceCache.Instance.GetRenderingData("knightStanding.x");
             //renderingData.CustomTransform = rot;
             rdWithCrossbow = ResourceCache.Instance.GetRenderingData("knightWithCrossbow.x");
             rdWithGrenade = ResourceCache.Instance.GetRenderingData("knightWithGrenade.x");
+            deadRd = ResourceCache.Instance.GetRenderingData("knightDead.x");
 
             float r = renderingData.BoundingSphereRadius;
+
+
+            //Matrix tr = Matrix.Translation(0, -4, 0);
+            //deadRd.CustomTransform = tr;
 
         }
         public override PlayerMovementParameters MovementParameters
@@ -74,17 +86,23 @@ namespace CastleButcher.Content
 
         public override RenderingData CharRenderingData(Character character)
         {
-            if (character.Weapons.CurrentWeapon != null)
+            if (character.Player.IsAlive)
             {
-                if (character.Weapons.CurrentWeapon.WeaponClass is PipeClass)
+                if (character.Weapons.CurrentWeapon != null)
                 {
-                    return rdWithCrossbow;
+                    if (character.Weapons.CurrentWeapon.WeaponClass is CrossbowClass)
+                    {
+                        return rdWithCrossbow;
+                    }
+                    else if (character.Weapons.CurrentWeapon.WeaponClass is GrenadeClass)
+                        return rdWithGrenade;
                 }
-                else if (character.Weapons.CurrentWeapon.WeaponClass is FireballClass)
-                    return rdWithGrenade;
+                return RenderingData;
             }
+            else
+                return deadRd;
 
-            return RenderingData;
+
 
         }
     }

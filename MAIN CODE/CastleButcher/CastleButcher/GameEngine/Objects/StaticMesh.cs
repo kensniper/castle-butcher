@@ -92,4 +92,14 @@ namespace CastleButcher.GameEngine
 
 
     }
+
+    public class DeadCharacter : StaticMesh
+    {
+        public DeadCharacter(RenderingData rdata, MyVector position)
+            : base(null, CollisionDataType.None, rdata, position)
+        {
+
+
+        }
+    }
 }

@@ -10,20 +10,20 @@
 	<RespawnPointList>
 	  <Assassins>
 		<Object type="respawn" position="[-266.218,13.561,-288.607]" rotation="[0,0,0]" />
-		<Object type="respawn" position="[265.782,90.811,-271.136]" rotation="[0,0,0]" />			
+		<Object type="respawn" position="[265.782,94.811,-271.136]" rotation="[0,0,0]" />			
 	   </Assassins>		
 	   <Knights>
 		<Object type="respawn" position="[37.411,15.718,171.3417]" rotation="[0,0,0]" />
-		<Object type="respawn" position="[104.694,60.042,56.452]" rotation="[0,0,0]" />
+		<Object type="respawn" position="[104.694,64.042,56.452]" rotation="[0,0,0]" />
 	   </Knights>
 	</RespawnPointList>
 	<WeaponPickupList>
-		<Object type="weapon" name="Crossbow" position="[104.694,60.042,72.695]" rotation="[0,0,0]" />
-		<Object type="weapon" name="Crossbow" position="[-37.872,10.163,-262.1]" rotation="[0,0,0]" />
-		<Object type="weapon" name="Pipe" position="[-233.698,10.163,175.862]" rotation="[0,0,0]" />
-		<Object type="weapon" name="Pipe" position="[284.146,92.284,-233.826]" rotation="[0,0,0]" />
-		<Object type="weapon" name="Grenade" position="[0.632,92.284,-289.119]" rotation="[0,0,0]" />
-		<Object type="weapon" name="Fireball" position="[0.632,92.284,282.677]" rotation="[0,0,0]" />
+		<Object type="weapon" name="Crossbow" position="[104.694,46.042,72.695]" rotation="[0,0,0]" />
+		<Object type="weapon" name="Crossbow" position="[-37.872,6.163,-262.1]" rotation="[0,0,0]" />
+		<Object type="weapon" name="Pipe" position="[-233.698,6.163,175.862]" rotation="[0,0,0]" />
+		<Object type="weapon" name="Pipe" position="[284.146,88.284,-233.826]" rotation="[0,0,0]" />
+		<Object type="weapon" name="Grenade" position="[0.632,88.284,-289.119]" rotation="[0,0,0]" />
+		<Object type="weapon" name="Fireball" position="[0.632,88.284,282.677]" rotation="[0,0,0]" />
 	</WeaponPickupList>
 	
  </Map>

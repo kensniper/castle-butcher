@@ -301,9 +301,9 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                if (player.IsAlive)
+                //if (player.IsAlive)
                     return characterClass.MovementParameters;
-                throw new Exception();
+                //throw new Exception();
             }
         }
 

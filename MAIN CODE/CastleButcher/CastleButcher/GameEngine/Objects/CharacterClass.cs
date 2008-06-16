@@ -38,6 +38,10 @@ namespace CastleButcher.GameEngine
         {
             get;
         }
+        public abstract RenderingData DeadRd
+        {
+            get;
+        }
 
         public abstract GameTeam GameTeam
         {
