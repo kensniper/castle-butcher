@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AnimatedMapData>
+<AnimationData duration="2" loop="true"/>
+<MapFile file="water\waterdN0000.jpg"/>
+<MapFile file="water\waterdN0001.jpg"/>
+<MapFile file="water\waterdN0002.jpg"/>
+<MapFile file="water\waterdN0003.jpg"/>
+<MapFile file="water\waterdN0004.jpg"/>
+<MapFile file="water\waterdN0005.jpg"/>
+<MapFile file="water\waterdN0006.jpg"/>
+<MapFile file="water\waterdN0007.jpg"/>
+<MapFile file="water\waterdN0008.jpg"/>
+<MapFile file="water\waterdN0009.jpg"/>
+<MapFile file="water\waterdN0010.jpg"/>
+<MapFile file="water\waterdN0011.jpg"/>
+<MapFile file="water\waterdN0012.jpg"/>
+<MapFile file="water\waterdN0013.jpg"/>
+<MapFile file="water\waterdN0014.jpg"/>
+<MapFile file="water\waterdN0015.jpg"/>
+<MapFile file="water\waterdN0016.jpg"/>
+<MapFile file="water\waterdN0017.jpg"/>
+<MapFile file="water\waterdN0018.jpg"/>
+<MapFile file="water\waterdN0019.jpg"/>
+<MapFile file="water\waterdN0020.jpg"/>
+<MapFile file="water\waterdN0021.jpg"/>
+<MapFile file="water\waterdN0022.jpg"/>
+<MapFile file="water\waterdN0023.jpg"/>
+<MapFile file="water\waterdN0024.jpg"/>
+<MapFile file="water\waterdN0025.jpg"/>
+<MapFile file="water\waterdN0026.jpg"/>
+<MapFile file="water\waterdN0027.jpg"/>
+<MapFile file="water\waterdN0028.jpg"/>
+<MapFile file="water\waterdN0029.jpg"/>
+<MapFile file="water\waterdN0030.jpg"/>
+<MapFile file="water\waterdN0031.jpg"/>
+<MapFile file="water\waterdN0032.jpg"/>
+<MapFile file="water\waterdN0033.jpg"/>
+<MapFile file="water\waterdN0034.jpg"/>
+<MapFile file="water\waterdN0035.jpg"/>
+<MapFile file="water\waterdN0036.jpg"/>
+<MapFile file="water\waterdN0037.jpg"/>
+<MapFile file="water\waterdN0038.jpg"/>
+<MapFile file="water\waterdN0039.jpg"/>
+<MapFile file="water\waterdN0040.jpg"/>
+<MapFile file="water\waterdN0041.jpg"/>
+<MapFile file="water\waterdN0042.jpg"/>
+<MapFile file="water\waterdN0043.jpg"/>
+<MapFile file="water\waterdN0044.jpg"/>
+<MapFile file="water\waterdN0045.jpg"/>
+<MapFile file="water\waterdN0046.jpg"/>
+<MapFile file="water\waterdN0047.jpg"/>
+<MapFile file="water\waterdN0048.jpg"/>
+<MapFile file="water\waterdN0049.jpg"/>
+<MapFile file="water\waterdN0050.jpg"/>
+</AnimatedMapData>
