@@ -36,6 +36,7 @@ namespace UDPClientServerCommons
             Usefull.PlayerData to = new UDPClientServerCommons.Usefull.PlayerData();
 
             to.PlayerId = from.PlayerId;
+            to.Timestamp = from.Timestamp;
             to.LookingDirection = TranslateBetweenVectorAndVector(from.PlayerLookingDirection);
             to.Position = TranslateBetweenVectorAndVector(from.PlayerPosition);
             to.Velocity = TranslateBetweenVectorAndVector(from.PlayerMovementDirection);

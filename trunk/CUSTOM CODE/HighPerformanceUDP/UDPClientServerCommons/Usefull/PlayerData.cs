@@ -72,6 +72,14 @@ namespace UDPClientServerCommons.Usefull
             set { playerIdField = value; }
         }
 
+        private DateTime timestampField;
+
+        public DateTime Timestamp
+        {
+            get { return timestampField; }
+            set { timestampField = value; }
+        }
+
 
         #endregion
 

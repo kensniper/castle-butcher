@@ -258,9 +258,7 @@ namespace UDPClientServerCommons.Client
             {
                 if (GameStarted)
                 {
-                    lock (clientPacketLock)
-                    {
-                        try
+                      try
                         {
                             clientPacket.PacketId = packetIdCounter.Next();
                             clientPacket.PlayerId = playerIdField.Value;
@@ -276,7 +274,6 @@ namespace UDPClientServerCommons.Client
                             clientPacket.PlayerShooting = false;
                         }
                         return null;
-                    }
                 }
                 else
                     return null;
@@ -539,6 +536,7 @@ namespace UDPClientServerCommons.Client
             {
                 try
                 {
+                    clientPacket.TimeStamp = DateTime.Now;
                     clientPacket.PlayerPosition = Translator.TranslateBetweenVectorAndVector(position);
                     clientPacket.PlayerLookingDirection = Translator.TranslateBetweenVectorAndVector(lookDirection);
                     clientPacket.PlayerMovementDirection = Translator.TranslateBetweenVectorAndVector(moventDirection);
@@ -564,6 +562,7 @@ namespace UDPClientServerCommons.Client
             {
                 try
                 {
+                    clientPacket.TimeStamp = DateTime.Now;
                     clientPacket.PlayerShooting = playerAttacked;
                     clientPacket.PlayerJumping = playerJumped;
                     if (playerAttacked)
@@ -616,6 +615,7 @@ namespace UDPClientServerCommons.Client
             {
                 try
                 {
+                    clientPacket.TimeStamp = DateTime.Now;
                     clientPacket.PlayerPosition = Translator.TranslateBetweenVectorAndVector(position);
                     clientPacket.PlayerLookingDirection = Translator.TranslateBetweenVectorAndVector(lookDirection);
                     clientPacket.PlayerMovementDirection = Translator.TranslateBetweenVectorAndVector(moventDirection);
