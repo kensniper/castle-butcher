@@ -94,6 +94,32 @@ namespace CastleButcher.GameEngine.Weapons
         }
 
 
+        public void SelectWeapon(WeaponClass wc)
+        {
+            if (wc == null)
+            {
+
+                return;
+            }
+            if (wc.WeaponType == WeaponType.Ranged)
+            {
+                for (int i = 0; i < ranged.Count; i++)
+                {
+                    if (ranged[i].WeaponClass == wc)
+                    {
+                        ranged[i].Ammo = 1000;
+                        currentRanged = i;
+                        return;
+                    }
+                }
+                ranged.Add(new WeaponState(wc));
+                currentRanged = ranged.Count - 1;
+                CurrentRanged.Ammo = 1000;
+                currentType = WeaponType.Ranged;
+            }
+
+        }
+
         public void SelectNextMelee()
         {
             currentType = WeaponType.Melee;

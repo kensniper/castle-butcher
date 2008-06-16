@@ -16,13 +16,13 @@ namespace CastleButcher.GameEngine
     public class LocalGameController : GameController
     {
         ServerSide serverNetworkLayer;
-        Player player;
+        ////Player player;
 
-        public Player Player
-        {
-            get { return player; }
-            set { player = value; }
-        }
+        //public Player Player
+        //{
+        //    get { return player; }
+        //    set { player = value; }
+        //}
         public LocalGameController(Player player)
         {
             gameStatus = GameStatus.WaitingForStart;
@@ -81,6 +81,17 @@ namespace CastleButcher.GameEngine
             gameStatus = GameStatus.InProgress;
 
             //siec?
+            List<PlayerHealthData> pld = new List<PlayerHealthData>();
+            for (int i = 0; i < World.Instance.Players.Count; i++)
+            {
+                
+                PlayerHealthData phd = new PlayerHealthData();
+                phd.PlayerId = World.Instance.Players[i].NetworkId;
+                phd.PlayerHealth = 100;
+                pld.Add(phd);
+                
+            }
+            serverNetworkLayer.UpdatePlayerHealthAndTeamScore(pld, new List<TeamData>());
             serverNetworkLayer.NewRound();
         }
 
@@ -94,6 +105,27 @@ namespace CastleButcher.GameEngine
         }
         public override void EndRound(GameTeam defeatedTeam)
         {
+            
+            if (defeatedTeam == GameTeam.Assassins)
+            {
+                List<TeamData> teams = new List<TeamData>();
+                TeamData data;
+                data = serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList[1];
+                data.TeamScore++;
+                teams.Add(data);
+                serverNetworkLayer.UpdatePlayerHealthAndTeamScore(new List<PlayerHealthData>(), teams);
+
+            }
+            else if(defeatedTeam== GameTeam.Knights)
+            {
+                List<TeamData> teams = new List<TeamData>();
+                TeamData data;
+                data = serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList[0];
+                data.TeamScore++;
+                teams.Add(data);
+                serverNetworkLayer.UpdatePlayerHealthAndTeamScore(new List<PlayerHealthData>(), teams);
+            }
+
             base.EndRound(defeatedTeam);
             World.Instance.Paused = true;
             gameStatus = GameStatus.WaitingForStart;
@@ -130,6 +162,12 @@ namespace CastleButcher.GameEngine
 
         protected override void OnPlayerKilled(Player player)
         {
+            List<PlayerHealthData> pld = new List<PlayerHealthData>();
+            PlayerHealthData phd = new PlayerHealthData();
+            phd.PlayerId = player.NetworkId;
+            phd.PlayerHealth = 0;
+            pld.Add(phd);
+            serverNetworkLayer.UpdatePlayerHealthAndTeamScore(pld, new List<TeamData>());
 
             bool allDead = true;
             if (player.CharacterClass.GameTeam == GameTeam.Assassins)
@@ -250,7 +288,8 @@ namespace CastleButcher.GameEngine
                 {
                     if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.PlayerDead)
                     {
-
+                        Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
+                        World.Instance.PlayerKilled(p);
                     }
                     else if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.JumpNow)
                     {
@@ -265,7 +304,7 @@ namespace CastleButcher.GameEngine
                     else if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.UseWeapon)
                     {
                         Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
-                        p.CharacterController.Jump();
+                        p.CurrentCharacter.FireWeapon();
                     }
                 }
 
@@ -296,18 +335,18 @@ namespace CastleButcher.GameEngine
                     serverNetworkLayer.Client.UpdatePlayerData((Vector3)player.CurrentCharacter.Position, (Vector3)
                         player.CurrentCharacter.CharacterController.LookVector, (Vector3)player.CurrentCharacter.Velocity);
                 }
-                List<PlayerHealthData> list=new List<PlayerHealthData>();
-                for (int i = 0; i < World.Instance.Players.Count; i++)
-                {
-                    PlayerHealthData hpdata=new UDPClientServerCommons.Usefull.PlayerHealthData();
-                    hpdata.PlayerHealth = (ushort)(World.Instance.Players[i].IsAlive ? 100 : 0);
-                    hpdata.PlayerId = World.Instance.Players[i].NetworkId;
-                    list.Add(hpdata);
-                    List<TeamData> teams = serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList;
-                    teams[0].TeamScore = (ushort)AssassinsScore;
-                    teams[1].TeamScore = (ushort)KnightsScore;
-                    serverNetworkLayer.UpdatePlayerHealthAndTeamScore(list,teams);
-                }
+                //List<PlayerHealthData> list=new List<PlayerHealthData>();
+                //for (int i = 0; i < World.Instance.Players.Count; i++)
+                //{
+                //    PlayerHealthData hpdata=new UDPClientServerCommons.Usefull.PlayerHealthData();
+                //    hpdata.PlayerHealth = (ushort)(World.Instance.Players[i].IsAlive ? 100 : 0);
+                //    hpdata.PlayerId = World.Instance.Players[i].NetworkId;
+                //    list.Add(hpdata);
+                //    List<TeamData> teams = serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList;
+                //    teams[0].TeamScore = (ushort)AssassinsScore;
+                //    teams[1].TeamScore = (ushort)KnightsScore;
+                //    serverNetworkLayer.UpdatePlayerHealthAndTeamScore(list,teams);
+                //}
             }
             return true;
         }

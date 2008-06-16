@@ -17,14 +17,14 @@ namespace CastleButcher.GameEngine
     {
 
         ClientSide clientNetworkLayer;
-        Player player;
+        //Player player;
         UDPClientServerCommons.Packets.GameInfoPacket gameInfo;
 
-        public Player Player
-        {
-            get { return player; }
-            set { player = value; }
-        }
+        //public Player Player
+        //{
+        //    get { return player; }
+        //    set { player = value; }
+        //}
         public RemoteGameController(Player player, ClientSide clientSide, UDPClientServerCommons.Packets.GameInfoPacket gameInfo)
         {
             gameStatus = GameStatus.WaitingForStart;
@@ -273,9 +273,6 @@ namespace CastleButcher.GameEngine
                             p.LastTimeStamp = data[i].Timestamp;
 
                         }
-
-
-
                         //p.CurrentCharacter.
 
                     }
@@ -285,6 +282,7 @@ namespace CastleButcher.GameEngine
                 {
                     clientNetworkLayer.UpdatePlayerData((Vector3)player.CurrentCharacter.Position, (Vector3)
                         player.CurrentCharacter.CharacterController.LookVector, (Vector3)player.CurrentCharacter.Velocity);
+
                 }
             }
             return true;

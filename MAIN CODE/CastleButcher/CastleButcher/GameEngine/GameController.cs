@@ -5,6 +5,8 @@ using System.Text;
 using Framework;
 using Framework.MyMath;
 using Microsoft.DirectX;
+using CastleButcher.GameEngine.Weapons;
+using CastleButcher.Content;
 
 namespace CastleButcher.GameEngine
 {
@@ -17,6 +19,14 @@ namespace CastleButcher.GameEngine
 
         protected ushort assassinsID = 13;
         protected ushort knightsID = 39;
+
+        protected Player player;
+
+        public Player Player
+        {
+            get { return player; }
+            set { player = value; }
+        }
 
         public GameTeam GetTeamByID(ushort id)
         {
@@ -36,6 +46,47 @@ namespace CastleButcher.GameEngine
                     return World.Instance.Players[i];
             }
             return null;
+        }
+
+        public WeaponClass GetWeaponClassByID(UDPClientServerCommons.Constants.WeaponEnumeration weapon)
+        {
+            if (player.CharacterClass.GameTeam == GameTeam.Assassins)
+            {
+                if (weapon == UDPClientServerCommons.Constants.WeaponEnumeration.CrossBow)
+                    return ObjectCache.Instance.GetWeapon("Pipe");
+                if (weapon == UDPClientServerCommons.Constants.WeaponEnumeration.Sword)
+                    return ObjectCache.Instance.GetWeapon("Fireball");
+
+            }
+            else if (player.CharacterClass.GameTeam == GameTeam.Knights)
+            {
+                if (weapon == UDPClientServerCommons.Constants.WeaponEnumeration.CrossBow)
+                    return ObjectCache.Instance.GetWeapon("Crossbow");
+                if (weapon == UDPClientServerCommons.Constants.WeaponEnumeration.Sword)
+                    return ObjectCache.Instance.GetWeapon("Grenade");
+
+            }
+            return null;
+        }
+        public UDPClientServerCommons.Constants.WeaponEnumeration GetWeaponIDByClass(WeaponClass wc)
+        {
+            if (player.CharacterClass.GameTeam == GameTeam.Assassins)
+            {
+                if (wc is PipeClass)
+                    return  UDPClientServerCommons.Constants.WeaponEnumeration.CrossBow;
+                if (wc is FireballClass)
+                    return UDPClientServerCommons.Constants.WeaponEnumeration.Sword;
+
+            }
+            else if (player.CharacterClass.GameTeam == GameTeam.Knights)
+            {
+                if (wc is CrossbowClass)
+                    return UDPClientServerCommons.Constants.WeaponEnumeration.CrossBow;
+                if (wc is GrenadeClass)
+                    return UDPClientServerCommons.Constants.WeaponEnumeration.Sword;
+
+            }
+            return  UDPClientServerCommons.Constants.WeaponEnumeration.None;
         }
 
         public MyQuaternion LookOrientationFromDirection(MyVector direction)
