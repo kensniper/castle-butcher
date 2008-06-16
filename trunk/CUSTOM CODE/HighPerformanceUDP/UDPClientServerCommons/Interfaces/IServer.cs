@@ -56,5 +56,30 @@ namespace UDPClientServerCommons.Interfaces
         /// <param name="Me"></param>
         /// <returns></returns>
         IPEndPoint StartINTERNETServer(GameOptions gameOptions, bool dedicatedServer, Interfaces.IPlayerMe Me);
+
+        /// <summary>
+        /// starts new round , after a while it clears player scores (game engine should wait for 500 ms)
+        /// and save plyaer scores if needed
+        /// </summary>
+        void NewRound();
+
+        /// <summary>
+        /// Ends game
+        /// </summary>
+        void EndGame();
+
+        /// <summary>
+        /// neewest data that server has (no delays)
+        /// </summary>
+        Packets.ServerPacket NeewestServerData
+        {
+            get;
+        }
+
+        /// <summary>
+        /// updates player health (also kills and respawns)
+        /// </summary>
+        /// <param name="playerHealthList">list with current players healths</param>
+        void UpdatePlayerHealth(List<Usefull.PlayerHealthData> playerHealthList);
     }
 }

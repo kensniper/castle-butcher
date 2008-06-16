@@ -11,6 +11,7 @@ namespace UDPClientServerCommons.Server
     public class ClientForServer:Interfaces.IClientForServer
     {
         #region fields
+        public event EventHandler EndGameEvent;
 
         public delegate void AddMessageDelegate(Interfaces.IPacket packet);
 
@@ -111,9 +112,17 @@ namespace UDPClientServerCommons.Server
                 case PacketTypeEnumeration.StandardServerPacket:
                     List<Interfaces.IGameplayEvent> gameplayEvents = GameEvents.GameEventExtractor.GetGameplayEvents((ServerPacket)packet, (ServerPacket)last10Packeges.LastPacket, playerIdField);
                     lock (gameplayEventListLock)
-                    {
+                    {                        
                         for (int i = 0; i < gameplayEvents.Count; i++)
                             gameplayEventList.Add(gameplayEvents[i]);
+                    }
+                    if (last10Packeges.LastPacket == null)
+                    {
+                        //first server packet - game hast just started
+                        lock (gameEventListLock)
+                        {
+                            gameEventList.Add(new GameEvents.GameStartedEvent());
+                        }
                     }
                     last10Packeges.AddPacket(packet);
                     break;
@@ -163,9 +172,6 @@ namespace UDPClientServerCommons.Server
                 this.teamIdField = teamId;
 
                 gameIsRunningAsDedicatedServer = false;
-
-                // start sending data to server
-                timer.Change(0, TimerTickPeriod);
             }
             catch (Exception ex)
             {
@@ -173,6 +179,15 @@ namespace UDPClientServerCommons.Server
                 Diagnostic.NetworkingDiagnostics.Logging.Fatal("join game", ex);
             }
             return result;
+        }
+
+        /// <summary>
+        /// start adding data to server (after game is started)
+        /// </summary>
+        public void StartSendingDataToServer()
+        {
+            // start sending data to server
+            timer.Change(0, TimerTickPeriod);
         }
 
         /// <summary>
@@ -329,7 +344,7 @@ namespace UDPClientServerCommons.Server
         }
 
         /// <summary>
-        /// Leave current game
+        /// End current game
         /// </summary>
         /// <returns>true if operation was successfull</returns>
         public bool LeaveGame()
@@ -339,12 +354,16 @@ namespace UDPClientServerCommons.Server
             {
                 try
                 {
-                    LeaveGamePacket leaveGamePacket = new LeaveGamePacket();
-                    leaveGamePacket.GameId = gameIdField.Value;
-                    leaveGamePacket.PlayerId = playerIdField.Value;
-                    leaveGamePacket.TimeStamp = DateTime.Now;
+                    //LeaveGamePacket leaveGamePacket = new LeaveGamePacket();
+                    //leaveGamePacket.GameId = gameIdField.Value;
+                    //leaveGamePacket.PlayerId = playerIdField.Value;
+                    //leaveGamePacket.TimeStamp = DateTime.Now;
 
-                    AddMessageToServer(leaveGamePacket);
+                    //AddMessageToServer(leaveGamePacket);
+                    // stop sending
+                    timer.Change(Timeout.Infinite, Timeout.Infinite);
+                    if (EndGameEvent != null)
+                    EndGameEvent(null, new EventArgs());
                 }
                 catch (Exception ex)
                 {

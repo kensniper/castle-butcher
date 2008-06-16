@@ -7,7 +7,7 @@ namespace UDPClientServerCommons.GameEvents
 {
     public class GamePlayEvent:ICloneable,Interfaces.IGameplayEvent
     {
-        #region fields
+        #region IGameplayEvent Members
 
         private Constants.GamePlayEventTypeEnumeration gameplayEventTypeField;
 
@@ -31,6 +31,30 @@ namespace UDPClientServerCommons.GameEvents
         {
             get { return playerIdField; }
             set { playerIdField = value; }
+        }
+
+        private Microsoft.DirectX.Vector3 positionField;
+
+        public Microsoft.DirectX.Vector3 Position
+        {
+            get { return positionField; }
+            set { positionField = value; }
+        }
+
+        private Microsoft.DirectX.Vector3 lookingDirectionField;
+
+        public Microsoft.DirectX.Vector3 LookingDirection
+        {
+            get { return lookingDirectionField; }
+            set { lookingDirectionField = value; }
+        }
+
+        private Microsoft.DirectX.Vector3 velocityField;
+
+        public Microsoft.DirectX.Vector3 Velocity
+        {
+            get { return velocityField; }
+            set { velocityField = value; }
         }
 
         #endregion
@@ -59,6 +83,18 @@ namespace UDPClientServerCommons.GameEvents
             this.playerIdField = playerId;
             this.gameplayEventTypeField = eventType;
             this.timestampField = timestamp;
+        }
+
+        public GamePlayEvent(ushort playerId, Constants.GamePlayEventTypeEnumeration eventType, 
+            DateTime timestamp,Microsoft.DirectX.Vector3 position,Microsoft.DirectX.Vector3 lookingDirection,
+            Microsoft.DirectX.Vector3 velocity)
+        {
+            this.playerIdField = playerId;
+            this.gameplayEventTypeField = eventType;
+            this.timestampField = timestamp;
+            this.lookingDirectionField = lookingDirection;
+            this.positionField = position;
+            this.velocityField = velocity;
         }
 
         public override string ToString()

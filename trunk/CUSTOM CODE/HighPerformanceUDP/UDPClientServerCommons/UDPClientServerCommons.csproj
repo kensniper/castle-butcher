@@ -42,7 +42,9 @@
     <Compile Include="Client\ClientLanBroadcast.cs" />
     <Compile Include="Client\UDPLayer.cs" />
     <Compile Include="Constants\Constant.cs" />
+    <Compile Include="GameEvents\GameEndEvent.cs" />
     <Compile Include="GameEvents\GameStartedEvent.cs" />
+    <Compile Include="GameEvents\NewRoundEvent.cs" />
     <Compile Include="GameEvents\TeamScoredEvent.cs" />
     <Compile Include="GameEvents\GameEventExtractor.cs" />
     <Compile Include="Constants\GamePlayEventTypeEnumeration.cs" />
@@ -97,8 +99,10 @@
     <Compile Include="Usefull\Last10Packages.cs" />
     <Compile Include="Usefull\PacketIdCounter.cs" />
     <Compile Include="Usefull\PlayerData.cs" />
+    <Compile Include="Usefull\PlayerHealthData.cs" />
     <Compile Include="Usefull\PlayerIdNullException.cs" />
     <Compile Include="Usefull\PlayerMe.cs" />
+    <Compile Include="Usefull\PlayerScoreData.cs" />
     <Compile Include="Usefull\ToManyAcksWaitingException.cs" />
   </ItemGroup>
   <ItemGroup>
