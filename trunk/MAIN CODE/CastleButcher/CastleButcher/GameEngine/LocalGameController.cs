@@ -177,6 +177,7 @@ namespace CastleButcher.GameEngine
 
         public override bool Update(float timeElapsed)
         {
+            if (serverNetworkLayer.Client == null) return true;
             List<IOtherPlayerData> data = serverNetworkLayer.Client.PlayerDataList;
 
             List<IGameEvent> gameEvents = serverNetworkLayer.Client.GameEventList;
@@ -187,6 +188,7 @@ namespace CastleButcher.GameEngine
                 {
                     //gameEvents[i].
                     //StartGame();
+                    player.NetworkId = serverNetworkLayer.Client.PlayerId ?? 0;
                 }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerJoined)
                 {
