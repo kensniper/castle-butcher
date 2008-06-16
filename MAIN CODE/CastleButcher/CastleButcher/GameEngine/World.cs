@@ -490,6 +490,10 @@ namespace CastleButcher.GameEngine
         {
             p.OnRespawned();
             //SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.fanfare1, (Vector3)p.CurrentCharacter.Position);
+            if (p is CastleButcher.UI.UIPlayer)
+            {
+                p.CharacterController.UpdateDirections = true;
+            }
             if (OnPlayerRespawned != null)
                 OnPlayerRespawned(p);
         }
