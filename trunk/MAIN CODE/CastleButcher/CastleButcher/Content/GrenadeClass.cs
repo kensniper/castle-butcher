@@ -16,7 +16,7 @@ namespace CastleButcher.Content
     {
         public GrenadeClass()
         {
-            name = "Grenade";
+            name = "Granat";
             this.gameTeam = GameTeam.Knights;
             this.pickupRD = ResourceCache.Instance.GetRenderingData("grenade.x");
             this.missileRD = ResourceCache.Instance.GetRenderingData("grenade.x");

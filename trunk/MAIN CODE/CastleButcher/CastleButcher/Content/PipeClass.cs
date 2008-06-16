@@ -15,7 +15,7 @@ namespace CastleButcher.Content
 
         public PipeClass()
         {
-            name = "Pipe";
+            name = "Rurka";
             this.gameTeam = GameTeam.Assassins;
             this.pickupRD = ResourceCache.Instance.GetRenderingData("pipePickup.x");
             this.missileRD = ResourceCache.Instance.GetRenderingData("arrow2.x");
