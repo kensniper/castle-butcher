@@ -137,8 +137,8 @@ namespace CastleButcher.GameEngine
 
             IMissile missile = Weapons.CurrentWeapon.WeaponClass.GetMissile(this, this.Position, this.LookOrientation);
             Weapons.CurrentWeapon.Ammo--;
-            if (Weapons.CurrentWeapon.Ammo < 0 && Weapons.CurrentWeapon.WeaponClass.WeaponType == CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
-                Weapons.SelectPreviousRanged();
+            //if (Weapons.CurrentWeapon.Ammo <= 0 && Weapons.CurrentWeapon.WeaponClass.WeaponType == CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
+            //    Weapons.SelectPreviousRanged();
             SoundSystem.SoundEngine.PlaySound(SoundSystem.Enums.SoundTypes.crossbowOff, (Vector3)this.Position);
 
             World.Instance.AddObject(missile as IGameObject);
@@ -148,6 +148,7 @@ namespace CastleButcher.GameEngine
                 if (Weapons.CurrentWeapon.Ammo <= 0)
                 {
                     Weapons.SelectNextRanged();
+                    Weapons.CurrentWeapon.Use();
                 }
 
 

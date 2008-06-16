@@ -15,7 +15,7 @@ namespace CastleButcher.GameEngine.Weapons
         WeaponClass weaponClass;
 
         float remainingTime;
-        static CollisionSphere collisionSphere = new CollisionSphere(3);
+        static CollisionSphere collisionSphere = new CollisionSphere(2);
 
         public Arrow(object owner, WeaponClass weaponClass, MyVector position, MyQuaternion orientation, MyVector velocity)
             : base(new PhysicalProperties(0, 0, 0))

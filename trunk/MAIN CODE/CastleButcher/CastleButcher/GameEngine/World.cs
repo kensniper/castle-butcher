@@ -636,7 +636,8 @@ namespace CastleButcher.GameEngine
                 return false;
             if (missile is Grenade)
             {
-                GrenadeExplosion(missile as Grenade, parameters);
+                if(missile.Owner!=obj)
+                    GrenadeExplosion(missile as Grenade, parameters);
             }
             else
             {

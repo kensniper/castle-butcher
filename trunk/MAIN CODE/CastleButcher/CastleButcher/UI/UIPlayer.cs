@@ -30,6 +30,7 @@ namespace CastleButcher.UI
 
         public void OnWeaponChanged(CastleButcher.GameEngine.Weapons.WeaponClass newWeapon)
         {
+            
             if (newWeapon == null || newWeapon.WeaponType != CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
             {
                 playerControl.RenderCrosshair = false;
