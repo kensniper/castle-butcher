@@ -711,6 +711,7 @@ namespace UDPClientServerCommons.Server
                     {
                         for (int i = 0; i < serverPacket.PlayerInfoList.Count; i++)
                         {
+                            if(health.ContainsKey(serverPacket.PlayerInfoList[i].PlayerId))
                             serverPacket.PlayerInfoList[i].Health = health[serverPacket.PlayerInfoList[i].PlayerId];
                         }
                     }
@@ -718,6 +719,7 @@ namespace UDPClientServerCommons.Server
                     {
                         for (int i = 0; i < gameInfoPacket.PlayerStatusList.Count; i++)
                         {
+                            if (health.ContainsKey(serverPacket.PlayerInfoList[i].PlayerId))
                             gameInfoPacket.PlayerStatusList[i].PlayerHealth = health[gameInfoPacket.PlayerStatusList[i].PlayerId];
                         }
                     }
@@ -739,6 +741,7 @@ namespace UDPClientServerCommons.Server
                     {
                         for (int i = 0; i < gameInfoPacket.TeamScoreList.Count; i++)
                         {
+                            if(teams.ContainsKey(gameInfoPacket.TeamScoreList[i].TeamId))
                             gameInfoPacket.TeamScoreList[i].TeamScore = teams[gameInfoPacket.TeamScoreList[i].TeamId].TeamScore;
                         }
                     }

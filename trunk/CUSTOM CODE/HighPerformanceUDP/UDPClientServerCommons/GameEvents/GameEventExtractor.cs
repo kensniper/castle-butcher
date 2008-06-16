@@ -77,7 +77,7 @@ namespace UDPClientServerCommons.GameEvents
                             }
                             if (!found)
                             {
-                                gameEvents.Add(new GameEvents.PlayerJoinedEvent(id, newPacket.PlayerStatusList[i].PlayerName));
+                                gameEvents.Add(new GameEvents.PlayerJoinedEvent(id, newPacket.PlayerStatusList[i].PlayerName,newPacket.PlayerStatusList[i].PlayerTeam));
                             }
                             found = false;
                         }
@@ -116,7 +116,7 @@ namespace UDPClientServerCommons.GameEvents
                 // first gameInfoPacket - if game is not on a dedicated server than there will be a server - player
                 if (newPacket.PlayerStatusList.Count == 1)
                 {
-                    gameEvents.Add(new GameEvents.PlayerJoinedEvent(newPacket.PlayerStatusList[0].PlayerId, newPacket.PlayerStatusList[0].PlayerName));
+                    gameEvents.Add(new GameEvents.PlayerJoinedEvent(newPacket.PlayerStatusList[0].PlayerId, newPacket.PlayerStatusList[0].PlayerName, newPacket.PlayerStatusList[0].PlayerTeam));
                 }
             }
 
