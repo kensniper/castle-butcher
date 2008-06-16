@@ -102,6 +102,7 @@ namespace UDPClientServerCommons.Server
                             clientForServer.EndGameEvent += new EventHandler(clientForServer_EndGameEvent);
                         }
                         clientForServer.JoinGame(ps.PlayerId, gameInfoPacket.GameId, ps.PlayerName, ps.PlayerTeam);
+                        gameInfoPacket.PlayerStatusList.Add(ps);
                     }
 
                     gameInfoPacket.TeamScoreList = new List<TeamData>();
