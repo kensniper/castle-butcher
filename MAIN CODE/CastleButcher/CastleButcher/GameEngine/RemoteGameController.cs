@@ -174,6 +174,7 @@ namespace CastleButcher.GameEngine
                 {
                     //gameEvents[i].
                     StartGame();
+                    player.NetworkId = clientNetworkLayer.PlayerId ?? 0;
                 }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerJoined)
                 {
