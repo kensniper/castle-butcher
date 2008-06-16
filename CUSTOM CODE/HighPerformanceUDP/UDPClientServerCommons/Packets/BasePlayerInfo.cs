@@ -159,6 +159,9 @@ using UDPClientServerCommons.Constants;
 
             #region Constructor
 
+            /// <summary>
+            /// default constructor
+            /// </summary>
             public BasePlayerInfo()
             {
                 playerPositionField = new Vector();
@@ -166,6 +169,13 @@ using UDPClientServerCommons.Constants;
                 playerLookingDirectionField = new Vector();
             }
 
+            /// <summary>
+            /// constructor which takes old data and updates only Vectors
+            /// </summary>
+            /// <param name="oldPacket">old data</param>
+            /// <param name="newPlayerPosition">new position</param>
+            /// <param name="newPlayerMovementDirection">new velocity vector</param>
+            /// <param name="newPlayerLookingDirection">new looking direction</param>
             public BasePlayerInfo(BasePlayerInfo oldPacket,
                 Vector newPlayerPosition,
                 Vector newPlayerMovementDirection,

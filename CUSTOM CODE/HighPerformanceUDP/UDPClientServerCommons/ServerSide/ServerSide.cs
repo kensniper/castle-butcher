@@ -74,6 +74,7 @@ namespace UDPClientServerCommons.Server
         {
             try
             {
+                if(lanBroadcast == null)
                 lanBroadcast = new ServerLanBroadcast();
                 Usefull.PlayerMe me = (Usefull.PlayerMe)Me;
                 PlayerStatus ps = new PlayerStatus();
@@ -84,6 +85,7 @@ namespace UDPClientServerCommons.Server
                     gameInfoPacket.GameType = gameOptions.GameType;
                     gameInfoPacket.Limit = gameOptions.GameLimit;
                     gameInfoPacket.PlayerStatusList = new List<PlayerStatus>();
+                    gameInfoPacket.RoundNumber = 1;
                     if (!dedicatedServer && me != null)
                     {
                         ps.PlayerId = (ushort)rand.Next(1000, 9999);
@@ -93,8 +95,12 @@ namespace UDPClientServerCommons.Server
                         else
                             ps.PlayerTeam = 39;
 
-                        clientForServer = new ClientForServer();
-                        clientForServer.AddMessageToServer += new ClientForServer.AddMessageDelegate(clientForServer_AddMessageToServer);
+                        if (clientForServer == null)
+                        {
+                            clientForServer = new ClientForServer();
+                            clientForServer.AddMessageToServer += new ClientForServer.AddMessageDelegate(clientForServer_AddMessageToServer);
+                            clientForServer.EndGameEvent += new EventHandler(clientForServer_EndGameEvent);
+                        }
                         clientForServer.JoinGame(ps.PlayerId, gameInfoPacket.GameId, ps.PlayerName, ps.PlayerTeam);
                     }
 
@@ -124,6 +130,46 @@ namespace UDPClientServerCommons.Server
                 Diagnostic.NetworkingDiagnostics.Logging.Fatal("StartLanServer S", ex);
             }
             return null;
+        }
+        
+        private void clientForServer_EndGameEvent(object sender, EventArgs e)
+        {
+            lock (gameInfoPacketLock)
+            {
+                try
+                {
+                    UDPPacketBuffer buff = new UDPPacketBuffer();
+                    buff.Data = gameInfoPacket.ToMinimalByte();
+                    buff.DataLength = gameInfoPacket.ByteCount;
+                    gameInfoPacket.RoundNumber = 0;
+                    for (int i = 0; i < cliendAdressList.Count; i++)
+                    {
+                        buff.RemoteEndPoint = cliendAdressList[i];
+                        base.AsyncBeginSend(buff);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Diagnostic.NetworkingDiagnostics.Logging.Error("EndGameEvent", ex);
+                }
+            }
+            System.Threading.Thread.Sleep(200);
+            timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
+            cliendAdressList.Clear();
+            lock (clientPackagesDictionaryLock)
+            {
+                clientPackagesDictionary = new Dictionary<ushort, UDPClientServerCommons.Usefull.Last10Packages>();
+            }
+            lock (gameInfoPacketLock)
+            {
+                gameInfoPacket = new GameInfoPacket();
+            }
+            last10 = new Last10();
+            lock (serverPacketLock)
+            {
+                serverPacket = new ServerPacket();
+            }
+            
         }
 
         /// <summary>
@@ -167,6 +213,8 @@ namespace UDPClientServerCommons.Server
                 {
                     // everything went OK so we can start
                     gameStarted = true;
+                    if (Client != null && !Client.GameIsRunningAsDedicatedServer)
+                        clientForServer.StartSendingDataToServer();
                 }
             }
             return ret;
@@ -574,9 +622,92 @@ namespace UDPClientServerCommons.Server
         /// </summary>
         public override void Dispose()
         {
+            timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             base.Dispose();
             if (lanBroadcast != null)
                 lanBroadcast.Dispose();
         }
+
+        #region IServer Members
+
+        /// <summary>
+        /// starts new round , after a while it clears player scores (game engine should wait for 500 ms)
+        /// and save plyaer scores if needed
+        /// </summary>
+        public void NewRound()
+        {
+            lock (gameInfoPacketLock)
+            {
+                gameInfoPacket.RoundNumber += 1;
+            }
+
+            System.Threading.Thread.Sleep(500);
+            lock (gameInfoPacketLock)
+            {
+                for (int i = 0; i<gameInfoPacket.PlayerStatusList.Count; i++)
+                {
+                    gameInfoPacket.PlayerStatusList[i].PlayerScore = 0;
+                    gameInfoPacket.PlayerStatusList[i].PlayerHealth = 100;
+                }
+            }
+        }
+
+        /// <summary>
+        /// ends game
+        /// </summary>
+        public void EndGame()
+        {
+            if (Client!= null && !Client.GameIsRunningAsDedicatedServer)
+            {
+                Client.LeaveGame();
+            }
+            else
+            {
+                clientForServer_EndGameEvent(null, new EventArgs());
+            }
+        }
+
+        public ServerPacket NeewestServerData
+        {
+            get {
+                lock (serverPacketLock)
+                {
+                    return (ServerPacket) serverPacket.Clone();
+                }
+            }
+        }
+
+        public void UpdatePlayerHealth(List<UDPClientServerCommons.Usefull.PlayerHealthData> playerHealthList)
+        {
+            try
+            {
+                Dictionary<ushort, ushort> health = new Dictionary<ushort, ushort>();
+                for (int i = 0; i < playerHealthList.Count; i++)
+                {
+                    health.Add(playerHealthList[i].PlayerId, playerHealthList[i].PlayerHealth);
+                }
+
+                lock (serverPacketLock)
+                {
+                    for (int i = 0; i < serverPacket.PlayerInfoList.Count; i++)
+                    {
+                        serverPacket.PlayerInfoList[i].Health = health[serverPacket.PlayerInfoList[i].PlayerId];
+                    }
+                }
+                lock (gameInfoPacketLock)
+                {
+                    for (int i = 0; i < gameInfoPacket.PlayerStatusList.Count; i++)
+                    {
+                        gameInfoPacket.PlayerStatusList[i].PlayerHealth = health[gameInfoPacket.PlayerStatusList[i].PlayerId];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Diagnostic.NetworkingDiagnostics.Logging.Fatal("UpdatePlayerHealth", ex);
+            }
+        }
+
+        #endregion
     }
 }

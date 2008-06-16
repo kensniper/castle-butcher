@@ -32,5 +32,29 @@ namespace UDPClientServerCommons.Interfaces
         {
             get;
         }
+
+        /// <summary>
+        /// player position when event happend
+        /// </summary>
+        Microsoft.DirectX.Vector3 Position
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Point player is looking at when event happend
+        /// </summary>
+        Microsoft.DirectX.Vector3 LookingDirection
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Player Velocity when event happend
+        /// </summary>
+        Microsoft.DirectX.Vector3 Velocity
+        {
+            get;
+        }
     }
 }

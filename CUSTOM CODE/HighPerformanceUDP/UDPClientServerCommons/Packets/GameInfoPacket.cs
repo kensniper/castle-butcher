@@ -18,6 +18,9 @@ namespace UDPClientServerCommons.Packets
 
         private List<PlayerStatus> playerStatusListField = null;
 
+        /// <summary>
+        /// list of players and their current states
+        /// </summary>
         public List<PlayerStatus> PlayerStatusList
         {
             get { return playerStatusListField; }
@@ -26,6 +29,9 @@ namespace UDPClientServerCommons.Packets
 
         private List<TeamData> teamScoreListField = null;
 
+        /// <summary>
+        /// list of teams and their scores
+        /// </summary>
         public List<TeamData> TeamScoreList
         {
             get { return teamScoreListField; }
@@ -34,6 +40,9 @@ namespace UDPClientServerCommons.Packets
 
         private Constants.GameTypeEnumeration gameTypeField = UDPClientServerCommons.Constants.GameTypeEnumeration.FragLimit;
 
+        /// <summary>
+        /// type of the game
+        /// </summary>
         public Constants.GameTypeEnumeration GameType
         {
             get { return gameTypeField; }
@@ -42,6 +51,9 @@ namespace UDPClientServerCommons.Packets
 
         private ushort limitField = 0;
 
+        /// <summary>
+        /// game limit (frags,time...)
+        /// </summary>
         public ushort Limit
         {
             get { return limitField; }
@@ -50,6 +62,9 @@ namespace UDPClientServerCommons.Packets
 
         private ushort gameIdField = 0;
 
+        /// <summary>
+        /// game id
+        /// </summary>
         public ushort GameId
         {
             get { return gameIdField; }
@@ -58,16 +73,33 @@ namespace UDPClientServerCommons.Packets
 
         private IPEndPoint serverAddressField;
 
+        /// <summary>
+        /// adress of the server the game is taking place
+        /// </summary>
         public IPEndPoint ServerAddress
         {
             get { return serverAddressField; }
             set { serverAddressField = value; }
         }
 
+        private ushort roundNumberField = 0;
+
+        /// <summary>
+        /// number of the current round, if 0 than game is ending
+        /// </summary>
+        public ushort RoundNumber
+        {
+            get { return roundNumberField; }
+            set { roundNumberField = value; }
+        }
+
         #endregion
 
         #region ISerializablePacket Members
 
+        /// <summary>
+        /// number of bytes in binary message
+        /// </summary>
         public int ByteCount
         {
             get
@@ -75,6 +107,7 @@ namespace UDPClientServerCommons.Packets
                 int size = 2;
                 size += 2;                
                 size += 8;
+                size += 2;
                 size += 2;
 
                 if (playerStatusListField != null)
@@ -118,6 +151,10 @@ namespace UDPClientServerCommons.Packets
             }
         }
 
+        /// <summary>
+        /// converts packet to binary data of size _MTU_PacketSize
+        /// </summary>
+        /// <returns>packet in binary version</returns>
         public byte[] ToByte()
         {
             MemoryStream ms = new MemoryStream(Constant._MTU_PacketSize);
@@ -180,6 +217,7 @@ namespace UDPClientServerCommons.Packets
             ms.Write(BitConverter.GetBytes((ushort)addressLength), 0, 2);
             ms.Write(Encoding.UTF8.GetBytes(serverAddressField.Address.ToString()), 0, addressLength);
             ms.Write(BitConverter.GetBytes(serverAddressField.Port), 0, 4);
+            ms.Write(BitConverter.GetBytes(roundNumberField), 0, 2);
 
             byte[] result = ms.GetBuffer();
             ms.Close();
@@ -187,6 +225,10 @@ namespace UDPClientServerCommons.Packets
             return result;
         }
 
+        /// <summary>
+        /// converts packet to binary data of minimal size
+        /// </summary>
+        /// <returns>packet in binary version</returns>
         public byte[] ToMinimalByte()
         {
             MemoryStream ms = new MemoryStream(this.ByteCount);
@@ -247,6 +289,7 @@ namespace UDPClientServerCommons.Packets
             ms.Write(BitConverter.GetBytes((ushort)addressLength), 0, 2);
             ms.Write(Encoding.UTF8.GetBytes(serverAddressField.Address.ToString()), 0, addressLength);
             ms.Write(BitConverter.GetBytes(serverAddressField.Port), 0, 4);
+            ms.Write(BitConverter.GetBytes(roundNumberField), 0, 2);
 
             byte[] result = ms.GetBuffer();
             ms.Close();
@@ -269,6 +312,7 @@ namespace UDPClientServerCommons.Packets
             cpy.serverAddressField = this.serverAddressField;
             cpy.teamScoreListField = new List<TeamData>(this.teamScoreListField);
             cpy.timestampField = this.timestampField;
+            cpy.roundNumberField = this.roundNumberField;
 
             return cpy;
         }
@@ -294,6 +338,8 @@ namespace UDPClientServerCommons.Packets
             sb.Append("\nTeam Score list");
             for (int i = 0; i < teamScoreListField.Count; i++)
                 sb.Append(teamScoreListField[i]);
+            sb.Append("\nRoundId = ");
+            sb.Append(roundNumberField);
 
             return sb.ToString();
         }
@@ -361,8 +407,10 @@ namespace UDPClientServerCommons.Packets
             string address = Encoding.UTF8.GetString(binaryGameInfoPacket, pos, addressLength);
             pos += addressLength;
             int port = BitConverter.ToInt32(binaryGameInfoPacket, pos);
-
+            pos += 4;
             serverAddressField = new IPEndPoint(IPAddress.Parse(address), port);
+
+            roundNumberField = BitConverter.ToUInt16(binaryGameInfoPacket, pos);
         }
 
         #endregion

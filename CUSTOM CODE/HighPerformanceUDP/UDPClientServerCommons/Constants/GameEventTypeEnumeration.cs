@@ -21,12 +21,12 @@ namespace UDPClientServerCommons.Constants
         /// when game started
         /// </summary>
         GameStared = 2,
+        ///// <summary>
+        ///// Round endded
+        ///// </summary>
+        //EndRound = 3,
         /// <summary>
-        /// Round endded
-        /// </summary>
-        EndRound = 3,
-        /// <summary>
-        /// New round started
+        /// New round started, old round ended
         /// </summary>
         NewRound = 4,
         /// <summary>
@@ -44,6 +44,10 @@ namespace UDPClientServerCommons.Constants
         /// <summary>
         /// Player changed his nicked
         /// </summary>
-        PlayerNickChanged = 8
+        PlayerNickChanged = 8,
+        /// <summary>
+        /// GameOver - server is shutting down
+        /// </summary>
+        EndGame = 9
     }
 }

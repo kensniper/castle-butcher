@@ -31,6 +31,18 @@ namespace UDPClientServerCommons.GameEvents
                         }
                     }
 
+                    if (newPacket.RoundNumber == 0)
+                    {
+                        // game over
+                        gameEvents.Add(new GameEvents.GameEndEvent());
+                    }
+
+                    if (newPacket.RoundNumber > oldPacket.RoundNumber)
+                    {
+                        //new round
+                        gameEvents.Add(new GameEvents.NewRoundEvent((Packets.GameInfoPacket) newPacket.Clone()));
+                    }
+
                     if (newPacket.PlayerStatusList.Count < oldPacket.PlayerStatusList.Count)
                     {
                         // player quitted
@@ -119,31 +131,35 @@ namespace UDPClientServerCommons.GameEvents
                         {
                             if (newPacket.PlayerInfoList[i].PlayerId == oldPacket.PlayerInfoList[j].PlayerId)
                             {
+                                Microsoft.DirectX.Vector3 position = Translator.TranslateBetweenVectorAndVector(newPacket.PlayerInfoList[i].PlayerPosition);
+                                Microsoft.DirectX.Vector3 velocity = Translator.TranslateBetweenVectorAndVector(newPacket.PlayerInfoList[i].PlayerMovementDirection);
+                                Microsoft.DirectX.Vector3 lookingDirection = Translator.TranslateBetweenVectorAndVector(newPacket.PlayerInfoList[i].PlayerLookingDirection);
+
                                 if (newPacket.PlayerInfoList[i].PlayerId != PlayerId.Value)
                                 {
                                     // compare player data
                                     if (newPacket.PlayerInfoList[i].PlayerCarringWeponOne != oldPacket.PlayerInfoList[j].PlayerCarringWeponOne ||
                                         newPacket.PlayerInfoList[i].PlayerCarringWeponTwo != oldPacket.PlayerInfoList[j].PlayerCarringWeponTwo)
                                     {
-                                        gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.WeaponChange, newPacket.PlayerInfoList[i].Timestamp));
+                                        gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.WeaponChange, newPacket.PlayerInfoList[i].Timestamp,position,lookingDirection,velocity));
                                     }
                                     if (newPacket.PlayerInfoList[i].PlayerJumping)
                                     {
-                                        gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.JumpNow, newPacket.PlayerInfoList[i].Timestamp));
+                                        gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.JumpNow, newPacket.PlayerInfoList[i].Timestamp, position, lookingDirection, velocity));
                                     }
                                     if (newPacket.PlayerInfoList[i].PlayerShooting)
                                     {
-                                        gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.UseWeapon, newPacket.PlayerInfoList[i].Timestamp));
+                                        gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.UseWeapon, newPacket.PlayerInfoList[i].Timestamp, position, lookingDirection, velocity));
                                     }
                                     if (newPacket.PlayerInfoList[i].Health != oldPacket.PlayerInfoList[j].Health)
                                     {
                                         // damage was taken
                                         if (newPacket.PlayerInfoList[i].Health <= 0)
-                                            gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.PlayerDead, newPacket.PlayerInfoList[i].Timestamp));
+                                            gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.PlayerDead, newPacket.PlayerInfoList[i].Timestamp, position, lookingDirection, velocity));
                                         else if (newPacket.PlayerInfoList[i].Health < oldPacket.PlayerInfoList[j].Health)
-                                            gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.PlayerWasHit, newPacket.PlayerInfoList[i].Timestamp));
+                                            gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.PlayerWasHit, newPacket.PlayerInfoList[i].Timestamp, position, lookingDirection, velocity));
                                         else if (newPacket.PlayerInfoList[i].Health == 100 && newPacket.PlayerInfoList[i].Health > oldPacket.PlayerInfoList[j].Health)
-                                            gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.PlayerRespawn, newPacket.PlayerInfoList[i].Timestamp));
+                                            gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.PlayerRespawn, newPacket.PlayerInfoList[i].Timestamp, position, lookingDirection, velocity));
                                     }
                                 }
                                 else
@@ -152,7 +168,13 @@ namespace UDPClientServerCommons.GameEvents
                                     if (newPacket.PlayerInfoList[i].Health != oldPacket.PlayerInfoList[j].Health)
                                     {
                                         // damage was taken
-                                        gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.PlayerDead, newPacket.PlayerInfoList[i].Timestamp));
+                                        // damage was taken
+                                        if (newPacket.PlayerInfoList[i].Health <= 0)
+                                            gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.PlayerDead, newPacket.PlayerInfoList[i].Timestamp, position, lookingDirection, velocity));
+                                        else if (newPacket.PlayerInfoList[i].Health < oldPacket.PlayerInfoList[j].Health)
+                                            gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.PlayerWasHit, newPacket.PlayerInfoList[i].Timestamp, position, lookingDirection, velocity));
+                                        else if (newPacket.PlayerInfoList[i].Health == 100 && newPacket.PlayerInfoList[i].Health > oldPacket.PlayerInfoList[j].Health)
+                                            gameplayEvents.Add(new GamePlayEvent(newPacket.PlayerInfoList[i].PlayerId, UDPClientServerCommons.Constants.GamePlayEventTypeEnumeration.PlayerRespawn, newPacket.PlayerInfoList[i].Timestamp, position, lookingDirection, velocity));
                                     }
                                 }
                             }
