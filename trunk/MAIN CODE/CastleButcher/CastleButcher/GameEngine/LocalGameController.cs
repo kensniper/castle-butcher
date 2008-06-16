@@ -202,17 +202,17 @@ namespace CastleButcher.GameEngine
                 }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.NewRound)
                 {
-                    BeginRound();
+                    //BeginRound();
                 }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.TeamScored)
                 {
-                    EndRound();
-                    TeamScoredEvent ev = (TeamScoredEvent)gameEvents[i];
-                    GameTeam team = GetTeamByID(ev.TeamId);
-                    if (team == GameTeam.Assassins)
-                        assassinsScore++;
-                    else
-                        knightsScore++;
+                    //EndRound();
+                    //TeamScoredEvent ev = (TeamScoredEvent)gameEvents[i];
+                    //GameTeam team = GetTeamByID(ev.TeamId);
+                    //if (team == GameTeam.Assassins)
+                    //    assassinsScore++;
+                    //else
+                    //    knightsScore++;
                 }
 
             }
