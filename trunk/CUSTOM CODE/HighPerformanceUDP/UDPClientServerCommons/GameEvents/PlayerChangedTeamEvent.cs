@@ -4,12 +4,12 @@ using System.Text;
 
 namespace UDPClientServerCommons.GameEvents
 {
-    public class PlayerChangedTeamEvent:Interfaces.IGameEvent
+    public class PlayerChangedTeamEvent:GameEventBase, Interfaces.IGameEvent
     {
 
         #region IGameEvent Members
 
-        public UDPClientServerCommons.Constants.GameEventTypeEnumeration GameEventType
+        public override UDPClientServerCommons.Constants.GameEventTypeEnumeration GameEventType
         {
             get { return UDPClientServerCommons.Constants.GameEventTypeEnumeration.PlayerChangedTeam; }
         }

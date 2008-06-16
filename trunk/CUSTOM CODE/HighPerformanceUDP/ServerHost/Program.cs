@@ -10,6 +10,7 @@ namespace ServerHost
 {
     class Program
     {
+        private static System.Threading.Timer timer = null;
         private static ServerSide CS_Server = null;
         static void Main(string[] args)
         {
@@ -20,6 +21,7 @@ namespace ServerHost
             // string input = Console.ReadLine();
             try
             {
+                timer = new System.Threading.Timer(new System.Threading.TimerCallback(timerCallback), null, 1000, 1000);
                 CS_Server = new ServerSide(1234);
                 CS_Server.MessageWasReceivedEvent += new EventHandler(CS_Server_MessageWasReceivedEvent);
                 GameOptions gameOptions = new GameOptions("Poland", "Niemcy", UDPClientServerCommons.Constants.GameTypeEnumeration.FragLimit, 10);
@@ -46,6 +48,22 @@ namespace ServerHost
                         for (int i = 0; i < list.Count; i++)
                             Console.WriteLine("\t {0}", list[i]);
                     }
+                    if (input.ToLower() == "jump")
+                    {
+                        UDPClientServerCommons.Interfaces.IPlayerDataWrite pd = new UDPClientServerCommons.Usefull.PlayerData();
+                        pd.Jump = true;
+                        pd.Weapon = UDPClientServerCommons.Constants.WeaponEnumeration.CrossBow;
+
+                        CS_Server.Client.UpdatePlayerData(pd);
+                    }
+                    if (input.ToLower() == "shoot")
+                    {
+                        UDPClientServerCommons.Interfaces.IPlayerDataWrite pd = new UDPClientServerCommons.Usefull.PlayerData();
+                        pd.Shoot = true;
+                        pd.Weapon = UDPClientServerCommons.Constants.WeaponEnumeration.CrossBow;
+
+                        CS_Server.Client.UpdatePlayerData(pd);
+                    }
                     if (input.Length == 0)
                         break;
                 }
@@ -63,12 +81,38 @@ namespace ServerHost
 
         private static Int64 packetNumber = 0;
 
+        private static void timerCallback(object obj)
+        {
+            try
+            {
+                List<UDPClientServerCommons.Interfaces.IGameEvent> gevents = new List<UDPClientServerCommons.Interfaces.IGameEvent>();
+                gevents = CS_Server.Client.GameEventList;
+                List<UDPClientServerCommons.Interfaces.IGameplayEvent> gpevents = new List<UDPClientServerCommons.Interfaces.IGameplayEvent>();
+                gpevents = CS_Server.Client.GameplayEventList;
+
+                if (gevents != null)
+                {
+                    for (int i = 0; i < gevents.Count; i++)
+                        Console.WriteLine("\tGE : {0}", gevents[i].ToString());
+                }
+                if (gpevents != null)
+                {
+                    for (int i = 0; i < gpevents.Count; i++)
+                        Console.Write("\t\tGP : {0}", gpevents[i].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
         static void CS_Server_MessageWasReceivedEvent(object sender, EventArgs e)
         {
             try
             {
                 packetNumber=(packetNumber+1)%Int64.MaxValue;
-                Console.WriteLine("Received packet {0}", packetNumber);
+                //Console.WriteLine("Received packet {0}", packetNumber);
             }
             catch (Exception ex)
             {

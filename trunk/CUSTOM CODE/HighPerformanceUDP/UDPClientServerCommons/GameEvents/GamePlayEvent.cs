@@ -104,7 +104,7 @@ namespace UDPClientServerCommons.GameEvents
             sb.Append("\nGameplayEventType = ");
             sb.Append(gameplayEventTypeField);
             sb.Append("\nTimestamp = ");
-            sb.Append(timestampField);
+            sb.Append(timestampField.ToLongTimeString());
             sb.Append("\nPlayerId = ");
             sb.Append(playerIdField);
 

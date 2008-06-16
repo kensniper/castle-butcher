@@ -16,7 +16,7 @@ namespace Clutch.Net.UDP
 
         protected override void PacketSent(Clutch.Net.UDP.UDPPacketBuffer buffer, int bytesSent)
         {
-            Console.WriteLine("packet sent to {0}",buffer.RemoteEndPoint);
+            //Console.WriteLine("packet sent to {0}",buffer.RemoteEndPoint);
         }
 
         public MyUdpServer(int port):base(port)

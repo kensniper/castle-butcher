@@ -77,9 +77,9 @@ namespace UDPClientServerCommons.Interfaces
         }
 
         /// <summary>
-        /// updates player health (also kills and respawns)
+        /// updates player health (also kills and respawns), and/or team scores
         /// </summary>
         /// <param name="playerHealthList">list with current players healths</param>
-        void UpdatePlayerHealth(List<Usefull.PlayerHealthData> playerHealthList);
+        void UpdatePlayerHealthAndTeamScore(List<Usefull.PlayerHealthData> playerHealthList, List<Usefull.TeamData> teamDataList);
     }
 }

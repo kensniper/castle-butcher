@@ -4,11 +4,11 @@ using System.Text;
 
 namespace UDPClientServerCommons.GameEvents
 {
-    public class NewRoundEvent : Interfaces.IGameEvent
+    public class NewRoundEvent :GameEventBase, Interfaces.IGameEvent
     {
         #region IGameEvent Members
 
-        public UDPClientServerCommons.Constants.GameEventTypeEnumeration GameEventType
+        public override UDPClientServerCommons.Constants.GameEventTypeEnumeration GameEventType
         {
             get { return UDPClientServerCommons.Constants.GameEventTypeEnumeration.NewRound; }
         }

@@ -43,6 +43,7 @@
     <Compile Include="Client\UDPLayer.cs" />
     <Compile Include="Constants\Constant.cs" />
     <Compile Include="GameEvents\GameEndEvent.cs" />
+    <Compile Include="GameEvents\GameEventBase.cs" />
     <Compile Include="GameEvents\GameStartedEvent.cs" />
     <Compile Include="GameEvents\NewRoundEvent.cs" />
     <Compile Include="GameEvents\TeamScoredEvent.cs" />
@@ -78,7 +79,7 @@
     <Compile Include="Packets\PlayerStatus.cs" />
     <Compile Include="Packets\JoinPacket.cs" />
     <Compile Include="Packets\LeaveGamePacket.cs" />
-    <Compile Include="Packets\TeamScoreStruct.cs" />
+    <Compile Include="Packets\TeamData.cs" />
     <Compile Include="GameEvents\PlayerScoredEvent.cs" />
     <Compile Include="ServerSide\ClientForServer.cs" />
     <Compile Include="ServerSide\Clutch.Net\UdpServer.cs" />
@@ -88,12 +89,13 @@
     <Compile Include="ServerSide\ServerSide.cs" />
     <Compile Include="Usefull\AckOperating.cs" />
     <Compile Include="Usefull\BadPackageIdException.cs" />
+    <Compile Include="Usefull\IdCompareException.cs" />
     <Compile Include="Usefull\Last10.cs" />
     <Compile Include="Constants\PacketTypeChecker.cs" />
     <Compile Include="Constants\PacketTypeEnumeration.cs" />
     <Compile Include="Packets\PlayerInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Packets\ServerPacket.cs" />
+    <Compile Include="Usefull\ServerPacket.cs" />
     <Compile Include="Constants\Translator.cs" />
     <Compile Include="Packets\Vector.cs" />
     <Compile Include="Usefull\Last10Packages.cs" />

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UDPClientServerCommons.Packets
+namespace UDPClientServerCommons.Usefull
 {
     public class TeamData
     {
