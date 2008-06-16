@@ -13,6 +13,7 @@ namespace CastleButcher.UI
             : base(character)
         {
             player = (UIPlayer)character.Player;
+            updateDirections = true;
         }
 
         public override float Velocity

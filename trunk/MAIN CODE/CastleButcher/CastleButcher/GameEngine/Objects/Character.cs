@@ -278,7 +278,7 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                return Matrix.RotationQuaternion((Quaternion)this.LookOrientation) * Matrix.Translation(Position.X, Position.Y, Position.Z);
+                return Matrix.RotationQuaternion((Quaternion)this.WalkOrientation) * Matrix.Translation(Position.X, Position.Y, Position.Z);
             }
         }
 

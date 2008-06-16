@@ -35,6 +35,14 @@ namespace CastleButcher.GameEngine
 
         SoundSystem.SoundDescriptor footsoundDescriptor;
 
+        protected bool updateDirections = false;
+
+        public bool UpdateDirections
+        {
+            get { return updateDirections; }
+            set { updateDirections = value; }
+        }
+
         public virtual bool Flying
         {
             get { return flying; }
@@ -296,9 +304,12 @@ namespace CastleButcher.GameEngine
             lookVector.Rotate(qY);
             rightVector.Rotate(qY);
             lookVector.Normalize();
-//            character.LookOrientation = initialOrientation * (qY * qX);
-            character.LookOrientation = initialOrientation * (qY * qX);
-            character.WalkOrientation = initialOrientation * qY;
+            //            character.LookOrientation = initialOrientation * (qY * qX);
+            if (updateDirections)
+            {
+                character.LookOrientation = initialOrientation * (qY * qX);
+                character.WalkOrientation = initialOrientation * qY;
+            }
 
             //MyVector zVelocity = lookVector * (ship.Velocity.Dot(lookVector));
             ////MyVector xVelocity = rightVector * (ship.Velocity.Dot(rightVector));
@@ -323,19 +334,22 @@ namespace CastleButcher.GameEngine
             //{
 
             //}
-            if (Flying)
+            if (updateDirections)
             {
+                if (Flying)
+                {
 
 
-                this.character.Velocity = SetVelocity * (lookVector) + strafeSpeedX * rightVector;
-            }
-            else
-            {
-                float yVelocity = character.Velocity.Dot(upVector);
+                    this.character.Velocity = SetVelocity * (lookVector) + strafeSpeedX * rightVector;
+                }
+                else
+                {
+                    float yVelocity = character.Velocity.Dot(upVector);
 
 
-                this.character.Velocity = yVelocity * upVector + strafeSpeedX * rightVector -
-                    SetVelocity * (rightVector ^ upVector);
+                    this.character.Velocity = yVelocity * upVector + strafeSpeedX * rightVector -
+                        SetVelocity * (rightVector ^ upVector);
+                }
             }
 
 
