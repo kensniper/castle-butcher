@@ -35,6 +35,14 @@
             this.btnJoin = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
+            this.btnJoinAddress = new System.Windows.Forms.Button();
+            this.txtAddress = new System.Windows.Forms.TextBox();
+            this.txtTeam = new System.Windows.Forms.TextBox();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.txtGame = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -54,14 +62,22 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.label3);
+            this.splitContainer1.Panel2.Controls.Add(this.label2);
+            this.splitContainer1.Panel2.Controls.Add(this.label1);
+            this.splitContainer1.Panel2.Controls.Add(this.txtGame);
+            this.splitContainer1.Panel2.Controls.Add(this.txtTeam);
+            this.splitContainer1.Panel2.Controls.Add(this.txtName);
+            this.splitContainer1.Panel2.Controls.Add(this.txtAddress);
+            this.splitContainer1.Panel2.Controls.Add(this.btnJoinAddress);
             this.splitContainer1.Panel2.Controls.Add(this.btnLeave);
             this.splitContainer1.Panel2.Controls.Add(this.txtPort);
             this.splitContainer1.Panel2.Controls.Add(this.btnJoin);
             this.splitContainer1.Panel2.Controls.Add(this.btnRefresh);
             this.splitContainer1.Panel2.Controls.Add(this.btnStart);
             this.splitContainer1.Panel2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseDoubleClick);
-            this.splitContainer1.Size = new System.Drawing.Size(361, 264);
-            this.splitContainer1.SplitterDistance = 214;
+            this.splitContainer1.Size = new System.Drawing.Size(361, 285);
+            this.splitContainer1.SplitterDistance = 180;
             this.splitContainer1.TabIndex = 0;
             // 
             // dataGridView1
@@ -75,7 +91,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(361, 214);
+            this.dataGridView1.Size = new System.Drawing.Size(361, 180);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
             // 
@@ -128,11 +144,76 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
+            // btnJoinAddress
+            // 
+            this.btnJoinAddress.Location = new System.Drawing.Point(12, 40);
+            this.btnJoinAddress.Name = "btnJoinAddress";
+            this.btnJoinAddress.Size = new System.Drawing.Size(75, 23);
+            this.btnJoinAddress.TabIndex = 4;
+            this.btnJoinAddress.Text = "Join Address";
+            this.btnJoinAddress.UseVisualStyleBackColor = true;
+            this.btnJoinAddress.Click += new System.EventHandler(this.btnJoinAddress_Click);
+            // 
+            // txtAddress
+            // 
+            this.txtAddress.Location = new System.Drawing.Point(93, 43);
+            this.txtAddress.Name = "txtAddress";
+            this.txtAddress.Size = new System.Drawing.Size(127, 20);
+            this.txtAddress.TabIndex = 5;
+            // 
+            // txtTeam
+            // 
+            this.txtTeam.Location = new System.Drawing.Point(277, 43);
+            this.txtTeam.Name = "txtTeam";
+            this.txtTeam.Size = new System.Drawing.Size(75, 20);
+            this.txtTeam.TabIndex = 6;
+            // 
+            // txtName
+            // 
+            this.txtName.Location = new System.Drawing.Point(93, 69);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(127, 20);
+            this.txtName.TabIndex = 5;
+            // 
+            // txtGame
+            // 
+            this.txtGame.Location = new System.Drawing.Point(277, 69);
+            this.txtGame.Name = "txtGame";
+            this.txtGame.Size = new System.Drawing.Size(75, 20);
+            this.txtGame.TabIndex = 6;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(52, 72);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Name";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(236, 46);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Team";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(235, 72);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Game";
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 264);
+            this.ClientSize = new System.Drawing.Size(361, 285);
             this.Controls.Add(this.splitContainer1);
             this.Name = "StartForm";
             this.Text = "StartForm";
@@ -155,5 +236,13 @@
         private System.Windows.Forms.Button btnJoin;
         private System.Windows.Forms.MaskedTextBox txtPort;
         private System.Windows.Forms.Button btnLeave;
+        private System.Windows.Forms.TextBox txtAddress;
+        private System.Windows.Forms.Button btnJoinAddress;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtGame;
+        private System.Windows.Forms.TextBox txtTeam;
+        private System.Windows.Forms.TextBox txtName;
     }
 }
