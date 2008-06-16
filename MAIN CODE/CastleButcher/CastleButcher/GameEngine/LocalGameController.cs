@@ -72,6 +72,7 @@ namespace CastleButcher.GameEngine
             gameStatus = GameStatus.InProgress;
 
             //siec?
+            serverNetworkLayer.NewRound();
         }
 
         public override void EndRound()
@@ -97,6 +98,7 @@ namespace CastleButcher.GameEngine
             }
 
             //siec?
+            
         }
 
         protected override void OnPlayerAdded(Player player)
@@ -242,6 +244,7 @@ namespace CastleButcher.GameEngine
         public override void EndGame()
         {
             serverNetworkLayer.Client.LeaveGame();
+            serverNetworkLayer.EndGame();
         }
 
         public override void StartGame()

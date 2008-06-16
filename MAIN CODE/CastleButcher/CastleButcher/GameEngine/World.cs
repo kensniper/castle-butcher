@@ -382,6 +382,22 @@ namespace CastleButcher.GameEngine
 
 
             started = true;
+            //sort playetrs by id
+            bool ok = false;
+            while (!ok)
+            {
+                ok = true;
+                for (int i = 1; i < players.Count; i++)
+                {
+                    if (players[i - 1].NetworkId > players[i].NetworkId)
+                    {
+                        Player t = players[i - 1];
+                        players[i - 1] = players[i];
+                        players[i] = t;
+                        ok = false;
+                    }
+                }
+            }
             foreach (Player p in players)
             {
                 this.RespawnPlayer(p);
