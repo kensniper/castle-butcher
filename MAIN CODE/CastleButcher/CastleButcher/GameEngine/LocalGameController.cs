@@ -46,7 +46,6 @@ namespace CastleButcher.GameEngine
                 else
                     pl = new UDPClientServerCommons.Usefull.PlayerMe("Rycerze", player.Name);
 
-
                 serverNetworkLayer.StartLANServer(options, false, pl);
 
                 //ChangePlayerTeam(player, player.CharacterClass.GameTeam);
@@ -208,6 +207,10 @@ namespace CastleButcher.GameEngine
                         }
                         p.NetworkId = ev.PlayerId;
                         AddPlayer(p);
+                    }
+                    else
+                    {
+                        player.NetworkId = ev.PlayerId;
                     }
                 }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerChangedTeam)
