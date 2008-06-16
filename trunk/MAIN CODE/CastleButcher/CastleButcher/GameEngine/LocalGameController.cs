@@ -53,14 +53,11 @@ namespace CastleButcher.GameEngine
             World.Instance.ChangeTeam(player, newTeam);
             if (player == this.player)
             {
-                //if (newTeam == GameTeam.Assassins)
-                //    serverNetworkLayer.Client.ChangeTeam(serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList[0].TeamId);
-                //else
-                //    serverNetworkLayer.Client.ChangeTeam(serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList[1].TeamId);
-                //if (newTeam == GameTeam.Assassins)
-                //    serverNetworkLayer.Client.ChangeTeam(13);
-                //else
-                //    serverNetworkLayer.Client.ChangeTeam(39);
+                if (newTeam == GameTeam.Assassins)
+                    serverNetworkLayer.Client.ChangeTeam(serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList[0].TeamId);
+                else
+                    serverNetworkLayer.Client.ChangeTeam(serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList[1].TeamId);
+              
             }
 
         }
@@ -201,12 +198,9 @@ namespace CastleButcher.GameEngine
                 {
                     BeginRound();
                 }
-                else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.EndRound)
-                {
-                    EndRound();
-                }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.TeamScored)
                 {
+                    EndRound();
                     TeamScoredEvent ev = (TeamScoredEvent)gameEvents[i];
                     GameTeam team = GetTeamByID(ev.TeamId);
                     if (team == GameTeam.Assassins)
