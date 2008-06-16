@@ -288,7 +288,10 @@ namespace CastleButcher.GameEngine
                     hpdata.PlayerHealth = (ushort)(World.Instance.Players[i].IsAlive ? 100 : 0);
                     hpdata.PlayerId = World.Instance.Players[i].NetworkId;
                     list.Add(hpdata);
-                    serverNetworkLayer.UpdatePlayerHealth(list);
+                    List<TeamData> teams = serverNetworkLayer.Client.CurrentGameInfo.TeamScoreList;
+                    teams[0].TeamScore = (ushort)AssassinsScore;
+                    teams[1].TeamScore = (ushort)KnightsScore;
+                    serverNetworkLayer.UpdatePlayerHealthAndTeamScore(list,teams);
                 }
             }
             return true;
