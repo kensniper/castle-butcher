@@ -15,8 +15,8 @@ namespace CastleButcher.GameEngine
         protected int knightsScore;
         protected int assassinsScore;
 
-        protected ushort assassinsID;
-        protected ushort knightsID;
+        protected ushort assassinsID = 13;
+        protected ushort knightsID = 39;
 
         public GameTeam GetTeamByID(ushort id)
         {
