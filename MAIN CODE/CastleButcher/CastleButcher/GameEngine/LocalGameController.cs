@@ -204,7 +204,7 @@ namespace CastleButcher.GameEngine
                         }
                         else
                         {
-                            p = new Player(ev.PlayerName, ObjectCache.Instance.GetAssassinClass());
+                            p = new Player(ev.PlayerName, ObjectCache.Instance.GetKnightClass());
                         }
                         p.NetworkId = ev.PlayerId;
                         AddPlayer(p);
