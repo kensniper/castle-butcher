@@ -30,7 +30,7 @@ namespace Client
 
             System.Threading.TimerCallback tc = new System.Threading.TimerCallback(timerCallback);
             gameLoopTimer = new System.Threading.Timer(tc);
-            gameLoopTimer.Change(1000, 3000);
+            gameLoopTimer.Change(1000, 50);
             
             network = clientSide;
             //gameLoopTimer = new System.Threading.Timer(new System.Threading.TimerCallback(timerCallback), null, 0, 1000);
