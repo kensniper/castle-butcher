@@ -166,7 +166,7 @@ namespace CastleButcher.GameEngine
         }
         public MyVector LookDirection
         {
-            get { return (new MyVector(0, 0, -1).Rotate(this.Orientation)); }
+            get { return (new MyVector(0, 0, -1).Rotate(this.lookOrientation)); }
         }
 
         public override float BoundingSphereRadius
@@ -278,7 +278,7 @@ namespace CastleButcher.GameEngine
         {
             get
             {
-                return Matrix.RotationQuaternion((Quaternion)this.WalkOrientation) * Matrix.Translation(Position.X, Position.Y, Position.Z);
+                return Matrix.RotationQuaternion((Quaternion)this.LookOrientation) * Matrix.Translation(Position.X, Position.Y, Position.Z);
             }
         }
 
