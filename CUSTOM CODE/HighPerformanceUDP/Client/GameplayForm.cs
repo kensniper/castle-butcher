@@ -38,37 +38,43 @@ namespace Client
 
         private float getValueFromTxtX()
         {
-            return float.Parse(txtX.Text);
+            lock (cordsLock)
+            {
+                return float.Parse(txtX.Text);
+            }
         }
 
         private float getValueFromTxtY()
-        {
+        { lock (cordsLock)
+                    {
             return float.Parse(txtY.Text);
-        }
+        }}
 
         private void timerCallback(object obj)
         {
             try
             {
                 UDPClientServerCommons.Interfaces.IPlayerDataWrite pdata = new UDPClientServerCommons.Usefull.PlayerData();
-                lock (cordsLock)
-                {
+               
                     float valX = (float)( txtX.Invoke(new GetVal(getValueFromTxtX)));
                     float valY = (float)(txtY.Invoke(new GetVal(getValueFromTxtY)));
                                      
                     pdata.Position = new Microsoft.DirectX.Vector3(valX, valY, 0.0f);
                     pdata.LookingDirection = new Microsoft.DirectX.Vector3(valX, valY, 0.0f);
                     pdata.Velocity = new Microsoft.DirectX.Vector3(valX, valY, 0.0f);
-                    pdata.Jump = jumpField;
-                    pdata.Shoot = shootField;
+                   
 
-                    if (jumpField)
-                        jumpField = false;
-                    if (shootField)
-                        shootField = false;
+                    lock (cordsLock)
+                    {
+                        pdata.Jump = jumpField;
+                        pdata.Shoot = shootField;
+                        if (jumpField)
+                            jumpField = false;
+                        if (shootField)
+                            shootField = false;
+                    }
                     network.UpdatePlayerData(pdata);
-                    string blabla = jumpField.ToString() + shootField.ToString();
-                }
+
                 dgData.Invoke(new RefreshStuff(RefreshGrid), network.PlayerDataList);
                 List<UDPClientServerCommons.Interfaces.IGameEvent> gevent = network.GameEventList;
                 List<UDPClientServerCommons.Interfaces.IGameplayEvent> gpevent = network.GameplayEventList;
