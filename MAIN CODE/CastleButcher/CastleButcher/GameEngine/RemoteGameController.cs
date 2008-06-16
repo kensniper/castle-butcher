@@ -18,6 +18,7 @@ namespace CastleButcher.GameEngine
 
         ClientSide clientNetworkLayer;
         Player player;
+        UDPClientServerCommons.Packets.GameInfoPacket gameInfo;
 
         public Player Player
         {
@@ -29,8 +30,8 @@ namespace CastleButcher.GameEngine
             gameStatus = GameStatus.WaitingForStart;
             clientNetworkLayer = clientSide;
             this.player = player;
-            bool ret=clientNetworkLayer.JoinGame(gameInfo.ServerAddress, player.Name, gameInfo.GameId, gameInfo.TeamScoreList[0].TeamId);
-
+            this.gameInfo = gameInfo;
+            
 
         }
 
@@ -41,7 +42,12 @@ namespace CastleButcher.GameEngine
         {
             World.Instance.AddPlayer(player);
             if (player == this.player)
-                ChangePlayerTeam(player, player.CharacterClass.GameTeam);
+            {
+                ushort id=(Player.CharacterClass.GameTeam== GameTeam.Assassins)? gameInfo.TeamScoreList[0].TeamId : gameInfo.TeamScoreList[1].TeamId;
+                bool ret = clientNetworkLayer.JoinGame(gameInfo.ServerAddress, player.Name, gameInfo.GameId, id);
+
+                //ChangePlayerTeam(player, player.CharacterClass.GameTeam);
+            }
         }
 
         public override void RemovePlayer(Player player)

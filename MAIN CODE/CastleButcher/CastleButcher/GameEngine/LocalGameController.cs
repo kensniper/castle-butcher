@@ -27,10 +27,7 @@ namespace CastleButcher.GameEngine
             gameStatus = GameStatus.WaitingForStart;
             this.player = player;
             serverNetworkLayer = new ServerSide(4444);
-            GameOptions options = new GameOptions("Zabójcy", "Rycerze", UDPClientServerCommons.Constants.GameTypeEnumeration.TimeLimit, 10);
-            UDPClientServerCommons.Usefull.PlayerMe pl = new UDPClientServerCommons.Usefull.PlayerMe("Zabójcy", player.Name);
 
-            serverNetworkLayer.StartLANServer(options, false, pl);
         }
 
 
@@ -40,7 +37,19 @@ namespace CastleButcher.GameEngine
         {
             World.Instance.AddPlayer(player);
             if (player == this.player)
-                ChangePlayerTeam(player, player.CharacterClass.GameTeam);
+            {
+                GameOptions options = new GameOptions("Zabójcy", "Rycerze", UDPClientServerCommons.Constants.GameTypeEnumeration.TimeLimit, 10);
+                UDPClientServerCommons.Usefull.PlayerMe pl;
+                if (player.CharacterClass.GameTeam == GameTeam.Assassins)
+                    pl = new UDPClientServerCommons.Usefull.PlayerMe("Zabójcy", player.Name);
+                else
+                    pl = new UDPClientServerCommons.Usefull.PlayerMe("Rycerze", player.Name);
+
+
+                serverNetworkLayer.StartLANServer(options, false, pl);
+
+                //ChangePlayerTeam(player, player.CharacterClass.GameTeam);
+            }
         }
 
         public override void RemovePlayer(Player player)
