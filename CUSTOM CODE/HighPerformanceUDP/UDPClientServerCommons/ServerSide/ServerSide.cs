@@ -5,6 +5,7 @@ using Clutch.Net.UDP;
 using System.Net;
 using UDPClientServerCommons.Constants;
 using UDPClientServerCommons.Packets;
+using UDPClientServerCommons.Usefull;
 
 namespace UDPClientServerCommons.Server
 {
@@ -15,7 +16,7 @@ namespace UDPClientServerCommons.Server
     {
         #region fields
 
-        private const int _TimerTickPeriod = 100;
+        private const int _TimerTickPeriod = 200;
 
         /// <summary>
         /// Server packet parts
@@ -329,20 +330,23 @@ namespace UDPClientServerCommons.Server
 
                             // broadcasting GameInfo to everyone
                             lanBroadcast.SendAsync(buff.Data);
-                            Console.WriteLine("Sending broadcast");
+                            //Console.WriteLine("Sending broadcast");
                             for (int i = 0; i < cliendAdressList.Count; i++)
                             {
-                                Console.WriteLine("Sending gameInfo to : {0}", cliendAdressList[i]);
+                                //Console.WriteLine("Sending gameInfo to : {0}", cliendAdressList[i]);
                                 buff.RemoteEndPoint = cliendAdressList[i];
                                 base.AsyncBeginSend(buff);
                             }
-                            if(clientForServer!=null && !clientForServer.GameIsRunningAsDedicatedServer)
-                            clientForServer.GetMessageFromServer(gameInfoPacket);
+                            if (clientForServer != null && !clientForServer.GameIsRunningAsDedicatedServer)
+                                clientForServer.GetMessageFromServer((GameInfoPacket) gameInfoPacket.Clone());
                             // we send every 10 ticks = every second
-                            gameInfoPacketSendCounter = 10;
+
+                            System.Threading.Interlocked.Add(ref gameInfoPacketSendCounter, 10);
+                            //gameInfoPacketSendCounter = 10;
                         }
                         else
-                            gameInfoPacketSendCounter--;
+                            System.Threading.Interlocked.Decrement(ref gameInfoPacketSendCounter);
+                            //gameInfoPacketSendCounter--;
                     }
                     else
                     {
@@ -358,12 +362,12 @@ namespace UDPClientServerCommons.Server
 
                             for (int i = 0; i < cliendAdressList.Count; i++)
                             {
-                                Console.WriteLine("Sending gameInfo to : {0}", cliendAdressList[i]);
+                                //Console.WriteLine("Sending gameInfo to : {0}", cliendAdressList[i]);
                                 buff.RemoteEndPoint = cliendAdressList[i];
                                 base.AsyncBeginSend(buff);
                             }
                             if (clientForServer != null && !clientForServer.GameIsRunningAsDedicatedServer)
-                            clientForServer.GetMessageFromServer(gameInfoPacket);
+                            clientForServer.GetMessageFromServer((GameInfoPacket)gameInfoPacket.Clone());
                             if (cliendAdressList.Count > 0)
                             {
                                 if (lastPackages.ContainsKey(last10.Counter))
@@ -373,10 +377,12 @@ namespace UDPClientServerCommons.Server
                                 last10.Increase();
                             }
                             // we need to send GameInfoPaket every 30 ticks - 3 seconds
-                            gameInfoPacketSendCounter = 30;
+                            //gameInfoPacketSendCounter = 30;
+                            System.Threading.Interlocked.Add(ref gameInfoPacketSendCounter, 30);
                         }
                         else
-                            gameInfoPacketSendCounter--;
+                           // gameInfoPacketSendCounter--;
+                            System.Threading.Interlocked.Decrement(ref gameInfoPacketSendCounter);
                     }
                 }
                 catch (Exception ex)
@@ -396,12 +402,12 @@ namespace UDPClientServerCommons.Server
 
                 for (int i = 0; i < cliendAdressList.Count; i++)
                 {
-                    Console.WriteLine("Sending serverPacket to : {0}", cliendAdressList[i]);
+                    //Console.WriteLine("Sending serverPacket to : {0}", cliendAdressList[i]);
                     buff.RemoteEndPoint = cliendAdressList[i];
                     base.AsyncBeginSend(buff);
                 }
                 if (clientForServer != null && !clientForServer.GameIsRunningAsDedicatedServer)
-                clientForServer.GetMessageFromServer(serverPacket);
+                clientForServer.GetMessageFromServer((ServerPacket)serverPacket.Clone());
                     //clear client events ??
                 for (int k = 0; k < serverPacket.PlayerInfoList.Count; k++)
                 {
@@ -528,6 +534,7 @@ namespace UDPClientServerCommons.Server
                                     {
                                         clientPackagesDictionary.Add(clientPacket.PlayerId, new UDPClientServerCommons.Usefull.Last10Packages());
                                         clientPackagesDictionary[clientPacket.PlayerId].AddPacket(clientPacket);
+                                        packetOk = true;
                                     }
                                     else
                                         if (clientPackagesDictionary[clientPacket.PlayerId].LastPacket != null &&
@@ -687,34 +694,59 @@ namespace UDPClientServerCommons.Server
             }
         }
 
-        public void UpdatePlayerHealth(List<UDPClientServerCommons.Usefull.PlayerHealthData> playerHealthList)
+        public void UpdatePlayerHealthAndTeamScore(List<Usefull.PlayerHealthData> playerHealthList, List<Usefull.TeamData> teamDataList)
         {
-            try
-            {
-                Dictionary<ushort, ushort> health = new Dictionary<ushort, ushort>();
-                for (int i = 0; i < playerHealthList.Count; i++)
-                {
-                    health.Add(playerHealthList[i].PlayerId, playerHealthList[i].PlayerHealth);
-                }
 
-                lock (serverPacketLock)
+            if (playerHealthList != null)
+            {
+                try
                 {
-                    for (int i = 0; i < serverPacket.PlayerInfoList.Count; i++)
+                    Dictionary<ushort, ushort> health = new Dictionary<ushort, ushort>();
+                    for (int i = 0; i < playerHealthList.Count; i++)
                     {
-                        serverPacket.PlayerInfoList[i].Health = health[serverPacket.PlayerInfoList[i].PlayerId];
+                        health.Add(playerHealthList[i].PlayerId, playerHealthList[i].PlayerHealth);
+                    }
+
+                    lock (serverPacketLock)
+                    {
+                        for (int i = 0; i < serverPacket.PlayerInfoList.Count; i++)
+                        {
+                            serverPacket.PlayerInfoList[i].Health = health[serverPacket.PlayerInfoList[i].PlayerId];
+                        }
+                    }
+                    lock (gameInfoPacketLock)
+                    {
+                        for (int i = 0; i < gameInfoPacket.PlayerStatusList.Count; i++)
+                        {
+                            gameInfoPacket.PlayerStatusList[i].PlayerHealth = health[gameInfoPacket.PlayerStatusList[i].PlayerId];
+                        }
                     }
                 }
-                lock (gameInfoPacketLock)
+                catch (Exception ex)
                 {
-                    for (int i = 0; i < gameInfoPacket.PlayerStatusList.Count; i++)
-                    {
-                        gameInfoPacket.PlayerStatusList[i].PlayerHealth = health[gameInfoPacket.PlayerStatusList[i].PlayerId];
-                    }
+                    Diagnostic.NetworkingDiagnostics.Logging.Fatal("UpdatePlayerHealth", ex);
                 }
             }
-            catch (Exception ex)
+            if (teamDataList != null)
             {
-                Diagnostic.NetworkingDiagnostics.Logging.Fatal("UpdatePlayerHealth", ex);
+                try
+                {
+                    Dictionary<ushort, Usefull.TeamData> teams = new Dictionary<ushort, UDPClientServerCommons.Usefull.TeamData>();
+                    for (int i = 0; i < teamDataList.Count; i++)
+                        teams.Add(teamDataList[i].TeamId, teamDataList[i]);
+
+                    lock (gameInfoPacketLock)
+                    {
+                        for (int i = 0; i < gameInfoPacket.TeamScoreList.Count; i++)
+                        {
+                            gameInfoPacket.TeamScoreList[i].TeamScore = teams[gameInfoPacket.TeamScoreList[i].TeamId].TeamScore;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Diagnostic.NetworkingDiagnostics.Logging.Fatal("UpdatePlayerHealth", ex);
+                }
             }
         }
 

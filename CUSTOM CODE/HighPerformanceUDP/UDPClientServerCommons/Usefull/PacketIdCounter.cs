@@ -6,6 +6,8 @@ namespace UDPClientServerCommons.Usefull
 {
     public class PacketIdCounter
     {
+        private const ushort DELTA = 200;
+
         private ushort counter = 0;
 
         public ushort Value
@@ -43,6 +45,37 @@ namespace UDPClientServerCommons.Usefull
             return new PacketIdCounter(val);
         }
 
+        public static bool operator ==(PacketIdCounter a, PacketIdCounter b)
+        {
+            return (a.Value == b.Value);
+        }
+
+        public static bool operator !=(PacketIdCounter a, PacketIdCounter b)
+        {
+            return (a.Value != b.Value);
+        }
+
+        public static bool operator >(PacketIdCounter a, PacketIdCounter b)
+        {
+            int diff = Math.Abs(a.Value - b.Value);
+
+            if (diff > (ushort)(ushort.MaxValue / 2))
+            {
+                if ((ushort.MaxValue - a.Value) < DELTA && b.Value < DELTA)
+                    return false;
+                if ((ushort.MaxValue - b.Value) < DELTA && a.Value < DELTA)
+                    return true;
+                throw new Usefull.IdCompareException("to big ids in compare");
+            }
+            else
+                return (a.Value > b.Value);
+        }
+
+        public static bool operator <(PacketIdCounter a, PacketIdCounter b)
+        {
+            return !(a > b);
+        }
+
         public ushort Next()
         {
             counter = (ushort)((counter + 1) % ushort.MaxValue);
@@ -63,6 +96,20 @@ namespace UDPClientServerCommons.Usefull
         public override string ToString()
         {
             return counter.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return counter.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            PacketIdCounter p = obj as PacketIdCounter;
+            if (p == null)
+                return false;
+            else
+                return this.counter.Equals(p.Value);
         }
     }
 }

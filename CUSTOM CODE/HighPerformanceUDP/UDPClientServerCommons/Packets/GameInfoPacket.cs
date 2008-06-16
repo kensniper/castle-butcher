@@ -307,7 +307,7 @@ namespace UDPClientServerCommons.Packets
             cpy.gameIdField = this.gameIdField;
             cpy.gameTypeField = this.gameTypeField;
             cpy.limitField = this.limitField;
-            cpy.packetIdField = this.packetIdField;
+            cpy.packetIdField = new PacketIdCounter(this.packetIdField.Value);
             cpy.playerStatusListField = new List<PlayerStatus>(this.playerStatusListField);
             cpy.serverAddressField = this.serverAddressField;
             cpy.teamScoreListField = new List<TeamData>(this.teamScoreListField);

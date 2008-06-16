@@ -4,11 +4,11 @@ using System.Text;
 
 namespace UDPClientServerCommons.GameEvents
 {
-    public class PlayerQuitEvent:Interfaces.IGameEvent
+    public class PlayerQuitEvent:GameEventBase, Interfaces.IGameEvent
     {
         #region IGameEvent Members
 
-        public UDPClientServerCommons.Constants.GameEventTypeEnumeration GameEventType
+        public override UDPClientServerCommons.Constants.GameEventTypeEnumeration GameEventType
         {
             get { return UDPClientServerCommons.Constants.GameEventTypeEnumeration.PlayerQuitted; }
         }

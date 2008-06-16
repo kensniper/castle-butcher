@@ -177,9 +177,30 @@ namespace UDPClientServerCommons.Client
                             start = true;
                         else
                         {
-                            if (last10Packeges.LastPacket.PacketId.Value >= packet.PacketId.Value)
+                            try
                             {
-                                Diagnostic.NetworkingDiagnostics.Logging.Warn("Old ServerPacket was received and ignored");
+                                if (last10Packeges.LastPacket.PacketId.Value == packet.PacketId.Value)
+                                {
+                                    //the same packet - ignore it
+                                    Diagnostic.NetworkingDiagnostics.Logging.Warn("Old ServerPacket was received and ignored id" + packet.PacketId);
+                                    return;
+                                }
+                                else if (last10Packeges.LastPacket.PacketId > packet.PacketId)
+                                {
+                                    // old packet received
+                                    Diagnostic.NetworkingDiagnostics.Logging.Warn("Old ServerPacket was received and ignored id" + packet.PacketId);
+                                    List<Interfaces.IGameplayEvent> gpEvents = GameEvents.GameEventExtractor.GetGameplayEvents((ServerPacket)packet, null, playerIdField);
+                                    lock (gameplayEventListLock)
+                                    {
+                                        for (int i = 0; i < gpEvents.Count; i++)
+                                            gameplayEventList.Add(gpEvents[i]);
+                                    }
+                                    return;
+                                }
+                            }
+                            catch (Usefull.IdCompareException idEx)
+                            {
+                                Diagnostic.NetworkingDiagnostics.Logging.Error("Error when comparing id " + packet.PacketId + " with id " + last10Packeges.LastPacket.PacketId, idEx);
                                 return;
                             }
                         }
@@ -190,10 +211,12 @@ namespace UDPClientServerCommons.Client
                             for (int i = 0; i < gameplayEvents.Count; i++)
                                 gameplayEventList.Add(gameplayEvents[i]);
                         }
-                        lock (gameEventListLock)
+                        if (start)
                         {
-                            if (start)
+                            lock (gameEventListLock)
+                            {
                                 gameEventList.Add(new GameEvents.GameStartedEvent());
+                            }
                         }
                         last10Packeges.AddPacket(packet);
                         break;
@@ -203,9 +226,9 @@ namespace UDPClientServerCommons.Client
                         {
                             if (gameInfoPackets.ContainsKey(gameInfoPacket.GameId))
                             {
-                                if (gameInfoPackets[gameInfoPacket.GameId].LastPacket.PacketId.Value >= packet.PacketId.Value)
+                                if (gameInfoPackets[gameInfoPacket.GameId].LastPacket.PacketId > packet.PacketId || gameInfoPackets[gameInfoPacket.GameId].LastPacket.PacketId == packet.PacketId)
                                 {
-                                    Diagnostic.NetworkingDiagnostics.Logging.Warn("Old ServerPacket was received and ignored");
+                                    Diagnostic.NetworkingDiagnostics.Logging.Warn("Old GameInfoPacket was received and ignored");
                                     return;
                                 }
                                 gameInfoPackets[gameInfoPacket.GameId].AddPacket(gameInfoPacket);
@@ -266,7 +289,9 @@ namespace UDPClientServerCommons.Client
                         {
                             clientPacket.PacketId = packetIdCounter.Next();
                             clientPacket.PlayerId = playerIdField.Value;
-                            return (ClientPacket)clientPacket.Clone();
+
+                                return (ClientPacket)clientPacket.Clone();
+                          
                         }
                         catch (Exception ex)
                         {
@@ -462,6 +487,21 @@ namespace UDPClientServerCommons.Client
                 playerNameField = PlayerName;
                 gameIdField = GameId;
                 teamIdField = TeamId;
+
+                // now we should inform player about other palyer that are in the game he wants to join
+                GameInfoPacket gip = null;
+                lock (gameInfoPacketsLock)
+                {
+                    gip = (GameInfoPacket) gameInfoPackets[GameId].LastPacket;
+                }
+                if (gip != null)
+                {
+                    lock(gameEventListLock)
+                    {
+                        for (int i = 0; i < gip.PlayerStatusList.Count; i++)
+                            gameEventList.Add(new GameEvents.PlayerJoinedEvent(gip.PlayerStatusList[i].PlayerId, gip.PlayerStatusList[i].PlayerName));
+                    }
+                }
 
                 udpNetworking.SendPacket(joinPacket.ToByte());
             }

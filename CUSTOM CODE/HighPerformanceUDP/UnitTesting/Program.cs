@@ -7,6 +7,7 @@ using System.Collections;
 using UDPClientServerCommons.Constants;
 using UDPClientServerCommons.Packets;
 using System.Net;
+using UDPClientServerCommons.Usefull;
 
 namespace UnitTesting
 {
