@@ -221,7 +221,7 @@ namespace CastleButcher.GameEngine
 
         public override void StartGame()
         {
-
+            World.Instance.Remote = true;
         }
     }
 }

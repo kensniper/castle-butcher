@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Framework;
+using Framework.MyMath;
+using Microsoft.DirectX;
 
 namespace CastleButcher.GameEngine
 {
     public enum GameStatus { WaitingToConnect, WaitingForStart, InProgress };
-    public abstract class GameController:IUpdateable
+    public abstract class GameController : IUpdateable
     {
         protected GameStatus gameStatus;
         protected int knightsScore;
@@ -34,6 +36,21 @@ namespace CastleButcher.GameEngine
                     return World.Instance.Players[i];
             }
             return null;
+        }
+
+        public MyQuaternion LookOrientationFromDirection(MyVector direction)
+        {
+            Matrix rot = Matrix.LookAtRH(new Vector3(0, 0, 0), new Vector3(direction.X, direction.Y, direction.Z), new Vector3(0, 1, 0));
+            rot.Invert();
+            Quaternion q = Quaternion.RotationMatrix(rot);
+            return (MyQuaternion)q;
+        }
+        public MyQuaternion WalkOrientationFromDirection(MyVector direction)
+        {
+            Matrix rot = Matrix.LookAtRH(new Vector3(0, 0, 0), new Vector3(direction.X, 0, direction.Z), new Vector3(0, 1, 0));
+            rot.Invert();
+            Quaternion q = Quaternion.RotationMatrix(rot);
+            return (MyQuaternion)q;
         }
         public GameStatus GameStatus
         {
@@ -64,7 +81,7 @@ namespace CastleButcher.GameEngine
         public abstract void AddPlayer(Player player);
         public abstract void RemovePlayer(Player player);
 
-        public abstract void ChangePlayerTeam(Player player,GameTeam team);
+        public abstract void ChangePlayerTeam(Player player, GameTeam team);
         public int AssassinsScore
         {
             get

@@ -214,6 +214,12 @@ namespace Framework.MyMath
             Quaternion q = new Quaternion(mq.v.X, mq.v.Y, mq.v.Z, mq.n);
             return q;
         }
+        public static explicit operator MyQuaternion(Quaternion mq)
+        {
+            
+            MyQuaternion q = new MyQuaternion(mq.W, mq.X, mq.Y, mq.Z);
+            return q;
+        }
 
         public MyQuaternion Normalize()
         {
