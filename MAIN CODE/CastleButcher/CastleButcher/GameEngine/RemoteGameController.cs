@@ -191,6 +191,7 @@ namespace CastleButcher.GameEngine
                 }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.NewRound)
                 {
+                    EndRound();
                     BeginRound();
                 }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.TeamScored)
@@ -207,7 +208,6 @@ namespace CastleButcher.GameEngine
                 }
 
             }
-          
 
             World.Instance.Update(timeElapsed);
             return true;

@@ -43,13 +43,13 @@ namespace CastleButcher.UI.HUD
                 if (p.CharacterClass.GameTeam == GameTeam.Assassins)
                 {
                     q = (Quad)assassinQuad.Clone();
-                    q.X += (p.CurrentCharacter.Position.X + mapWidth / 2) * (this.m_size.Width / mapWidth);
+                    q.X += (-p.CurrentCharacter.Position.X + mapWidth / 2) * (this.m_size.Width / mapWidth);
                     q.Y += (-p.CurrentCharacter.Position.Z + mapHeight / 2) * (this.m_size.Height / mapWidth);
                 }
                 else
                 {
                     q = (Quad)knightQuad.Clone();
-                    q.X += (p.CurrentCharacter.Position.X + mapWidth / 2) * (this.m_size.Width / mapWidth);
+                    q.X += (-p.CurrentCharacter.Position.X + mapWidth / 2) * (this.m_size.Width / mapWidth);
                     q.Y += (-p.CurrentCharacter.Position.Z + mapHeight / 2) * (this.m_size.Height / mapHeight);
                 }
                 mapQuads.Add(q);
