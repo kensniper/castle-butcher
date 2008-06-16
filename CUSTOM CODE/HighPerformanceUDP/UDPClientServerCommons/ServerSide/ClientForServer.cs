@@ -62,9 +62,8 @@ namespace UDPClientServerCommons.Server
         /// key parameter is gameId
         /// value parameter is Last10Packages
         /// </summary>
-        private Dictionary<ushort, Usefull.Last10Packages> gameInfoPackets = new Dictionary<ushort, UDPClientServerCommons.Usefull.Last10Packages>();
-        private readonly object gameInfoPacketsLock = new object();
-
+        private Usefull.Last10Packages gameInfoPackets = new UDPClientServerCommons.Usefull.Last10Packages();
+        
         /// <summary>
         /// List of Game events
         /// </summary>        
@@ -131,21 +130,17 @@ namespace UDPClientServerCommons.Server
                     GameInfoPacket gameInfoPacket = (GameInfoPacket)packet;
                     if (gameIdField.HasValue && gameInfoPacket.GameId == gameIdField.Value)
                     {
-                        List<IGameEvent> gameEvents = GameEvents.GameEventExtractor.GetGameEvents(gameInfoPacket, (GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket, playerIdField);
-                        lock (gameInfoPacketsLock)
+                        List<IGameEvent> gameEvents = GameEvents.GameEventExtractor.GetGameEvents(gameInfoPacket, (GameInfoPacket)gameInfoPackets.LastPacket, playerIdField);
+
+                        lock (gameEventListLock)
                         {
                             for (int i = 0; i < gameEvents.Count; i++)
                             {
                                 gameEventList.Add(gameEvents[i]);
                             }
                         }
-                    }
-                    if (gameIdField.HasValue && gameInfoPacket.GameId == gameIdField.Value)
-                    {
-                        lock (gameInfoPacketsLock)
-                        {
-                            gameInfoPackets[gameIdField.Value].AddPacket(gameInfoPacket);
-                        }
+
+                        gameInfoPackets.AddPacket(gameInfoPacket);
                     }
                     break;
             }
@@ -202,7 +197,7 @@ namespace UDPClientServerCommons.Server
             {
                 if (playerIdField.HasValue && gameIdField.HasValue && teamIdField.HasValue)
                 {
-                    GameInfoPacket gPack = (GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket;
+                    GameInfoPacket gPack = (GameInfoPacket)gameInfoPackets.LastPacket;
                     if (gPack == null)
                         return false;
 
@@ -384,21 +379,18 @@ namespace UDPClientServerCommons.Server
         {
             get
             {
-                lock (gameInfoPacketsLock)
+                try
                 {
-                    try
-                    {
-                        if (gameIdField.HasValue && gameInfoPackets.ContainsKey(gameIdField.Value))
-                            return (GameInfoPacket)gameInfoPackets[gameIdField.Value].LastPacket.Clone();
-                        else
-                            return null;
-                    }
-                    catch (Exception ex)
-                    {
-                        Diagnostic.NetworkingDiagnostics.Logging.Fatal("CurrentGameInfo S", ex);
-                    }
-                    return null;
+                    if (gameIdField.HasValue)
+                        return (GameInfoPacket)gameInfoPackets.LastPacket.Clone();
+                    else
+                        return null;
                 }
+                catch (Exception ex)
+                {
+                    Diagnostic.NetworkingDiagnostics.Logging.Fatal("CurrentGameInfo S", ex);
+                }
+                return null;
             }
         }
 

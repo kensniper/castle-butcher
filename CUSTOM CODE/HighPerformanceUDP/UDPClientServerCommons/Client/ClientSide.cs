@@ -211,8 +211,12 @@ namespace UDPClientServerCommons.Client
                                 gameInfoPackets[gameInfoPacket.GameId].AddPacket(gameInfoPacket);
                             }
                             else
+                            {
                                 gameInfoPackets.Add(gameInfoPacket.GameId, new UDPClientServerCommons.Usefull.Last10Packages());
+                                gameInfoPackets[gameInfoPacket.GameId].AddPacket(gameInfoPacket);
+                            }
 
+                            //if this is my game - get events
                             if (gameIdField.HasValue && gameInfoPacket.GameId == gameIdField.Value)
                             {
                                 List<IGameEvent> gameEvents = GameEvents.GameEventExtractor.GetGameEvents(gameInfoPacket, (GameInfoPacket)gameInfoPackets[gameIdField.Value].GetPrevious(2), playerIdField);
@@ -223,6 +227,7 @@ namespace UDPClientServerCommons.Client
                                 }
                             }
                         }
+                        //if this is my game - update player status'es
                         if (gameIdField.HasValue && gameInfoPacket.GameId == gameIdField)
                         {
                             for (int i = 0; i < gameInfoPacket.PlayerStatusList.Count; i++)
@@ -233,7 +238,6 @@ namespace UDPClientServerCommons.Client
                                     {
                                         playerIdField = gameInfoPacket.PlayerStatusList[i].PlayerId;
                                         teamIdField = gameInfoPacket.PlayerStatusList[i].PlayerTeam;
-                                        //clientPacket.PlayerId = playerIdField.Value;
                                     }
                                     break;
                                 }
