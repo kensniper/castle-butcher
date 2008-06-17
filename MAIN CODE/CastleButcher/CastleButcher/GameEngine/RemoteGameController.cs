@@ -240,7 +240,8 @@ namespace CastleButcher.GameEngine
                 {
                     if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.PlayerDead)
                     {
-
+                        Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
+                        World.Instance.PlayerKilled(p);
                     }
                     else if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.JumpNow)
                     {
@@ -255,7 +256,7 @@ namespace CastleButcher.GameEngine
                     else if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.UseWeapon)
                     {
                         Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
-                        //p.CharacterController.Jump();
+                        p.CurrentCharacter.FireWeapon();
                     }
                 }
 
