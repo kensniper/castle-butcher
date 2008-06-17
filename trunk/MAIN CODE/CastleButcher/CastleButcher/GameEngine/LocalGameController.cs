@@ -336,7 +336,11 @@ namespace CastleButcher.GameEngine
                     serverNetworkLayer.Client.UpdatePlayerData((Vector3)player.CurrentCharacter.Position, (Vector3)
                         player.CurrentCharacter.CharacterController.LookVector, (Vector3)player.CurrentCharacter.Velocity);
 
-                    WeaponEnumeration we = GetWeaponIDByClass(player.CurrentCharacter.Weapons.CurrentWeapon.WeaponClass);
+                    WeaponEnumeration we;
+                    if (player.CurrentCharacter.Weapons.CurrentWeapon != null)
+                        we = GetWeaponIDByClass(player.CurrentCharacter.Weapons.CurrentWeapon.WeaponClass);
+                    else
+                        we = GetWeaponIDByClass(null);
                     serverNetworkLayer.Client.UpdatePlayerData(we, player.FiredWeapon, player.Jumped, player.ChangedWeapon, we);
                     
                     player.ChangedWeapon = false;
