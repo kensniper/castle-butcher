@@ -16,7 +16,7 @@ namespace UDPClientServerCommons.Server
     {
         #region fields
 
-        private const int _TimerTickPeriod = 200;
+        private const int _TimerTickPeriod = 100;
 
         /// <summary>
         /// Server packet parts
@@ -408,6 +408,9 @@ namespace UDPClientServerCommons.Server
                 }
                 if (clientForServer != null && !clientForServer.GameIsRunningAsDedicatedServer)
                 clientForServer.GetMessageFromServer((ServerPacket)serverPacket.Clone());
+
+                    //todo ????
+                    //WTF ?????
                     //clear client events ??
                 for (int k = 0; k < serverPacket.PlayerInfoList.Count; k++)
                 {
@@ -528,6 +531,7 @@ namespace UDPClientServerCommons.Server
                             case (PacketTypeEnumeration.StandardClientPacket):
                                 ClientPacket clientPacket = (ClientPacket)packet;
                                 bool packetOk = false;
+                                bool getOnlyEvents = false;
                                 lock (clientPackagesDictionaryLock)
                                 {
                                     if (!clientPackagesDictionary.ContainsKey(clientPacket.PlayerId))
@@ -538,14 +542,23 @@ namespace UDPClientServerCommons.Server
                                     }
                                     else
                                         if (clientPackagesDictionary[clientPacket.PlayerId].LastPacket != null &&
-                                            clientPacket.PacketId.Value > clientPackagesDictionary[clientPacket.PlayerId].LastPacket.PacketId.Value)
+                                            clientPacket.PacketId == clientPackagesDictionary[clientPacket.PlayerId].LastPacket.PacketId)
+                                        {                                            
+                                            Diagnostic.NetworkingDiagnostics.Logging.Error("Old ClientPacket was received and ignored");
+                                            return;
+                                        }
+                                        else if (clientPackagesDictionary[clientPacket.PlayerId].LastPacket != null &&
+                                            clientPacket.PacketId < clientPackagesDictionary[clientPacket.PlayerId].LastPacket.PacketId)
                                         {
-                                            clientPackagesDictionary[clientPacket.PlayerId].AddPacket(clientPacket);
+                                            //clientPackagesDictionary[clientPacket.PlayerId].AddPacket(clientPacket);
                                             packetOk = true;
+                                            getOnlyEvents = true;
                                         }
                                         else
                                         {
-                                            Diagnostic.NetworkingDiagnostics.Logging.Error("Old ClientPacket was received");
+                                            //clientPacket.PacketId > clientPackagesDictionary[clientPacket.PlayerId].LastPacket.PacketId
+                                            clientPackagesDictionary[clientPacket.PlayerId].AddPacket(clientPacket);
+                                            packetOk = true;
                                         }
                                 }
                                 if(packetOk)
@@ -555,11 +568,28 @@ namespace UDPClientServerCommons.Server
                                     {
                                         if (clientPacket.PlayerId == serverPacket.PlayerInfoList[i].PlayerId)
                                         {
-                                            if (clientPacket.PlayerJumping || clientPacket.PlayerShooting)
-                                                Diagnostic.NetworkingDiagnostics.Logging.Warn(" Packet with events received " + clientPacket.ToString());
+                                            //if (clientPacket.PlayerJumping || clientPacket.PlayerShooting)
+                                            //    Diagnostic.NetworkingDiagnostics.Logging.Warn(" Packet with events received " + clientPacket.ToString());
                                             // here we need to validate what Client send us !!!!!!
                                             // todo: validation
-                                            serverPacket.PlayerInfoList[i] = UDPClientServerCommons.Translator.TranslateBetweenClientPacketAndPlayerInfo(clientPacket);
+                                            if (getOnlyEvents)
+                                            {
+                                                if (clientPacket.PlayerJumping)
+                                                    serverPacket.PlayerInfoList[i].PlayerJumping = clientPacket.PlayerJumping;
+                                                if (clientPacket.PlayerShooting)
+                                                    serverPacket.PlayerInfoList[i].PlayerShooting = clientPacket.PlayerShooting;
+                                            }
+                                            else
+                                            {
+                                                bool jmp = serverPacket.PlayerInfoList[i].PlayerJumping;
+                                                bool sho = serverPacket.PlayerInfoList[i].PlayerShooting;
+                                                serverPacket.PlayerInfoList[i] = UDPClientServerCommons.Translator.TranslateBetweenClientPacketAndPlayerInfo(clientPacket);
+                                                if (jmp)
+                                                    serverPacket.PlayerInfoList[i].PlayerJumping = true;
+                                                if (sho)
+                                                    serverPacket.PlayerInfoList[i].PlayerShooting = true;
+                                            }
+                                            break;
                                         }
                                     }
                                 }

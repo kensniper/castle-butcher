@@ -10,7 +10,7 @@ namespace UDPClientServerCommons.GameEvents
 
         public override UDPClientServerCommons.Constants.GameEventTypeEnumeration GameEventType
         {
-            get { return UDPClientServerCommons.Constants.GameEventTypeEnumeration.PlayerScored; }
+            get { return UDPClientServerCommons.Constants.GameEventTypeEnumeration.TeamScored; }
         }
 
         #endregion

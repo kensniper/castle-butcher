@@ -5,7 +5,7 @@ using System.IO;
 
 namespace UDPClientServerCommons.Packets
 {
-    public class PlayerStatus:Interfaces.ISerializablePacket
+    public class PlayerStatus:Interfaces.ISerializablePacket,ICloneable
     {
         #region fields
 
@@ -149,6 +149,23 @@ namespace UDPClientServerCommons.Packets
             sb.Append(PlayerNameField);
 
             return sb.ToString();
+        }
+
+        #endregion
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            PlayerStatus cpy = new PlayerStatus();
+            cpy.PlayerHealthField = this.PlayerHealthField;
+            cpy.PlayerIdField = this.PlayerIdField;
+            cpy.PlayerNameField = (string)cpy.PlayerNameField.Clone();
+            cpy.PlayerPingField = cpy.PlayerPingField;
+            cpy.PlayerScoreField = cpy.PlayerScoreField;
+            cpy.PlayerTeamField = cpy.PlayerTeamField;
+
+            return cpy;
         }
 
         #endregion

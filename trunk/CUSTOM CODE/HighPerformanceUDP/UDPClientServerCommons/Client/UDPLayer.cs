@@ -14,7 +14,7 @@ namespace UDPClientServerCommons.Client
         /// <summary>
         /// Time in miliseconds
         /// </summary>
-        public const int TimerTickPeriod = 200;
+        public const int TimerTickPeriod = 100;
 
         public delegate ClientPacket GetDataToSend();
 
