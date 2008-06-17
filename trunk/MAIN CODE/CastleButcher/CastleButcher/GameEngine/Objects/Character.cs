@@ -146,12 +146,15 @@ namespace CastleButcher.GameEngine
             World.Instance.AddObject(missile as IGameObject);
             Weapons.CurrentWeapon.Use();
 
+            player.FiredWeapon = true;
+
             if (Weapons.CurrentWeaponType == CastleButcher.GameEngine.Weapons.WeaponType.Ranged)
                 if (Weapons.CurrentWeapon.Ammo <= 0)
                 {
                     Weapons.SelectNextRanged();
                     if(Weapons.CurrentWeapon!=null)
                         Weapons.CurrentWeapon.Use();
+                    player.ChangedWeapon = true;
                 }
 
 

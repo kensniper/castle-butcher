@@ -334,6 +334,13 @@ namespace CastleButcher.GameEngine
                 {
                     serverNetworkLayer.Client.UpdatePlayerData((Vector3)player.CurrentCharacter.Position, (Vector3)
                         player.CurrentCharacter.CharacterController.LookVector, (Vector3)player.CurrentCharacter.Velocity);
+
+                    WeaponEnumeration we = GetWeaponIDByClass(player.CurrentCharacter.Weapons.CurrentWeapon.WeaponClass);
+                    serverNetworkLayer.Client.UpdatePlayerData(we, player.FiredWeapon, player.Jumped, player.ChangedWeapon, we);
+                    
+                    player.ChangedWeapon = false;
+                    player.FiredWeapon = false;
+                    player.Jumped = false;
                 }
                 //List<PlayerHealthData> list=new List<PlayerHealthData>();
                 //for (int i = 0; i < World.Instance.Players.Count; i++)

@@ -249,8 +249,8 @@ namespace CastleButcher.GameEngine.Weapons
 
         public WeaponCollection()
         {
-
         }
+
 
         public void AddWeapon(WeaponClass weaponClass)
         {

@@ -20,6 +20,29 @@ namespace CastleButcher.GameEngine
 
         protected ushort networkId;
 
+
+        bool changedWeapon = false;
+
+        public bool ChangedWeapon
+        {
+            get { return changedWeapon; }
+            set { changedWeapon = value; }
+        }
+        bool jumped = false;
+
+        public bool Jumped
+        {
+            get { return jumped; }
+            set { jumped = value; }
+        }
+        bool firedWeapon = false;
+
+        public bool FiredWeapon
+        {
+            get { return firedWeapon; }
+            set { firedWeapon = value; }
+        }
+
         public ushort NetworkId
         {
             get { return networkId; }
@@ -184,7 +207,7 @@ namespace CastleButcher.GameEngine
 
         public virtual void OnWeaponPickup(WeaponPickup weapon)
         {
-
+            this.ChangedWeapon = true;
         }
 
         public virtual void OnEnemyDestroyed(Player enemy)
