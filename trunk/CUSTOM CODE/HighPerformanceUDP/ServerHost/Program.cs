@@ -102,7 +102,15 @@ namespace ServerHost
                 if (gevents != null)
                 {
                     for (int i = 0; i < gevents.Count; i++)
+                    {
+                        if (gevents[i].GameEventType == UDPClientServerCommons.Constants.GameEventTypeEnumeration.PlayerJoined)
+                        {
+                            UDPClientServerCommons.GameEvents.PlayerJoinedEvent pje = (UDPClientServerCommons.GameEvents.PlayerJoinedEvent)gevents[i];
+                            Console.WriteLine(pje.ToString());
+                        }
+                        else
                         Console.WriteLine("\tGE : {0}", gevents[i].ToString());
+                    }
                 }
                 if (gpevents != null)
                 {

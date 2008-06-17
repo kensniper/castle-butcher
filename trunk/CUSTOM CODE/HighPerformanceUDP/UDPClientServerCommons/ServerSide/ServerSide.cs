@@ -90,7 +90,7 @@ namespace UDPClientServerCommons.Server
                     if (!dedicatedServer && me != null)
                     {
                         ps.PlayerId = (ushort)rand.Next(1000, 9999);
-                        ps.PlayerName = me.PlayerName;
+                        ps.PlayerName = (string) me.PlayerName.Clone();
                         if (me.PlayerTeam == gameOptions.TeamOneName)
                             ps.PlayerTeam = 13;
                         else
