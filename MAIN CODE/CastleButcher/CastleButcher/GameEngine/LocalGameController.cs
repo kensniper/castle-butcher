@@ -302,11 +302,11 @@ namespace CastleButcher.GameEngine
                         Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
                         if (p == player) continue;
                         //gameplayEvents[i].
-                        for (int j = 0; j < serverNetworkLayer.Client.PlayerDataList.Count; i++)
+                        for (int j = 0; j < serverNetworkLayer.Client.PlayerDataList.Count; j++)
                         {
                             if (serverNetworkLayer.Client.PlayerDataList[j].PlayerId == p.NetworkId)
                             {
-                                WeaponEnumeration we = serverNetworkLayer.Client.PlayerDataList[i].Weapon;
+                                WeaponEnumeration we = serverNetworkLayer.Client.PlayerDataList[j].Weapon;
                                 p.CurrentCharacter.Weapons.SelectWeapon(GetWeaponClassByID(we));
                             }
                         }
@@ -316,11 +316,11 @@ namespace CastleButcher.GameEngine
                         Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
                         if (p == player) continue;
                         //gameplayEvents[i].
-                        for (int j = 0; j < serverNetworkLayer.Client.PlayerDataList.Count; i++)
+                        for (int j = 0; j < serverNetworkLayer.Client.PlayerDataList.Count; j++)
                         {
                             if (serverNetworkLayer.Client.PlayerDataList[j].PlayerId == p.NetworkId)
                             {
-                                WeaponEnumeration we = serverNetworkLayer.Client.PlayerDataList[i].Weapon;
+                                WeaponEnumeration we = serverNetworkLayer.Client.PlayerDataList[j].Weapon;
                                 p.CurrentCharacter.Weapons.SelectWeapon(GetWeaponClassByID(we));
                             }
                         }
