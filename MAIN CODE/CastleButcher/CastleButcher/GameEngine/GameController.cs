@@ -48,9 +48,9 @@ namespace CastleButcher.GameEngine
             return null;
         }
 
-        public WeaponClass GetWeaponClassByID(UDPClientServerCommons.Constants.WeaponEnumeration weapon)
+        public WeaponClass GetWeaponClassByID(UDPClientServerCommons.Constants.WeaponEnumeration weapon, GameTeam team)
         {
-            if (player.CharacterClass.GameTeam == GameTeam.Assassins)
+            if (team == GameTeam.Assassins)
             {
                 if (weapon == UDPClientServerCommons.Constants.WeaponEnumeration.CrossBow)
                     return ObjectCache.Instance.GetWeapon("Pipe");
@@ -58,7 +58,7 @@ namespace CastleButcher.GameEngine
                     return ObjectCache.Instance.GetWeapon("Fireball");
 
             }
-            else if (player.CharacterClass.GameTeam == GameTeam.Knights)
+            else if (team == GameTeam.Knights)
             {
                 if (weapon == UDPClientServerCommons.Constants.WeaponEnumeration.CrossBow)
                     return ObjectCache.Instance.GetWeapon("Crossbow");
@@ -68,9 +68,9 @@ namespace CastleButcher.GameEngine
             }
             return null;
         }
-        public UDPClientServerCommons.Constants.WeaponEnumeration GetWeaponIDByClass(WeaponClass wc)
+        public UDPClientServerCommons.Constants.WeaponEnumeration GetWeaponIDByClass(WeaponClass wc, GameTeam team)
         {
-            if (player.CharacterClass.GameTeam == GameTeam.Assassins)
+            if (team == GameTeam.Assassins)
             {
                 if (wc is PipeClass)
                     return  UDPClientServerCommons.Constants.WeaponEnumeration.CrossBow;
@@ -78,7 +78,7 @@ namespace CastleButcher.GameEngine
                     return UDPClientServerCommons.Constants.WeaponEnumeration.Sword;
 
             }
-            else if (player.CharacterClass.GameTeam == GameTeam.Knights)
+            else if (team == GameTeam.Knights)
             {
                 if (wc is CrossbowClass)
                     return UDPClientServerCommons.Constants.WeaponEnumeration.CrossBow;

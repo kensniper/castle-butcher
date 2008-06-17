@@ -258,7 +258,7 @@ namespace CastleButcher.GameEngine
                             if (clientNetworkLayer.PlayerDataList[j].PlayerId == p.NetworkId)
                             {
                                 WeaponEnumeration we = clientNetworkLayer.PlayerDataList[j].Weapon;
-                                p.CurrentCharacter.Weapons.SelectWeapon(GetWeaponClassByID(we));
+                                p.CurrentCharacter.Weapons.SelectWeapon(GetWeaponClassByID(we, p.CharacterClass.GameTeam));
                             }
                         }
                     }
@@ -272,7 +272,7 @@ namespace CastleButcher.GameEngine
                             if (clientNetworkLayer.PlayerDataList[j].PlayerId == p.NetworkId)
                             {
                                 WeaponEnumeration we = clientNetworkLayer.PlayerDataList[j].Weapon;
-                                p.CurrentCharacter.Weapons.SelectWeapon(GetWeaponClassByID(we));
+                                p.CurrentCharacter.Weapons.SelectWeapon(GetWeaponClassByID(we, p.CharacterClass.GameTeam));
                             }
                         }
                         p.CurrentCharacter.FireWeapon();
@@ -305,9 +305,9 @@ namespace CastleButcher.GameEngine
 
                     WeaponEnumeration we;
                     if (player.CurrentCharacter.Weapons.CurrentWeapon != null)
-                        we = GetWeaponIDByClass(player.CurrentCharacter.Weapons.CurrentWeapon.WeaponClass);
+                        we = GetWeaponIDByClass(player.CurrentCharacter.Weapons.CurrentWeapon.WeaponClass,player.CharacterClass.GameTeam);
                     else
-                        we = GetWeaponIDByClass(null);
+                        we = GetWeaponIDByClass(null,player.CharacterClass.GameTeam);
                     clientNetworkLayer.UpdatePlayerData(we, player.FiredWeapon, player.Jumped, player.ChangedWeapon, we);
                     
                     player.ChangedWeapon = false;
