@@ -160,10 +160,10 @@ namespace UDPClientServerCommons.Packets
             PlayerStatus cpy = new PlayerStatus();
             cpy.PlayerHealthField = this.PlayerHealthField;
             cpy.PlayerIdField = this.PlayerIdField;
-            cpy.PlayerNameField = (string)cpy.PlayerNameField.Clone();
-            cpy.PlayerPingField = cpy.PlayerPingField;
-            cpy.PlayerScoreField = cpy.PlayerScoreField;
-            cpy.PlayerTeamField = cpy.PlayerTeamField;
+            cpy.PlayerNameField = (string)this.PlayerNameField.Clone();
+            cpy.PlayerPingField = this.PlayerPingField;
+            cpy.PlayerScoreField = this.PlayerScoreField;
+            cpy.PlayerTeamField = this.PlayerTeamField;
 
             return cpy;
         }

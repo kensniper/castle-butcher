@@ -43,5 +43,19 @@ namespace UDPClientServerCommons.GameEvents
             this.playerNameField = name;
             this.teamIdField = teamId;
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(" id = ");
+            sb.Append(playerIdField);
+            sb.Append(" name = ");
+            sb.Append(playerNameField);
+            sb.Append(" team = ");
+            sb.Append(teamIdField);
+
+            return sb.ToString();
+        }
     }
 }

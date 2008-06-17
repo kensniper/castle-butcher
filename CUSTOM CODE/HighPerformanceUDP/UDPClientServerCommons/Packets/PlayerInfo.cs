@@ -146,7 +146,7 @@ namespace UDPClientServerCommons.Packets
 
         #region ICloneable Members
 
-        object ICloneable.Clone()
+        new object Clone()
         {
             PlayerInfo copy = (PlayerInfo)base.Clone();
             copy.healthField = this.healthField;
