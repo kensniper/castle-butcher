@@ -105,7 +105,9 @@ namespace CastleButcher.GameEngine
         }
         public override void EndRound(GameTeam defeatedTeam)
         {
-            
+
+            base.EndRound(defeatedTeam);
+            World.Instance.Paused = true;
             if (defeatedTeam == GameTeam.Assassins)
             {
                 List<TeamData> teams = new List<TeamData>();
@@ -126,8 +128,7 @@ namespace CastleButcher.GameEngine
                 serverNetworkLayer.UpdatePlayerHealthAndTeamScore(new List<PlayerHealthData>(), teams);
             }
 
-            base.EndRound(defeatedTeam);
-            World.Instance.Paused = true;
+            
             gameStatus = GameStatus.WaitingForStart;
             if (defeatedTeam == player.CharacterClass.GameTeam)
             {
