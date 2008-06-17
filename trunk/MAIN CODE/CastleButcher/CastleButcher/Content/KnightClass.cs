@@ -42,9 +42,11 @@ namespace CastleButcher.Content
             //            renderingData = ResourceCache.Instance.GetRenderingData("knightStanding.x");
             Matrix rot = Matrix.RotationY((float)Math.PI);
             renderingData = ResourceCache.Instance.GetRenderingData("knightStanding.x");
-            //renderingData.CustomTransform = rot;
+            renderingData.CustomTransform = rot;
             rdWithCrossbow = ResourceCache.Instance.GetRenderingData("knightWithCrossbow.x");
+            rdWithCrossbow.CustomTransform = rot;
             rdWithGrenade = ResourceCache.Instance.GetRenderingData("knightWithGrenade.x");
+            rdWithGrenade.CustomTransform = rot;
             deadRd = ResourceCache.Instance.GetRenderingData("knightDead.x");
 
             float r = renderingData.BoundingSphereRadius;
