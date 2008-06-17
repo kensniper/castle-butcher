@@ -80,9 +80,9 @@ namespace CastleButcher.UI
             this.locksKeyboard = false;
             this.locksMouse = false;
             velocity = new GuiTextLabel("", new RectangleF(10, 40, 150, 18), 18);
-            shield = new GuiTextLabel("", new RectangleF(10, 60, 70, 18), 18);
+            shield = new GuiTextLabel("", new RectangleF(100, 60, 70, 18), 18);
             slash = new GuiTextLabel("", new RectangleF(80, 60, 10, 18), 18);
-            hp = new GuiTextLabel("100", new RectangleF(100, 60, 70, 18), 18);
+            hp = new GuiTextLabel("100", new RectangleF(10, 60, 70, 18), 18);
             numObjects = new GuiTextLabel("", new RectangleF(10, 80, 200, 18), 18);
 
             int bottom = (int)GM.AppWindow.GraphicsParameters.WindowSize.Height;
@@ -98,7 +98,7 @@ namespace CastleButcher.UI
             AddControl(statusInfo);
 
             AddControl(velocity);
-            AddControl(shield);
+            //AddControl(shield);
             AddControl(hp);
             AddControl(slash);
             AddControl(numObjects);
