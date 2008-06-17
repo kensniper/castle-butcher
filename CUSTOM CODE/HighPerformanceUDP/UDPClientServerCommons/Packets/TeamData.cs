@@ -4,7 +4,7 @@ using System.Text;
 
 namespace UDPClientServerCommons.Usefull
 {
-    public class TeamData
+    public class TeamData:ICloneable
     {
         private ushort teamIdField;
 
@@ -50,5 +50,19 @@ namespace UDPClientServerCommons.Usefull
 
             return sb.ToString();
         }
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            TeamData cpy = new TeamData();
+            cpy.teamIdField = this.teamIdField;
+            cpy.teamNameField = (string)this.teamNameField.Clone();
+            cpy.teamScoreField = this.teamScoreField;
+
+            return cpy;
+        }
+
+        #endregion
     }
 }

@@ -19,7 +19,7 @@ namespace UDPClientServerCommons.Server
         /// <summary>
         /// Time in miliseconds
         /// </summary>
-        public const int TimerTickPeriod = 200;
+        public const int TimerTickPeriod = 100;
 
         /// <summary>
         /// timer
@@ -93,7 +93,7 @@ namespace UDPClientServerCommons.Server
             {
                 clientPacket.PacketId = packetIdCounter.Next();
 
-                    Console.WriteLine(DateTime.Now.ToLongTimeString());
+                    //Console.WriteLine(DateTime.Now.ToLongTimeString());
                     AddMessageToServer(clientPacket);
                     clientPacket.PlayerJumping = false;
                     clientPacket.PlayerShooting = false;
@@ -115,31 +115,31 @@ namespace UDPClientServerCommons.Server
             switch (packet.PacketType)
             {
                 case PacketTypeEnumeration.StandardServerPacket:
-                    try
-                    {
-                        if (last10Packeges.LastPacket!=null && last10Packeges.LastPacket.PacketId.Value == packet.PacketId.Value)
-                        {
-                            //the same packet - ignore it
-                            Diagnostic.NetworkingDiagnostics.Logging.Warn("Old ServerPacket was received and ignored id" + packet.PacketId);
-                            return;
-                        }
-                        else if (last10Packeges.LastPacket != null && last10Packeges.LastPacket.PacketId > packet.PacketId)
-                        {
-                            // old packet received
-                            Diagnostic.NetworkingDiagnostics.Logging.Warn("Old ServerPacket was received and ignored id" + packet.PacketId);
-                            List<Interfaces.IGameplayEvent> gpEvents = GameEvents.GameEventExtractor.GetGameplayEvents((ServerPacket)packet, null, playerIdField);
-                            lock (gameplayEventListLock)
-                            {
-                                for (int i = 0; i < gpEvents.Count; i++)
-                                    gameplayEventList.Add(gpEvents[i]);
-                            }
-                            return;
-                        }
-                    }
-                    catch (Usefull.IdCompareException idEx)
-                    {
-                        Diagnostic.NetworkingDiagnostics.Logging.Error("Error when comparing id " + packet.PacketId + " with id " + last10Packeges.LastPacket.PacketId, idEx);
-                    }
+                    //try
+                    //{
+                    //    if (last10Packeges.LastPacket!=null && last10Packeges.LastPacket.PacketId.Value == packet.PacketId.Value)
+                    //    {
+                    //        //the same packet - ignore it
+                    //        Diagnostic.NetworkingDiagnostics.Logging.Warn("Old ServerPacket was received and ignored id" + packet.PacketId);
+                    //        return;
+                    //    }
+                    //    else if (last10Packeges.LastPacket != null && last10Packeges.LastPacket.PacketId > packet.PacketId)
+                    //    {
+                    //        // old packet received
+                    //        Diagnostic.NetworkingDiagnostics.Logging.Warn("Old ServerPacket was received and ignored id" + packet.PacketId);
+                    //        List<Interfaces.IGameplayEvent> gpEvents = GameEvents.GameEventExtractor.GetGameplayEvents((ServerPacket)packet, null, playerIdField);
+                    //        lock (gameplayEventListLock)
+                    //        {
+                    //            for (int i = 0; i < gpEvents.Count; i++)
+                    //                gameplayEventList.Add(gpEvents[i]);
+                    //        }
+                    //        return;
+                    //    }
+                    //}
+                    //catch (Usefull.IdCompareException idEx)
+                    //{
+                    //    Diagnostic.NetworkingDiagnostics.Logging.Error("Error when comparing id " + packet.PacketId + " with id " + last10Packeges.LastPacket.PacketId, idEx);
+                    //}
 
                     List<Interfaces.IGameplayEvent> gameplayEvents = GameEvents.GameEventExtractor.GetGameplayEvents((ServerPacket)packet, (ServerPacket)last10Packeges.LastPacket, playerIdField);                     
                     lock (gameplayEventListLock)
@@ -162,17 +162,17 @@ namespace UDPClientServerCommons.Server
                     GameInfoPacket gameInfoPacket = (GameInfoPacket)packet;
                     if (gameIdField.HasValue && gameInfoPacket.GameId == gameIdField.Value)
                     {
-                        try
-                        {
-                            // old packet received
-                            if (gameInfoPackets.LastPacket != null && (gameInfoPackets.LastPacket.PacketId > gameInfoPacket.PacketId || gameInfoPackets.LastPacket.PacketId == gameInfoPacket.PacketId))
-                                return;
-                        }
-                        catch (Usefull.IdCompareException idEx)
-                        {
-                            Diagnostic.NetworkingDiagnostics.Logging.Error("Error when comparing id " + gameInfoPacket.PacketId + " with id " + gameInfoPackets.LastPacket.PacketId, idEx);
-                            return;
-                        }
+                        //try
+                        //{
+                        //    // old packet received
+                        //    if (gameInfoPackets.LastPacket != null && (gameInfoPackets.LastPacket.PacketId > gameInfoPacket.PacketId || gameInfoPackets.LastPacket.PacketId == gameInfoPacket.PacketId))
+                        //        return;
+                        //}
+                        //catch (Usefull.IdCompareException idEx)
+                        //{
+                        //    Diagnostic.NetworkingDiagnostics.Logging.Error("Error when comparing id " + gameInfoPacket.PacketId + " with id " + gameInfoPackets.LastPacket.PacketId, idEx);
+                        //    return;
+                        //}
 
                         List<IGameEvent> gameEvents = GameEvents.GameEventExtractor.GetGameEvents(gameInfoPacket, (GameInfoPacket)gameInfoPackets.LastPacket, playerIdField);
 

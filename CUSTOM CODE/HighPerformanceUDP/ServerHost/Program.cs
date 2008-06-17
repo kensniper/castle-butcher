@@ -10,6 +10,7 @@ namespace ServerHost
 {
     class Program
     {
+        private static ushort teamScore = 1;
         private static System.Threading.Timer timer = null;
         private static ServerSide CS_Server = null;
         static void Main(string[] args)
@@ -63,6 +64,14 @@ namespace ServerHost
                         pd.Weapon = UDPClientServerCommons.Constants.WeaponEnumeration.CrossBow;
 
                         CS_Server.Client.UpdatePlayerData(pd);
+                    }
+                    if (input.ToLower() == "team")
+                    {
+                        List<UDPClientServerCommons.Usefull.TeamData> tdList = new List<UDPClientServerCommons.Usefull.TeamData>();
+                        tdList.Add(new UDPClientServerCommons.Usefull.TeamData(13,null));
+                        tdList[0].TeamScore= teamScore;
+                        teamScore++;
+                        CS_Server.UpdatePlayerHealthAndTeamScore(null, tdList);
                     }
                     if (input.Length == 0)
                         break;
