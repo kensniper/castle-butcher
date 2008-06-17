@@ -117,7 +117,7 @@ namespace CastleButcher.GameEngine.Weapons
                 currentRanged = ranged.Count - 1;
                 CurrentRanged.Ammo = 1000;
                 currentType = WeaponType.Ranged;
-                if (CurrentWeapon != null)
+                if (OnWeaponChanged != null && CurrentWeapon!=null)
                     OnWeaponChanged(CurrentWeapon.WeaponClass);
                 else
                     OnWeaponChanged(null);
