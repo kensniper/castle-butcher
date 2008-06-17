@@ -31,7 +31,7 @@ namespace CastleButcher.GameEngine
             clientNetworkLayer = clientSide;
             this.player = player;
             this.gameInfo = gameInfo;
-            
+
 
         }
 
@@ -43,7 +43,7 @@ namespace CastleButcher.GameEngine
             World.Instance.AddPlayer(player);
             if (player == this.player)
             {
-                ushort id=(Player.CharacterClass.GameTeam== GameTeam.Assassins)? gameInfo.TeamScoreList[0].TeamId : gameInfo.TeamScoreList[1].TeamId;
+                ushort id = (Player.CharacterClass.GameTeam == GameTeam.Assassins) ? gameInfo.TeamScoreList[0].TeamId : gameInfo.TeamScoreList[1].TeamId;
                 bool ret = clientNetworkLayer.JoinGame(gameInfo.ServerAddress, player.Name, gameInfo.GameId, id);
 
                 //ChangePlayerTeam(player, player.CharacterClass.GameTeam);
@@ -175,7 +175,7 @@ namespace CastleButcher.GameEngine
                     //gameEvents[i].
                     player.NetworkId = clientNetworkLayer.PlayerId ?? 0;
                     StartGame();
-                    
+
                 }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.PlayerJoined)
                 {
@@ -221,7 +221,7 @@ namespace CastleButcher.GameEngine
                 }
                 else if (gameEvents[i].GameEventType == GameEventTypeEnumeration.TeamScored)
                 {
-                    
+
                     TeamScoredEvent ev = (TeamScoredEvent)gameEvents[i];
                     GameTeam team = GetTeamByID(ev.TeamId);
                     if (team == GameTeam.Assassins)
@@ -229,7 +229,7 @@ namespace CastleButcher.GameEngine
                     else
                         team = GameTeam.Assassins;
                     EndRound(team);
-                    
+
                 }
 
             }
@@ -283,6 +283,12 @@ namespace CastleButcher.GameEngine
                 {
                     clientNetworkLayer.UpdatePlayerData((Vector3)player.CurrentCharacter.Position, (Vector3)
                         player.CurrentCharacter.CharacterController.LookVector, (Vector3)player.CurrentCharacter.Velocity);
+
+                    WeaponEnumeration we = GetWeaponIDByClass(player.CurrentCharacter.Weapons.CurrentWeapon.WeaponClass);
+                    clientNetworkLayer.UpdatePlayerData(we, player.FiredWeapon, player.Jumped, player.ChangedWeapon, we);
+                    player.ChangedWeapon = false;
+                    player.FiredWeapon = false;
+                    player.Jumped = false;
 
                 }
             }

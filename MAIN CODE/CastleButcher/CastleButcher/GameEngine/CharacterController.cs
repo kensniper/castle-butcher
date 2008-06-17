@@ -237,6 +237,7 @@ namespace CastleButcher.GameEngine
                     SoundSystem.SoundEngine.StopSteps(footsoundDescriptor);
                     footsoundDescriptor = null;
                 }
+                character.Player.Jumped = true;
 
                 MyVector v = character.Velocity;
                 v.Y += GameSettings.Default.JumpSpeed;
