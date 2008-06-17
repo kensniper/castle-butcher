@@ -167,6 +167,7 @@ namespace CastleButcher.GameEngine
             PlayerHealthData phd = new PlayerHealthData();
             phd.PlayerId = player.NetworkId;
             phd.PlayerHealth = 0;
+            
             pld.Add(phd);
             serverNetworkLayer.UpdatePlayerHealthAndTeamScore(pld, new List<TeamData>());
 
