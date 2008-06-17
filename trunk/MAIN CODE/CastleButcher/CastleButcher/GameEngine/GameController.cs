@@ -53,9 +53,9 @@ namespace CastleButcher.GameEngine
             if (team == GameTeam.Assassins)
             {
                 if (weapon == UDPClientServerCommons.Constants.WeaponEnumeration.CrossBow)
-                    return ObjectCache.Instance.GetWeapon("Fireball");
-                if (weapon == UDPClientServerCommons.Constants.WeaponEnumeration.Sword)
                     return ObjectCache.Instance.GetWeapon("Pipe");
+                if (weapon == UDPClientServerCommons.Constants.WeaponEnumeration.Sword)
+                    return ObjectCache.Instance.GetWeapon("Fireball");
 
             }
             else if (team == GameTeam.Knights)
