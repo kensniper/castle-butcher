@@ -307,7 +307,9 @@ namespace CastleButcher.GameEngine
                     if (player.CurrentCharacter.Weapons.CurrentWeapon != null)
                         we = GetWeaponIDByClass(player.CurrentCharacter.Weapons.CurrentWeapon.WeaponClass);
                     else
-                        we = GetWeaponIDByClass(null); 
+                        we = GetWeaponIDByClass(null);
+                    clientNetworkLayer.UpdatePlayerData(we, player.FiredWeapon, player.Jumped, player.ChangedWeapon, we);
+                    
                     player.ChangedWeapon = false;
                     player.FiredWeapon = false;
                     player.Jumped = false;
