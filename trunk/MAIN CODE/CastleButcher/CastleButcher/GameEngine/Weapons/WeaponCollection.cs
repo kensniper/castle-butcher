@@ -98,7 +98,8 @@ namespace CastleButcher.GameEngine.Weapons
         {
             if (wc == null)
             {
-
+                currentMelee = -1;
+                currentRanged = -1;
                 return;
             }
             if (wc.WeaponType == WeaponType.Ranged)

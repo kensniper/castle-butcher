@@ -290,7 +290,7 @@ namespace CastleButcher.GameEngine
                     if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.PlayerDead)
                     {
                         Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
-                        World.Instance.PlayerKilled(p);
+                        //World.Instance.PlayerKilled(p);
                     }
                     else if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.JumpNow)
                     {
@@ -300,11 +300,30 @@ namespace CastleButcher.GameEngine
                     else if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.WeaponChange)
                     {
                         Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
+                        if (p == player) continue;
                         //gameplayEvents[i].
+                        for (int j = 0; j < serverNetworkLayer.Client.PlayerDataList.Count; i++)
+                        {
+                            if (serverNetworkLayer.Client.PlayerDataList[j].PlayerId == p.NetworkId)
+                            {
+                                WeaponEnumeration we = serverNetworkLayer.Client.PlayerDataList[i].Weapon;
+                                p.CurrentCharacter.Weapons.SelectWeapon(GetWeaponClassByID(we));
+                            }
+                        }
                     }
                     else if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.UseWeapon)
                     {
                         Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
+                        if (p == player) continue;
+                        //gameplayEvents[i].
+                        for (int j = 0; j < serverNetworkLayer.Client.PlayerDataList.Count; i++)
+                        {
+                            if (serverNetworkLayer.Client.PlayerDataList[j].PlayerId == p.NetworkId)
+                            {
+                                WeaponEnumeration we = serverNetworkLayer.Client.PlayerDataList[i].Weapon;
+                                p.CurrentCharacter.Weapons.SelectWeapon(GetWeaponClassByID(we));
+                            }
+                        }
                         p.CurrentCharacter.FireWeapon();
                     }
                 }

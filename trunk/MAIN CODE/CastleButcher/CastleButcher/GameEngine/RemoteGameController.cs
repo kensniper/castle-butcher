@@ -251,11 +251,30 @@ namespace CastleButcher.GameEngine
                     else if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.WeaponChange)
                     {
                         Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
+                        if (p == player) continue;
                         //gameplayEvents[i].
+                        for (int j = 0; j < clientNetworkLayer.PlayerDataList.Count; i++)
+                        {
+                            if (clientNetworkLayer.PlayerDataList[j].PlayerId == p.NetworkId)
+                            {
+                                WeaponEnumeration we = clientNetworkLayer.PlayerDataList[i].Weapon;
+                                p.CurrentCharacter.Weapons.SelectWeapon(GetWeaponClassByID(we));
+                            }
+                        }
                     }
                     else if (gameplayEvents[i].GameplayEventType == GamePlayEventTypeEnumeration.UseWeapon)
                     {
                         Player p = GetPlayerByID(gameplayEvents[i].PlayerId);
+                        if (p == player) continue;
+                        //gameplayEvents[i].
+                        for (int j = 0; j < clientNetworkLayer.PlayerDataList.Count; i++)
+                        {
+                            if (clientNetworkLayer.PlayerDataList[j].PlayerId == p.NetworkId)
+                            {
+                                WeaponEnumeration we = clientNetworkLayer.PlayerDataList[i].Weapon;
+                                p.CurrentCharacter.Weapons.SelectWeapon(GetWeaponClassByID(we));
+                            }
+                        }
                         p.CurrentCharacter.FireWeapon();
                     }
                 }
